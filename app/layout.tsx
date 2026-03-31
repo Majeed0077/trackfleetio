@@ -82,7 +82,13 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" data-theme-mode="system" data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      data-theme="dark"
+      data-theme-mode="system"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
