@@ -8,7 +8,7 @@ import { useAppStore } from "@/store/store";
 
 export function SignUpForm() {
   const router = useRouter();
-  const signup = useAppStore((state) => state.signup);
+  const setAuthUser = useAppStore((state) => state.setAuthUser);
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -21,6 +21,7 @@ export function SignUpForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <main className="auth-page-main" id="main-content">
@@ -63,7 +64,7 @@ export function SignUpForm() {
               <form
                 className="auth-form auth-form-signup"
                 noValidate
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault();
 
                   const nextErrors: Record<string, string> = {};
@@ -93,17 +94,42 @@ export function SignUpForm() {
                     return;
                   }
 
-                  signup(
-                    {
-                      name: formValues.name,
-                      email: formValues.email,
-                      company: formValues.company,
-                      phone: formValues.phone,
-                    },
-                    formValues.password,
-                  );
+                  setIsSubmitting(true);
 
-                  router.push("/");
+                  try {
+                    const response = await fetch("/api/auth/signup", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      credentials: "same-origin",
+                      body: JSON.stringify({
+                        name: formValues.name,
+                        email: formValues.email,
+                        password: formValues.password,
+                        company: formValues.company,
+                        phone: formValues.phone,
+                      }),
+                    });
+
+                    const payload = (await response.json()) as {
+                      ok?: boolean;
+                      user?: unknown;
+                      message?: string;
+                    };
+
+                    if (!response.ok || !payload.ok || !payload.user) {
+                      setStatusMessage(payload.message || "Unable to create your account.");
+                      return;
+                    }
+
+                    setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+                    router.push("/");
+                  } catch {
+                    setStatusMessage("Unable to reach the account service.");
+                  } finally {
+                    setIsSubmitting(false);
+                  }
                 }}
               >
                 <div className="auth-form-row auth-form-row-signup-top">
@@ -255,8 +281,8 @@ export function SignUpForm() {
                 </div>
 
                 <div className="auth-button-group">
-                  <button className="button button-primary auth-submit" type="submit">
-                    Create account
+                  <button className="button button-primary auth-submit" type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Creating account..." : "Create account"}
                   </button>
                   <p className={`auth-form-status${statusMessage ? " is-error" : ""}`} aria-live="polite">
                     {statusMessage}

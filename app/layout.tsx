@@ -5,7 +5,7 @@ import { SiteFrame } from "@/components/SiteFrame";
 import { SiteProviders } from "@/components/SiteProviders";
 import { siteMetadataBase } from "@/lib/metadata";
 
-import "../styles/main.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: siteMetadataBase,

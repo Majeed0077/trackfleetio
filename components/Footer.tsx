@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import styles from "@/components/Footer.module.css";
+
 const socialLinks = [
   { label: "Twitter", href: "https://x.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com" },
@@ -14,6 +16,9 @@ const socialLinks = [
 export function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [currentYear, setCurrentYear] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState("");
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
 
   useEffect(() => {
     const yearTimeout = window.setTimeout(() => {
@@ -391,7 +396,45 @@ export function Footer() {
             </div>
             <form
               className="footer-newsletter footer-newsletter-inline"
-              onSubmit={(event) => event.preventDefault()}
+              onSubmit={async (event) => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const formData = new FormData(form);
+                setNewsletterStatus("");
+                setNewsletterSuccess(false);
+                setNewsletterLoading(true);
+
+                try {
+                  const response = await fetch("/api/newsletter", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                      email: String(formData.get("email") || ""),
+                    }),
+                  });
+
+                  const payload = (await response.json()) as {
+                    ok?: boolean;
+                    message?: string;
+                  };
+
+                  if (!response.ok || !payload.ok) {
+                    setNewsletterStatus(payload.message || "Unable to submit your email.");
+                    return;
+                  }
+
+                  setNewsletterSuccess(true);
+                  setNewsletterStatus(payload.message || "Newsletter request received.");
+                  form.reset();
+                } catch {
+                  setNewsletterStatus("Unable to reach the newsletter service.");
+                } finally {
+                  setNewsletterLoading(false);
+                }
+              }}
             >
               <label className="sr-only" htmlFor="footer-newsletter-email">
                 Email
@@ -402,10 +445,22 @@ export function Footer() {
                 name="email"
                 placeholder="Enter your work email"
               />
-              <button className="button button-primary footer-demo-button" type="submit">
-                Book Demo
+              <button className="button button-primary footer-demo-button" type="submit" disabled={newsletterLoading}>
+                {newsletterLoading ? "Submitting..." : "Book Demo"}
               </button>
             </form>
+            <p
+              className={`${styles.status} ${
+                newsletterStatus
+                  ? newsletterSuccess
+                    ? styles.statusSuccess
+                    : styles.statusError
+                  : ""
+              }`}
+              aria-live="polite"
+            >
+              {newsletterStatus}
+            </p>
             <div className="footer-cta-social">
               <span className="footer-group-label">Social</span>
               <div className="social-row" aria-label="Social links">

@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 import { CommerceSelectionItem } from "@/components/CommerceSelectionItem";
 import { useAppStore, useFleetSummaryRows, useStoreHydrated } from "@/store/store";
+import styles from "@/components/CheckoutPage.module.css";
 
 export function CheckoutPage() {
   const hasHydrated = useStoreHydrated();
+  const completeCheckout = useAppStore((state) => state.completeCheckout);
   const getCheckoutContext = useAppStore((state) => state.getCheckoutContext);
   const getFleetSummary = useAppStore((state) => state.getFleetSummary);
   const removeFromCheckout = useAppStore((state) => state.removeFromCheckout);
@@ -18,6 +21,9 @@ export function CheckoutPage() {
   const checkoutLabel = checkoutContext.mode === "buy-now" ? "Buy Now" : "Checkout";
   const summary = getFleetSummary(checkoutContext.items);
   const summaryRows = useFleetSummaryRows(checkoutContext.items);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [orderId, setOrderId] = useState("");
 
   return (
     <main id="main-content" className="site-main">
@@ -36,8 +42,12 @@ export function CheckoutPage() {
           <div className="container">
             <div className="commerce-empty">
               <p className="cart-drawer-label">Checkout</p>
-              <h2>No product selected for checkout</h2>
-              <p>Add hardware to your cart or choose Buy Now from a product page to start checkout.</p>
+              <h2>{orderId ? "Order submitted" : "No product selected for checkout"}</h2>
+              <p>
+                {orderId
+                  ? `${statusMessage} Order: ${orderId}`
+                  : "Add hardware to your cart or choose Buy Now from a product page to start checkout."}
+              </p>
               <div className="products-hero-actions">
                 <Link className="button button-primary" href="/products">
                   Browse Hardware
@@ -63,9 +73,52 @@ export function CheckoutPage() {
                 </div>
                 <form
                   className="company-contact-form checkout-form-grid"
-                  onSubmit={(event) => {
+                  onSubmit={async (event) => {
                     event.preventDefault();
-                    showToast("Checkout flow will connect in the ecommerce phase");
+                    const formData = new FormData(event.currentTarget);
+                    setStatusMessage("");
+                    setIsSubmitting(true);
+
+                    try {
+                      const response = await fetch("/api/checkout", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify({
+                          items: checkoutContext.items,
+                          name: String(formData.get("name") || ""),
+                          company: String(formData.get("company") || ""),
+                          email: String(formData.get("email") || ""),
+                          phone: String(formData.get("phone") || ""),
+                          billing: String(formData.get("billing") || ""),
+                          shipping: String(formData.get("shipping") || ""),
+                          notes: String(formData.get("notes") || ""),
+                        }),
+                      });
+
+                      const payload = (await response.json()) as {
+                        ok?: boolean;
+                        message?: string;
+                        orderId?: string;
+                      };
+
+                      if (!response.ok || !payload.ok) {
+                        setStatusMessage(payload.message || "Unable to complete checkout.");
+                        return;
+                      }
+
+                      completeCheckout();
+                      setOrderId(payload.orderId || "");
+                      setStatusMessage(payload.message || "Checkout completed successfully.");
+                      showToast(payload.orderId ? `Order ${payload.orderId} created` : "Checkout completed");
+                      event.currentTarget.reset();
+                    } catch {
+                      setStatusMessage("Unable to reach the checkout service.");
+                    } finally {
+                      setIsSubmitting(false);
+                    }
                   }}
                 >
                   <input className="checkout-field" type="text" name="name" placeholder="Full name" />
@@ -80,13 +133,26 @@ export function CheckoutPage() {
                     placeholder="Order notes / deployment instructions"
                   ></textarea>
                   <div className="checkout-form-actions checkout-field-full">
-                    <button className="button button-primary" type="submit">
-                      Complete Checkout
+                    <button className="button button-primary" type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? "Submitting..." : "Complete Checkout"}
                     </button>
                     <Link className="button button-secondary" href="/cart">
                       Back to Cart
                     </Link>
                   </div>
+                  <p
+                    className={`${styles.status} ${
+                      statusMessage
+                        ? orderId
+                          ? styles.statusSuccess
+                          : styles.statusError
+                        : ""
+                    } checkout-field-full`}
+                    aria-live="polite"
+                  >
+                    {statusMessage}
+                    {orderId ? ` Order: ${orderId}` : ""}
+                  </p>
                 </form>
               </section>
 

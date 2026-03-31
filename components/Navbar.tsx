@@ -158,7 +158,7 @@ export function Navbar() {
   const currentSearchQuery = searchParams.get("q") ?? "";
   const hasHydrated = useStoreHydrated();
   const authUser = useAppStore((state) => state.authUser);
-  const logout = useAppStore((state) => state.logout);
+  const clearAuthUser = useAppStore((state) => state.clearAuthUser);
   const theme = useAppStore((state) => state.theme);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
   const cartCount = useAppStore((state) =>
@@ -576,27 +576,35 @@ export function Navbar() {
       Math.max(transitionCenterY, window.innerHeight - transitionCenterY),
     );
 
-    const transition = (document as DocumentWithViewTransition).startViewTransition?.(() => {
-      flushSync(() => {
-        toggleTheme();
+    try {
+      const transition = (document as DocumentWithViewTransition).startViewTransition?.(() => {
+        flushSync(() => {
+          toggleTheme();
+        });
       });
-    });
 
-    void transition?.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${transitionCenterX}px ${transitionCenterY}px)`,
-            `circle(${transitionRadius}px at ${transitionCenterX}px ${transitionCenterY}px)`,
-          ],
-        },
-        {
-          duration: 650,
-          easing: "cubic-bezier(.22, 1, .36, 1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    });
+      void transition?.ready
+        .then(() => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${transitionCenterX}px ${transitionCenterY}px)`,
+                `circle(${transitionRadius}px at ${transitionCenterX}px ${transitionCenterY}px)`,
+              ],
+            },
+            {
+              duration: 650,
+              easing: "cubic-bezier(.22, 1, .36, 1)",
+              pseudoElement: "::view-transition-new(root)",
+            },
+          );
+        })
+        .catch(() => {
+          // A rapid second toggle can abort the active view transition; theme state is already updated.
+        });
+    } catch {
+      toggleTheme();
+    }
   };
 
   return (
@@ -610,7 +618,7 @@ export function Navbar() {
               <span className="logo-container">
                 <Image
                   className="brand-logo"
-                  src="/logo.png"
+                  src="/Logo-L.png"
                   alt="Track Fleetio logo"
                   width={164}
                   height={40}
@@ -837,8 +845,12 @@ export function Navbar() {
                         className="nav-account-link nav-account-link-danger"
                         type="button"
                         role="menuitem"
-                        onClick={() => {
-                          logout();
+                        onClick={async () => {
+                          await fetch("/api/auth/logout", {
+                            method: "POST",
+                            credentials: "same-origin",
+                          }).catch(() => null);
+                          clearAuthUser();
                           setAccountOpen(false);
                           router.push("/signin");
                         }}

@@ -16,12 +16,13 @@ const getSafeRedirectPath = (value: string | null) => {
 
 export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
   const router = useRouter();
-  const login = useAppStore((state) => state.login);
+  const setAuthUser = useAppStore((state) => state.setAuthUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <main className="auth-page-main" id="main-content">
@@ -64,7 +65,7 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
               <form
                 className="auth-form"
                 noValidate
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault();
 
                   const nextErrors: Record<string, string> = {};
@@ -84,15 +85,37 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
                     return;
                   }
 
-                  const result = login(email, password);
+                  setIsSubmitting(true);
 
-                  if (!result.ok || !result.user) {
-                    setFieldErrors({ password: "Invalid email or password." });
-                    setStatusMessage(result.message || "Unable to sign in.");
-                    return;
+                  try {
+                    const response = await fetch("/api/auth/login", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      credentials: "same-origin",
+                      body: JSON.stringify({ email, password }),
+                    });
+
+                    const payload = (await response.json()) as {
+                      ok?: boolean;
+                      user?: unknown;
+                      message?: string;
+                    };
+
+                    if (!response.ok || !payload.ok || !payload.user) {
+                      setFieldErrors({ password: "Invalid email or password." });
+                      setStatusMessage(payload.message || "Unable to sign in.");
+                      return;
+                    }
+
+                    setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+                    router.push(getSafeRedirectPath(redirectPath) || "/");
+                  } catch {
+                    setStatusMessage("Unable to reach the sign-in service.");
+                  } finally {
+                    setIsSubmitting(false);
                   }
-
-                  router.push(getSafeRedirectPath(redirectPath) || "/");
                 }}
               >
                 <div className={`auth-input-group${fieldErrors.email ? " is-error" : ""}`}>
@@ -158,8 +181,8 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
                 </div>
 
                 <div className="auth-button-group">
-                  <button className="button button-primary auth-submit" type="submit">
-                    Sign in
+                  <button className="button button-primary auth-submit" type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Signing in..." : "Sign in"}
                   </button>
                   <p className={`auth-form-status${statusMessage ? " is-error" : ""}`} aria-live="polite">
                     {statusMessage}

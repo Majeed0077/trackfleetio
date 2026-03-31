@@ -41,6 +41,9 @@ export function HeroSection() {
                   alt="Track Fleetio hardware showcase"
                   width={760}
                   height={560}
+                  loading="eager"
+                  fetchPriority="high"
+                  priority
                   sizes="(max-width: 991px) 100vw, 50vw"
                 />
               </div>

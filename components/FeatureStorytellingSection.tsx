@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { ViewportVideo } from "@/components/ViewportVideo";
+
 export function FeatureStorytellingSection() {
   return (
     <section id="story" className="content-section content-section-last section-story">
@@ -12,17 +14,12 @@ export function FeatureStorytellingSection() {
           <article className="story-card">
             <div className="story-media">
               <div className="story-media-frame">
-                <video
+                <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-label="Driver monitoring dashcam video"
-                >
-                  <source src="/Products/Video 1.mp4" type="video/mp4" />
-                </video>
+                  src="/Products/Video 1.mp4"
+                  poster="/Products/dashcam.png"
+                  ariaLabel="Driver monitoring dashcam video"
+                />
                 <div className="story-media-overlay" aria-hidden="true">
                   <div className="story-overlay-top">
                     <span className="story-overlay-badge story-overlay-rec">

@@ -9,7 +9,12 @@ import { Navbar } from "@/components/Navbar";
 
 export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const isAdminRoute = pathname.startsWith("/admin");
   const isAuthRoute = pathname === "/signin" || pathname === "/signup";
+
+  if (isAdminRoute) {
+    return <>{children}</>;
+  }
 
   if (isAuthRoute) {
     return (

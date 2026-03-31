@@ -37,25 +37,9 @@ export type SignUpPayload = {
   phone?: string;
 };
 
-type DemoAccount = {
-  name: string;
-  email: string;
-  password: string;
-  role: "admin" | "user";
-  roleLabel: string;
-  company: string;
-  phone?: string;
-};
-
 type FleetSummary = {
   totalDevices: number;
   groups: Record<ProductCategory, number>;
-};
-
-type LoginResult = {
-  ok: boolean;
-  user?: AuthUser;
-  message?: string;
 };
 
 type CheckoutContext = {
@@ -66,16 +50,14 @@ type CheckoutContext = {
 type StoreState = {
   theme: "light" | "dark";
   authUser: AuthUser | null;
-  demoAccount: DemoAccount | null;
   cart: CartItem[];
   wishlist: string[];
   checkoutSelection: CheckoutSelection;
   toastMessage: string;
   toastVisible: boolean;
   toggleTheme: () => void;
-  login: (email: string, password: string) => LoginResult;
-  signup: (payload: SignUpPayload, password: string) => AuthUser;
-  logout: () => void;
+  setAuthUser: (user: AuthUser | null) => void;
+  clearAuthUser: () => void;
   toggleWishlist: (productId: string) => boolean;
   addToCart: (productId: string) => void;
   quickAddToCart: (productId: string) => void;
@@ -85,27 +67,10 @@ type StoreState = {
   startCartCheckout: () => void;
   updateCheckoutQuantity: (productId: string, delta: number) => void;
   removeFromCheckout: (productId: string) => void;
+  completeCheckout: () => void;
   getCheckoutContext: () => CheckoutContext;
   getFleetSummary: (items: CartItem[]) => FleetSummary;
   showToast: (message: string) => void;
-};
-
-const USER_ACCOUNT: DemoAccount = {
-  name: "Track Fleetio Demo",
-  email: "demo@trackfleetio.com",
-  password: "TrackFleet123",
-  role: "user",
-  roleLabel: "Operations Lead, Track Fleetio",
-  company: "Track Fleetio",
-};
-
-const ADMIN_ACCOUNT: DemoAccount = {
-  name: "Admin Operator",
-  email: "admin@trackfleetio.com",
-  password: "Admin123!",
-  role: "admin",
-  roleLabel: "Super Admin",
-  company: "Track Fleetio",
 };
 
 let toastTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -153,7 +118,7 @@ const syncCheckoutSelectionFromCart = (
   };
 };
 
-const normalizeAuthUser = (user: unknown): AuthUser | null => {
+export const normalizeAuthUser = (user: unknown): AuthUser | null => {
   if (!user || typeof user !== "object") {
     return null;
   }
@@ -193,7 +158,6 @@ export const useAppStore = create<StoreState>()(
     (set, get) => ({
       theme: "dark",
       authUser: null,
-      demoAccount: null,
       cart: [],
       wishlist: [],
       checkoutSelection: null,
@@ -204,64 +168,10 @@ export const useAppStore = create<StoreState>()(
           theme: state.theme === "light" ? "dark" : "light",
         }));
       },
-      login: (email, password) => {
-        const normalizedEmail = email.trim().toLowerCase();
-        const storedAccount = get().demoAccount;
-        const candidates: Array<DemoAccount | null> = [
-          USER_ACCOUNT,
-          ADMIN_ACCOUNT,
-          storedAccount,
-        ];
-
-        const match = candidates.find(
-          (candidate) =>
-            candidate &&
-            candidate.email.toLowerCase() === normalizedEmail &&
-            candidate.password === password,
-        );
-
-        if (!match) {
-          return {
-            ok: false,
-            message:
-              "Use demo@trackfleetio.com / TrackFleet123 or admin@trackfleetio.com / Admin123! for demo access.",
-          };
-        }
-
-        const nextUser = normalizeAuthUser(match);
-
-        if (!nextUser) {
-          return {
-            ok: false,
-            message: "Unable to sign in.",
-          };
-        }
-
-        set({ authUser: nextUser });
-        return { ok: true, user: nextUser };
+      setAuthUser: (user) => {
+        set({ authUser: normalizeAuthUser(user) });
       },
-      signup: (payload, password) => {
-        const demoAccount: DemoAccount = {
-          name: payload.name.trim() || "Track Fleetio User",
-          email: payload.email.trim(),
-          password,
-          role: "user",
-          roleLabel: payload.company?.trim()
-            ? `Admin, ${payload.company.trim()}`
-            : "Fleet Operations",
-          company: payload.company?.trim() || "",
-          phone: payload.phone?.trim() || "",
-        };
-
-        const nextUser = normalizeAuthUser(demoAccount) as AuthUser;
-        set({
-          authUser: nextUser,
-          demoAccount,
-        });
-
-        return nextUser;
-      },
-      logout: () => {
+      clearAuthUser: () => {
         set({ authUser: null });
       },
       toggleWishlist: (productId) => {
@@ -414,6 +324,19 @@ export const useAppStore = create<StoreState>()(
           };
         });
       },
+      completeCheckout: () => {
+        const checkoutContext = get().getCheckoutContext();
+
+        if (checkoutContext.mode === "cart") {
+          set({
+            cart: [],
+            checkoutSelection: null,
+          });
+          return;
+        }
+
+        set({ checkoutSelection: null });
+      },
       getCheckoutContext: () => {
         const { cart, checkoutSelection } = get();
 
@@ -451,8 +374,6 @@ export const useAppStore = create<StoreState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         theme: state.theme,
-        authUser: state.authUser,
-        demoAccount: state.demoAccount,
         cart: state.cart,
         wishlist: state.wishlist,
         checkoutSelection: state.checkoutSelection,
@@ -464,8 +385,7 @@ export const useAppStore = create<StoreState>()(
           ...currentState,
           ...typedState,
           theme: normalizeTheme(typedState.theme),
-          authUser: normalizeAuthUser(typedState.authUser),
-          demoAccount: typedState.demoAccount ?? null,
+          authUser: null,
           cart: Array.isArray(typedState.cart) ? typedState.cart : currentState.cart,
           wishlist: Array.isArray(typedState.wishlist)
             ? typedState.wishlist

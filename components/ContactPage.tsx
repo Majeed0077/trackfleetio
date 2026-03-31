@@ -1,4 +1,14 @@
+"use client";
+
+import { useState } from "react";
+
+import styles from "@/components/ContactPage.module.css";
+
 export function ContactPage() {
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   return (
     <main id="main-content" className="site-main">
       <section className="products-hero company-page-hero">
@@ -40,7 +50,53 @@ export function ContactPage() {
 
             <article className="company-page-card company-contact-card">
               <p className="eyebrow">Request Demo</p>
-              <form id="contact-form" className="company-contact-form" action="#contact-form">
+              <form
+                id="contact-form"
+                className="company-contact-form"
+                action="#contact-form"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  const form = event.currentTarget;
+                  const formData = new FormData(form);
+                  setStatusMessage("");
+                  setIsSuccess(false);
+                  setIsSubmitting(true);
+
+                  try {
+                    const response = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      credentials: "same-origin",
+                      body: JSON.stringify({
+                        name: String(formData.get("name") || ""),
+                        company: String(formData.get("company") || ""),
+                        email: String(formData.get("email") || ""),
+                        message: String(formData.get("message") || ""),
+                      }),
+                    });
+
+                    const payload = (await response.json()) as {
+                      ok?: boolean;
+                      message?: string;
+                    };
+
+                    if (!response.ok || !payload.ok) {
+                      setStatusMessage(payload.message || "Unable to send your request.");
+                      return;
+                    }
+
+                    setIsSuccess(true);
+                    setStatusMessage(payload.message || "Request sent successfully.");
+                    form.reset();
+                  } catch {
+                    setStatusMessage("Unable to reach the contact service.");
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }}
+              >
                 <label className="sr-only" htmlFor="contact-name">
                   Name
                 </label>
@@ -61,9 +117,15 @@ export function ContactPage() {
                 </label>
                 <textarea id="contact-message" name="message" placeholder="Message"></textarea>
 
-                <button className="button button-primary" type="submit">
-                  Request Demo
+                <button className="button button-primary" type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Request Demo"}
                 </button>
+                <p
+                  className={`${styles.status} ${statusMessage ? (isSuccess ? styles.statusSuccess : styles.statusError) : ""}`}
+                  aria-live="polite"
+                >
+                  {statusMessage}
+                </p>
               </form>
             </article>
           </div>
