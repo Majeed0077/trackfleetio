@@ -562,7 +562,7 @@ export function Footer() {
           <Link className="footer-brand" href="/" aria-label="Track Fleetio home">
             <Image
               className="brand-logo"
-              src="/logo.png"
+              src="/New-logo.png"
               alt="Track Fleetio logo"
               width={164}
               height={40}
