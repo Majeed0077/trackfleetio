@@ -2,6 +2,7 @@
 
 import { useEffect, type ReactNode } from "react";
 
+import { RegionSelectorModal } from "@/components/RegionSelectorModal";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 export function SiteProviders({ children }: { children: ReactNode }) {
@@ -52,6 +53,7 @@ export function SiteProviders({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
+      <RegionSelectorModal />
       <div
         className={`cart-toast${toastVisible ? " is-visible" : ""}`}
         data-cart-toast

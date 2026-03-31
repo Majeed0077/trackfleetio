@@ -10,15 +10,22 @@ export function AuthHeader() {
             <span className="logo-container">
               <Image
                 className="brand-logo"
-                src="/logo.png"
+                src="/New-logo.png"
                 alt="Track Fleetio logo"
                 width={164}
                 height={40}
                 priority
-                style={{ width: "auto", height: "auto" }}
+                style={{ width: "104px", height: "72px" }}
               />
             </span>
           </Link>
+
+          <div className="auth-header-meta">
+            <span className="auth-header-trust">Secure workspace</span>
+            <Link className="auth-header-link" href="/">
+              Back to site
+            </Link>
+          </div>
         </div>
       </div>
     </header>

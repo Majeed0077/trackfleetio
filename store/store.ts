@@ -37,6 +37,8 @@ export type SignUpPayload = {
   phone?: string;
 };
 
+export type SiteRegion = "Pakistan" | "UAE" | "UK" | "USA";
+
 type FleetSummary = {
   totalDevices: number;
   groups: Record<ProductCategory, number>;
@@ -49,6 +51,7 @@ type CheckoutContext = {
 
 type StoreState = {
   theme: "light" | "dark";
+  region: SiteRegion | null;
   authUser: AuthUser | null;
   cart: CartItem[];
   wishlist: string[];
@@ -56,6 +59,7 @@ type StoreState = {
   toastMessage: string;
   toastVisible: boolean;
   toggleTheme: () => void;
+  setRegion: (region: SiteRegion) => void;
   setAuthUser: (user: AuthUser | null) => void;
   clearAuthUser: () => void;
   toggleWishlist: (productId: string) => boolean;
@@ -153,10 +157,16 @@ export const normalizeAuthUser = (user: unknown): AuthUser | null => {
 const normalizeTheme = (theme: unknown): "light" | "dark" =>
   theme === "light" || theme === "dark" ? theme : "dark";
 
+const normalizeRegion = (region: unknown): SiteRegion | null =>
+  region === "Pakistan" || region === "UAE" || region === "UK" || region === "USA"
+    ? region
+    : null;
+
 export const useAppStore = create<StoreState>()(
   persist(
     (set, get) => ({
       theme: "dark",
+      region: null,
       authUser: null,
       cart: [],
       wishlist: [],
@@ -167,6 +177,9 @@ export const useAppStore = create<StoreState>()(
         set((state) => ({
           theme: state.theme === "light" ? "dark" : "light",
         }));
+      },
+      setRegion: (region) => {
+        set({ region });
       },
       setAuthUser: (user) => {
         set({ authUser: normalizeAuthUser(user) });
@@ -374,6 +387,7 @@ export const useAppStore = create<StoreState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         theme: state.theme,
+        region: state.region,
         cart: state.cart,
         wishlist: state.wishlist,
         checkoutSelection: state.checkoutSelection,
@@ -385,6 +399,7 @@ export const useAppStore = create<StoreState>()(
           ...currentState,
           ...typedState,
           theme: normalizeTheme(typedState.theme),
+          region: normalizeRegion(typedState.region),
           authUser: null,
           cart: Array.isArray(typedState.cart) ? typedState.cart : currentState.cart,
           wishlist: Array.isArray(typedState.wishlist)

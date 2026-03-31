@@ -41,7 +41,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
           <div className={styles.adminSidebarBrand}>
             <Link className="brand" href="/admin/dashboard" aria-label="Track Fleetio admin home">
               <span className="logo-container">
-                <Image className="brand-logo" src="/logo.png" alt="Track Fleetio logo" width={164} height={40} style={{ width: "auto", height: "auto" }} />
+                <Image className="brand-logo" src="/New-logo.png" alt="Track Fleetio logo" width={164} height={40} style={{ width: "100px", height: "70px" }} />
               </span>
             </Link>
             <span className={styles.adminSidebarBrandLabel}>Admin Panel</span>
