@@ -26,7 +26,7 @@ export function HeroSection() {
                   Request Demo
                 </Link>
                 <Link className="button button-secondary" href="#hardware">
-                  View Products
+                  Explore Hardware
                 </Link>
               </div>
 

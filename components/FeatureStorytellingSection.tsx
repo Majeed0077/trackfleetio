@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { ViewportVideo } from "@/components/ViewportVideo";
 
@@ -42,30 +43,40 @@ export function FeatureStorytellingSection() {
               </div>
             </div>
             <div className="story-copy-block">
-              <h3>Driver Monitoring Hardware</h3>
+              <h3>Detect Harsh Braking Events</h3>
               <p>
-                AI Dashcam solutions support safer event capture, driver visibility,
-                and modern monitoring workflows across commercial vehicles.
+                AI dashcams monitor driver behavior and detect dangerous driving
+                events like harsh braking, providing data-driven insights to
+                improve fleet safety.
               </p>
+              <div className="story-copy-actions">
+                <Link className="button button-outline story-button" href="/solutions/monitoring-systems">
+                  View Solutions
+                </Link>
+              </div>
             </div>
           </article>
 
           <article className="story-card story-card-reverse">
             <div className="story-copy-block">
-              <h3>Asset Protection Hardware</h3>
+              <h3>Monitor Equipment Location</h3>
               <p>
-                Track Patrol devices provide reliable trailer tracking and
-                monitoring for asset protection, remote visibility, and secure
-                operations.
+                Battery-powered GPS trackers keep tabs on portable equipment and
+                tools, helping reduce loss and improve operational visibility.
               </p>
+              <div className="story-copy-actions">
+                <Link className="button button-outline story-button" href="/products/asset-tracking-device">
+                  Explore Asset Tracking
+                </Link>
+              </div>
             </div>
             <div className="story-media story-media-alt">
               <Image
                 className="story-media-image story-media-image-asset"
-                src="/Products/product2.png"
-                alt="Asset protection tracker"
-                width={560}
-                height={420}
+                src="/Products/product3.png"
+                alt="Battery-powered asset tracking device"
+                width={720}
+                height={520}
                 sizes="(max-width: 991px) 100vw, 50vw"
               />
             </div>
