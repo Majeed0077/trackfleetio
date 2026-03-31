@@ -38,6 +38,8 @@ export type SignUpPayload = {
 };
 
 export type SiteRegion = "Pakistan" | "UAE" | "UK" | "USA";
+export type ThemeMode = "light" | "dark" | "system";
+export type ResolvedTheme = "light" | "dark";
 
 type FleetSummary = {
   totalDevices: number;
@@ -50,7 +52,7 @@ type CheckoutContext = {
 };
 
 type StoreState = {
-  theme: "light" | "dark";
+  themeMode: ThemeMode;
   region: SiteRegion | null;
   authUser: AuthUser | null;
   cart: CartItem[];
@@ -59,6 +61,7 @@ type StoreState = {
   toastMessage: string;
   toastVisible: boolean;
   toggleTheme: () => void;
+  setThemeMode: (themeMode: ThemeMode) => void;
   setRegion: (region: SiteRegion) => void;
   setAuthUser: (user: AuthUser | null) => void;
   clearAuthUser: () => void;
@@ -154,8 +157,42 @@ export const normalizeAuthUser = (user: unknown): AuthUser | null => {
   };
 };
 
-const normalizeTheme = (theme: unknown): "light" | "dark" =>
-  theme === "light" || theme === "dark" ? theme : "dark";
+export const getSystemTheme = (): ResolvedTheme => {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+};
+
+export const resolveThemeMode = (
+  themeMode: ThemeMode,
+  systemTheme: ResolvedTheme,
+): ResolvedTheme => (themeMode === "system" ? systemTheme : themeMode);
+
+export const getNextThemeMode = (themeMode: ThemeMode): ThemeMode => {
+  if (themeMode === "system") {
+    return "light";
+  }
+
+  if (themeMode === "light") {
+    return "dark";
+  }
+
+  return "system";
+};
+
+const normalizeThemeMode = (themeMode: unknown, legacyTheme?: unknown): ThemeMode => {
+  if (themeMode === "light" || themeMode === "dark" || themeMode === "system") {
+    return themeMode;
+  }
+
+  if (legacyTheme === "light" || legacyTheme === "dark") {
+    return legacyTheme;
+  }
+
+  return "system";
+};
 
 const normalizeRegion = (region: unknown): SiteRegion | null =>
   region === "Pakistan" || region === "UAE" || region === "UK" || region === "USA"
@@ -165,7 +202,7 @@ const normalizeRegion = (region: unknown): SiteRegion | null =>
 export const useAppStore = create<StoreState>()(
   persist(
     (set, get) => ({
-      theme: "dark",
+      themeMode: "system",
       region: null,
       authUser: null,
       cart: [],
@@ -175,8 +212,11 @@ export const useAppStore = create<StoreState>()(
       toastVisible: false,
       toggleTheme: () => {
         set((state) => ({
-          theme: state.theme === "light" ? "dark" : "light",
+          themeMode: getNextThemeMode(state.themeMode),
         }));
+      },
+      setThemeMode: (themeMode) => {
+        set({ themeMode });
       },
       setRegion: (region) => {
         set({ region });
@@ -386,7 +426,7 @@ export const useAppStore = create<StoreState>()(
       skipHydration: true,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        theme: state.theme,
+        themeMode: state.themeMode,
         region: state.region,
         cart: state.cart,
         wishlist: state.wishlist,
@@ -394,11 +434,12 @@ export const useAppStore = create<StoreState>()(
       }),
       merge: (persistedState, currentState) => {
         const typedState = (persistedState ?? {}) as Partial<StoreState>;
+        const legacyState = typedState as Partial<StoreState> & { theme?: unknown };
 
         return {
           ...currentState,
           ...typedState,
-          theme: normalizeTheme(typedState.theme),
+          themeMode: normalizeThemeMode(typedState.themeMode, legacyState.theme),
           region: normalizeRegion(typedState.region),
           authUser: null,
           cart: Array.isArray(typedState.cart) ? typedState.cart : currentState.cart,
@@ -447,6 +488,50 @@ export const useStoreHydrated = () => {
   }, [persistApi]);
 
   return hasHydrated;
+};
+
+export const useSystemTheme = () => {
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => {
+    if (typeof document !== "undefined") {
+      const domTheme = document.documentElement.dataset.theme;
+
+      if (domTheme === "light" || domTheme === "dark") {
+        return domTheme;
+      }
+    }
+
+    return getSystemTheme();
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const syncTheme = () => {
+      setSystemTheme(mediaQuery.matches ? "dark" : "light");
+    };
+
+    syncTheme();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncTheme);
+    } else {
+      mediaQuery.addListener(syncTheme);
+    }
+
+    return () => {
+      if (typeof mediaQuery.removeEventListener === "function") {
+        mediaQuery.removeEventListener("change", syncTheme);
+      } else {
+        mediaQuery.removeListener(syncTheme);
+      }
+    };
+  }, []);
+
+  return systemTheme;
 };
 
 export const useFleetSummaryRows = (items: CartItem[]) => {

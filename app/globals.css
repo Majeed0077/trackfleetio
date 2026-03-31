@@ -1260,6 +1260,24 @@ input:disabled {
   overflow: hidden;
 }
 
+.nav-theme-toggle-mode-system {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--utility-border-hover) 88%, transparent),
+    var(--utility-shadow);
+}
+
+.nav-theme-toggle-mode-system::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 82%, white);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
 .theme-icon {
   position: absolute;
   inset: 0;

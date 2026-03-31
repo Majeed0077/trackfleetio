@@ -13,7 +13,13 @@ import {
 } from "react";
 import { flushSync } from "react-dom";
 
-import { useAppStore, useStoreHydrated } from "@/store/store";
+import {
+  getNextThemeMode,
+  resolveThemeMode,
+  useAppStore,
+  useStoreHydrated,
+  useSystemTheme,
+} from "@/store/store";
 
 type MenuKey = "products" | "solutions" | "industries" | "company";
 type ViewTransitionHandle = {
@@ -25,6 +31,11 @@ type DocumentWithViewTransition = Document & {
 
 const getProductsSearchHref = (query: string) => `/products?q=${encodeURIComponent(query)}`;
 const menuKeys: MenuKey[] = ["products", "solutions", "industries", "company"];
+const themeModeLabels = {
+  light: "Light",
+  dark: "Dark",
+  system: "System",
+} as const;
 
 const productColumns = [
   {
@@ -159,8 +170,9 @@ export function Navbar() {
   const hasHydrated = useStoreHydrated();
   const authUser = useAppStore((state) => state.authUser);
   const clearAuthUser = useAppStore((state) => state.clearAuthUser);
-  const theme = useAppStore((state) => state.theme);
+  const themeMode = useAppStore((state) => state.themeMode);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
+  const systemTheme = useSystemTheme();
   const cartCount = useAppStore((state) =>
     state.cart.reduce((sum, item) => sum + item.quantity, 0),
   );
@@ -297,9 +309,14 @@ export function Navbar() {
       ? currentSection
       : null);
   const resolvedAuthUser = hasHydrated ? authUser : null;
-  const resolvedTheme = hasHydrated ? theme : "dark";
+  const resolvedTheme = hasHydrated
+    ? resolveThemeMode(themeMode, systemTheme)
+    : systemTheme;
   const resolvedCartCount = hasHydrated ? cartCount : 0;
-  const nextThemeLabel = resolvedTheme === "light" ? "dark" : "light";
+  const resolvedThemeMode = hasHydrated ? themeMode : "system";
+  const nextThemeMode = getNextThemeMode(resolvedThemeMode);
+  const nextThemeModeLabel = themeModeLabels[nextThemeMode];
+  const currentThemeModeLabel = themeModeLabels[resolvedThemeMode];
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
 
   const focusMenuButton = (menuKey: MenuKey) => {
@@ -557,13 +574,18 @@ export function Navbar() {
   };
 
   const handleThemeToggle = () => {
+    const nextResolvedTheme = resolveThemeMode(nextThemeMode, systemTheme);
     const supportsViewTransition =
       typeof window !== "undefined" &&
       typeof document !== "undefined" &&
       typeof (document as DocumentWithViewTransition).startViewTransition === "function" &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (!supportsViewTransition || !themeToggleRef.current) {
+    if (
+      !supportsViewTransition ||
+      !themeToggleRef.current ||
+      nextResolvedTheme === resolvedTheme
+    ) {
       toggleTheme();
       return;
     }
@@ -765,13 +787,14 @@ export function Navbar() {
                 </span>
               </Link>
               <button
-                className={`nav-utility nav-theme-toggle nav-theme-toggle-${resolvedTheme}`}
+                className={`nav-utility nav-theme-toggle nav-theme-toggle-${resolvedTheme} nav-theme-toggle-mode-${resolvedThemeMode}`}
                 type="button"
                 data-theme-toggle
-                aria-label={`Switch to ${nextThemeLabel} theme`}
-                title={`Switch to ${nextThemeLabel} theme`}
+                aria-label={`Theme mode: ${currentThemeModeLabel}${resolvedThemeMode === "system" ? ` (${resolvedTheme})` : ""}. Switch to ${nextThemeModeLabel}.`}
+                title={`Theme mode: ${currentThemeModeLabel}${resolvedThemeMode === "system" ? ` (${resolvedTheme})` : ""}. Click to switch to ${nextThemeModeLabel}.`}
                 aria-pressed={resolvedTheme === "light" ? "true" : "false"}
                 onClick={handleThemeToggle}
+                data-theme-mode={resolvedThemeMode}
                 ref={themeToggleRef}
               >
                 <span className="theme-icon theme-icon-moon" aria-hidden="true">
@@ -891,7 +914,6 @@ export function Navbar() {
     </header>
   );
 }
-
 
 
 

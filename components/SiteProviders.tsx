@@ -3,15 +3,23 @@
 import { useEffect, type ReactNode } from "react";
 
 import { RegionSelectorModal } from "@/components/RegionSelectorModal";
-import { useAppStore, useStoreHydrated } from "@/store/store";
+import {
+  resolveThemeMode,
+  useAppStore,
+  useStoreHydrated,
+  useSystemTheme,
+} from "@/store/store";
 
 export function SiteProviders({ children }: { children: ReactNode }) {
   const hasHydrated = useStoreHydrated();
-  const theme = useAppStore((state) => state.theme);
+  const themeMode = useAppStore((state) => state.themeMode);
   const setAuthUser = useAppStore((state) => state.setAuthUser);
   const toastMessage = useAppStore((state) => state.toastMessage);
   const toastVisible = useAppStore((state) => state.toastVisible);
-  const resolvedTheme = hasHydrated ? theme : "dark";
+  const systemTheme = useSystemTheme();
+  const resolvedTheme = hasHydrated
+    ? resolveThemeMode(themeMode, systemTheme)
+    : systemTheme;
 
   useEffect(() => {
     if (!useAppStore.persist.hasHydrated()) {
@@ -21,7 +29,9 @@ export function SiteProviders({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.dataset.theme = resolvedTheme;
-  }, [resolvedTheme]);
+    document.documentElement.dataset.themeMode = hasHydrated ? themeMode : "system";
+    document.documentElement.style.colorScheme = resolvedTheme;
+  }, [hasHydrated, resolvedTheme, themeMode]);
 
   useEffect(() => {
     let isMounted = true;
