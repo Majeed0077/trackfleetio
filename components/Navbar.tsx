@@ -618,12 +618,12 @@ export function Navbar() {
               <span className="logo-container">
                 <Image
                   className="brand-logo"
-                  src="/New-logo"
+                  src="/New-logo.png"
                   alt="Track Fleetio logo"
                   width={164}
                   height={40}
                   priority
-                  style={{ width: "auto", height: "auto" }}
+                  style={{ width: "100px", height: "70px" }}
                 />
               </span>
             </Link>
