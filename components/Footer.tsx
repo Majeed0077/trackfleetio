@@ -566,7 +566,7 @@ export function Footer() {
               alt="Track Fleetio logo"
               width={164}
               height={40}
-              style={{ width: "auto", height: "auto" }}
+              style={{ width: "100px", height: "70px" }}
             />
           </Link>
 
