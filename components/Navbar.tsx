@@ -618,7 +618,7 @@ export function Navbar() {
               <span className="logo-container">
                 <Image
                   className="brand-logo"
-                  src="/Logo-L.png"
+                  src="/New-logo"
                   alt="Track Fleetio logo"
                   width={164}
                   height={40}
