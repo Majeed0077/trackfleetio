@@ -13,7 +13,7 @@ export function IndustrySolutionPage({ industry }: { industry: IndustrySolution 
             <h1>{industry.title}</h1>
             <p>{industry.description}</p>
             <div className="products-hero-actions industry-detail-hero-actions">
-              <Link className="button button-primary" href="#footer">
+              <Link className="button button-primary" href="/contact">
                 Request Demo
               </Link>
             </div>
@@ -84,7 +84,7 @@ export function IndustrySolutionPage({ industry }: { industry: IndustrySolution 
         <div className="container">
           <div className="cta-panel">
             <h2>{industry.cta}</h2>
-            <Link className="button button-primary" href="#footer">
+            <Link className="button button-primary" href="/contact">
               Request Demo
             </Link>
           </div>

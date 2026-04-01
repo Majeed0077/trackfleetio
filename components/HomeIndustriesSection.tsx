@@ -7,8 +7,11 @@ export function HomeIndustriesSection() {
     <section id="industries" className="content-section section-industries" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
+          <p className="eyebrow">Industry Coverage</p>
           <h2>Industries</h2>
-          <p className="section-subtitle">Solutions by Industry</p>
+          <p className="section-subtitle">
+            Fleet visibility, safety, and asset workflows tailored to each operating model.
+          </p>
         </div>
 
         <div className="industries-showcase" data-reveal-group>

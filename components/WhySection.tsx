@@ -1,61 +1,54 @@
-import { ShieldCheck, Blocks, CalendarRange, Headset } from "lucide-react";
+import styles from "./WhySection.module.css";
+
+const benefits = [
+  {
+    number: "01",
+    title: "Installs without downtime",
+    description: "Roll out across vehicles and assets without disrupting operations.",
+  },
+  {
+    number: "02",
+    title: "Built for real conditions",
+    description: "Handles vibration, heat, and continuous fleet usage.",
+  },
+  {
+    number: "03",
+    title: "Works with your stack",
+    description: "Integrates with dispatch, compliance, and reporting systems.",
+  },
+  {
+    number: "04",
+    title: "Support that stays involved",
+    description: "From deployment to scale, support teams stay hands-on.",
+  },
+];
 
 export function WhySection() {
   return (
-    <section className="content-section section-why" data-reveal>
+    <section className={`content-section ${styles.section}`} data-reveal>
       <div className="container">
-        <div className="section-heading section-heading-centered">
-          <h2>Why Track Fleetio</h2>
-        </div>
+        <div className={styles.shell}>
+          <div className={styles.intro}>
+            <p className={styles.eyebrow}>Why Track Fleetio</p>
+            <h2 className={styles.heading}>Built for Fleet Reality</h2>
+            <p className={styles.copy}>
+              Hardware systems fail when they meet real-world conditions. This one is designed to
+              hold up from install to daily operation.
+            </p>
+            <p className={styles.transition}>From hardware to operations, every layer works together.</p>
+          </div>
 
-        <div className="why-grid" data-reveal-group>
-          <article className="why-card" data-reveal-item>
-            <span className="why-icon" aria-hidden="true">
-              <ShieldCheck size={22} strokeWidth={1.9} />
-            </span>
-            <h3>
-              Hardware
-              <br />
-              Reliability
-            </h3>
-            <p>Engineered for uptime with fleet hardware that performs in real field conditions.</p>
-          </article>
-
-          <article className="why-card" data-reveal-item>
-            <span className="why-icon" aria-hidden="true">
-              <Blocks size={22} strokeWidth={1.9} />
-            </span>
-            <h3>
-              Simple
-              <br />
-              Integration
-            </h3>
-            <p>Integrate hardware quickly across existing fleet workflows and operator systems.</p>
-          </article>
-
-          <article className="why-card" data-reveal-item>
-            <span className="why-icon" aria-hidden="true">
-              <CalendarRange size={22} strokeWidth={1.9} />
-            </span>
-            <h3>
-              Industry
-              <br />
-              Experience
-            </h3>
-            <p>Built around operational realities from logistics, delivery, and commercial fleets.</p>
-          </article>
-
-          <article className="why-card" data-reveal-item>
-            <span className="why-icon" aria-hidden="true">
-              <Headset size={22} strokeWidth={1.9} />
-            </span>
-            <h3>
-              24/7 Technical
-              <br />
-              Support
-            </h3>
-            <p>Support teams help with deployment, troubleshooting, and fleet continuity.</p>
-          </article>
+          <ol className={styles.list} data-reveal-group>
+            {benefits.map((benefit) => (
+              <li className={styles.row} key={benefit.number} data-reveal-item>
+                <span className={styles.number}>{benefit.number}</span>
+                <div className={styles.content}>
+                  <h3 className={styles.title}>{benefit.title}</h3>
+                  <p className={styles.description}>{benefit.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

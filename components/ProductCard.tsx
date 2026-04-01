@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Heart, ShoppingCart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const PRODUCT_CARD_IMAGE_WIDTH = 420;
@@ -82,6 +83,7 @@ export function ProductCard({ product }: { product: Product }) {
           type="button"
           onClick={() => {
             startImmediateCheckout(product.id);
+            startRouteLoader();
             router.push("/checkout");
           }}
         >

@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Headset, LockKeyhole, Rocket, ShieldCheck, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
-
-import styles from "@/components/Footer.module.css";
 
 const socialLinks = [
   { label: "Twitter", href: "https://x.com" },
@@ -14,12 +11,13 @@ const socialLinks = [
   { label: "YouTube", href: "https://www.youtube.com" },
 ] as const;
 
+function FooterStaticLink({ children }: { children: string }) {
+  return <span className="footer-link footer-link-static">{children}</span>;
+}
+
 export function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [currentYear, setCurrentYear] = useState("");
-  const [newsletterStatus, setNewsletterStatus] = useState("");
-  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
-  const [newsletterLoading, setNewsletterLoading] = useState(false);
 
   useEffect(() => {
     const yearTimeout = window.setTimeout(() => {
@@ -41,8 +39,36 @@ export function Footer() {
   return (
     <footer id="footer" className="site-footer footer">
       <div className="container footer-container">
+        <section className="footer-editorial-intro" aria-label="Footer overview">
+          <div className="footer-editorial-copy">
+            <p className="footer-editorial-eyebrow">Track Fleetio</p>
+            <h2>
+              <span className="footer-editorial-line">Fleet hardware for teams that need</span>
+              <span className="footer-editorial-line">visibility without compromise.</span>
+            </h2>
+            <p>
+              Tracking devices, video telematics, and sensors designed for rollout, day-to-day
+              control, and support after deployment.
+            </p>
+          </div>
+
+          <div className="footer-editorial-actions">
+            <a className="footer-contact-link footer-editorial-contact" href="mailto:hello@trackfleetio.com">
+              hello@trackfleetio.com
+            </a>
+            <div className="footer-editorial-buttons">
+              <Link className="button button-primary" href="/contact">
+                Request Demo
+              </Link>
+              <Link className="button button-secondary" href="/products">
+                Explore Hardware
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <div className="footer-grid">
-          <section className={`footer-column footer-column-products${openSections.products ? " is-open" : ""}`}>
+          <section className={`footer-column footer-column-platform footer-column-products${openSections.products ? " is-open" : ""}`}>
             <button
               className="footer-title"
               type="button"
@@ -53,85 +79,28 @@ export function Footer() {
               Products
             </button>
             <div className="footer-links" id="footer-panel-products">
-              <div className="footer-group">
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      GPS Trackers
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      AI Dashcams
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Fleet Cameras
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Gateways
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Sensors
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="footer-group">
-                <span className="footer-group-label">Shop</span>
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Accessories
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Bundles
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      Compare Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/products">
-                      All Products
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="footer-group">
-                <span className="footer-group-label">Platform</span>
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Fleet Platform
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Safety AI
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Integrations
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Video Telematics
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <ul className="footer-link-list">
+                <li>
+                  <Link className="footer-link" href="/products">
+                    GPS Trackers
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/products">
+                    AI Dashcams
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/products">
+                    Sensors
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/products">
+                    All Products
+                  </Link>
+                </li>
+              </ul>
             </div>
           </section>
 
@@ -146,185 +115,64 @@ export function Footer() {
               Solutions
             </button>
             <div className="footer-links" id="footer-panel-solutions">
-              <div className="footer-group">
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Fleet Management
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Safety &amp; Compliance
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Asset Tracking
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/#hardware">
-                      Operations Intelligence
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="footer-group">
-                <span className="footer-group-label">Industries</span>
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="/industries/transportation">
-                      Transportation
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/industries/construction">
-                      Construction
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/industries/logistics">
-                      Logistics
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/industries/manufacturing">
-                      Manufacturing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/industries/public-transport">
-                      Public Transport
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section className={`footer-column footer-column-buying${openSections.buying ? " is-open" : ""}`}>
-            <button
-              className="footer-title"
-              type="button"
-              aria-expanded={openSections.buying ? "true" : "false"}
-              aria-controls="footer-panel-buying"
-              onClick={() => toggleSection("buying")}
-            >
-              Buying
-            </button>
-            <div className="footer-links" id="footer-panel-buying">
               <ul className="footer-link-list">
                 <li>
-                  <Link className="footer-link" href="#footer">
-                    Pricing
+                  <Link className="footer-link" href="/solutions">
+                    Fleet Management
                   </Link>
                 </li>
                 <li>
-                  <Link className="footer-link" href="#footer">
-                    Request Quote
+                  <Link className="footer-link" href="/solutions">
+                    Safety &amp; Compliance
                   </Link>
                 </li>
                 <li>
-                  <Link className="footer-link" href="#footer">
-                    Bulk Orders
+                  <Link className="footer-link" href="/solutions">
+                    Asset Tracking
                   </Link>
                 </li>
                 <li>
-                  <Link className="footer-link" href="#footer">
-                    Enterprise Purchasing
-                  </Link>
-                </li>
-                <li>
-                  <Link className="footer-link" href="#footer">
-                    Deployment Services
-                  </Link>
-                </li>
-                <li>
-                  <Link className="footer-link" href="#footer">
-                    Installation Services
+                  <Link className="footer-link" href="/solutions">
+                    Operations Intelligence
                   </Link>
                 </li>
               </ul>
             </div>
           </section>
 
-          <section className={`footer-column footer-column-support${openSections.support ? " is-open" : ""}`}>
+          <section className={`footer-column footer-column-industries${openSections.industries ? " is-open" : ""}`}>
             <button
               className="footer-title"
               type="button"
-              aria-expanded={openSections.support ? "true" : "false"}
-              aria-controls="footer-panel-support"
-              onClick={() => toggleSection("support")}
+              aria-expanded={openSections.industries ? "true" : "false"}
+              aria-controls="footer-panel-industries"
+              onClick={() => toggleSection("industries")}
             >
-              Support
+              Industries
             </button>
-            <div className="footer-links" id="footer-panel-support">
-              <div className="footer-group">
-                <span className="footer-group-label">Orders</span>
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Order Status
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Track Shipment
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Shipping Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Returns
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Warranty
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="footer-group">
-                <span className="footer-group-label">Resources</span>
-                <ul className="footer-link-list">
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Installation Guides
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Documentation
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Device Setup
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="#footer">
-                      Troubleshooting
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="footer-link" href="/contact">
-                      Contact Support
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            <div className="footer-links" id="footer-panel-industries">
+              <ul className="footer-link-list">
+                <li>
+                  <Link className="footer-link" href="/industries/transportation">
+                    Transportation
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/industries/construction">
+                    Construction
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/industries/logistics">
+                    Logistics
+                  </Link>
+                </li>
+                <li>
+                  <Link className="footer-link" href="/industries/public-transport">
+                    Public Transport
+                  </Link>
+                </li>
+              </ul>
             </div>
           </section>
 
@@ -346,13 +194,13 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="footer-link" href="/careers">
-                    Careers
+                  <Link className="footer-link" href="/partners">
+                    Partners
                   </Link>
                 </li>
                 <li>
-                  <Link className="footer-link" href="/partners">
-                    Partners
+                  <Link className="footer-link" href="/careers">
+                    Careers
                   </Link>
                 </li>
                 <li>
@@ -360,169 +208,9 @@ export function Footer() {
                     Contact
                   </Link>
                 </li>
-                <li>
-                  <Link className="footer-link" href="#footer">
-                    Security
-                  </Link>
-                </li>
-                <li>
-                  <Link className="footer-link" href="#footer">
-                    Compliance
-                  </Link>
-                </li>
               </ul>
             </div>
           </section>
-
-          <section className="footer-column footer-contact footer-column-contact">
-            <div className="footer-title footer-title-static">Contact</div>
-            <div className="footer-contact-block">
-              <div className="footer-group">
-                <span className="footer-group-label">Talk to Sales</span>
-                <a className="footer-contact-link" href="tel:+000000520">
-                  +000 000 0520
-                </a>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <section className="footer-cta-row" aria-label="Get started">
-          <div className="footer-cta-panel">
-            <div className="footer-cta-copy">
-              <span className="footer-group-label">Get Started</span>
-              <a className="footer-contact-link" href="mailto:hello@trackfleetio.com">
-                hello@trackfleetio.com
-              </a>
-            </div>
-            <form
-              className="footer-newsletter footer-newsletter-inline"
-              onSubmit={async (event) => {
-                event.preventDefault();
-                const form = event.currentTarget;
-                const formData = new FormData(form);
-                setNewsletterStatus("");
-                setNewsletterSuccess(false);
-                setNewsletterLoading(true);
-
-                try {
-                  const response = await fetch("/api/newsletter", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    credentials: "same-origin",
-                    body: JSON.stringify({
-                      email: String(formData.get("email") || ""),
-                    }),
-                  });
-
-                  const payload = (await response.json()) as {
-                    ok?: boolean;
-                    message?: string;
-                  };
-
-                  if (!response.ok || !payload.ok) {
-                    setNewsletterStatus(payload.message || "Unable to submit your email.");
-                    return;
-                  }
-
-                  setNewsletterSuccess(true);
-                  setNewsletterStatus(payload.message || "Newsletter request received.");
-                  form.reset();
-                } catch {
-                  setNewsletterStatus("Unable to reach the newsletter service.");
-                } finally {
-                  setNewsletterLoading(false);
-                }
-              }}
-            >
-              <label className="sr-only" htmlFor="footer-newsletter-email">
-                Email
-              </label>
-              <input
-                id="footer-newsletter-email"
-                type="email"
-                name="email"
-                placeholder="Enter your work email"
-              />
-              <button className="button button-primary footer-demo-button" type="submit" disabled={newsletterLoading}>
-                {newsletterLoading ? "Submitting..." : "Book Demo"}
-              </button>
-            </form>
-            <p
-              className={`${styles.status} ${
-                newsletterStatus
-                  ? newsletterSuccess
-                    ? styles.statusSuccess
-                    : styles.statusError
-                  : ""
-              }`}
-              aria-live="polite"
-            >
-              {newsletterStatus}
-            </p>
-            <div className="footer-cta-social">
-              <span className="footer-group-label">Social</span>
-              <div className="social-row" aria-label="Social links">
-                <a
-                  href={socialLinks[0].href}
-                  aria-label={socialLinks[0].label}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-<svg viewBox="0 0 24 24" fill="none"><path d="M22 5.9c-.7.3-1.4.5-2.2.6a3.8 3.8 0 0 0 1.7-2.1 7.7 7.7 0 0 1-2.4.9 3.8 3.8 0 0 0-6.5 3.5 10.9 10.9 0 0 1-7.9-4 3.8 3.8 0 0 0 1.2 5 3.7 3.7 0 0 1-1.7-.5v.1a3.8 3.8 0 0 0 3.1 3.7 3.8 3.8 0 0 1-1.7.1 3.8 3.8 0 0 0 3.5 2.6A7.7 7.7 0 0 1 3 18a10.8 10.8 0 0 0 5.8 1.7c7 0 10.8-5.8 10.8-10.8v-.5A7.8 7.8 0 0 0 22 5.9Z" /></svg>
-                </a>
-                <a
-                  href={socialLinks[1].href}
-                  aria-label={socialLinks[1].label}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-<svg viewBox="0 0 24 24" fill="none"><path d="M6.5 8.5V19" /><path d="M6.5 5a1 1 0 1 0 0 .01" /><path d="M11 19v-6a2.5 2.5 0 0 1 5 0v6" /><path d="M11 10h5" /></svg>
-                </a>
-                <a
-                  href={socialLinks[2].href}
-                  aria-label={socialLinks[2].label}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-<svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" /><path d="M9.5 12a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0Z" /><path d="M17 7.5h.01" /></svg>
-                </a>
-                <a
-                  href={socialLinks[3].href}
-                  aria-label={socialLinks[3].label}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-<svg viewBox="0 0 24 24" fill="none"><path d="M22 12s0-3-1-4.5c-.9-1-1.9-1-2.4-1.1C15.2 6 12 6 12 6h0s-3.2 0-6.6.4C4.9 6.5 3.9 6.5 3 7.5 2 9 2 12 2 12s0 3 1 4.5c.9 1 2.2 1 2.8 1.1 2 .2 6.2.4 6.2.4s3.2 0 6.6-.4c.5-.1 1.5-.1 2.4-1.1C22 15 22 12 22 12Z" /><path d="m10 9 5 3-5 3V9Z" /></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="footer-trust-row" aria-label="Enterprise trust signals">
-          <span>
-<ShieldCheck size={18} strokeWidth={1.9} />
-            Hardware warranty
-          </span>
-          <span>
-<Headset size={18} strokeWidth={1.9} />
-            24/7 support
-          </span>
-          <span>
-<LockKeyhole size={18} strokeWidth={1.9} />
-            Enterprise security
-          </span>
-          <span>
-<Rocket size={18} strokeWidth={1.9} />
-            Fast deployment
-          </span>
-          <span>
-<Truck size={18} strokeWidth={1.9} />
-            Global shipping
-          </span>
         </div>
 
         <div className="footer-legal-row">
@@ -533,26 +221,29 @@ export function Footer() {
               alt="Track Fleetio logo"
               width={164}
               height={40}
-              style={{ width: "100px", height: "70px" }}
             />
           </Link>
 
-          <div className="footer-legal-links">
-            <Link className="footer-link" href="#footer">
-              Privacy
-            </Link>
-            <Link className="footer-link" href="#footer">
-              Terms
-            </Link>
-            <Link className="footer-link" href="#footer">
-              Cookies
-            </Link>
-            <Link className="footer-link" href="#footer">
-              Security
-            </Link>
-            <Link className="footer-link" href="#footer">
-              Compliance
-            </Link>
+          <div className="footer-legal-meta">
+            <div className="social-row footer-legal-social" aria-label="Social links">
+              <a href={socialLinks[0].href} aria-label={socialLinks[0].label} target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M22 5.9c-.7.3-1.4.5-2.2.6a3.8 3.8 0 0 0 1.7-2.1 7.7 7.7 0 0 1-2.4.9 3.8 3.8 0 0 0-6.5 3.5 10.9 10.9 0 0 1-7.9-4 3.8 3.8 0 0 0 1.2 5 3.7 3.7 0 0 1-1.7-.5v.1a3.8 3.8 0 0 0 3.1 3.7 3.8 3.8 0 0 1-1.7.1 3.8 3.8 0 0 0 3.5 2.6A7.7 7.7 0 0 1 3 18a10.8 10.8 0 0 0 5.8 1.7c7 0 10.8-5.8 10.8-10.8v-.5A7.8 7.8 0 0 0 22 5.9Z" /></svg>
+              </a>
+              <a href={socialLinks[1].href} aria-label={socialLinks[1].label} target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M6.5 8.5V19" /><path d="M6.5 5a1 1 0 1 0 0 .01" /><path d="M11 19v-6a2.5 2.5 0 0 1 5 0v6" /><path d="M11 10h5" /></svg>
+              </a>
+              <a href={socialLinks[2].href} aria-label={socialLinks[2].label} target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" /><path d="M9.5 12a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0Z" /><path d="M17 7.5h.01" /></svg>
+              </a>
+              <a href={socialLinks[3].href} aria-label={socialLinks[3].label} target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M22 12s0-3-1-4.5c-.9-1-1.9-1-2.4-1.1C15.2 6 12 6 12 6h0s-3.2 0-6.6.4C4.9 6.5 3.9 6.5 3 7.5 2 9 2 12 2 12s0 3 1 4.5c.9 1 2.2 1 2.8 1.1 2 .2 6.2.4 6.2.4s3.2 0 6.6-.4c.5-.1 1.5-.1 2.4-1.1C22 15 22 12 22 12Z" /><path d="m10 9 5 3-5 3V9Z" /></svg>
+              </a>
+            </div>
+            <div className="footer-legal-links">
+              <FooterStaticLink>Privacy</FooterStaticLink>
+              <FooterStaticLink>Terms</FooterStaticLink>
+              <FooterStaticLink>Security</FooterStaticLink>
+            </div>
           </div>
 
           <p className="footer-copyright">
@@ -563,14 +254,3 @@ export function Footer() {
     </footer>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

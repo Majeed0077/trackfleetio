@@ -1,4 +1,4 @@
-  import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 export function HardwareSection() {
@@ -8,6 +8,10 @@ export function HardwareSection() {
         <div className="section-heading section-heading-centered">
           <p className="eyebrow">Hardware Ecosystem</p>
           <h2>Fleet Hardware Built for Reliability</h2>
+          <p className="section-subtitle">
+            Trackers, dashcams, asset devices, and sensors built around the same hardware
+            system.
+          </p>
         </div>
 
         <div className="hardware-grid" data-reveal-group>
@@ -130,7 +134,7 @@ export function HardwareSection() {
 
         <div className="product-section-actions" data-reveal>
           <Link className="button button-primary" href="/products">
-            View all products
+            Explore Hardware
           </Link>
         </div>
       </div>

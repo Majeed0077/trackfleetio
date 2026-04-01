@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { SocialAuthButtons } from "@/components/SocialAuthButtons";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 const getPasswordStrength = (password: string) => {
@@ -149,6 +150,7 @@ export function SignUpForm() {
             }
 
             setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+            startRouteLoader();
             router.push("/");
           } catch {
             setStatusTone("error");
@@ -287,13 +289,9 @@ export function SignUpForm() {
           ) : null}
           <p className="auth-legal-copy">
             By continuing, you agree to our{" "}
-            <Link className="auth-switch-link" href="/#footer">
-              Terms
-            </Link>{" "}
+            <span className="auth-switch-link">Terms</span>{" "}
             and{" "}
-            <Link className="auth-switch-link" href="/#footer">
-              Privacy Policy
-            </Link>
+            <span className="auth-switch-link">Privacy Policy</span>
             .
           </p>
         </div>

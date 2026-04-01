@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 
 import { ClientsSection } from "@/components/ClientsSection";
 import { CtaSection } from "@/components/CtaSection";
+import { FleetArchitectureSection } from "@/components/FleetArchitectureSection";
 import { FeatureStorytellingSection } from "@/components/FeatureStorytellingSection";
 import { HardwareSection } from "@/components/HardwareSection";
 import { HeroSection } from "@/components/HeroSection";
 import { HomepageMotion } from "@/components/HomepageMotion";
 import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
 import { ResultsSection } from "@/components/ResultsSection";
-import { ValuePillarsSection } from "@/components/ValuePillarsSection";
 import { WhySection } from "@/components/WhySection";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -27,7 +27,7 @@ export default function HomePage() {
       <HomepageMotion />
       <HeroSection />
       <HardwareSection />
-      <ValuePillarsSection />
+      <FleetArchitectureSection />
       <HomeIndustriesSection />
       <FeatureStorytellingSection />
       <WhySection />

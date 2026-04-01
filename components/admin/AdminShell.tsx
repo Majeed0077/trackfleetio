@@ -9,6 +9,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { AdminIcon } from "@/components/admin/AdminIcons";
 import styles from "@/components/admin/Admin.module.css";
 import { adminNavSections, adminPageInfo } from "@/lib/admin";
+import { startRouteLoader } from "@/lib/route-loader";
 import type { AuthUser } from "@/store/store";
 
 const getInitials = (name: string) =>
@@ -80,6 +81,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
               type="button"
               onClick={async () => {
                 await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
+                startRouteLoader();
                 router.push("/admin/login");
               }}
             >
@@ -119,6 +121,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
                       type="button"
                       onClick={async () => {
                         await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
+                        startRouteLoader();
                         router.push("/admin/login");
                       }}
                     >

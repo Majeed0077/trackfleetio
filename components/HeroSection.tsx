@@ -23,7 +23,7 @@ export function HeroSection() {
               </p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href="#hardware">
+                <Link className="button button-primary" href="/contact">
                   Request Demo
                 </Link>
                 <Link className="button button-secondary" href="#hardware">

@@ -21,6 +21,7 @@ import {
   useStoreHydrated,
   useSystemTheme,
 } from "@/store/store";
+import { startRouteLoader } from "@/lib/route-loader";
 
 type MenuKey = "products" | "solutions" | "industries" | "company";
 type ViewTransitionHandle = {
@@ -32,6 +33,12 @@ type DocumentWithViewTransition = Document & {
 
 const getProductsSearchHref = (query: string) => `/products?q=${encodeURIComponent(query)}`;
 const menuKeys: MenuKey[] = ["products", "solutions", "industries", "company"];
+const desktopMenuDestinations: Record<MenuKey, string> = {
+  products: "/products",
+  solutions: "/solutions",
+  industries: "/industries",
+  company: "/about",
+};
 const themeModeLabels = {
   light: "Light",
   dark: "Dark",
@@ -43,14 +50,19 @@ const productColumns = [
     links: [
       { title: "2G GPS Devices", href: getProductsSearchHref("2G GPS Device") },
       { title: "4G GPS Devices", href: getProductsSearchHref("4G GPS Device") },
-      { title: "Asset Trackers", href: getProductsSearchHref("Asset Tracking Device") },
+      { title: "GPS Tracker", href: getProductsSearchHref("GPS Tracker") },
+      { title: "Asset Trackers", href: getProductsSearchHref("Asset") },
+      { title: "PET Tracker", href: getProductsSearchHref("PET") },
+      { title: "Smart Watch", href: getProductsSearchHref("Watch") },
     ],
   },
   {
     label: "Video Telematics",
     links: [
-      { title: "AI Dashcams", href: getProductsSearchHref("AI Dashcam") },
-      { title: "DVR Systems", href: getProductsSearchHref("DVR System") },
+      { title: "AI Dashcams", href: getProductsSearchHref("Dashcam") },
+      { title: "AI MDVR", href: getProductsSearchHref("MDVR") },
+      { title: "DVR Systems", href: getProductsSearchHref("DVR") },
+      { title: "Camera Systems", href: getProductsSearchHref("Camera") },
     ],
   },
   {
@@ -347,6 +359,13 @@ export function Navbar() {
   };
 
   const openMenuByClick = (menuKey: MenuKey) => {
+    if (!isMobile) {
+      closeMenuNavigation();
+      startRouteLoader();
+      router.push(desktopMenuDestinations[menuKey]);
+      return;
+    }
+
     if (clickedMenu === menuKey) {
       setClickedMenu(null);
       setHoveredMenu(null);
@@ -390,6 +409,14 @@ export function Navbar() {
 
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
+
+        if (!isMobile) {
+          closeMenuNavigation();
+          startRouteLoader();
+          router.push(desktopMenuDestinations[menuKey]);
+          return;
+        }
+
         openMenuByClick(menuKey);
       }
 
@@ -454,14 +481,14 @@ export function Navbar() {
                   Reliable live fleet tracking hardware for modern telematics visibility.
                 </p>
                 <Link className="nav-menu-panel-link" href="/products" onClick={closeMenuNavigation}>
-                  Explore Product <span aria-hidden="true">&rarr;</span>
+                  Explore Hardware <span aria-hidden="true">&rarr;</span>
                 </Link>
               </aside>
             </div>
 
             <div className="nav-menu-footer">
               <Link className="nav-menu-footer-link" href="/products" onClick={closeMenuNavigation}>
-                View all products <span aria-hidden="true">&rarr;</span>
+                Explore Hardware <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
@@ -566,6 +593,7 @@ export function Navbar() {
       return;
     }
 
+    startRouteLoader();
     router.push(`/products?q=${encodeURIComponent(query)}`);
     setSearchOpen(false);
   };
@@ -642,7 +670,6 @@ export function Navbar() {
                   width={164}
                   height={40}
                   priority
-                  style={{ width: "100px", height: "70px" }}
                 />
               </span>
             </Link>
@@ -853,6 +880,7 @@ export function Navbar() {
                           }).catch(() => null);
                           clearAuthUser();
                           setAccountOpen(false);
+                          startRouteLoader();
                           router.push("/signin");
                         }}
                       >

@@ -13,7 +13,7 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
             <h1>{solution.title}</h1>
             <p>{solution.description}</p>
             <div className="products-hero-actions solution-detail-hero-actions">
-              <Link className="button button-primary" href="#footer">
+              <Link className="button button-primary" href="/contact">
                 Request Demo
               </Link>
             </div>
@@ -84,7 +84,7 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
         <div className="container">
           <div className="cta-panel">
             <h2>{solution.cta}</h2>
-            <Link className="button button-primary" href="#footer">
+            <Link className="button button-primary" href="/contact">
               Request Demo
             </Link>
           </div>

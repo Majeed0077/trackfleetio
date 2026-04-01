@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { useState, type CSSProperties } from "react";
 
 import { getProductHref, getRelatedProducts, type Product } from "@/data/products";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const PRODUCT_DETAIL_IMAGE_WIDTH = 900;
@@ -182,6 +183,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                   type="button"
                   onClick={() => {
                     startImmediateCheckout(product.id);
+                    startRouteLoader();
                     router.push("/checkout");
                   }}
                 >
@@ -192,6 +194,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                   type="button"
                   onClick={() => {
                     addToCart(product.id);
+                    startRouteLoader();
                     router.push("/cart");
                   }}
                 >
@@ -295,6 +298,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                     type="button"
                     onClick={() => {
                       startImmediateCheckout(relatedProduct.id);
+                      startRouteLoader();
                       router.push("/checkout");
                     }}
                   >
@@ -318,6 +322,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 type="button"
                 onClick={() => {
                   startImmediateCheckout(product.id);
+                  startRouteLoader();
                   router.push("/checkout");
                 }}
               >

@@ -1,0 +1,244 @@
+.section {
+  padding-top: 76px;
+  padding-bottom: 42px;
+}
+
+.shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.84fr) minmax(0, 1.16fr);
+  gap: clamp(40px, 6vw, 88px);
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-top: 18px;
+  align-items: start;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0),
+    rgba(148, 163, 184, 0.2),
+    rgba(148, 163, 184, 0)
+  );
+}
+
+.shell::after {
+  content: "";
+  position: absolute;
+  inset: 18px auto auto -32px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.09), transparent 72%);
+  pointer-events: none;
+  filter: blur(8px);
+  opacity: 0.78;
+}
+
+.intro,
+.list {
+  position: relative;
+  z-index: 1;
+}
+
+.intro {
+  position: sticky;
+  top: 110px;
+  align-self: start;
+  max-width: 25rem;
+  padding-top: 10px;
+  padding-right: 8px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0;
+  max-width: 8ch;
+  background-image: var(--heading-gradient-display);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: clamp(2.6rem, 4.2vw, 4rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.copy {
+  margin: 20px 0 0;
+  max-width: 31ch;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.transition {
+  margin: 32px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+  color: var(--menu-helper);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+  padding: 18px 0 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+}
+
+.row:first-child {
+  border-top: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+}
+
+.number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 28px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.content {
+  max-width: 37rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.34rem, 2vw, 1.82rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.description {
+  margin: 10px 0 0;
+  max-width: 34ch;
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.68;
+}
+
+:global(:root[data-theme="light"]) .shell::after {
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.06), transparent 72%);
+}
+
+:global(:root[data-theme="light"]) .transition,
+:global(:root[data-theme="light"]) .row {
+  border-color: color-mix(in srgb, var(--border-strong) 54%, transparent);
+}
+
+@media (max-width: 1100px) {
+  .shell {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .shell::after {
+    inset: 24px auto auto -18px;
+  }
+
+  .intro {
+    position: static;
+    max-width: 40rem;
+    padding-top: 0;
+    padding-right: 0;
+  }
+
+  .heading {
+    max-width: 10ch;
+  }
+
+  .copy {
+    max-width: 40ch;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-top: 48px;
+    padding-bottom: 18px;
+  }
+
+  .shell {
+    gap: 28px;
+    padding-top: 14px;
+  }
+
+  .shell::after {
+    width: 180px;
+    height: 180px;
+  }
+
+  .eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .heading {
+    max-width: 9ch;
+    font-size: clamp(2.15rem, 10vw, 3rem);
+  }
+
+  .copy {
+    margin-top: 16px;
+    font-size: 0.96rem;
+    line-height: 1.66;
+  }
+
+  .transition {
+    margin-top: 24px;
+    padding-top: 14px;
+    font-size: 0.84rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px 0 18px;
+  }
+
+  .number {
+    min-height: auto;
+    font-size: 0.7rem;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .description {
+    margin-top: 8px;
+    font-size: 0.94rem;
+    line-height: 1.62;
+  }
+}

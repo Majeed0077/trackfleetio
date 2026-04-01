@@ -15,11 +15,9 @@ export function AuthHeader() {
                 width={164}
                 height={40}
                 priority
-                style={{ width: "104px", height: "72px" }}
               />
             </span>
           </Link>
-
           <div className="auth-header-meta">
             <span className="auth-header-trust">Secure workspace</span>
             <Link className="auth-header-link" href="/">
@@ -31,4 +29,3 @@ export function AuthHeader() {
     </header>
   );
 }
-

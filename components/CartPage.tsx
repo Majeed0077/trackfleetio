@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { CommerceSelectionItem } from "@/components/CommerceSelectionItem";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useFleetSummaryRows, useStoreHydrated } from "@/store/store";
 
 export function CartPage() {
@@ -96,6 +97,7 @@ export function CartPage() {
                       type="button"
                       onClick={() => {
                         startCartCheckout();
+                        startRouteLoader();
                         router.push("/checkout");
                       }}
                     >

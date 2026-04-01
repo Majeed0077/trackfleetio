@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import styles from "@/components/admin/Admin.module.css";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string }) {
@@ -52,6 +53,7 @@ export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string })
               }
 
               setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+              startRouteLoader();
               router.push(redirectPath || "/admin/dashboard");
             } catch {
               setStatusMessage("Unable to reach the admin sign-in service.");

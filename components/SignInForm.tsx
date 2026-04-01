@@ -8,6 +8,7 @@ import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { SocialAuthButtons } from "@/components/SocialAuthButtons";
 import { TrustFooter } from "@/components/TrustFooter";
+import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 const getSafeRedirectPath = (value: string | null) => {
@@ -122,6 +123,7 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
             }
 
             setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+            startRouteLoader();
             router.push(getSafeRedirectPath(redirectPath) || "/");
           } catch {
             setStatusTone("error");

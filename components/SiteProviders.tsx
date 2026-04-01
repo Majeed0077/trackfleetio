@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { Suspense, useEffect, type ReactNode } from "react";
 
 import { RegionSelectorModal } from "@/components/RegionSelectorModal";
+import { TopRouteLoader } from "@/components/TopRouteLoader";
 import {
   resolveThemeMode,
   useAppStore,
@@ -63,6 +64,9 @@ export function SiteProviders({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
+      <Suspense fallback={null}>
+        <TopRouteLoader />
+      </Suspense>
       <RegionSelectorModal />
       <div
         className={`cart-toast${toastVisible ? " is-visible" : ""}`}

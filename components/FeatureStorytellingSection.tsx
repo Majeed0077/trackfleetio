@@ -8,7 +8,12 @@ export function FeatureStorytellingSection() {
     <section id="story" className="content-section content-section-last section-story" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
-          <h2>Feature Storytelling</h2>
+          <p className="eyebrow">Hardware in Action</p>
+          <h2>See the system in the field</h2>
+          <p className="section-subtitle">
+            Practical examples of how video and tracking hardware support safer, more visible
+            operations.
+          </p>
         </div>
 
         <div className="story-layout" data-reveal-group>

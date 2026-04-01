@@ -1,0 +1,256 @@
+.section {
+  padding-top: 44px;
+  padding-bottom: 42px;
+}
+
+.shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.82fr);
+  gap: clamp(40px, 6vw, 88px);
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-top: 18px;
+  align-items: start;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0),
+    rgba(148, 163, 184, 0.2),
+    rgba(148, 163, 184, 0)
+  );
+  pointer-events: none;
+}
+
+.shell::after {
+  content: "";
+  position: absolute;
+  inset: auto -34px 24px auto;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(72, 121, 255, 0.09), transparent 72%);
+  pointer-events: none;
+  filter: blur(10px);
+  opacity: 0.78;
+}
+
+.intro,
+.list {
+  position: relative;
+  z-index: 1;
+}
+
+.intro {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 110px;
+  justify-self: start;
+  align-self: start;
+  max-width: 26rem;
+  padding-top: 10px;
+  padding-left: 4px;
+}
+
+.intro::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: -22px;
+  width: 1px;
+  height: calc(100% - 18px);
+  background: linear-gradient(
+    180deg,
+    rgba(148, 163, 184, 0.24),
+    rgba(148, 163, 184, 0.04)
+  );
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0;
+  max-width: none;
+  background-image: var(--heading-gradient-display);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: clamp(2.5rem, 4vw, 3.75rem);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.copy {
+  margin: 20px 0 0;
+  max-width: 31ch;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.list {
+  grid-column: 1;
+  grid-row: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 22px;
+  align-items: start;
+  padding: 18px 0 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+}
+
+.row:first-child {
+  border-top: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+}
+
+.number {
+  grid-column: 2;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 28px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.content {
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 36rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.34rem, 2vw, 1.82rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.description {
+  margin: 10px 0 0;
+  max-width: 34ch;
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.68;
+}
+
+:global(:root[data-theme="light"]) .shell::after {
+  background: radial-gradient(circle, rgba(72, 121, 255, 0.06), transparent 72%);
+}
+
+@media (max-width: 1100px) {
+  .shell {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .shell::after {
+    inset: auto -18px 12px auto;
+  }
+
+  .intro {
+    grid-column: auto;
+    grid-row: auto;
+    position: static;
+    max-width: 40rem;
+    padding-top: 0;
+    padding-left: 0;
+  }
+
+  .intro::before {
+    display: none;
+  }
+
+  .list {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-top: 26px;
+    padding-bottom: 22px;
+  }
+
+  .shell {
+    gap: 28px;
+    padding-top: 14px;
+  }
+
+  .shell::after {
+    width: 180px;
+    height: 180px;
+  }
+
+  .eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .heading {
+    font-size: clamp(2.15rem, 9.8vw, 3rem);
+    line-height: 1;
+  }
+
+  .copy {
+    margin-top: 16px;
+    font-size: 0.96rem;
+    line-height: 1.66;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px 0 18px;
+  }
+
+  .number {
+    grid-column: auto;
+    grid-row: auto;
+    justify-content: flex-start;
+    min-height: auto;
+    font-size: 0.7rem;
+  }
+
+  .content {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .description {
+    margin-top: 8px;
+    font-size: 0.94rem;
+    line-height: 1.62;
+  }
+}
