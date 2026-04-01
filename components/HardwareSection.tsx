@@ -3,16 +3,16 @@ import Link from "next/link";
 
 export function HardwareSection() {
   return (
-    <section id="hardware" className="content-section">
+    <section id="hardware" className="content-section" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <p className="eyebrow">Hardware Ecosystem</p>
           <h2>Fleet Hardware Built for Reliability</h2>
         </div>
 
-        <div className="hardware-grid">
-          <article className="product-card product-card-featured">
-            <div className="product-media">
+        <div className="hardware-grid" data-reveal-group>
+          <article className="product-card product-card-featured" data-reveal-item>
+            <div className="product-media" data-parallax="soft">
               <Image
                 className="product-media-image product-media-image-gps"
                 src="/Products/product3.png"
@@ -40,8 +40,8 @@ export function HardwareSection() {
             </Link>
           </article>
 
-          <article className="product-card">
-            <div className="product-media">
+          <article className="product-card" data-reveal-item>
+            <div className="product-media" data-parallax="soft">
               <Image
                 className="product-media-image product-media-image-dashcam"
                 src="/Products/dashcam.png"
@@ -69,8 +69,8 @@ export function HardwareSection() {
             </Link>
           </article>
 
-          <article className="product-card">
-            <div className="product-media">
+          <article className="product-card" data-reveal-item>
+            <div className="product-media" data-parallax="soft">
               <Image
                 className="product-media-image product-media-image-asset"
                 src="/Products/product2.png"
@@ -98,8 +98,8 @@ export function HardwareSection() {
             </Link>
           </article>
 
-          <article className="product-card">
-            <div className="product-media product-media-light">
+          <article className="product-card" data-reveal-item>
+            <div className="product-media product-media-light" data-parallax="soft">
               <Image
                 className="product-media-image product-media-image-sensor"
                 src="/Products/product1.png"
@@ -128,7 +128,7 @@ export function HardwareSection() {
           </article>
         </div>
 
-        <div className="product-section-actions">
+        <div className="product-section-actions" data-reveal>
           <Link className="button button-primary" href="/products">
             View all products
           </Link>

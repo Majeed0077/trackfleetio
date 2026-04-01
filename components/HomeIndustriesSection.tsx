@@ -1,18 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Boxes, Briefcase, Crosshair, Package, Route, Truck, Wrench } from "lucide-react";
 
 export function HomeIndustriesSection() {
   return (
-    <section id="industries" className="content-section section-industries">
+    <section id="industries" className="content-section section-industries" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <h2>Industries</h2>
           <p className="section-subtitle">Solutions by Industry</p>
         </div>
 
-        <div className="industries-showcase">
-          <Link className="industry-featured-card" href="/industries/logistics" aria-label="View logistics industry details">
-            <div className="industry-featured-media">
+        <div className="industries-showcase" data-reveal-group>
+          <Link className="industry-featured-card" href="/industries/logistics" aria-label="View logistics industry details" data-reveal-item>
+            <div className="industry-featured-media" data-parallax="soft">
               <Image
                 className="industry-featured-image"
                 src="/Products/logistics.png"
@@ -26,12 +27,7 @@ export function HomeIndustriesSection() {
               <div className="industry-card-copy">
                 <div className="industry-card-meta">
                   <span className="industry-card-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M3 7.5h10v7H3z" />
-                      <path d="M13 10h3.5l2.5 2.5v2H13z" />
-                      <path d="M7 18.5a1.5 1.5 0 1 0 0 .01" />
-                      <path d="M17 18.5a1.5 1.5 0 1 0 0 .01" />
-                    </svg>
+                    <Truck size={18} strokeWidth={1.9} />
                   </span>
                   <span className="industry-card-micro-label">Primary Industry</span>
                 </div>
@@ -50,11 +46,7 @@ export function HomeIndustriesSection() {
                   <div className="industry-feature-item">
                     <div className="industry-feature-meta">
                       <span className="industry-feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none">
-                          <path d="M4 12h16" />
-                          <path d="M12 4v16" />
-                          <circle cx="12" cy="12" r="3.5" />
-                        </svg>
+                        <Crosshair size={18} strokeWidth={1.9} />
                       </span>
                       <span className="industry-card-micro-label">Tracking</span>
                     </div>
@@ -63,11 +55,7 @@ export function HomeIndustriesSection() {
                   <div className="industry-feature-item">
                     <div className="industry-feature-meta">
                       <span className="industry-feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none">
-                          <path d="M5 19 19 5" />
-                          <path d="M11 5h8v8" />
-                          <path d="M5 11V5h6" />
-                        </svg>
+                        <Route size={18} strokeWidth={1.9} />
                       </span>
                       <span className="industry-card-micro-label">Routing</span>
                     </div>
@@ -76,11 +64,7 @@ export function HomeIndustriesSection() {
                   <div className="industry-feature-item">
                     <div className="industry-feature-meta">
                       <span className="industry-feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none">
-                          <path d="M4 8.5 12 5l8 3.5-8 3.5-8-3.5Z" />
-                          <path d="M4 8.5v7L12 19l8-3.5v-7" />
-                          <path d="M12 12v7" />
-                        </svg>
+                        <Boxes size={18} strokeWidth={1.9} />
                       </span>
                       <span className="industry-card-micro-label">Visibility</span>
                     </div>
@@ -92,16 +76,12 @@ export function HomeIndustriesSection() {
           </Link>
 
           <div className="industries-stack">
-            <Link className="industry-stack-card" href="/industries/logistics" aria-label="View delivery and logistics industry details">
+            <Link className="industry-stack-card" href="/industries/logistics" aria-label="View delivery and logistics industry details" data-reveal-item>
               <div className="industry-stack-content">
                 <div className="industry-card-copy">
                   <div className="industry-card-meta">
                     <span className="industry-card-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4.5 8.5 12 5l7.5 3.5L12 12 4.5 8.5Z" />
-                        <path d="M4.5 8.5V15.5L12 19l7.5-3.5V8.5" />
-                        <path d="M12 12v7" />
-                      </svg>
+                      <Package size={18} strokeWidth={1.9} />
                     </span>
                     <span className="industry-card-micro-label">Logistics</span>
                   </div>
@@ -111,17 +91,12 @@ export function HomeIndustriesSection() {
               </div>
             </Link>
 
-            <Link className="industry-stack-card" href="/industries/construction" aria-label="View construction industry details">
+            <Link className="industry-stack-card" href="/industries/construction" aria-label="View construction industry details" data-reveal-item>
               <div className="industry-stack-content">
                 <div className="industry-card-copy">
                   <div className="industry-card-meta">
                     <span className="industry-card-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 14a8 8 0 0 1 16 0" />
-                        <path d="M5 14h14" />
-                        <path d="M7 14v3h10v-3" />
-                        <path d="M9 10.5 12 7l3 3.5" />
-                      </svg>
+                      <Wrench size={18} strokeWidth={1.9} />
                     </span>
                     <span className="industry-card-micro-label">Industry Use Case</span>
                   </div>
@@ -131,17 +106,12 @@ export function HomeIndustriesSection() {
               </div>
             </Link>
 
-            <Link className="industry-stack-card" href="/industries/transportation" aria-label="View enterprise fleet transportation details">
+            <Link className="industry-stack-card" href="/industries/transportation" aria-label="View enterprise fleet transportation details" data-reveal-item>
               <div className="industry-stack-content">
                 <div className="industry-card-copy">
                   <div className="industry-card-meta">
                     <span className="industry-card-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M3 13h8l2.5-4H18l3 4v3h-2" />
-                        <path d="M7 18.5a1.5 1.5 0 1 0 0 .01" />
-                        <path d="M17 18.5a1.5 1.5 0 1 0 0 .01" />
-                        <path d="M3 18h2" />
-                      </svg>
+                      <Briefcase size={18} strokeWidth={1.9} />
                     </span>
                     <span className="industry-card-micro-label">Enterprise</span>
                   </div>
@@ -151,17 +121,12 @@ export function HomeIndustriesSection() {
               </div>
             </Link>
 
-            <Link className="industry-stack-card" href="/industries/transportation" aria-label="View fleet operations transportation details">
+            <Link className="industry-stack-card" href="/industries/transportation" aria-label="View fleet operations transportation details" data-reveal-item>
               <div className="industry-stack-content">
                 <div className="industry-card-copy">
                   <div className="industry-card-meta">
                     <span className="industry-card-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M3 13h8l2.5-4H18l3 4v3h-2" />
-                        <path d="M7 18.5a1.5 1.5 0 1 0 0 .01" />
-                        <path d="M17 18.5a1.5 1.5 0 1 0 0 .01" />
-                        <path d="M3 18h2" />
-                      </svg>
+                      <Truck size={18} strokeWidth={1.9} />
                     </span>
                     <span className="industry-card-micro-label">Operations</span>
                   </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Search } from "lucide-react";
 
 import { AdminPageHeader, AdminTable, AdminTableCard, AdminToolbar, AdminStatusBadge } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
@@ -17,7 +18,7 @@ export default function AdminProductsPage() {
         left={
           <>
             <label className={styles.adminSearchShell} aria-label="Search products">
-              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5" /><path d="m16 16 4 4" /></svg>
+              <Search size={17} strokeWidth={1.9} />
               <input type="search" placeholder="Search products or SKU" />
             </label>
             <span className={styles.adminFilter}>All categories</span>

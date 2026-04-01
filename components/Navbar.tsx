@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { flushSync } from "react-dom";
+import { ChevronDown, MoonStar, Search, ShoppingCart, Smartphone, SunMedium, UserRound, X } from "lucide-react";
 
 import {
   getNextThemeMode,
@@ -34,7 +35,6 @@ const menuKeys: MenuKey[] = ["products", "solutions", "industries", "company"];
 const themeModeLabels = {
   light: "Light",
   dark: "Dark",
-  system: "System",
 } as const;
 
 const productColumns = [
@@ -314,9 +314,9 @@ export function Navbar() {
     : systemTheme;
   const resolvedCartCount = hasHydrated ? cartCount : 0;
   const resolvedThemeMode = hasHydrated ? themeMode : "system";
-  const nextThemeMode = getNextThemeMode(resolvedThemeMode);
+  const nextThemeMode = getNextThemeMode(resolvedThemeMode, systemTheme);
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
-  const currentThemeModeLabel = themeModeLabels[resolvedThemeMode];
+  const currentThemeModeLabel = themeModeLabels[resolvedTheme];
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
 
   const focusMenuButton = (menuKey: MenuKey) => {
@@ -436,10 +436,7 @@ export function Navbar() {
                         >
                           {index < 2 && column.label !== "Sensors & Accessories" ? (
                             <span className="nav-menu-link-icon" aria-hidden="true">
-                              <svg viewBox="0 0 16 16" fill="none">
-                                <rect x="3.25" y="2.75" width="9.5" height="10.5" rx="2.25" />
-                                <path d="M6 11h4" />
-                              </svg>
+                              <Smartphone size={14} strokeWidth={1.9} />
                             </span>
                           ) : null}
                           <span>{linkItem.title}</span>
@@ -574,7 +571,7 @@ export function Navbar() {
   };
 
   const handleThemeToggle = () => {
-    const nextResolvedTheme = resolveThemeMode(nextThemeMode, systemTheme);
+    const nextResolvedTheme = nextThemeMode;
     const supportsViewTransition =
       typeof window !== "undefined" &&
       typeof document !== "undefined" &&
@@ -695,9 +692,7 @@ export function Navbar() {
                     >
                       <span>{menuItem.label}</span>
                       <span className="nav-chevron" aria-hidden="true">
-                        <svg viewBox="0 0 12 12" fill="none">
-                          <path d="m3 4.5 3 3 3-3" />
-                        </svg>
+                        <ChevronDown size={14} strokeWidth={1.9} />
                       </span>
                     </button>
 
@@ -736,10 +731,7 @@ export function Navbar() {
                   aria-controls="nav-search-input"
                   onClick={() => submitSearch()}
                 >
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="11" cy="11" r="5.5" />
-                    <path d="m16 16 4 4" />
-                  </svg>
+                  <Search size={18} strokeWidth={1.9} />
                 </button>
                 <form
                   className="nav-search-surface"
@@ -770,43 +762,32 @@ export function Navbar() {
                     hidden={!currentSearchValue.trim()}
                     onClick={() => setSearchDraft("")}
                   >
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="m7 7 10 10M17 7 7 17" />
-                    </svg>
+                    <X size={16} strokeWidth={1.9} />
                   </button>
                 </form>
               </div>
               <Link className="nav-utility nav-utility-cart" href="/cart" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M4 5h2l2.2 9.2h8.8l2-7H7.2" />
-                  <circle cx="10" cy="18" r="1.5" />
-                  <circle cx="17" cy="18" r="1.5" />
-                </svg>
+                <ShoppingCart size={18} strokeWidth={1.9} />
                 <span className="nav-utility-badge" aria-hidden="true" hidden={resolvedCartCount === 0}>
                   {resolvedCartCount}
                 </span>
               </Link>
               <button
-                className={`nav-utility nav-theme-toggle nav-theme-toggle-${resolvedTheme} nav-theme-toggle-mode-${resolvedThemeMode}`}
+                className={`nav-utility nav-theme-toggle nav-theme-toggle-${resolvedTheme} nav-theme-toggle-mode-${resolvedTheme}`}
                 type="button"
                 data-theme-toggle
-                aria-label={`Theme mode: ${currentThemeModeLabel}${resolvedThemeMode === "system" ? ` (${resolvedTheme})` : ""}. Switch to ${nextThemeModeLabel}.`}
-                title={`Theme mode: ${currentThemeModeLabel}${resolvedThemeMode === "system" ? ` (${resolvedTheme})` : ""}. Click to switch to ${nextThemeModeLabel}.`}
+                aria-label={`Theme: ${currentThemeModeLabel}. Switch to ${nextThemeModeLabel}.`}
+                title={`Theme: ${currentThemeModeLabel}. Click to switch to ${nextThemeModeLabel}.`}
                 aria-pressed={resolvedTheme === "light" ? "true" : "false"}
                 onClick={handleThemeToggle}
-                data-theme-mode={resolvedThemeMode}
+                data-theme-mode={resolvedTheme}
                 ref={themeToggleRef}
               >
                 <span className="theme-icon theme-icon-moon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M20 15.5A8.5 8.5 0 1 1 8.5 4 6.5 6.5 0 0 0 20 15.5Z" />
-                  </svg>
+                  <MoonStar size={18} strokeWidth={1.9} />
                 </span>
                 <span className="theme-icon theme-icon-sun" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="4" />
-                    <path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" />
-                  </svg>
+                  <SunMedium size={18} strokeWidth={1.9} />
                 </span>
               </button>
               {!resolvedAuthUser ? (
@@ -833,10 +814,7 @@ export function Navbar() {
                     aria-controls="nav-account-menu"
                     onClick={() => setAccountOpen((currentValue) => !currentValue)}
                   >
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="8.5" r="3.5" />
-                      <path d="M5 19a7 7 0 0 1 14 0" />
-                    </svg>
+                    <UserRound size={18} strokeWidth={1.9} />
                   </button>
                   <div className="nav-account-menu" id="nav-account-menu" role="menu" aria-label="Account menu">
                     <div className="nav-account-identity">
@@ -914,6 +892,16 @@ export function Navbar() {
     </header>
   );
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

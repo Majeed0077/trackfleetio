@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -57,10 +58,7 @@ export function RegionSelectorModal() {
           aria-label="Close region selector"
           onClick={() => setDismissed(true)}
         >
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M6 6l12 12" />
-            <path d="M18 6 6 18" />
-          </svg>
+          <X size={18} strokeWidth={1.9} />
         </button>
 
         <div className="region-modal-brand">

@@ -29,9 +29,9 @@ export function SiteProviders({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.dataset.theme = resolvedTheme;
-    document.documentElement.dataset.themeMode = hasHydrated ? themeMode : "system";
+    document.documentElement.dataset.themeMode = resolvedTheme;
     document.documentElement.style.colorScheme = resolvedTheme;
-  }, [hasHydrated, resolvedTheme, themeMode]);
+  }, [resolvedTheme]);
 
   useEffect(() => {
     let isMounted = true;

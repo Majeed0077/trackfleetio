@@ -5,6 +5,7 @@ import { CtaSection } from "@/components/CtaSection";
 import { FeatureStorytellingSection } from "@/components/FeatureStorytellingSection";
 import { HardwareSection } from "@/components/HardwareSection";
 import { HeroSection } from "@/components/HeroSection";
+import { HomepageMotion } from "@/components/HomepageMotion";
 import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
 import { ResultsSection } from "@/components/ResultsSection";
 import { ValuePillarsSection } from "@/components/ValuePillarsSection";
@@ -23,6 +24,7 @@ export function generateMetadata(): Metadata {
 export default function HomePage() {
   return (
     <main id="main-content" className="site-main">
+      <HomepageMotion />
       <HeroSection />
       <HardwareSection />
       <ValuePillarsSection />

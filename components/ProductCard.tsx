@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Heart, ShoppingCart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
 import { useAppStore, useStoreHydrated } from "@/store/store";
@@ -35,9 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
             aria-pressed={isSaved ? "true" : "false"}
             onClick={() => toggleWishlist(product.id)}
           >
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 20.25 4.875 13.5a4.5 4.5 0 0 1 6.364-6.364L12 7.896l.761-.76A4.5 4.5 0 0 1 19.125 13.5L12 20.25Z" />
-            </svg>
+            <Heart size={18} strokeWidth={1.9} />
           </button>
           <button
             className="catalog-card-tool catalog-card-tool-quick-cart"
@@ -46,11 +45,7 @@ export function ProductCard({ product }: { product: Product }) {
             title="Quick add to cart"
             onClick={() => quickAddToCart(product.id)}
           >
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M4 5h2l2.2 9.2h8.8l2-7H7.2" />
-              <circle cx="10" cy="18" r="1.5" />
-              <circle cx="17" cy="18" r="1.5" />
-            </svg>
+            <ShoppingCart size={18} strokeWidth={1.9} />
           </button>
         </div>
 
@@ -99,6 +94,3 @@ export function ProductCard({ product }: { product: Product }) {
     </article>
   );
 }
-
-
-

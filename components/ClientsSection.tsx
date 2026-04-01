@@ -1,6 +1,6 @@
 export function ClientsSection() {
   return (
-    <section className="content-section section-client">
+    <section className="content-section section-client" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <h2>Client</h2>

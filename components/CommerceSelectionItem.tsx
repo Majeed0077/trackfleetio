@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Trash2 } from "lucide-react";
 
 import { getProductById, getProductHref } from "@/data/products";
 
@@ -64,13 +65,7 @@ export function CommerceSelectionItem({
           title="Remove"
           onClick={onRemove}
         >
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h16" />
-            <path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7" />
-            <path d="M7 7l1 12h8l1-12" />
-            <path d="M10 11v5" />
-            <path d="M14 11v5" />
-          </svg>
+          <Trash2 size={18} strokeWidth={1.9} />
         </button>
       </div>
     </article>

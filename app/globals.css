@@ -1260,24 +1260,6 @@ input:disabled {
   overflow: hidden;
 }
 
-.nav-theme-toggle-mode-system {
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--utility-border-hover) 88%, transparent),
-    var(--utility-shadow);
-}
-
-.nav-theme-toggle-mode-system::after {
-  content: "";
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 82%, white);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface) 82%, transparent);
-}
-
 .theme-icon {
   position: absolute;
   inset: 0;
@@ -7281,5 +7263,76 @@ input:disabled {
   .footer-column-solutions .footer-link-list,
   .footer-column-support .footer-link-list {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Homepage motion system */
+.reveal-pending,
+.reveal-group-pending [data-reveal-item] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale(0.985);
+  transition:
+    opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-group-pending [data-reveal-item] {
+  transition-delay: calc(var(--reveal-index, 0) * 85ms);
+}
+
+.is-visible.reveal-pending,
+.is-visible[data-reveal],
+.is-visible[data-reveal-group] [data-reveal-item] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+[data-parallax="soft"] {
+  --parallax-offset: 0px;
+  transform: translate3d(0, var(--parallax-offset), 0);
+  transition: transform 0.22s linear;
+  will-change: transform;
+}
+
+.hero-copy[data-reveal-item] {
+  transition-delay: 40ms;
+}
+
+.hero-visual[data-reveal-item] {
+  transition-delay: 150ms;
+}
+
+.metrics-section .metric-card[data-reveal-item],
+.hardware-grid [data-reveal-item],
+.pillars-grid [data-reveal-item],
+.industries-showcase [data-reveal-item],
+.story-layout [data-reveal-item],
+.why-grid [data-reveal-item],
+.results-grid [data-reveal-item] {
+  transition-duration: 0.78s;
+}
+
+@media (max-width: 991px) {
+  .reveal-pending,
+  .reveal-group-pending [data-reveal-item] {
+    transform: translate3d(0, 18px, 0) scale(0.99);
+    transition-duration: 0.58s;
+  }
+
+  [data-parallax="soft"] {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-pending,
+  .reveal-group-pending [data-reveal-item],
+  .is-visible.reveal-pending,
+  .is-visible[data-reveal-group] [data-reveal-item],
+  [data-parallax="soft"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

@@ -5,16 +5,16 @@ import { ViewportVideo } from "@/components/ViewportVideo";
 
 export function FeatureStorytellingSection() {
   return (
-    <section id="story" className="content-section content-section-last section-story">
+    <section id="story" className="content-section content-section-last section-story" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <h2>Feature Storytelling</h2>
         </div>
 
-        <div className="story-layout">
-          <article className="story-card">
+        <div className="story-layout" data-reveal-group>
+          <article className="story-card" data-reveal-item>
             <div className="story-media">
-              <div className="story-media-frame">
+              <div className="story-media-frame" data-parallax="soft">
                 <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
                   src="/Products/Video 1.mp4"
@@ -57,7 +57,7 @@ export function FeatureStorytellingSection() {
             </div>
           </article>
 
-          <article className="story-card story-card-reverse">
+          <article className="story-card story-card-reverse" data-reveal-item>
             <div className="story-copy-block">
               <h3>Monitor Equipment Location</h3>
               <p>
@@ -70,7 +70,7 @@ export function FeatureStorytellingSection() {
                 </Link>
               </div>
             </div>
-            <div className="story-media story-media-alt">
+            <div className="story-media story-media-alt" data-parallax="soft">
               <Image
                 className="story-media-image story-media-image-asset"
                 src="/Products/product3.png"

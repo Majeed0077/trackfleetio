@@ -1,0 +1,451 @@
+Haan, yeh best direction hai for:
+
+signup
+login
+email verification
+forgot password
+reset password
+future admin auth
+Lekin ek important baat: sirf schema se security nahi aati. Real security aati hai:
+
+argon2id password hashing
+hashed reset/verify tokens
+httpOnly secure cookies
+rate limiting
+session rotation
+email normalization
+audit logs
+account lock / abuse protection
+Agar yeh sab saath ho, tab system pro-level banta hai.
+
+Recommended collections
+Production-grade auth ke liye main yeh 3 core collections recommend karta hoon:
+
+users
+auth_tokens
+sessions
+Optional later:
+4. auth_events
+
+1. Users schema
+import { Schema, model, models, Types } from "mongoose";
+
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    emailNormalized: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 120,
+    },
+
+    companyName: {
+      type: String,
+      trim: true,
+      maxlength: 160,
+      default: "",
+    },
+
+    phone: {
+      type: String,
+      trim: true,
+      maxlength: 30,
+      default: "",
+    },
+
+    passwordHash: {
+      type: String,
+      required: true,
+    },
+
+    passwordAlgo: {
+      type: String,
+      default: "argon2id",
+    },
+
+    passwordChangedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    emailVerified: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    emailVerifiedAt: {
+      type: Date,
+      default: null,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "active", "suspended", "disabled"],
+      default: "pending",
+      index: true,
+    },
+
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+      index: true,
+    },
+
+    failedLoginCount: {
+      type: Number,
+      default: 0,
+    },
+
+    lockedUntil: {
+      type: Date,
+      default: null,
+      index: true,
+    },
+
+    lastLoginAt: {
+      type: Date,
+      default: null,
+    },
+
+    lastLoginIp: {
+      type: String,
+      default: "",
+    },
+
+    lastUserAgent: {
+      type: String,
+      default: "",
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+      index: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+UserSchema.index({ emailNormalized: 1 }, { unique: true });
+UserSchema.index({ role: 1, status: 1 });
+UserSchema.index({ createdAt: -1 });
+
+export const User = models.User || model("User", UserSchema);
+2. Auth tokens schema
+Yehi collection use hogi:
+
+email verification
+forgot password
+password reset
+optionally invite links
+Important:
+raw token DB me kabhi save nahi karna
+sirf hashed token save karo.
+
+const AuthTokenSchema = new Schema(
+  {
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
+    purpose: {
+      type: String,
+      enum: ["email_verify", "password_reset"],
+      required: true,
+      index: true,
+    },
+
+    tokenHash: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+
+    expiresAt: {
+      type: Date,
+      required: true,
+      index: true,
+    },
+
+    usedAt: {
+      type: Date,
+      default: null,
+      index: true,
+    },
+
+    createdByIp: {
+      type: String,
+      default: "",
+    },
+
+    createdByUserAgent: {
+      type: String,
+      default: "",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+AuthTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+AuthTokenSchema.index({ userId: 1, purpose: 1, usedAt: 1 });
+
+export const AuthToken =
+  models.AuthToken || model("AuthToken", AuthTokenSchema);
+3. Sessions schema
+Ye login sessions ke liye hai.
+
+const SessionSchema = new Schema(
+  {
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
+    sessionTokenHash: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+
+    expiresAt: {
+      type: Date,
+      required: true,
+      index: true,
+    },
+
+    lastSeenAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    ip: {
+      type: String,
+      default: "",
+    },
+
+    userAgent: {
+      type: String,
+      default: "",
+    },
+
+    revokedAt: {
+      type: Date,
+      default: null,
+      index: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+SessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+SessionSchema.index({ userId: 1, revokedAt: 1 });
+
+export const Session = models.Session || model("Session", SessionSchema);
+4. Optional auth events schema
+Ye useful hai security monitoring ke liye.
+
+const AuthEventSchema = new Schema(
+  {
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true,
+    },
+
+    emailNormalized: {
+      type: String,
+      default: "",
+      index: true,
+    },
+
+    type: {
+      type: String,
+      enum: [
+        "signup",
+        "login_success",
+        "login_failed",
+        "logout",
+        "email_verification_sent",
+        "email_verified",
+        "password_reset_requested",
+        "password_reset_completed",
+        "account_locked",
+      ],
+      required: true,
+      index: true,
+    },
+
+    ip: {
+      type: String,
+      default: "",
+    },
+
+    userAgent: {
+      type: String,
+      default: "",
+    },
+
+    meta: {
+      type: Schema.Types.Mixed,
+      default: {},
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+AuthEventSchema.index({ createdAt: -1 });
+AuthEventSchema.index({ userId: 1, createdAt: -1 });
+
+export const AuthEvent =
+  models.AuthEvent || model("AuthEvent", AuthEventSchema);
+Ye login/signup ke liye best kyun hai?
+Signup
+user create hota hai with:
+emailVerified = false
+status = pending
+verification mail jati hai
+auth_tokens me email_verify token save hota hai
+verify hone ke baad:
+emailVerified = true
+status = active
+Login
+only allow if:
+user exists
+password correct
+account not locked
+status active
+email verified
+successful login par:
+sessions me hashed session token save karo
+cookie me raw session token do
+Forgot password
+user email deta hai
+password_reset token banta hai
+mail jati hai
+token click hone par reset page khulta hai
+new password set hota hai
+old sessions revoke kar do
+passwordChangedAt update karo
+Very important security rules
+Passwords
+bcrypt se better: argon2id
+password plain text kabhi save nahi karna
+minimum 8-12 chars enforce karo
+breached password check later add kar sakte ho
+Email verify / reset tokens
+random token generate karo: crypto.randomBytes(32)
+user ko raw token mail karo
+DB me sirf sha256(token) save karo
+Sessions
+JWT ko directly long-term auth ke liye mat use karo if you need revoke support
+better:
+opaque session token
+DB session lookup
+hashed token in DB
+cookie:
+httpOnly: true
+secure: true
+sameSite: "lax"
+Abuse protection
+login rate limit
+forgot password rate limit
+signup rate limit
+email verify resend limit
+failed login count + temporary lock
+Best flow structure
+Signup flow
+user submits form
+password hash with argon2id
+user saved as pending
+verification token generated
+email sent
+after verify => active
+Forgot password flow
+user submits email
+always return generic success message
+if account exists, create reset token
+email sent
+token verified
+new password set
+all existing sessions revoked
+Login flow
+lookup by emailNormalized
+check lock / status / verification
+verify password
+create session
+set secure cookie
+Best indexes
+users: {
+  emailNormalized: unique,
+  role: index,
+  status: index,
+  deletedAt: index
+}
+
+auth_tokens: {
+  tokenHash: unique,
+  expiresAt: TTL,
+  userId + purpose + usedAt: index
+}
+
+sessions: {
+  sessionTokenHash: unique,
+  expiresAt: TTL,
+  userId + revokedAt: index
+}
+Pro recommendation for your project
+Agar tum Next.js + MongoDB me proper auth banana chahte ho, to best stack yeh hoga:
+
+users
+auth_tokens
+sessions
+argon2
+nodemailer ya Resend
+secure cookies
+Zod validation
+rate limiting
+audit events
+Straight answer
+Haan, yeh schema login + signup + forgot password + email verification ke liye best base hoga.
+
+Agar chaho, next step me main tumhare liye exact production-grade MongoDB + Mongoose code bana deta hoon:
+
+models/User.ts
+models/AuthToken.ts
+models/Session.ts
+signup API
+login API
+verify email API
+forgot password API
+reset password API

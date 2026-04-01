@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Heart } from "lucide-react";
 import { useState, type CSSProperties } from "react";
 
 import { getProductHref, getRelatedProducts, type Product } from "@/data/products";
@@ -204,9 +205,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                   aria-pressed={isSaved ? "true" : "false"}
                   onClick={() => toggleWishlist(product.id)}
                 >
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M12 20.25 4.875 13.5a4.5 4.5 0 0 1 6.364-6.364L12 7.896l.761-.76A4.5 4.5 0 0 1 19.125 13.5L12 20.25Z" />
-                  </svg>
+                  <Heart size={18} strokeWidth={1.9} />
                 </button>
               </div>
             </div>
@@ -341,6 +340,8 @@ export function ProductDetailPage({ product }: { product: Product }) {
     </main>
   );
 }
+
+
 
 
 

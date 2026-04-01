@@ -10,8 +10,8 @@ import "./globals.css";
 const themeScript = `
 (() => {
   const root = document.documentElement;
-  const applyTheme = (themeMode, resolvedTheme) => {
-    root.dataset.themeMode = themeMode;
+  const applyTheme = (resolvedTheme) => {
+    root.dataset.themeMode = resolvedTheme;
     root.dataset.theme = resolvedTheme;
     root.style.colorScheme = resolvedTheme;
   };
@@ -48,13 +48,13 @@ const themeScript = `
       : "light";
     const resolvedTheme = themeMode === "system" ? systemTheme : themeMode;
 
-    applyTheme(themeMode, resolvedTheme);
+    applyTheme(resolvedTheme);
   } catch {
     const fallbackTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
 
-    applyTheme("system", fallbackTheme);
+    applyTheme(fallbackTheme);
   }
 })();
 `;
@@ -85,7 +85,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="dark"
-      data-theme-mode="system"
+      data-theme-mode="dark"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

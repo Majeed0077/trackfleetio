@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Menu, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 
@@ -95,10 +96,10 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
             </div>
             <div className={styles.adminTopbarActions}>
               <button className={styles.adminMobileToggle} type="button" aria-label="Open admin navigation" onClick={() => setSidebarOpen((value) => !value)}>
-                <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+                <Menu size={18} strokeWidth={1.9} />
               </button>
               <label className={styles.adminSearchShell} aria-label="Admin search">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="5.5" /><path d="m16 16 4 4" /></svg>
+                <Search size={17} strokeWidth={1.9} />
                 <input type="search" placeholder="Search admin" />
               </label>
               <div className={styles.adminUserMenu}>
