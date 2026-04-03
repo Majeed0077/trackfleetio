@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SolutionsOverviewSection } from "@/components/SolutionsOverviewSection";
 import { createPageMetadata } from "@/lib/metadata";
 import { solutionDirectoryCards } from "@/lib/solutions";
 
@@ -29,16 +30,29 @@ export default function SolutionsPage() {
         </div>
       </section>
 
+      <SolutionsOverviewSection />
+
       <section className="products-catalog industry-directory-section">
         <div className="container">
+          <div className="section-heading industry-directory-heading">
+            <p className="eyebrow">All Solutions</p>
+            <h2>Explore the solution library</h2>
+            <p className="section-subtitle">
+              Browse connected workflows for monitoring, routing, field operations,
+              public transport, and specialized fleet environments.
+            </p>
+          </div>
+
           <div className="industry-directory-grid">
             {solutionDirectoryCards.map((solution) => (
               <article className="industry-directory-card" key={solution.title}>
-                <p className="product-category">Solution</p>
-                <h3>{solution.title}</h3>
-                <p className="catalog-description">{solution.description}</p>
-                <Link className="button button-outline" href={solution.href}>
-                  View Solution
+                <div className="industry-directory-card-copy">
+                  <p className="solution-directory-label">Solution</p>
+                  <h3>{solution.title}</h3>
+                  <p className="catalog-description">{solution.description}</p>
+                </div>
+                <Link className="solution-directory-link" href={solution.href}>
+                  View solution
                 </Link>
               </article>
             ))}

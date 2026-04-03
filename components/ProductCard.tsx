@@ -2,21 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Heart, ShoppingCart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const PRODUCT_CARD_IMAGE_WIDTH = 420;
 const PRODUCT_CARD_IMAGE_HEIGHT = 320;
 
 export function ProductCard({ product }: { product: Product }) {
-  const router = useRouter();
   const hasHydrated = useStoreHydrated();
   const quickAddToCart = useAppStore((state) => state.quickAddToCart);
-  const startImmediateCheckout = useAppStore((state) => state.startImmediateCheckout);
   const toggleWishlist = useAppStore((state) => state.toggleWishlist);
   const wishlist = useAppStore((state) => state.wishlist);
   const isSaved = hasHydrated && wishlist.includes(product.id);
@@ -79,19 +75,11 @@ export function ProductCard({ product }: { product: Product }) {
         ))}
       </ul>
       <div className="catalog-card-actions">
-        <button
-          className="button button-primary catalog-card-buy-now"
-          type="button"
-          onClick={() => {
-            startImmediateCheckout(product.id);
-            startRouteLoader();
-            router.push("/checkout");
-          }}
-        >
-          Buy Now
-        </button>
-        <Link className="button button-secondary catalog-card-secondary-link" href={getProductHref(product.id)}>
+        <Link className="button button-primary catalog-card-buy-now" href={getProductHref(product.id)}>
           View Details
+        </Link>
+        <Link className="button button-secondary catalog-card-secondary-link" href="/contact">
+          Talk to Sales
         </Link>
       </div>
     </article>

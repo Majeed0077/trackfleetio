@@ -14,9 +14,9 @@ export function ContactPage() {
       <section className="products-hero company-page-hero">
         <div className="container">
           <div className="products-hero-shell">
-            <span className="products-badge">Company</span>
+            <span className="products-badge">Sales & Solutions</span>
             <h1>Contact Track Fleetio</h1>
-            <p>Talk to our team about hardware solutions.</p>
+            <p>Talk to our team about the right fleet solution, hardware mix, and rollout plan.</p>
           </div>
         </div>
       </section>
@@ -49,7 +49,7 @@ export function ContactPage() {
             </article>
 
             <article className="company-page-card company-contact-card">
-              <p className="eyebrow">Request Demo</p>
+              <p className="eyebrow">Request Consultation</p>
               <form
                 id="contact-form"
                 className="company-contact-form"
@@ -118,7 +118,7 @@ export function ContactPage() {
                 <textarea id="contact-message" name="message" placeholder="Message"></textarea>
 
                 <button className="button button-primary" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : "Request Demo"}
+                  {isSubmitting ? "Sending..." : "Request Consultation"}
                 </button>
                 <p
                   className={`${styles.status} ${statusMessage ? (isSuccess ? styles.statusSuccess : styles.statusError) : ""}`}
@@ -135,9 +135,9 @@ export function ContactPage() {
       <section className="content-section section-cta company-page-cta">
         <div className="container">
           <div className="cta-panel">
-            <h2>Connect with our team to plan the right hardware deployment for your fleet.</h2>
+            <h2>Connect with our team to plan the right fleet solution for your operation.</h2>
             <a className="button button-primary" href="#contact-form">
-              Request Demo
+              Request Consultation
             </a>
           </div>
         </div>

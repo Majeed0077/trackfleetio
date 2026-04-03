@@ -12,7 +12,25 @@ import {
   type ReactNode,
 } from "react";
 import { flushSync } from "react-dom";
-import { ChevronDown, MoonStar, Search, ShoppingCart, Smartphone, SunMedium, UserRound, X } from "lucide-react";
+import {
+  Bolt,
+  Bus,
+  Camera,
+  ChevronDown,
+  Droplets,
+  Factory,
+  MapPin,
+  MoonStar,
+  Radar,
+  Search,
+  ShieldCheck,
+  ShoppingCart,
+  Smartphone,
+  SunMedium,
+  Thermometer,
+  UserRound,
+  X,
+} from "lucide-react";
 
 import {
   getNextThemeMode,
@@ -33,7 +51,7 @@ import {
   solutionsMenuFeaturedPanel,
 } from "@/lib/content/navigation";
 
-type MenuKey = "products" | "solutions" | "industries" | "company";
+type MenuKey = "solutions" | "products" | "industries" | "company";
 type ViewTransitionHandle = {
   ready: Promise<void>;
 };
@@ -41,15 +59,28 @@ type DocumentWithViewTransition = Document & {
   startViewTransition?: (callback: () => void) => ViewTransitionHandle;
 };
 
-const menuKeys: MenuKey[] = ["products", "solutions", "industries", "company"];
+const menuKeys: MenuKey[] = ["solutions", "products", "industries", "company"];
 const themeModeLabels = {
   light: "Light",
   dark: "Dark",
 } as const;
 
+const megaMenuIconMap = {
+  pin: MapPin,
+  camera: Camera,
+  scan: Radar,
+  shield: ShieldCheck,
+  route: Smartphone,
+  factory: Factory,
+  bus: Bus,
+  bolt: Bolt,
+  droplet: Droplets,
+  thermometer: Thermometer,
+} as const;
+
 const menuDefinitions = [
-  { key: "products", label: "Products", href: "/products", panelClassName: "nav-menu nav-menu-mega" },
   { key: "solutions", label: "Solutions", href: "/solutions", panelClassName: "nav-menu nav-menu-mega" },
+  { key: "products", label: "Products", href: "/products", panelClassName: "nav-menu nav-menu-mega" },
   { key: "industries", label: "Industries", href: "/industries", panelClassName: "nav-menu nav-menu-structured" },
   { key: "company", label: "Company", href: "/about", panelClassName: "nav-menu nav-menu-simple" },
 ] as const satisfies ReadonlyArray<{
@@ -118,6 +149,8 @@ export function Navbar() {
   // Click pins a menu open until the same trigger, another trigger, or an outside click closes it.
   const [hoveredMenu, setHoveredMenu] = useState<MenuKey | null>(null);
   const [clickedMenu, setClickedMenu] = useState<MenuKey | null>(null);
+  const [solutionsMenuIndex, setSolutionsMenuIndex] = useState(0);
+  const [productsMenuIndex, setProductsMenuIndex] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchDraft, setSearchDraft] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
@@ -127,8 +160,8 @@ export function Navbar() {
   const accountRef = useRef<HTMLDivElement | null>(null);
   const themeToggleRef = useRef<HTMLButtonElement | null>(null);
   const menuButtonRefs = useRef<Record<MenuKey, HTMLButtonElement | null>>({
-    products: null,
     solutions: null,
+    products: null,
     industries: null,
     company: null,
   });
@@ -350,41 +383,75 @@ export function Navbar() {
 
   const renderMenuContent = (menuKey: MenuKey): ReactNode => {
     switch (menuKey) {
-      case "products":
+      case "products": {
+        const activeColumn = productMenuColumns[productsMenuIndex] ?? productMenuColumns[0];
+
         return (
           <div className="nav-menu-surface">
-            <div className="nav-menu-layout">
-              <div className="nav-menu-columns nav-menu-columns-products">
-                {productMenuColumns.map((column) => (
-                  <div className="nav-menu-column" key={column.label}>
-                    <p className="nav-menu-label">{column.label}</p>
-                    <div className="nav-menu-links">
-                      {column.links.map((linkItem, index) => (
-                        <Link
-                          key={`${column.label}-${linkItem.title}`}
-                          className={`nav-menu-link${index < 2 && column.label !== "Sensors & Accessories" ? " nav-menu-link-with-icon" : ""}`}
-                          href={linkItem.href}
-                          onClick={closeMenuNavigation}
-                        >
-                          {index < 2 && column.label !== "Sensors & Accessories" ? (
-                            <span className="nav-menu-link-icon" aria-hidden="true">
-                              <Smartphone size={14} strokeWidth={1.9} />
-                            </span>
-                          ) : null}
-                          <span>{linkItem.title}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+            <div className="nav-menu-layout nav-menu-layout-tabbed">
+              <div className="nav-menu-rail">
+                <p className="nav-menu-label">Product Categories</p>
+                <div className="nav-menu-rail-links" role="tablist" aria-label="Product categories">
+                  {productMenuColumns.map((column, index) => (
+                    <button
+                      key={column.label}
+                      className={`nav-menu-rail-link${index === productsMenuIndex ? " is-active" : ""}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === productsMenuIndex ? "true" : "false"}
+                      onMouseEnter={() => setProductsMenuIndex(index)}
+                      onFocus={() => setProductsMenuIndex(index)}
+                    >
+                      <span>{column.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <aside className="nav-menu-panel">
-                <p className="nav-menu-panel-label">{productsMenuFeaturedPanel.label}</p>
-                <h3 className="nav-menu-panel-title">{productsMenuFeaturedPanel.title}</h3>
-                <p className="nav-menu-panel-copy">{productsMenuFeaturedPanel.description}</p>
-                <Link className="nav-menu-panel-link" href={productsMenuFeaturedPanel.ctaHref} onClick={closeMenuNavigation}>
-                  {productsMenuFeaturedPanel.ctaLabel} <span aria-hidden="true">&rarr;</span>
+              <div className="nav-menu-main" role="tabpanel">
+                <p className="nav-menu-label">{activeColumn.label}</p>
+                <div className="nav-menu-feature-list">
+                  {activeColumn.links.map((linkItem) => {
+                    const Icon = linkItem.icon ? megaMenuIconMap[linkItem.icon] : Smartphone;
+
+                    return (
+                      <Link
+                        key={`${activeColumn.label}-${linkItem.title}`}
+                        className="nav-menu-feature-link"
+                        href={linkItem.href}
+                        onClick={closeMenuNavigation}
+                      >
+                        <span className="nav-menu-feature-icon" aria-hidden="true">
+                          <Icon size={18} strokeWidth={1.9} />
+                        </span>
+                        <span className="nav-menu-feature-copy">
+                          <span className="nav-menu-feature-title">{linkItem.title}</span>
+                          {linkItem.description ? (
+                            <span className="nav-menu-feature-description">{linkItem.description}</span>
+                          ) : null}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <aside className="nav-menu-panel nav-menu-panel-preview">
+                <div className="nav-menu-preview-media">
+                  <Image
+                    className={`nav-menu-preview-image${activeColumn.preview.imageFit === "contain" ? " nav-menu-preview-image-contain" : ""}`}
+                    src={activeColumn.preview.imageSrc}
+                    alt={activeColumn.preview.imageAlt}
+                    width={320}
+                    height={220}
+                    sizes="280px"
+                  />
+                </div>
+                <p className="nav-menu-panel-label">{activeColumn.preview.eyebrow}</p>
+                <h3 className="nav-menu-panel-title">{activeColumn.preview.title}</h3>
+                <p className="nav-menu-panel-copy">{activeColumn.preview.description}</p>
+                <Link className="nav-menu-panel-link" href={activeColumn.preview.href} onClick={closeMenuNavigation}>
+                  {activeColumn.preview.ctaLabel} <span aria-hidden="true">&rarr;</span>
                 </Link>
               </aside>
             </div>
@@ -396,37 +463,77 @@ export function Navbar() {
             </div>
           </div>
         );
+      }
 
-      case "solutions":
+      case "solutions": {
+        const activeColumn = solutionsMenuColumns[solutionsMenuIndex] ?? solutionsMenuColumns[0];
+
         return (
           <div className="nav-menu-surface">
-            <div className="nav-menu-layout">
-              <div className="nav-menu-columns nav-menu-columns-solutions">
-                {solutionsMenuColumns.map((column) => (
-                  <div className="nav-menu-column" key={column.label}>
-                    <p className="nav-menu-label">{column.label}</p>
-                    <div className="nav-menu-links">
-                      {column.links.map((linkItem) => (
-                        <Link
-                          key={`${column.label}-${linkItem.title}`}
-                          className="nav-menu-link"
-                          href={linkItem.href}
-                          onClick={closeMenuNavigation}
-                        >
-                          {linkItem.title}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+            <div className="nav-menu-layout nav-menu-layout-tabbed">
+              <div className="nav-menu-rail">
+                <p className="nav-menu-label">Solution Groups</p>
+                <div className="nav-menu-rail-links" role="tablist" aria-label="Solution groups">
+                  {solutionsMenuColumns.map((column, index) => (
+                    <button
+                      key={column.label}
+                      className={`nav-menu-rail-link${index === solutionsMenuIndex ? " is-active" : ""}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === solutionsMenuIndex ? "true" : "false"}
+                      onMouseEnter={() => setSolutionsMenuIndex(index)}
+                      onFocus={() => setSolutionsMenuIndex(index)}
+                    >
+                      <span>{column.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <aside className="nav-menu-panel">
-                <p className="nav-menu-panel-label">{solutionsMenuFeaturedPanel.label}</p>
-                <h3 className="nav-menu-panel-title">{solutionsMenuFeaturedPanel.title}</h3>
-                <p className="nav-menu-panel-copy">{solutionsMenuFeaturedPanel.description}</p>
-                <Link className="nav-menu-panel-link" href={solutionsMenuFeaturedPanel.ctaHref} onClick={closeMenuNavigation}>
-                  {solutionsMenuFeaturedPanel.ctaLabel} <span aria-hidden="true">&rarr;</span>
+              <div className="nav-menu-main" role="tabpanel">
+                <p className="nav-menu-label">{activeColumn.label}</p>
+                <div className="nav-menu-feature-list">
+                  {activeColumn.links.map((linkItem) => {
+                    const Icon = linkItem.icon ? megaMenuIconMap[linkItem.icon] : Smartphone;
+
+                    return (
+                      <Link
+                        key={`${activeColumn.label}-${linkItem.title}`}
+                        className="nav-menu-feature-link"
+                        href={linkItem.href}
+                        onClick={closeMenuNavigation}
+                      >
+                        <span className="nav-menu-feature-icon" aria-hidden="true">
+                          <Icon size={18} strokeWidth={1.9} />
+                        </span>
+                        <span className="nav-menu-feature-copy">
+                          <span className="nav-menu-feature-title">{linkItem.title}</span>
+                          {linkItem.description ? (
+                            <span className="nav-menu-feature-description">{linkItem.description}</span>
+                          ) : null}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <aside className="nav-menu-panel nav-menu-panel-preview">
+                <div className="nav-menu-preview-media">
+                  <Image
+                    className={`nav-menu-preview-image${activeColumn.preview.imageFit === "contain" ? " nav-menu-preview-image-contain" : ""}`}
+                    src={activeColumn.preview.imageSrc}
+                    alt={activeColumn.preview.imageAlt}
+                    width={320}
+                    height={220}
+                    sizes="280px"
+                  />
+                </div>
+                <p className="nav-menu-panel-label">{activeColumn.preview.eyebrow}</p>
+                <h3 className="nav-menu-panel-title">{activeColumn.preview.title}</h3>
+                <p className="nav-menu-panel-copy">{activeColumn.preview.description}</p>
+                <Link className="nav-menu-panel-link" href={activeColumn.preview.href} onClick={closeMenuNavigation}>
+                  {activeColumn.preview.ctaLabel} <span aria-hidden="true">&rarr;</span>
                 </Link>
               </aside>
             </div>
@@ -438,6 +545,7 @@ export function Navbar() {
             </div>
           </div>
         );
+      }
 
       case "industries":
         return (

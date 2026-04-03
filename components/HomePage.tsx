@@ -1,11 +1,11 @@
 import { ClientsSection } from "@/components/ClientsSection";
-import { CtaSection } from "@/components/CtaSection";
 import { FleetArchitectureSection } from "@/components/FleetArchitectureSection";
 import { FeatureStorytellingSection } from "@/components/FeatureStorytellingSection";
 import { HardwareSection } from "@/components/HardwareSection";
 import { HeroSection } from "@/components/HeroSection";
 import { HomepageMotion } from "@/components/HomepageMotion";
 import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
+import { HomeSupportSection } from "@/components/HomeSupportSection";
 import { ResultsSection } from "@/components/ResultsSection";
 import { WhySection } from "@/components/WhySection";
 
@@ -15,13 +15,13 @@ export function HomePage() {
       <HomepageMotion />
       <HeroSection />
       <ClientsSection />
-      <HardwareSection />
       <FeatureStorytellingSection />
-      <ResultsSection />
       <FleetArchitectureSection />
       <HomeIndustriesSection />
+      <HardwareSection />
+      <ResultsSection />
       <WhySection />
-      <CtaSection />
+      <HomeSupportSection />
     </main>
   );
 }

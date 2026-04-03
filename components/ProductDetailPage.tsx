@@ -178,8 +178,11 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 ))}
               </ul>
               <div className="product-detail-actions">
+                <Link className="button button-primary" href="/contact">
+                  Request Consultation
+                </Link>
                 <button
-                  className="button button-primary"
+                  className="button button-outline"
                   type="button"
                   onClick={() => {
                     startImmediateCheckout(product.id);
@@ -187,18 +190,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                     router.push("/checkout");
                   }}
                 >
-                  Buy Now
-                </button>
-                <button
-                  className="button button-outline"
-                  type="button"
-                  onClick={() => {
-                    addToCart(product.id);
-                    startRouteLoader();
-                    router.push("/cart");
-                  }}
-                >
-                  Add to Cart
+                  Start Order
                 </button>
                 <button
                   className={`catalog-card-tool product-detail-favorite${isSaved ? " is-saved" : ""}`}
@@ -293,19 +285,11 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 <p className="product-specs">{relatedProduct.specs.join(" | ")}</p>
                 <p className="product-detail-related-copy">{relatedProduct.shortDescription}</p>
                 <div className="catalog-card-actions product-detail-related-actions">
-                  <button
-                    className="button button-primary"
-                    type="button"
-                    onClick={() => {
-                      startImmediateCheckout(relatedProduct.id);
-                      startRouteLoader();
-                      router.push("/checkout");
-                    }}
-                  >
-                    Buy Now
-                  </button>
+                  <Link className="button button-primary" href={getProductHref(relatedProduct.id)}>
+                    View Details
+                  </Link>
                   <Link className="catalog-card-detail-link" href={getProductHref(relatedProduct.id)}>
-                    View Details <span aria-hidden="true">&rarr;</span>
+                    Compare Hardware <span aria-hidden="true">&rarr;</span>
                   </Link>
                 </div>
               </article>
@@ -315,19 +299,11 @@ export function ProductDetailPage({ product }: { product: Product }) {
 
         <section className="content-section section-cta product-detail-cta">
           <div className="cta-panel">
-            <h2>Need help selecting the right hardware mix?</h2>
+            <h2>Need help matching this hardware to your fleet workflow?</h2>
             <div className="products-hero-actions product-detail-cta-actions">
-              <button
-                className="button button-primary"
-                type="button"
-                onClick={() => {
-                  startImmediateCheckout(product.id);
-                  startRouteLoader();
-                  router.push("/checkout");
-                }}
-              >
-                Buy Now
-              </button>
+              <Link className="button button-primary" href="/contact">
+                Talk to Solutions Team
+              </Link>
               <button
                 className="button button-outline"
                 type="button"

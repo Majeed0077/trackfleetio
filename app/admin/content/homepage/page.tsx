@@ -18,8 +18,8 @@ import {
   hardwareEcosystemContent,
   heroContent,
   homeIndustriesContent,
-  homepageCtaContent,
   homepageMetrics,
+  homepageSupportContent,
   resultsContent,
   whyTrackFleetioContent,
 } from "@/lib/content/homepage";
@@ -108,8 +108,8 @@ export default function AdminContentHomepagePage() {
 
         <AdminFormCard>
           <AdminFormSection
-            title="Stories, outcomes, architecture, and CTA"
-            description="Everything from the field-use-case videos through the final CTA section."
+            title="Stories, outcomes, architecture, and support"
+            description="Everything from the field-use-case videos through the homepage support cards."
           >
             <AdminFieldGroup label="Field use cases">
               <AdminTextarea defaultValue={fieldUseCasesContent.cards.map((card) => `${card.title} | ${card.ctaHref}`).join("\n")} />
@@ -126,8 +126,8 @@ export default function AdminContentHomepagePage() {
             <AdminFieldGroup label="Industries showcase">
               <AdminTextarea defaultValue={`Primary: ${homeIndustriesContent.featured.title}\nStack cards: ${homeIndustriesContent.stackCards.map((card) => card.title).join(", ")}`} />
             </AdminFieldGroup>
-            <AdminFieldGroup label="Final CTA">
-              <AdminTextarea defaultValue={`${homepageCtaContent.heading}\n${homepageCtaContent.description}`} />
+            <AdminFieldGroup label="Support cards">
+              <AdminTextarea defaultValue={homepageSupportContent.cards.map((card) => `${card.title} | ${card.value} | ${card.href}`).join("\n")} />
             </AdminFieldGroup>
           </AdminFormSection>
         </AdminFormCard>

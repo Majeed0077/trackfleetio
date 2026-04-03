@@ -27,7 +27,7 @@ export async function generateMetadata({
   return createPageMetadata({
     title: "Products | Track Fleetio",
     description:
-      "Browse Track Fleetio hardware products, including tracking devices, video telematics, sensors, and accessories.",
+      "Browse Track Fleetio hardware used across fleet tracking, monitoring, video telematics, and deployment-ready B2B solutions.",
     path: "/products",
   });
 }

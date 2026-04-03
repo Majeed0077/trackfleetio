@@ -65,6 +65,14 @@ export type HomepageIndustryCard = {
   icon: "package" | "wrench" | "briefcase" | "truck";
 };
 
+export type HomepageSupportCard = {
+  title: string;
+  description: string;
+  value: string;
+  href: string;
+  icon: "chat" | "mail" | "phone";
+};
+
 export const homepageSectionRegistry = [
   { title: "Hero", desc: "Headline, subtext, primary CTA, device collage.", visible: true, status: "Live" },
   { title: "Metrics", desc: "Trust metrics strip under hero with operational proof points.", visible: true, status: "Live" },
@@ -75,17 +83,17 @@ export const homepageSectionRegistry = [
   { title: "Architecture", desc: "How-it-works system layers and connector chips.", visible: true, status: "Live" },
   { title: "Industries", desc: "Primary industry block and supporting cards.", visible: true, status: "Live" },
   { title: "Why Track Fleetio", desc: "Differentiator cards and value narrative.", visible: true, status: "Review" },
-  { title: "CTA Section", desc: "Final conversion band before footer.", visible: true, status: "Live" },
+  { title: "Support & Contact", desc: "Homepage contact cards for sales, support, and direct outreach.", visible: true, status: "Live" },
 ] as const;
 
 export const heroContent = {
-  heading: ["Smarter Hardware", "for Modern Fleet", "Operations"],
+  heading: ["Connected Fleet", "Solutions for", "B2B Operations"],
   description:
-    "Track Fleetio helps fleet operators evaluate GPS trackers, AI dashcams, and sensor hardware for vehicles, trailers, and field equipment.",
-  primaryCta: { label: "Request Demo", href: "/contact" },
-  secondaryCta: { label: "Explore Hardware", href: "#hardware" },
+    "Track Fleetio helps operations, safety, and procurement teams plan the right mix of tracking, video telematics, and sensor hardware for real fleet workflows.",
+  primaryCta: { label: "Request Consultation", href: "/contact" },
+  secondaryCta: { label: "Explore Solutions", href: "/solutions" },
   trustLine:
-    "For operations, safety, procurement, and deployment teams reviewing fleet hardware.",
+    "Built for operations, safety, compliance, and procurement teams managing fleet rollouts.",
   image: {
     src: "/Products/Hero-image.png",
     alt: "Track Fleetio hardware showcase",
@@ -94,32 +102,32 @@ export const heroContent = {
 
 export const homepageMetrics: HomepageMetric[] = [
   {
-    title: "Mixed Fleets",
-    description: "Vehicle, trailer, and asset coverage",
+    title: "Mixed Fleet Fit",
+    description: "Vehicles, trailers, and mobile assets",
     icon: "boxes",
   },
   {
-    title: "GPS + Video",
-    description: "Trackers, dashcams, and sensor inputs",
+    title: "Connected Visibility",
+    description: "Tracking, video, and sensor workflows",
     icon: "route",
   },
   {
-    title: "Operational Fit",
-    description: "Visibility, safety, and review workflows",
+    title: "Operational Control",
+    description: "Safety, compliance, and review coverage",
     icon: "shield",
   },
   {
-    title: "Deployment Ready",
-    description: "Hardware planning before rollout",
+    title: "Rollout Support",
+    description: "Planning before deployment starts",
     icon: "wrench",
   },
 ] as const;
 
 export const buyingPrioritiesContent = {
-  eyebrow: "Buying Priorities",
-  heading: "Designed for how fleet decisions actually get made",
+  eyebrow: "B2B Solution Planning",
+  heading: "Built around how enterprise fleet decisions actually get made",
   description:
-    "Operations, safety, deployment, and procurement all need to understand hardware fit quickly before rollout starts.",
+    "Track Fleetio is positioned for the teams that need to align operations, safety, deployment, and procurement before a rollout moves forward.",
   highlights: [
     "Operations review",
     "Safety workflows",
@@ -151,10 +159,10 @@ export const buyingPrioritiesContent = {
 } as const;
 
 export const hardwareEcosystemContent = {
-  eyebrow: "Hardware Ecosystem",
-  heading: "Fleet Hardware Built for Reliability",
+  eyebrow: "Solution Stack",
+  heading: "Hardware that supports the full fleet solution",
   description:
-    "Trackers, dashcams, asset devices, and sensors built around the same hardware system.",
+    "Use the catalog to review the device layer behind each deployment, from telematics and video to mobile asset and condition monitoring.",
   cards: [
     {
       category: "Telematics Device",
@@ -227,20 +235,20 @@ export const hardwareEcosystemContent = {
       lightMedia: true,
     },
   ] satisfies HomepageHardwareCard[],
-  cta: { label: "Explore Hardware", href: "/products" },
+  cta: { label: "View Hardware Stack", href: "/products" },
 } as const;
 
 export const fieldUseCasesContent = {
-  eyebrow: "Field Use Cases",
-  heading: "What teams actually use it for",
+  eyebrow: "Solution Workflows",
+  heading: "Solutions built around real fleet workflows",
   description:
-    "Start with the workflows buyers usually ask about first: event review and trailer or asset tracking without complex installs.",
+    "Start with the operational workflows buyers ask about first, then map the right hardware and rollout model behind them.",
   cards: [
     {
       title: "Detect harsh braking and review footage",
       description:
         "Safety teams can catch the event, review the clip, and follow up without relying on incomplete field reports.",
-      ctaLabel: "View Solutions",
+      ctaLabel: "Explore Monitoring Solution",
       ctaHref: "/solutions/monitoring-systems",
       media: "video",
     },
@@ -248,8 +256,8 @@ export const fieldUseCasesContent = {
       title: "Track trailers without vehicle power",
       description:
         "Battery-powered trackers keep trailers and portable assets visible when hardwired installation is not practical.",
-      ctaLabel: "Explore Asset Tracking",
-      ctaHref: "/products/asset-tracking-device",
+      ctaLabel: "View Logistics Use Case",
+      ctaHref: "/industries/logistics",
       media: "image",
       imageSrc: "/Products/product3.png",
       imageAlt: "Battery-powered asset tracking device",
@@ -259,10 +267,10 @@ export const fieldUseCasesContent = {
 } as const;
 
 export const resultsContent = {
-  eyebrow: "What Teams Track",
-  heading: ["What teams track", "in the field"],
+  eyebrow: "Business Outcomes",
+  heading: ["What B2B teams improve", "after rollout"],
   description:
-    "Fleet hardware only matters if it improves review speed, asset visibility, recovery readiness, and day-to-day response.",
+    "The hardware layer matters because it changes how quickly teams respond, review, recover, and manage daily fleet activity.",
   outcomes: [
     {
       number: "01",
@@ -289,9 +297,9 @@ export const resultsContent = {
 
 export const architectureContent = {
   eyebrow: "How It Works",
-  heading: "How the system works",
+  heading: "From hardware deployment to operational control",
   description:
-    "Install hardware, stream data, get alerts, and connect the systems your team already works in.",
+    "Plan the device mix, connect the data flow, and support the workflows your team already runs across operations and reporting.",
   layers: [
     {
       id: "hardware",
@@ -329,10 +337,10 @@ export const architectureContent = {
 } as const;
 
 export const homeIndustriesContent = {
-  eyebrow: "Industry Coverage",
-  heading: "Industries",
+  eyebrow: "Industry Solutions",
+  heading: "Solutions shaped around each operating environment",
   description:
-    "Choose the hardware setup that matches route pressure, asset exposure, and compliance needs.",
+    "Each industry needs a different mix of visibility, safety, sensing, and deployment planning.",
   featured: {
     href: "/industries/logistics",
     imageSrc: "/Products/logistics.png",
@@ -402,11 +410,11 @@ export const homeIndustriesContent = {
 } as const;
 
 export const whyTrackFleetioContent = {
-  eyebrow: "Deployment Reality",
-  heading: "What rollout actually depends on",
+  eyebrow: "Why Track Fleetio",
+  heading: "Why B2B teams choose a solution-led rollout",
   description:
-    "Fleet hardware is easy to oversell and hard to deploy. What matters is whether it fits real vehicles, workflows, and operating conditions.",
-  transition: "A buying decision only works if deployment holds up after the demo.",
+    "Fleet technology is easy to oversell and hard to deploy. What matters is whether the solution fits real vehicles, workflows, and operating conditions.",
+  transition: "A B2B buying decision only works if deployment still makes sense after the demo.",
   benefits: [
     {
       number: "01",
@@ -435,27 +443,57 @@ export const whyTrackFleetioContent = {
 } as const;
 
 export const homepageCtaContent = {
-  eyebrow: "Next Step",
-  heading: "Plan the right hardware setup for your fleet.",
+  eyebrow: "Plan Your Rollout",
+  heading: "Build a fleet solution that fits your operation.",
   description:
-    "Review the hardware catalog, then talk through deployment fit, install needs, and the right device mix for your operation.",
-  primaryCta: { label: "Talk to Sales", href: "/contact" },
-  secondaryCta: { label: "Explore Hardware", href: "/products" },
+    "Review the relevant solutions, then work through deployment fit, install requirements, and the right hardware stack for your fleet.",
+  primaryCta: { label: "Talk to Solutions Team", href: "/contact" },
+  secondaryCta: { label: "Explore Solutions", href: "/solutions" },
   image: {
     src: "/Products/3Products.png",
   },
   metrics: [
     {
-      title: "GPS Trackers",
-      description: "Vehicle and asset visibility",
+      title: "Use-Case Coverage",
+      description: "Tracking, monitoring, and safety workflows",
     },
     {
-      title: "AI Dashcams",
-      description: "Event review and safety workflows",
+      title: "Industry Fit",
+      description: "Logistics, transport, construction, and more",
     },
     {
-      title: "Sensors",
-      description: "Fuel, temperature, and condition monitoring",
+      title: "Deployment Support",
+      description: "Planning from consultation to rollout",
     },
   ],
+} as const;
+
+export const homepageSupportContent = {
+  eyebrow: "Support & Contact",
+  heading: "We are here to help you 24/7",
+  description:
+    "Reach the right team for solution planning, sales inquiries, and support follow-up.",
+  cards: [
+    {
+      title: "Talk to Us",
+      description: "Quick guidance for your requirements",
+      value: "Contact our team",
+      href: "/contact",
+      icon: "chat",
+    },
+    {
+      title: "Sales Inquiries",
+      description: "Talk through the right solution fit",
+      value: "hello@trackfleetio.com",
+      href: "mailto:hello@trackfleetio.com",
+      icon: "mail",
+    },
+    {
+      title: "Call Us",
+      description: "Direct discussion for deployment planning",
+      value: "+000 000 0520",
+      href: "tel:+000000520",
+      icon: "phone",
+    },
+  ] satisfies HomepageSupportCard[],
 } as const;

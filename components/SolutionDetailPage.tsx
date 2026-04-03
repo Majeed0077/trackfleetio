@@ -14,7 +14,7 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
             <p>{solution.description}</p>
             <div className="products-hero-actions solution-detail-hero-actions">
               <Link className="button button-primary" href="/contact">
-                Request Demo
+                Talk to Solutions Team
               </Link>
             </div>
           </div>
@@ -41,8 +41,8 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
       <section className="content-section industry-solution-section solution-detail-section">
         <div className="container">
           <div className="section-heading section-heading-centered solution-detail-heading">
-            <p className="eyebrow">Hardware Used</p>
-            <h2>Recommended Hardware</h2>
+            <p className="eyebrow">Hardware Stack</p>
+            <h2>Hardware in This Solution</h2>
           </div>
           <div className="catalog-grid industry-hardware-grid solution-hardware-grid">
             {solution.hardware.map((hardware) => (
@@ -55,7 +55,7 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
                   className="button button-outline"
                   href={hardware.productId ? getProductHref(hardware.productId) : "/products"}
                 >
-                  View Product
+                  View Hardware
                 </Link>
               </article>
             ))}
@@ -85,7 +85,7 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
           <div className="cta-panel">
             <h2>{solution.cta}</h2>
             <Link className="button button-primary" href="/contact">
-              Request Demo
+              Request Consultation
             </Link>
           </div>
         </div>

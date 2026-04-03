@@ -3,6 +3,12 @@ export type SolutionCard = {
   description: string;
 };
 
+export type SolutionsOverviewNode = {
+  title: string;
+  href: string;
+  icon: "tracking" | "video" | "monitoring" | "asset" | "industry";
+};
+
 export type SolutionDetail = {
   slug: string;
   title: string;
@@ -765,6 +771,49 @@ export const solutionDirectoryCards = solutionsList.map((solution) => ({
   description: solution.description,
   href: `/solutions/${solution.slug}`,
 }));
+
+export const solutionsOverviewContent = {
+  eyebrow: "Solution Coverage",
+  heading: "Connected solutions across tracking, monitoring, and fleet control",
+  description:
+    "A focused overview of the core solution areas Track Fleetio supports for B2B fleet operations.",
+  nodes: [
+    {
+      title: "Fleet Tracking",
+      href: "/solutions/field-force-management",
+      icon: "tracking",
+    },
+    {
+      title: "Video Telematics",
+      href: "/solutions/monitoring-systems",
+      icon: "video",
+    },
+    {
+      title: "Fuel Monitoring",
+      href: "/solutions/fuel-monitoring-system",
+      icon: "monitoring",
+    },
+    {
+      title: "Asset Visibility",
+      href: "/solutions/parts-tracking",
+      icon: "asset",
+    },
+    {
+      title: "Industry Solutions",
+      href: "/industries",
+      icon: "industry",
+    },
+  ] satisfies SolutionsOverviewNode[],
+  chips: [
+    "Deployment Planning",
+    "Safety Review",
+    "Operational Alerts",
+  ],
+  image: {
+    src: "/Products/3Products.png",
+    alt: "Track Fleetio hardware stack supporting connected fleet solutions",
+  },
+} as const;
 
 export const getSolutionBySlug = (slug: string) =>
   solutionsList.find((solution) => solution.slug === slug);

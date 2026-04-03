@@ -7,7 +7,7 @@ export function generateMetadata(): Metadata {
   return createPageMetadata({
     title: "Contact Track Fleetio",
     description:
-      "Contact Track Fleetio for fleet tracking hardware, AI dashcams, sensors, and deployment support.",
+      "Contact Track Fleetio to discuss the right fleet solution, hardware stack, and rollout plan for your operation.",
     path: "/contact",
   });
 }
