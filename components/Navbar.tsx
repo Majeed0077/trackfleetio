@@ -48,13 +48,14 @@ const themeModeLabels = {
 } as const;
 
 const menuDefinitions = [
-  { key: "products", label: "Products", panelClassName: "nav-menu nav-menu-mega" },
-  { key: "solutions", label: "Solutions", panelClassName: "nav-menu nav-menu-mega" },
-  { key: "industries", label: "Industries", panelClassName: "nav-menu nav-menu-structured" },
-  { key: "company", label: "Company", panelClassName: "nav-menu nav-menu-simple" },
+  { key: "products", label: "Products", href: "/products", panelClassName: "nav-menu nav-menu-mega" },
+  { key: "solutions", label: "Solutions", href: "/solutions", panelClassName: "nav-menu nav-menu-mega" },
+  { key: "industries", label: "Industries", href: "/industries", panelClassName: "nav-menu nav-menu-structured" },
+  { key: "company", label: "Company", href: "/about", panelClassName: "nav-menu nav-menu-simple" },
 ] as const satisfies ReadonlyArray<{
   key: MenuKey;
   label: string;
+  href: string;
   panelClassName: string;
 }>;
 
@@ -282,20 +283,10 @@ export function Navbar() {
     setHoveredMenu(menuKey);
   };
 
-  const openMenuByClick = (menuKey: MenuKey) => {
-    const willOpen = clickedMenu !== menuKey;
-
-    if (clickedMenu === menuKey) {
-      setClickedMenu(null);
-      setHoveredMenu(null);
-      return false;
-    }
-
-    setSearchOpen(false);
-    setAccountOpen(false);
-    setClickedMenu(menuKey);
-    setHoveredMenu(null);
-    return willOpen;
+  const openParentDirectory = (href: string) => {
+    closeMenuNavigation();
+    startRouteLoader();
+    router.push(href);
   };
 
   const moveToSiblingMenu = (menuKey: MenuKey, direction: 1 | -1) => {
@@ -309,7 +300,7 @@ export function Navbar() {
   };
 
   const handleMenuKeyDown =
-    (menuKey: MenuKey) => (event: ReactKeyboardEvent<HTMLButtonElement>) => {
+    (menuKey: MenuKey, href: string) => (event: ReactKeyboardEvent<HTMLButtonElement>) => {
       if (event.key === "ArrowDown") {
         event.preventDefault();
         setClickedMenu(menuKey);
@@ -331,13 +322,7 @@ export function Navbar() {
 
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        const didOpenMenu = openMenuByClick(menuKey);
-
-        if (!isMobile && didOpenMenu) {
-          requestAnimationFrame(() => {
-            focusFirstMenuItem(menuKey);
-          });
-        }
+        openParentDirectory(href);
       }
 
       if (event.key === "Escape") {
@@ -626,9 +611,9 @@ export function Navbar() {
                       aria-expanded={isOpen ? "true" : "false"}
                       aria-haspopup="true"
                       aria-controls={`nav-menu-${menuItem.key}`}
-                      onClick={() => openMenuByClick(menuItem.key)}
+                      onClick={() => openParentDirectory(menuItem.href)}
                       onFocus={() => openMenuByFocus(menuItem.key)}
-                      onKeyDown={handleMenuKeyDown(menuItem.key)}
+                      onKeyDown={handleMenuKeyDown(menuItem.key, menuItem.href)}
                       ref={(node) => {
                         menuButtonRefs.current[menuItem.key] = node;
                       }}

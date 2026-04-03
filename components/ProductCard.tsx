@@ -20,6 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
   const toggleWishlist = useAppStore((state) => state.toggleWishlist);
   const wishlist = useAppStore((state) => state.wishlist);
   const isSaved = hasHydrated && wishlist.includes(product.id);
+  const topFeatures = product.features.slice(0, 3);
 
   return (
     <article
@@ -73,13 +74,13 @@ export function ProductCard({ product }: { product: Product }) {
       </h3>
       <p className="product-specs">{product.specs.join(" | ")}</p>
       <ul className="catalog-card-list">
-        {product.features.map((feature) => (
+        {topFeatures.map((feature) => (
           <li key={`${product.id}-${feature}`}>{feature}</li>
         ))}
       </ul>
       <div className="catalog-card-actions">
         <button
-          className="button button-primary"
+          className="button button-primary catalog-card-buy-now"
           type="button"
           onClick={() => {
             startImmediateCheckout(product.id);
@@ -89,8 +90,8 @@ export function ProductCard({ product }: { product: Product }) {
         >
           Buy Now
         </button>
-        <Link className="catalog-card-detail-link" href={getProductHref(product.id)}>
-          View Details <span aria-hidden="true">&rarr;</span>
+        <Link className="button button-primary catalog-card-primary-link" href={getProductHref(product.id)}>
+          View Details
         </Link>
       </div>
     </article>
