@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
 import { ProductCard } from "@/components/ProductCard";
@@ -41,11 +40,6 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
             <span className="products-badge">Enterprise Hardware / Product Catalog</span>
             <h1>Fleet Hardware Catalog</h1>
             <p>Enterprise-grade tracking, sensing and video telematics devices.</p>
-            <div className="products-hero-actions">
-              <Link className="button button-primary" href="/contact">
-                Request Demo
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -92,17 +86,6 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
             >
               Load more products <span aria-hidden="true">&rarr;</span>
             </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section section-cta catalog-cta">
-        <div className="container">
-          <div className="cta-panel">
-            <h2>Need help choosing hardware?</h2>
-            <Link className="button button-primary" href="/contact">
-              Request Demo
-            </Link>
           </div>
         </div>
       </section>

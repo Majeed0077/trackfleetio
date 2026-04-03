@@ -32,11 +32,7 @@ export function Footer() {
         <section className="footer-editorial-intro" aria-label="Footer overview">
           <div className="footer-editorial-copy">
             <p className="footer-editorial-eyebrow">{footerEditorialContent.eyebrow}</p>
-            <h2>
-              {footerEditorialContent.headingLines.map((line) => (
-                <span className="footer-editorial-line" key={line}>{line}</span>
-              ))}
-            </h2>
+            <h2>{footerEditorialContent.heading}</h2>
             <p>{footerEditorialContent.description}</p>
           </div>
 

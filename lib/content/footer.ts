@@ -8,10 +8,7 @@ export type FooterLinkGroup = {
 
 export const footerEditorialContent = {
   eyebrow: "Track Fleetio",
-  headingLines: [
-    "Fleet hardware for teams that need",
-    "visibility without compromise.",
-  ],
+  heading: "Fleet hardware for teams that need visibility without compromise.",
   description:
     "Tracking devices, video telematics, and sensors designed for rollout, day-to-day control, and support after deployment.",
   contactEmail: "hello@trackfleetio.com",

@@ -90,7 +90,7 @@ export function ProductCard({ product }: { product: Product }) {
         >
           Buy Now
         </button>
-        <Link className="button button-primary catalog-card-primary-link" href={getProductHref(product.id)}>
+        <Link className="button button-secondary catalog-card-secondary-link" href={getProductHref(product.id)}>
           View Details
         </Link>
       </div>

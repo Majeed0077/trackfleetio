@@ -46,7 +46,7 @@ export default function AdminContentFooterPage() {
               <AdminTextInput type="text" defaultValue={footerEditorialContent.eyebrow} />
             </AdminFieldGroup>
             <AdminFieldGroup label="Headline">
-              <AdminTextarea defaultValue={footerEditorialContent.headingLines.join("\n")} />
+              <AdminTextarea defaultValue={footerEditorialContent.heading} />
             </AdminFieldGroup>
             <AdminFieldGroup label="Description">
               <AdminTextarea defaultValue={footerEditorialContent.description} />
