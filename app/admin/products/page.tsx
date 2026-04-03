@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { AdminPageHeader, AdminTable, AdminTableCard, AdminToolbar, AdminStatusBadge } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminProducts } from "@/lib/admin";
+import { productsList } from "@/data/products";
 
 export default function AdminProductsPage() {
   return (
@@ -40,6 +41,31 @@ export default function AdminProductsPage() {
               <td>{product.price}</td>
               <td><AdminStatusBadge value={product.status} /></td>
               <td><div className={styles.adminActionsInline}><Link className={styles.adminTextLink} href="/admin/product-form">Edit</Link><button className={styles.adminTextLink} type="button">Archive</button></div></td>
+            </tr>
+          ))}
+        />
+      </AdminTableCard>
+
+      <AdminTableCard
+        title="Actual storefront content coverage"
+        description="Real product entries already rendered by catalog and detail pages. This is the content inventory you will want the API to own later."
+      >
+        <AdminTable
+          headers={["Product", "ID", "Category", "Specs", "Features", "Use Cases", "Gallery"]}
+          rows={productsList.map((product) => (
+            <tr key={product.id}>
+              <td>
+                <div className={styles.adminInlineStack}>
+                  <span className={styles.adminTableTitle}>{product.title}</span>
+                  <small>{product.shortDescription}</small>
+                </div>
+              </td>
+              <td>{product.id}</td>
+              <td>{product.categoryLabel}</td>
+              <td>{product.specs.length}</td>
+              <td>{product.features.length}</td>
+              <td>{product.useCases.length}</td>
+              <td>{product.gallery.length}</td>
             </tr>
           ))}
         />

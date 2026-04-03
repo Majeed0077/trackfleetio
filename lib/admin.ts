@@ -1,3 +1,7 @@
+import { footerLinkGroups } from "@/lib/content/footer";
+import { homepageSectionRegistry } from "@/lib/content/homepage";
+import { primaryNavigationItems } from "@/lib/content/navigation";
+
 export type AdminIconKey =
   | "grid"
   | "chart"
@@ -10,6 +14,8 @@ export type AdminIconKey =
   | "menu"
   | "columns"
   | "image"
+  | "file-text"
+  | "briefcase"
   | "settings"
   | "shield"
   | "bell"
@@ -43,6 +49,8 @@ export const adminNavSections: Array<{
     items: [
       { key: "content-homepage", label: "Homepage", href: "/admin/content/homepage", icon: "home" },
       { key: "content-navigation", label: "Navigation", href: "/admin/content/navigation", icon: "menu" },
+      { key: "content-solutions", label: "Solutions", href: "/admin/content/solutions", icon: "file-text" },
+      { key: "content-industries", label: "Industries", href: "/admin/content/industries", icon: "briefcase" },
       { key: "content-footer", label: "Footer", href: "/admin/content/footer", icon: "columns" },
       { key: "media", label: "Banners / Media", href: "/admin/media", icon: "image" },
     ],
@@ -73,6 +81,8 @@ export const adminPageInfo: Record<
   "/admin/customers": { title: "Customers", section: "Main" },
   "/admin/content/homepage": { title: "Homepage Content", section: "Content" },
   "/admin/content/navigation": { title: "Navigation Content", section: "Content" },
+  "/admin/content/solutions": { title: "Solutions Content", section: "Content" },
+  "/admin/content/industries": { title: "Industries Content", section: "Content" },
   "/admin/content/footer": { title: "Footer Content", section: "Content" },
   "/admin/media": { title: "Banners / Media", section: "Content" },
   "/admin/settings": { title: "Site Settings", section: "System" },
@@ -271,29 +281,14 @@ export const adminMedia = [
   { name: "sensor-device.png", meta: "Product / Sensor", image: "/Products/product1.png" },
 ] as const;
 
-export const adminHomepageSections = [
-  { title: "Hero", desc: "Headline, subtext, primary CTA, device collage.", visible: true, status: "Live" },
-  { title: "Metrics", desc: "Trust metrics strip under hero with operational proof points.", visible: true, status: "Live" },
-  { title: "Trust Logos", desc: "Client rail and enterprise operator proof.", visible: true, status: "Live" },
-  { title: "Industries", desc: "Primary industry block and supporting cards.", visible: true, status: "Live" },
-  { title: "Why Track Fleetio", desc: "Differentiator cards and value narrative.", visible: true, status: "Review" },
-  { title: "Results", desc: "Outcomes and operational improvement section.", visible: true, status: "Live" },
-  { title: "CTA Section", desc: "Final conversion band before footer.", visible: true, status: "Live" },
-] as const;
+export const adminHomepageSections = homepageSectionRegistry;
 
-export const adminNavigationItems = [
-  { label: "Home", link: "/", order: 1, visibility: "Visible" },
-  { label: "Products", link: "/products", order: 2, visibility: "Visible" },
-  { label: "Solutions", link: "/solutions", order: 3, visibility: "Visible" },
-  { label: "Industries", link: "/industries", order: 4, visibility: "Visible" },
-  { label: "Company", link: "/about", order: 5, visibility: "Visible" },
-] as const;
+export const adminNavigationItems = primaryNavigationItems;
 
-export const adminFooterGroups = [
-  { title: "Products", links: "GPS Trackers, AI Dashcams, Sensors, Accessories" },
-  { title: "Solutions", links: "Fleet Management, Compliance, Operations Intelligence" },
-  { title: "Support", links: "Order Status, Documentation, Help Center, Contact Support" },
-] as const;
+export const adminFooterGroups = footerLinkGroups.map((group) => ({
+  title: group.title,
+  links: group.links.map((link) => link.label).join(", "),
+})) as ReadonlyArray<{ title: string; links: string }>;
 
 export const adminNotificationItems = [
   { title: "Low stock alerts", description: "Notify ops when inventory falls below thresholds.", enabled: true },

@@ -1,5 +1,6 @@
 import { Cable, Gauge, Radar, ServerCog } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { architectureContent } from "@/lib/content/homepage";
 
 type ArchitectureLayer = {
   id: string;
@@ -11,52 +12,26 @@ type ArchitectureLayer = {
   highlighted?: boolean;
 };
 
-const architectureLayers: ArchitectureLayer[] = [
-  {
-    id: "hardware",
-    label: "Layer 01",
-    title: "On-Vehicle Hardware",
-    description: "GPS trackers, AI dashcams, sensors, and OBD/CAN visibility hardware.",
-    connector: "LTE / CAN",
-    icon: Gauge,
-    highlighted: true,
-  },
-  {
-    id: "edge",
-    label: "Layer 02",
-    title: "Edge Connectivity",
-    description: "Live telemetry, event delivery, firmware updates, and routing from the field.",
-    connector: "Secure\nStream",
-    icon: Cable,
-  },
-  {
-    id: "platform",
-    label: "Layer 03",
-    title: "Fleet Intelligence",
-    description: "Alerts, dashboards, analytics, video review, and operational control.",
-    connector: "REST / API",
-    icon: ServerCog,
-  },
-  {
-    id: "operations",
-    label: "Layer 04",
-    title: "Business Operations",
-    description: "Dispatch, compliance, reporting, ERP workflows, and customer systems.",
-    icon: Radar,
-  },
-] as const;
+const iconMap: Record<string, LucideIcon> = {
+  gauge: Gauge,
+  cable: Cable,
+  "server-cog": ServerCog,
+  radar: Radar,
+};
+
+const architectureLayers: ArchitectureLayer[] = architectureContent.layers.map((layer) => ({
+  ...layer,
+  icon: iconMap[layer.icon],
+}));
 
 export function FleetArchitectureSection() {
   return (
     <section className="content-section section-architecture" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered architecture-heading">
-          <p className="eyebrow">Fleet Stack</p>
-          <h2>Fleet Intelligence Architecture</h2>
-          <p>
-            A connected system from vehicle hardware to analytics, alerts, and operational
-            workflows.
-          </p>
+          <p className="eyebrow">{architectureContent.eyebrow}</p>
+          <h2>{architectureContent.heading}</h2>
+          <p>{architectureContent.description}</p>
         </div>
 
         <div className="architecture-shell" data-reveal-group>

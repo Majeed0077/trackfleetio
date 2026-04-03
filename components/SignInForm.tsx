@@ -8,16 +8,9 @@ import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { SocialAuthButtons } from "@/components/SocialAuthButtons";
 import { TrustFooter } from "@/components/TrustFooter";
+import { getPostLoginPath } from "@/lib/demo-auth";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
-
-const getSafeRedirectPath = (value: string | null) => {
-  if (!value || !value.startsWith("/") || value.startsWith("//") || value.startsWith("/admin")) {
-    return "";
-  }
-
-  return value;
-};
 
 export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
   const router = useRouter();
@@ -124,7 +117,7 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
 
             setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
             startRouteLoader();
-            router.push(getSafeRedirectPath(redirectPath) || "/");
+            router.replace(getPostLoginPath(payload.user as { role?: string }, redirectPath));
           } catch {
             setStatusTone("error");
             setStatusMessage("Unable to reach the sign-in service.");

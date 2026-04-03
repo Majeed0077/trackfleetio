@@ -1,3 +1,4 @@
+import { DEMO_ACCESS_MESSAGE } from "@/lib/demo-auth";
 import { authCookieConfig, authenticateDemoUser, createSessionToken, createSignedUser, getSessionUser } from "@/lib/auth";
 import type { AuthUser } from "@/store/store";
 
@@ -32,8 +33,7 @@ export const loginDemoUser = async (input: LoginInput) => {
     return {
       ok: false as const,
       status: 401,
-      message:
-        "Use demo@trackfleetio.com / TrackFleet123 or admin@trackfleetio.com / Admin123! for demo access.",
+      message: DEMO_ACCESS_MESSAGE,
     };
   }
 

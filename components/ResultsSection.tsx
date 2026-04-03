@@ -1,29 +1,5 @@
 import styles from "./ResultsSection.module.css";
-
-const outcomes = [
-  {
-    number: "01",
-    title: "Reduce incident blind spots",
-    description:
-      "Capture events, footage, and field context without relying on incomplete reports.",
-  },
-  {
-    number: "02",
-    title: "Protect high-value mobile assets",
-    description:
-      "Track trailers, cargo, and equipment across active operations with full visibility.",
-  },
-  {
-    number: "03",
-    title: "Improve driver accountability",
-    description: "Review behavior with event-based footage and actionable context.",
-  },
-  {
-    number: "04",
-    title: "Respond faster in the field",
-    description: "Turn alerts into decisions across safety, compliance, and operations.",
-  },
-];
+import { resultsContent } from "@/lib/content/homepage";
 
 export function ResultsSection() {
   return (
@@ -31,20 +7,17 @@ export function ResultsSection() {
       <div className="container">
         <div className={styles.shell}>
           <div className={styles.intro}>
-            <p className={styles.eyebrow}>Operational Outcomes</p>
+            <p className={styles.eyebrow}>{resultsContent.eyebrow}</p>
             <h2 className={styles.heading}>
-              Results that show up
+              {resultsContent.heading[0]}
               <br />
-              in the field
+              {resultsContent.heading[1]}
             </h2>
-            <p className={styles.copy}>
-              From driver behavior to asset tracking, the system is designed to improve visibility,
-              response time, and control across real-world fleet operations.
-            </p>
+            <p className={styles.copy}>{resultsContent.description}</p>
           </div>
 
           <ol className={styles.list} data-reveal-group>
-            {outcomes.map((outcome) => (
+            {resultsContent.outcomes.map((outcome) => (
               <li className={styles.row} key={outcome.number} data-reveal-item>
                 <span className={styles.number}>{outcome.number}</span>
                 <div className={styles.content}>

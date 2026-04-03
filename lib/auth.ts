@@ -1,5 +1,11 @@
 import { cookies } from "next/headers";
 
+import {
+  DEMO_ADMIN_EMAIL,
+  DEMO_ADMIN_PASSWORD,
+  DEMO_USER_EMAIL,
+  DEMO_USER_PASSWORD,
+} from "@/lib/demo-auth";
 import type { AuthUser } from "@/store/store";
 
 export const AUTH_COOKIE_NAME = "trackfleetio_session";
@@ -18,8 +24,8 @@ const DEMO_ACCOUNTS: DemoAccount[] = [
   {
     isAuthenticated: true,
     name: "Track Fleetio Demo",
-    email: "demo@trackfleetio.com",
-    password: "TrackFleet123",
+    email: DEMO_USER_EMAIL,
+    password: DEMO_USER_PASSWORD,
     role: "user",
     roleLabel: "Operations Lead, Track Fleetio",
     company: "Track Fleetio",
@@ -28,8 +34,8 @@ const DEMO_ACCOUNTS: DemoAccount[] = [
   {
     isAuthenticated: true,
     name: "Admin Operator",
-    email: "admin@trackfleetio.com",
-    password: "Admin123!",
+    email: DEMO_ADMIN_EMAIL,
+    password: DEMO_ADMIN_PASSWORD,
     role: "admin",
     roleLabel: "Super Admin",
     company: "Track Fleetio",

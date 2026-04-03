@@ -21,7 +21,17 @@ import {
   useStoreHydrated,
   useSystemTheme,
 } from "@/store/store";
+import { SSR_THEME_FALLBACK } from "@/lib/theme";
 import { startRouteLoader } from "@/lib/route-loader";
+import {
+  companyMenuLinks,
+  industriesMenuLinks,
+  navigationUtilityLabels,
+  productMenuColumns,
+  productsMenuFeaturedPanel,
+  solutionsMenuColumns,
+  solutionsMenuFeaturedPanel,
+} from "@/lib/content/navigation";
 
 type MenuKey = "products" | "solutions" | "industries" | "company";
 type ViewTransitionHandle = {
@@ -31,99 +41,11 @@ type DocumentWithViewTransition = Document & {
   startViewTransition?: (callback: () => void) => ViewTransitionHandle;
 };
 
-const getProductsSearchHref = (query: string) => `/products?q=${encodeURIComponent(query)}`;
 const menuKeys: MenuKey[] = ["products", "solutions", "industries", "company"];
-const desktopMenuDestinations: Record<MenuKey, string> = {
-  products: "/products",
-  solutions: "/solutions",
-  industries: "/industries",
-  company: "/about",
-};
 const themeModeLabels = {
   light: "Light",
   dark: "Dark",
 } as const;
-
-const productColumns = [
-  {
-    label: "Tracking Devices",
-    links: [
-      { title: "2G GPS Devices", href: getProductsSearchHref("2G GPS Device") },
-      { title: "4G GPS Devices", href: getProductsSearchHref("4G GPS Device") },
-      { title: "GPS Tracker", href: getProductsSearchHref("GPS Tracker") },
-      { title: "Asset Trackers", href: getProductsSearchHref("Asset") },
-      { title: "PET Tracker", href: getProductsSearchHref("PET") },
-      { title: "Smart Watch", href: getProductsSearchHref("Watch") },
-    ],
-  },
-  {
-    label: "Video Telematics",
-    links: [
-      { title: "AI Dashcams", href: getProductsSearchHref("Dashcam") },
-      { title: "AI MDVR", href: getProductsSearchHref("MDVR") },
-      { title: "DVR Systems", href: getProductsSearchHref("DVR") },
-      { title: "Camera Systems", href: getProductsSearchHref("Camera") },
-    ],
-  },
-  {
-    label: "Sensors & Accessories",
-    links: [
-      { title: "Fuel Sensors", href: getProductsSearchHref("Fuel Sensors") },
-      { title: "Temperature Sensors", href: getProductsSearchHref("Temperature Sensors") },
-      { title: "TPMS", href: getProductsSearchHref("TPMS") },
-      { title: "Load Sensors", href: getProductsSearchHref("Axle Load Sensor") },
-      { title: "Harness", href: getProductsSearchHref("Harness") },
-      { title: "Relays", href: getProductsSearchHref("Relays") },
-    ],
-  },
-];
-
-const solutionColumns = [
-  {
-    label: "Monitoring Systems",
-    links: [
-      { title: "Fuel Monitoring System", href: "/solutions/fuel-monitoring-system" },
-      { title: "Temperature Monitoring System", href: "/solutions/temperature-monitoring-system" },
-      { title: "Tire Pressure Monitoring System", href: "/solutions/tire-pressure-monitoring-system" },
-      { title: "Water Management System", href: "/solutions/water-management-system" },
-    ],
-  },
-  {
-    label: "Fleet Operations",
-    links: [
-      { title: "Field Force Management", href: "/solutions/field-force-management" },
-      { title: "School Bus Tracking", href: "/solutions/school-bus-tracking" },
-      { title: "Smart Waste Collection Tracking", href: "/solutions/smart-waste-collection-tracking" },
-      { title: "Parts Tracking", href: "/solutions/parts-tracking" },
-      { title: "Indoor Tracking", href: "/solutions/indoor-tracking" },
-    ],
-  },
-  {
-    label: "Advanced Mobility",
-    links: [
-      { title: "LoRaWAN Technology", href: "/solutions/lorawan-technology" },
-      { title: "Public Transport Business Solution", href: "/solutions/public-transport-business-solution" },
-      { title: "Electric Vehicle Management", href: "/solutions/electric-vehicle-management" },
-      { title: "Oil Tanker Monitoring Solutions", href: "/solutions/oil-tanker-monitoring-solutions" },
-    ],
-  },
-];
-
-const industryLinks = [
-  { title: "Transportation", href: "/industries/transportation" },
-  { title: "Logistics", href: "/industries/logistics" },
-  { title: "Construction", href: "/industries/construction" },
-  { title: "Manufacturing", href: "/industries/manufacturing" },
-  { title: "Farming", href: "/industries/farming" },
-  { title: "Public Transport", href: "/industries/public-transport" },
-];
-
-const companyLinks = [
-  { title: "About", href: "/about" },
-  { title: "Careers", href: "/careers" },
-  { title: "Partners", href: "/partners" },
-  { title: "Contact", href: "/contact" },
-];
 
 const menuDefinitions = [
   { key: "products", label: "Products", panelClassName: "nav-menu nav-menu-mega" },
@@ -323,13 +245,15 @@ export function Navbar() {
   const resolvedAuthUser = hasHydrated ? authUser : null;
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
-    : systemTheme;
+    : SSR_THEME_FALLBACK;
   const resolvedCartCount = hasHydrated ? cartCount : 0;
-  const resolvedThemeMode = hasHydrated ? themeMode : "system";
-  const nextThemeMode = getNextThemeMode(resolvedThemeMode, systemTheme);
+  const nextThemeMode = hasHydrated
+    ? getNextThemeMode(themeMode, systemTheme)
+    : "light";
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
   const currentThemeModeLabel = themeModeLabels[resolvedTheme];
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
+  const authUiReady = hasHydrated;
 
   const focusMenuButton = (menuKey: MenuKey) => {
     menuButtonRefs.current[menuKey]?.focus();
@@ -359,21 +283,19 @@ export function Navbar() {
   };
 
   const openMenuByClick = (menuKey: MenuKey) => {
-    if (!isMobile) {
-      closeMenuNavigation();
-      startRouteLoader();
-      router.push(desktopMenuDestinations[menuKey]);
-      return;
-    }
+    const willOpen = clickedMenu !== menuKey;
 
     if (clickedMenu === menuKey) {
       setClickedMenu(null);
       setHoveredMenu(null);
-      return;
+      return false;
     }
 
+    setSearchOpen(false);
+    setAccountOpen(false);
     setClickedMenu(menuKey);
     setHoveredMenu(null);
+    return willOpen;
   };
 
   const moveToSiblingMenu = (menuKey: MenuKey, direction: 1 | -1) => {
@@ -409,15 +331,13 @@ export function Navbar() {
 
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
+        const didOpenMenu = openMenuByClick(menuKey);
 
-        if (!isMobile) {
-          closeMenuNavigation();
-          startRouteLoader();
-          router.push(desktopMenuDestinations[menuKey]);
-          return;
+        if (!isMobile && didOpenMenu) {
+          requestAnimationFrame(() => {
+            focusFirstMenuItem(menuKey);
+          });
         }
-
-        openMenuByClick(menuKey);
       }
 
       if (event.key === "Escape") {
@@ -450,7 +370,7 @@ export function Navbar() {
           <div className="nav-menu-surface">
             <div className="nav-menu-layout">
               <div className="nav-menu-columns nav-menu-columns-products">
-                {productColumns.map((column) => (
+                {productMenuColumns.map((column) => (
                   <div className="nav-menu-column" key={column.label}>
                     <p className="nav-menu-label">{column.label}</p>
                     <div className="nav-menu-links">
@@ -475,20 +395,18 @@ export function Navbar() {
               </div>
 
               <aside className="nav-menu-panel">
-                <p className="nav-menu-panel-label">Featured Hardware</p>
-                <h3 className="nav-menu-panel-title">4G GPS Tracker</h3>
-                <p className="nav-menu-panel-copy">
-                  Reliable live fleet tracking hardware for modern telematics visibility.
-                </p>
-                <Link className="nav-menu-panel-link" href="/products" onClick={closeMenuNavigation}>
-                  Explore Hardware <span aria-hidden="true">&rarr;</span>
+                <p className="nav-menu-panel-label">{productsMenuFeaturedPanel.label}</p>
+                <h3 className="nav-menu-panel-title">{productsMenuFeaturedPanel.title}</h3>
+                <p className="nav-menu-panel-copy">{productsMenuFeaturedPanel.description}</p>
+                <Link className="nav-menu-panel-link" href={productsMenuFeaturedPanel.ctaHref} onClick={closeMenuNavigation}>
+                  {productsMenuFeaturedPanel.ctaLabel} <span aria-hidden="true">&rarr;</span>
                 </Link>
               </aside>
             </div>
 
             <div className="nav-menu-footer">
-              <Link className="nav-menu-footer-link" href="/products" onClick={closeMenuNavigation}>
-                Explore Hardware <span aria-hidden="true">&rarr;</span>
+              <Link className="nav-menu-footer-link" href={productsMenuFeaturedPanel.footerCtaHref} onClick={closeMenuNavigation}>
+                {productsMenuFeaturedPanel.footerCtaLabel} <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
@@ -499,7 +417,7 @@ export function Navbar() {
           <div className="nav-menu-surface">
             <div className="nav-menu-layout">
               <div className="nav-menu-columns nav-menu-columns-solutions">
-                {solutionColumns.map((column) => (
+                {solutionsMenuColumns.map((column) => (
                   <div className="nav-menu-column" key={column.label}>
                     <p className="nav-menu-label">{column.label}</p>
                     <div className="nav-menu-links">
@@ -519,20 +437,18 @@ export function Navbar() {
               </div>
 
               <aside className="nav-menu-panel">
-                <p className="nav-menu-panel-label">Operational Visibility</p>
-                <h3 className="nav-menu-panel-title">Connected Fleet Control</h3>
-                <p className="nav-menu-panel-copy">
-                  Connected monitoring and intelligent tracking solutions for high-control fleet operations.
-                </p>
-                <Link className="nav-menu-panel-link" href="/solutions" onClick={closeMenuNavigation}>
-                  Explore Solutions <span aria-hidden="true">&rarr;</span>
+                <p className="nav-menu-panel-label">{solutionsMenuFeaturedPanel.label}</p>
+                <h3 className="nav-menu-panel-title">{solutionsMenuFeaturedPanel.title}</h3>
+                <p className="nav-menu-panel-copy">{solutionsMenuFeaturedPanel.description}</p>
+                <Link className="nav-menu-panel-link" href={solutionsMenuFeaturedPanel.ctaHref} onClick={closeMenuNavigation}>
+                  {solutionsMenuFeaturedPanel.ctaLabel} <span aria-hidden="true">&rarr;</span>
                 </Link>
               </aside>
             </div>
 
             <div className="nav-menu-footer">
-              <Link className="nav-menu-footer-link" href="/solutions" onClick={closeMenuNavigation}>
-                View all solutions <span aria-hidden="true">&rarr;</span>
+              <Link className="nav-menu-footer-link" href={solutionsMenuFeaturedPanel.footerCtaHref} onClick={closeMenuNavigation}>
+                {solutionsMenuFeaturedPanel.footerCtaLabel} <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
@@ -546,7 +462,7 @@ export function Navbar() {
               <p className="nav-menu-helper">Built for sector-specific fleet operations.</p>
             </div>
             <div className="nav-menu-grid-links">
-              {industryLinks.map((linkItem) => (
+              {industriesMenuLinks.map((linkItem) => (
                 <Link
                   key={linkItem.title}
                   className="nav-menu-link"
@@ -564,7 +480,7 @@ export function Navbar() {
         return (
           <div className="nav-menu-surface">
             <div className="nav-menu-links nav-menu-links-simple">
-              {companyLinks.map((linkItem) => (
+              {companyMenuLinks.map((linkItem) => (
                 <Link
                   key={linkItem.title}
                   className="nav-menu-link"
@@ -706,7 +622,7 @@ export function Navbar() {
                       id={`nav-trigger-${menuItem.key}`}
                       type="button"
                       role="menuitem"
-                      aria-label={`Open ${menuItem.label} menu`}
+                      aria-label={`${isOpen ? "Close" : "Open"} ${menuItem.label} menu`}
                       aria-expanded={isOpen ? "true" : "false"}
                       aria-haspopup="true"
                       aria-controls={`nav-menu-${menuItem.key}`}
@@ -734,13 +650,13 @@ export function Navbar() {
                 );
               })}
 
-              {!resolvedAuthUser ? (
+              {authUiReady && !resolvedAuthUser ? (
                 <div className="nav-mobile-auth">
                   <Link className="button button-secondary nav-auth-button" href="/signin">
-                    Sign in
+                    {navigationUtilityLabels.signIn}
                   </Link>
                   <Link className="button button-primary nav-auth-button" href="/signup">
-                    Create account
+                    {navigationUtilityLabels.createAccount}
                   </Link>
                 </div>
               ) : null}
@@ -769,14 +685,14 @@ export function Navbar() {
                   }}
                 >
                   <label className="sr-only" htmlFor="nav-search-input">
-                    Search products, devices...
+                    {navigationUtilityLabels.searchPlaceholder}
                   </label>
                   <input
                     className="nav-search-input"
                     id="nav-search-input"
                     name="q"
                     type="search"
-                    placeholder="Search products, devices..."
+                    placeholder={navigationUtilityLabels.searchPlaceholder}
                     autoComplete="off"
                     value={currentSearchValue}
                     ref={searchInputRef}
@@ -817,16 +733,17 @@ export function Navbar() {
                   <SunMedium size={18} strokeWidth={1.9} />
                 </span>
               </button>
-              {!resolvedAuthUser ? (
+              {authUiReady ? (
+                !resolvedAuthUser ? (
                 <div className="nav-auth-actions">
                   <Link className="button button-secondary nav-auth-button nav-auth-button-secondary" href="/signin">
-                    Sign in
+                    {navigationUtilityLabels.signIn}
                   </Link>
                   <Link className="button button-primary nav-auth-button" href="/signup">
-                    Create account
+                    {navigationUtilityLabels.createAccount}
                   </Link>
                 </div>
-              ) : (
+                ) : (
                 <div
                   className={`nav-account${accountOpen ? " is-open" : ""}`}
                   data-account-menu
@@ -865,7 +782,7 @@ export function Navbar() {
                         Account Settings
                       </button>
                       <Link className="nav-account-link" href="/contact" role="menuitem">
-                        Support
+                        {navigationUtilityLabels.support}
                       </Link>
                     </div>
                     <div className="nav-account-footer">
@@ -889,7 +806,8 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
-              )}
+                )
+              ) : null}
             </div>
             <button
               className="nav-utility nav-mobile-toggle"

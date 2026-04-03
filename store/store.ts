@@ -9,6 +9,7 @@ import {
   productSummaryLabels,
   type ProductCategory,
 } from "@/data/products";
+import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export type AuthUser = {
   isAuthenticated: true;
@@ -159,7 +160,7 @@ export const normalizeAuthUser = (user: unknown): AuthUser | null => {
 
 export const getSystemTheme = (): ResolvedTheme => {
   if (typeof window === "undefined") {
-    return "dark";
+    return SSR_THEME_FALLBACK;
   }
 
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -419,7 +420,7 @@ export const useAppStore = create<StoreState>()(
       },
     }),
     {
-      name: "trackfleetio-store",
+      name: SITE_STORE_KEY,
       skipHydration: true,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({

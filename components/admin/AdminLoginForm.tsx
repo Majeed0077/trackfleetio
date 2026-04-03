@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import styles from "@/components/admin/Admin.module.css";
+import {
+  DEMO_ADMIN_EMAIL,
+  DEMO_ADMIN_PASSWORD,
+  getSafeAdminRedirectPath,
+} from "@/lib/demo-auth";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
@@ -54,7 +59,7 @@ export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string })
 
               setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
               startRouteLoader();
-              router.push(redirectPath || "/admin/dashboard");
+              router.replace(getSafeAdminRedirectPath(redirectPath));
             } catch {
               setStatusMessage("Unable to reach the admin sign-in service.");
             } finally {
@@ -91,7 +96,7 @@ export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string })
             <p className={`${styles.adminLoginStatus} ${statusMessage ? styles.adminLoginStatusError : ""}`} aria-live="polite">
               {statusMessage}
             </p>
-            <p className={styles.adminLoginDemo}>Demo admin: admin@trackfleetio.com / Admin123!</p>
+            <p className={styles.adminLoginDemo}>Demo admin: {DEMO_ADMIN_EMAIL} / {DEMO_ADMIN_PASSWORD}</p>
           </div>
         </form>
 

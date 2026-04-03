@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { SiteFrame } from "@/components/SiteFrame";
 import { SiteProviders } from "@/components/SiteProviders";
 import { siteMetadataBase } from "@/lib/metadata";
+import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 import "./globals.css";
 
@@ -17,29 +18,27 @@ const themeScript = `
   };
 
   try {
-    const storageValue = localStorage.getItem("trackfleetio-store");
+    const storageValue = localStorage.getItem("${SITE_STORE_KEY}");
     let themeMode = "system";
 
-    if (storageValue) {
-      const parsedValue = JSON.parse(storageValue);
-      const persistedState =
-        parsedValue && typeof parsedValue === "object" && "state" in parsedValue
-          ? parsedValue.state
-          : parsedValue;
+    const parsedValue = JSON.parse(storageValue ?? "null");
+    const persistedState =
+      parsedValue && typeof parsedValue === "object" && "state" in parsedValue
+        ? parsedValue.state
+        : parsedValue;
 
-      if (persistedState && typeof persistedState === "object") {
-        if (
-          persistedState.themeMode === "light" ||
-          persistedState.themeMode === "dark" ||
-          persistedState.themeMode === "system"
-        ) {
-          themeMode = persistedState.themeMode;
-        } else if (
-          persistedState.theme === "light" ||
-          persistedState.theme === "dark"
-        ) {
-          themeMode = persistedState.theme;
-        }
+    if (persistedState && typeof persistedState === "object") {
+      if (
+        persistedState.themeMode === "light" ||
+        persistedState.themeMode === "dark" ||
+        persistedState.themeMode === "system"
+      ) {
+        themeMode = persistedState.themeMode;
+      } else if (
+        persistedState.theme === "light" ||
+        persistedState.theme === "dark"
+      ) {
+        themeMode = persistedState.theme;
       }
     }
 
@@ -84,8 +83,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
-      data-theme-mode="dark"
+      data-theme={SSR_THEME_FALLBACK}
+      data-theme-mode={SSR_THEME_FALLBACK}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

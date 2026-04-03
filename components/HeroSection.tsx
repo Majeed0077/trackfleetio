@@ -1,6 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Headset, ShieldCheck, Smartphone, Truck } from "lucide-react";
+import { Boxes, Route, ShieldCheck, Wrench } from "lucide-react";
+import { heroContent, homepageMetrics } from "@/lib/content/homepage";
+
+const metricIconMap = {
+  boxes: Boxes,
+  route: Route,
+  shield: ShieldCheck,
+  wrench: Wrench,
+} as const;
 
 export function HeroSection() {
   return (
@@ -10,38 +18,34 @@ export function HeroSection() {
           <div className="hero-grid" data-reveal-group>
             <div className="hero-copy" data-reveal-item>
               <h1>
-                Smarter&nbsp;Hardware
+                {heroContent.heading[0].replace(" ", "\u00a0")}
                 <br />
-                for&nbsp;Modern&nbsp;Fleet
+                {heroContent.heading[1].replace(/ /g, "\u00a0")}
                 <br />
-                Operations
+                {heroContent.heading[2]}
               </h1>
-              <p className="hero-text">
-                Track Fleetio provides reliable fleet tracking devices, dash cameras,
-                and asset monitoring hardware to help businesses improve visibility
-                and security.
-              </p>
+              <p className="hero-text">{heroContent.description}</p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href="/contact">
-                  Request Demo
+                <Link className="button button-primary" href={heroContent.primaryCta.href}>
+                  {heroContent.primaryCta.label}
                 </Link>
-                <Link className="button button-secondary" href="#hardware">
-                  Explore Hardware
+                <Link className="button button-secondary" href={heroContent.secondaryCta.href}>
+                  {heroContent.secondaryCta.label}
                 </Link>
               </div>
 
-              <p className="hero-trust">Trusted by fleet operators and logistics companies</p>
+              <p className="hero-trust">{heroContent.trustLine}</p>
             </div>
 
             <div className="hero-visual" data-reveal-item>
               <div className="hero-devices" aria-label="Track Fleetio hardware showcase" data-parallax="soft">
                 <Image
                   className="hero-cluster-image"
-                  src="/Products/3Products.png"
-                  alt="Track Fleetio hardware showcase"
-                  width={760}
-                  height={560}
+                  src={heroContent.image.src}
+                  alt={heroContent.image.alt}
+                  width={790}
+                  height={590}
                   loading="eager"
                   fetchPriority="high"
                   priority
@@ -53,45 +57,24 @@ export function HeroSection() {
         </div>
       </section>
 
-      <section className="metrics-section" aria-label="Trust metrics" data-reveal-group>
+      <section className="metrics-section" aria-label="Fleet buying signals" data-reveal-group>
         <div className="container">
           <div className="metrics-strip">
-            <article className="metric-card" data-reveal-item>
-              <strong>500+</strong>
-              <div className="metric-meta">
-                <span className="metric-icon" aria-hidden="true">
-                  <Truck size={15} strokeWidth={1.9} />
-                </span>
-                <span>Fleets Supported</span>
-              </div>
-            </article>
-            <article className="metric-card" data-reveal-item>
-              <strong>50K+</strong>
-              <div className="metric-meta">
-                <span className="metric-icon" aria-hidden="true">
-                  <Smartphone size={15} strokeWidth={1.9} />
-                </span>
-                <span>Devices Deployed</span>
-              </div>
-            </article>
-            <article className="metric-card" data-reveal-item>
-              <strong>99.9%</strong>
-              <div className="metric-meta">
-                <span className="metric-icon" aria-hidden="true">
-                  <ShieldCheck size={15} strokeWidth={1.9} />
-                </span>
-                <span>Reliability</span>
-              </div>
-            </article>
-            <article className="metric-card" data-reveal-item>
-              <strong>24/7</strong>
-              <div className="metric-meta">
-                <span className="metric-icon" aria-hidden="true">
-                  <Headset size={15} strokeWidth={1.9} />
-                </span>
-                <span>Support</span>
-              </div>
-            </article>
+            {homepageMetrics.map((metric) => {
+              const Icon = metricIconMap[metric.icon];
+
+              return (
+                <article className="metric-card" data-reveal-item key={metric.title}>
+                  <strong>{metric.title}</strong>
+                  <div className="metric-meta">
+                    <span className="metric-icon" aria-hidden="true">
+                      <Icon size={15} strokeWidth={1.9} />
+                    </span>
+                    <span>{metric.description}</span>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -2,23 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ViewportVideo } from "@/components/ViewportVideo";
+import { fieldUseCasesContent } from "@/lib/content/homepage";
 
 export function FeatureStorytellingSection() {
+  const [videoCard, imageCard] = fieldUseCasesContent.cards;
+
   return (
     <section id="story" className="content-section content-section-last section-story" data-reveal>
-      <div className="container">
-        <div className="section-heading section-heading-centered">
-          <p className="eyebrow">Hardware in Action</p>
-          <h2>See the system in the field</h2>
-          <p className="section-subtitle">
-            Practical examples of how video and tracking hardware support safer, more visible
-            operations.
-          </p>
-        </div>
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">{fieldUseCasesContent.eyebrow}</p>
+            <h2>{fieldUseCasesContent.heading}</h2>
+            <p className="section-subtitle">{fieldUseCasesContent.description}</p>
+          </div>
 
         <div className="story-layout" data-reveal-group>
           <article className="story-card" data-reveal-item>
-            <div className="story-media">
+            <div className="story-media story-media-shell">
               <div className="story-media-frame" data-parallax="soft">
                 <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
@@ -48,15 +48,11 @@ export function FeatureStorytellingSection() {
               </div>
             </div>
             <div className="story-copy-block">
-              <h3>Detect Harsh Braking Events</h3>
-              <p>
-                AI dashcams monitor driver behavior and detect dangerous driving
-                events like harsh braking, providing data-driven insights to
-                improve fleet safety.
-              </p>
+              <h3>{videoCard.title}</h3>
+              <p>{videoCard.description}</p>
               <div className="story-copy-actions">
-                <Link className="button button-outline story-button" href="/solutions/monitoring-systems">
-                  View Solutions
+                <Link className="button button-outline story-button" href={videoCard.ctaHref}>
+                  {videoCard.ctaLabel}
                 </Link>
               </div>
             </div>
@@ -64,22 +60,19 @@ export function FeatureStorytellingSection() {
 
           <article className="story-card story-card-reverse" data-reveal-item>
             <div className="story-copy-block">
-              <h3>Monitor Equipment Location</h3>
-              <p>
-                Battery-powered GPS trackers keep tabs on portable equipment and
-                tools, helping reduce loss and improve operational visibility.
-              </p>
+              <h3>{imageCard.title}</h3>
+              <p>{imageCard.description}</p>
               <div className="story-copy-actions">
-                <Link className="button button-outline story-button" href="/products/asset-tracking-device">
-                  Explore Asset Tracking
+                <Link className="button button-outline story-button" href={imageCard.ctaHref}>
+                  {imageCard.ctaLabel}
                 </Link>
               </div>
             </div>
-            <div className="story-media story-media-alt" data-parallax="soft">
+            <div className="story-media story-media-alt story-media-shell" data-parallax="soft">
               <Image
-                className="story-media-image story-media-image-asset"
-                src="/Products/product3.png"
-                alt="Battery-powered asset tracking device"
+                className={`story-media-image ${imageCard.imageClass ?? ""}`}
+                src={imageCard.imageSrc ?? ""}
+                alt={imageCard.imageAlt ?? ""}
                 width={720}
                 height={520}
                 sizes="(max-width: 991px) 100vw, 50vw"

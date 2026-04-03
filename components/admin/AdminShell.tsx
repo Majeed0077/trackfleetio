@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Search } from "lucide-react";
+import { Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 
@@ -25,6 +25,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const isLoginRoute = pathname === "/admin/login";
   const pageInfo = useMemo(
@@ -37,16 +38,23 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
   }
 
   return (
-    <div className={`${styles.adminRoot} ${sidebarOpen ? styles.sidebarOpen : ""}`}>
+    <div
+      className={`${styles.adminRoot} ${sidebarOpen ? styles.sidebarOpen : ""} ${
+        sidebarCollapsed ? styles.sidebarCollapsed : ""
+      }`}
+    >
       <div className={styles.adminShell}>
         <aside className={styles.adminSidebar}>
-          <div className={styles.adminSidebarBrand}>
-            <Link className="brand" href="/admin/dashboard" aria-label="Track Fleetio admin home">
-              <span className="logo-container">
-                <Image className="brand-logo" src="/New-logo.png" alt="Track Fleetio logo" width={164} height={40} style={{ width: "100px", height: "70px" }} />
-              </span>
-            </Link>
-            <span className={styles.adminSidebarBrandLabel}>Admin Panel</span>
+          <div className={styles.adminSidebarTools}>
+            <button
+              className={styles.adminSidebarToggle}
+              type="button"
+              aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              onClick={() => setSidebarCollapsed((value) => !value)}
+              title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              {sidebarCollapsed ? <PanelLeftOpen size={16} strokeWidth={1.9} /> : <PanelLeftClose size={16} strokeWidth={1.9} />}
+            </button>
           </div>
 
           <nav className={styles.adminSidebarNav} aria-label="Admin navigation">
@@ -60,11 +68,12 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
                       className={`${styles.adminNavLink} ${pathname === item.href ? styles.adminNavLinkActive : ""}`}
                       href={item.href}
                       onClick={() => setSidebarOpen(false)}
+                      title={sidebarCollapsed ? item.label : undefined}
                     >
                       <span className={styles.adminNavIcon} aria-hidden="true">
                         <AdminIcon icon={item.icon} />
                       </span>
-                      <span>{item.label}</span>
+                      <span className={styles.adminNavLabel}>{item.label}</span>
                     </Link>
                   ))}
                 </div>
@@ -73,9 +82,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
           </nav>
 
           <div className={styles.adminSidebarFooter}>
-            <p className={styles.adminSidebarFooterCopy}>
-              Frontend-ready admin workspace with API-backed login and modular styles.
-            </p>
+            <p className={styles.adminSidebarFooterCopy}>Simple admin workspace.</p>
             <button
               className="button button-secondary"
               type="button"
@@ -92,9 +99,14 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
 
         <div className={styles.adminMain}>
           <header className={styles.adminTopbar}>
-            <div className={styles.adminTopbarCopy}>
-              <p className={styles.adminBreadcrumb}>{pageInfo.section}</p>
-              <h1 className={styles.adminTopbarTitle}>{pageInfo.title}</h1>
+            <div className={styles.adminTopbarLead}>
+              <Link className={styles.adminTopbarBrand} href="/admin/dashboard" aria-label="Track Fleetio admin home">
+                <Image className={styles.adminTopbarBrandLogo} src="/New-logo.png" alt="Track Fleetio logo" width={120} height={32} />
+              </Link>
+              <div className={styles.adminTopbarCopy}>
+                <p className={styles.adminBreadcrumb}>{pageInfo.section}</p>
+                <h1 className={styles.adminTopbarTitle}>{pageInfo.title}</h1>
+              </div>
             </div>
             <div className={styles.adminTopbarActions}>
               <button className={styles.adminMobileToggle} type="button" aria-label="Open admin navigation" onClick={() => setSidebarOpen((value) => !value)}>

@@ -10,6 +10,7 @@ import {
   useStoreHydrated,
   useSystemTheme,
 } from "@/store/store";
+import { SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export function SiteProviders({ children }: { children: ReactNode }) {
   const hasHydrated = useStoreHydrated();
@@ -20,7 +21,7 @@ export function SiteProviders({ children }: { children: ReactNode }) {
   const systemTheme = useSystemTheme();
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
-    : systemTheme;
+    : SSR_THEME_FALLBACK;
 
   useEffect(() => {
     if (!useAppStore.persist.hasHydrated()) {

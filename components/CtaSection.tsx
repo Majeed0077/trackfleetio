@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { homepageCtaContent } from "@/lib/content/homepage";
 
 export function CtaSection() {
   return (
@@ -7,18 +8,15 @@ export function CtaSection() {
       <div className="container">
         <div className="cta-panel">
           <div className="cta-panel-copy">
-            <p className="cta-panel-eyebrow">Ready to deploy</p>
-            <h2>Smarter fleet hardware for real-time visibility, safety, and cost control.</h2>
-            <p className="cta-panel-description">
-              Talk to our team about trackers, dashcams, sensors, and deployment guidance for
-              operations across Pakistan, UAE, UK, and USA.
-            </p>
+            <p className="cta-panel-eyebrow">{homepageCtaContent.eyebrow}</p>
+            <h2>{homepageCtaContent.heading}</h2>
+            <p className="cta-panel-description">{homepageCtaContent.description}</p>
             <div className="cta-panel-actions">
-              <Link className="button button-primary" href="/contact">
-                Request Demo
+              <Link className="button button-primary" href={homepageCtaContent.primaryCta.href}>
+                {homepageCtaContent.primaryCta.label}
               </Link>
-              <Link className="button button-secondary" href="/products">
-                Explore Hardware
+              <Link className="button button-secondary" href={homepageCtaContent.secondaryCta.href}>
+                {homepageCtaContent.secondaryCta.label}
               </Link>
             </div>
           </div>
@@ -27,7 +25,7 @@ export function CtaSection() {
             <div className="cta-visual-device">
               <Image
                 className="cta-visual-image"
-                src="/Products/3Products.png"
+                src={homepageCtaContent.image.src}
                 alt=""
                 width={720}
                 height={520}
@@ -35,18 +33,12 @@ export function CtaSection() {
               />
             </div>
             <div className="cta-panel-metrics">
-              <div className="cta-metric">
-                <strong>50K+</strong>
-                <span>Devices deployed</span>
-              </div>
-              <div className="cta-metric">
-                <strong>99.9%</strong>
-                <span>Reliability focus</span>
-              </div>
-              <div className="cta-metric">
-                <strong>24/7</strong>
-                <span>Specialist support</span>
-              </div>
+              {homepageCtaContent.metrics.map((metric) => (
+                <div className="cta-metric" key={metric.title}>
+                  <strong>{metric.title}</strong>
+                  <span>{metric.description}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -1,0 +1,461 @@
+export type HomepageMetric = {
+  title: string;
+  description: string;
+  icon: "boxes" | "route" | "shield" | "wrench";
+};
+
+export type HomepageProofArea = {
+  label: string;
+  title: string;
+  description: string;
+};
+
+export type HomepageHardwareCard = {
+  category: string;
+  title: string;
+  specs: string;
+  description: string;
+  bullets: string[];
+  href: string;
+  imageSrc: string;
+  imageAlt: string;
+  imageClass: string;
+  lightMedia?: boolean;
+  featured?: boolean;
+};
+
+export type HomepageStoryCard = {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+  media: "video" | "image";
+  imageSrc?: string;
+  imageAlt?: string;
+  imageClass?: string;
+};
+
+export type HomepageOutcome = {
+  number: string;
+  title: string;
+  description: string;
+};
+
+export type HomepageArchitectureLayer = {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  connector?: string;
+  icon: "gauge" | "cable" | "server-cog" | "radar";
+  highlighted?: boolean;
+};
+
+export type HomepageIndustryFeature = {
+  label: string;
+  text: string;
+  icon: "crosshair" | "route" | "boxes";
+};
+
+export type HomepageIndustryCard = {
+  microLabel: string;
+  title: string;
+  description: string;
+  href: string;
+  icon: "package" | "wrench" | "briefcase" | "truck";
+};
+
+export const homepageSectionRegistry = [
+  { title: "Hero", desc: "Headline, subtext, primary CTA, device collage.", visible: true, status: "Live" },
+  { title: "Metrics", desc: "Trust metrics strip under hero with operational proof points.", visible: true, status: "Live" },
+  { title: "Buying Priorities", desc: "Client-proof band and operational decision blocks.", visible: true, status: "Live" },
+  { title: "Hardware Ecosystem", desc: "Primary product cards and category CTA.", visible: true, status: "Live" },
+  { title: "Field Use Cases", desc: "Video and asset-tracking story cards with action links.", visible: true, status: "Live" },
+  { title: "Results", desc: "Outcomes and operational improvement section.", visible: true, status: "Live" },
+  { title: "Architecture", desc: "How-it-works system layers and connector chips.", visible: true, status: "Live" },
+  { title: "Industries", desc: "Primary industry block and supporting cards.", visible: true, status: "Live" },
+  { title: "Why Track Fleetio", desc: "Differentiator cards and value narrative.", visible: true, status: "Review" },
+  { title: "CTA Section", desc: "Final conversion band before footer.", visible: true, status: "Live" },
+] as const;
+
+export const heroContent = {
+  heading: ["Smarter Hardware", "for Modern Fleet", "Operations"],
+  description:
+    "Track Fleetio helps fleet operators evaluate GPS trackers, AI dashcams, and sensor hardware for vehicles, trailers, and field equipment.",
+  primaryCta: { label: "Request Demo", href: "/contact" },
+  secondaryCta: { label: "Explore Hardware", href: "#hardware" },
+  trustLine:
+    "For operations, safety, procurement, and deployment teams reviewing fleet hardware.",
+  image: {
+    src: "/Products/Hero-image.png",
+    alt: "Track Fleetio hardware showcase",
+  },
+} as const;
+
+export const homepageMetrics: HomepageMetric[] = [
+  {
+    title: "Mixed Fleets",
+    description: "Vehicle, trailer, and asset coverage",
+    icon: "boxes",
+  },
+  {
+    title: "GPS + Video",
+    description: "Trackers, dashcams, and sensor inputs",
+    icon: "route",
+  },
+  {
+    title: "Operational Fit",
+    description: "Visibility, safety, and review workflows",
+    icon: "shield",
+  },
+  {
+    title: "Deployment Ready",
+    description: "Hardware planning before rollout",
+    icon: "wrench",
+  },
+] as const;
+
+export const buyingPrioritiesContent = {
+  eyebrow: "Buying Priorities",
+  heading: "Designed for how fleet decisions actually get made",
+  description:
+    "Operations, safety, deployment, and procurement all need to understand hardware fit quickly before rollout starts.",
+  highlights: [
+    "Operations review",
+    "Safety workflows",
+    "Deployment fit",
+    "Procurement clarity",
+  ],
+  proofAreas: [
+    {
+      label: "Operations",
+      title: "Daily fleet visibility",
+      description: "See vehicle, trailer, and asset status fast across day-to-day operations.",
+    },
+    {
+      label: "Safety",
+      title: "Review real driving events",
+      description: "Use dashcam footage and telemetry to review incidents with actual field context.",
+    },
+    {
+      label: "Deployment",
+      title: "Plan rollout without guesswork",
+      description: "Match hardwired, battery, and sensor hardware to the vehicles and assets you run.",
+    },
+    {
+      label: "Procurement",
+      title: "Choose the right hardware mix",
+      description: "Compare device categories clearly before buying the wrong setup at scale.",
+    },
+  ] satisfies HomepageProofArea[],
+} as const;
+
+export const hardwareEcosystemContent = {
+  eyebrow: "Hardware Ecosystem",
+  heading: "Fleet Hardware Built for Reliability",
+  description:
+    "Trackers, dashcams, asset devices, and sensors built around the same hardware system.",
+  cards: [
+    {
+      category: "Telematics Device",
+      title: "4G GPS Tracker",
+      specs: "LTE | GNSS | CAN Support",
+      description:
+        "Track Fleetio hardwireable fleet tracking devices deliver dependable location, ignition, and status data.",
+      bullets: [
+        "Live vehicle telemetry",
+        "Rugged install profile",
+        "Operational visibility",
+        "Fleet tracking ready",
+      ],
+      href: "/products/4g-gps-device",
+      imageSrc: "/Products/product3.png",
+      imageAlt: "Track Fleetio GPS tracker",
+      imageClass: "product-media-image-gps",
+      featured: true,
+    },
+    {
+      category: "Video Telematics",
+      title: "AI Dashcam DVR",
+      specs: "1080p | Dual Cam | ADAS",
+      description:
+        "Dual facing camera hardware built for event visibility, safer driving, and fleet video review.",
+      bullets: [
+        "Event video capture",
+        "Driver review ready",
+        "Cab-ready enclosure",
+        "DVR recording support",
+      ],
+      href: "/products/ai-dashcam",
+      imageSrc: "/Products/dashcam.png",
+      imageAlt: "Track Fleetio AI dashcam",
+      imageClass: "product-media-image-dashcam",
+    },
+    {
+      category: "Tracking Devices",
+      title: "Battery Asset Tracker",
+      specs: "3yr Battery | BLE | GNSS",
+      description:
+        "Compact battery powered devices designed for trailers, mobile assets, and field equipment monitoring.",
+      bullets: [
+        "Asset recovery ready",
+        "Long life battery",
+        "Reliable asset visibility",
+        "Trailer monitoring",
+      ],
+      href: "/products/asset-tracking-device",
+      imageSrc: "/Products/product2.png",
+      imageAlt: "Track Fleetio asset tracker",
+      imageClass: "product-media-image-asset",
+    },
+    {
+      category: "Sensors",
+      title: "Industrial Sensors",
+      specs: "Temp | Fuel | TPMS",
+      description:
+        "Sensor extensions for temperature, door, and cargo awareness across higher control operations.",
+      bullets: [
+        "Remote condition inputs",
+        "Operational awareness",
+        "Dependable sensor feed",
+        "Fuel, temp, TPMS",
+      ],
+      href: "/products/fuel-sensors",
+      imageSrc: "/Products/product1.png",
+      imageAlt: "Track Fleetio sensor device",
+      imageClass: "product-media-image-sensor",
+      lightMedia: true,
+    },
+  ] satisfies HomepageHardwareCard[],
+  cta: { label: "Explore Hardware", href: "/products" },
+} as const;
+
+export const fieldUseCasesContent = {
+  eyebrow: "Field Use Cases",
+  heading: "What teams actually use it for",
+  description:
+    "Start with the workflows buyers usually ask about first: event review and trailer or asset tracking without complex installs.",
+  cards: [
+    {
+      title: "Detect harsh braking and review footage",
+      description:
+        "Safety teams can catch the event, review the clip, and follow up without relying on incomplete field reports.",
+      ctaLabel: "View Solutions",
+      ctaHref: "/solutions/monitoring-systems",
+      media: "video",
+    },
+    {
+      title: "Track trailers without vehicle power",
+      description:
+        "Battery-powered trackers keep trailers and portable assets visible when hardwired installation is not practical.",
+      ctaLabel: "Explore Asset Tracking",
+      ctaHref: "/products/asset-tracking-device",
+      media: "image",
+      imageSrc: "/Products/product3.png",
+      imageAlt: "Battery-powered asset tracking device",
+      imageClass: "story-media-image-asset",
+    },
+  ] satisfies HomepageStoryCard[],
+} as const;
+
+export const resultsContent = {
+  eyebrow: "What Teams Track",
+  heading: ["What teams track", "in the field"],
+  description:
+    "Fleet hardware only matters if it improves review speed, asset visibility, recovery readiness, and day-to-day response.",
+  outcomes: [
+    {
+      number: "01",
+      title: "Incident review speed",
+      description: "See how quickly teams can capture footage, review events, and respond.",
+    },
+    {
+      number: "02",
+      title: "Asset visibility coverage",
+      description: "Track how well vehicles, trailers, and portable assets stay visible in the field.",
+    },
+    {
+      number: "03",
+      title: "Recovery readiness",
+      description: "Measure whether teams can locate and recover mobile assets before they disappear.",
+    },
+    {
+      number: "04",
+      title: "Response consistency",
+      description: "Turn alerts and footage into repeatable follow-up across safety and operations.",
+    },
+  ] satisfies HomepageOutcome[],
+} as const;
+
+export const architectureContent = {
+  eyebrow: "How It Works",
+  heading: "How the system works",
+  description:
+    "Install hardware, stream data, get alerts, and connect the systems your team already works in.",
+  layers: [
+    {
+      id: "hardware",
+      label: "Layer 01",
+      title: "Install Hardware",
+      description: "Fit GPS trackers, AI dashcams, sensors, and OBD/CAN devices to the fleet.",
+      connector: "LTE / CAN",
+      icon: "gauge",
+      highlighted: true,
+    },
+    {
+      id: "edge",
+      label: "Layer 02",
+      title: "Stream Data",
+      description: "Send telemetry, footage events, and firmware updates from the field.",
+      connector: "Secure\nStream",
+      icon: "cable",
+    },
+    {
+      id: "platform",
+      label: "Layer 03",
+      title: "Get Alerts",
+      description: "Turn incoming fleet data into alerts, review workflows, and operational visibility.",
+      connector: "REST / API",
+      icon: "server-cog",
+    },
+    {
+      id: "operations",
+      label: "Layer 04",
+      title: "Connect Systems",
+      description: "Push fleet data into dispatch, compliance, reporting, and business systems.",
+      icon: "radar",
+    },
+  ] satisfies HomepageArchitectureLayer[],
+} as const;
+
+export const homeIndustriesContent = {
+  eyebrow: "Industry Coverage",
+  heading: "Industries",
+  description:
+    "Choose the hardware setup that matches route pressure, asset exposure, and compliance needs.",
+  featured: {
+    href: "/industries/logistics",
+    imageSrc: "/Products/logistics.png",
+    imageAlt: "Logistics operations",
+    microLabel: "Primary Industry",
+    title: "Logistics",
+    description:
+      "Track trailers across routes, depots, and yards without losing operational visibility.",
+    keyCapabilities: [
+      "Route and yard visibility",
+      "Trailer location awareness",
+      "Driver event review",
+      "Asset movement tracking",
+    ],
+    icon: "truck" as const,
+    featureItems: [
+      {
+        label: "Tracking",
+        text: "Track trailers across routes",
+        icon: "crosshair",
+      },
+      {
+        label: "Routing",
+        text: "Watch route and yard movement",
+        icon: "route",
+      },
+      {
+        label: "Visibility",
+        text: "Review asset movement fast",
+        icon: "boxes",
+      },
+    ] satisfies HomepageIndustryFeature[],
+  },
+  stackCards: [
+    {
+      microLabel: "Logistics",
+      title: "Delivery",
+      description: "Track stops, route exceptions, and last-mile fleet activity in one view.",
+      href: "/industries/logistics",
+      icon: "package",
+    },
+    {
+      microLabel: "Industry Use Case",
+      title: "Construction",
+      description:
+        "Monitor unpowered equipment and active jobsite movement without fixed installs.",
+      href: "/industries/construction",
+      icon: "wrench",
+    },
+    {
+      microLabel: "Transportation",
+      title: "Transportation",
+      description:
+        "Watch route adherence, safety events, and service activity across mixed fleets.",
+      href: "/industries/transportation",
+      icon: "briefcase",
+    },
+    {
+      microLabel: "Operations",
+      title: "Fleet Operations",
+      description:
+        "Keep field teams, vehicles, and trailers visible across daily dispatch and yard work.",
+      href: "/industries/transportation",
+      icon: "truck",
+    },
+  ] satisfies HomepageIndustryCard[],
+} as const;
+
+export const whyTrackFleetioContent = {
+  eyebrow: "Deployment Reality",
+  heading: "What rollout actually depends on",
+  description:
+    "Fleet hardware is easy to oversell and hard to deploy. What matters is whether it fits real vehicles, workflows, and operating conditions.",
+  transition: "A buying decision only works if deployment holds up after the demo.",
+  benefits: [
+    {
+      number: "01",
+      title: "Installation planning that limits downtime",
+      description: "Roll out across vehicles and assets without treating every install the same way.",
+    },
+    {
+      number: "02",
+      title: "Hardware that fits mixed fleet conditions",
+      description:
+        "Support hardwired, battery, and sensor-based deployments across real operating environments.",
+    },
+    {
+      number: "03",
+      title: "A stack that fits operational workflows",
+      description:
+        "Connect hardware decisions to dispatch, compliance, review, and reporting needs.",
+    },
+    {
+      number: "04",
+      title: "Support from evaluation through rollout",
+      description:
+        "Keep the buying conversation tied to deployment reality instead of stopping at the demo.",
+    },
+  ] satisfies HomepageOutcome[],
+} as const;
+
+export const homepageCtaContent = {
+  eyebrow: "Next Step",
+  heading: "Plan the right hardware setup for your fleet.",
+  description:
+    "Review the hardware catalog, then talk through deployment fit, install needs, and the right device mix for your operation.",
+  primaryCta: { label: "Talk to Sales", href: "/contact" },
+  secondaryCta: { label: "Explore Hardware", href: "/products" },
+  image: {
+    src: "/Products/3Products.png",
+  },
+  metrics: [
+    {
+      title: "GPS Trackers",
+      description: "Vehicle and asset visibility",
+    },
+    {
+      title: "AI Dashcams",
+      description: "Event review and safety workflows",
+    },
+    {
+      title: "Sensors",
+      description: "Fuel, temperature, and condition monitoring",
+    },
+  ],
+} as const;

@@ -1,9 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Bell,
+  Briefcase,
   Box,
   ChartColumn,
   Columns2,
+  FileText,
   Grid2x2,
   Home,
   ImageIcon,
@@ -23,8 +25,10 @@ const iconMap: Record<AdminIconKey, LucideIcon> = {
   archive: PackageOpen,
   bell: Bell,
   box: Box,
+  briefcase: Briefcase,
   chart: ChartColumn,
   columns: Columns2,
+  "file-text": FileText,
   grid: Grid2x2,
   home: Home,
   image: ImageIcon,
