@@ -9,11 +9,6 @@ export function ClientsSection() {
             <p className="eyebrow">{buyingPrioritiesContent.eyebrow}</p>
             <h2>{buyingPrioritiesContent.heading}</h2>
             <p className="section-subtitle">{buyingPrioritiesContent.description}</p>
-            <div className="client-proof-highlights" aria-label="Trust signals">
-              {buyingPrioritiesContent.highlights.map((highlight) => (
-                <span key={highlight}>{highlight}</span>
-              ))}
-            </div>
           </div>
 
           <div className="client-proof-grid" aria-label="Fleet hardware evaluation areas" data-reveal-item>

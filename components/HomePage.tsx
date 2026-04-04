@@ -7,7 +7,6 @@ import { HomepageMotion } from "@/components/HomepageMotion";
 import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
 import { HomeSupportSection } from "@/components/HomeSupportSection";
 import { ResultsSection } from "@/components/ResultsSection";
-import { WhySection } from "@/components/WhySection";
 
 export function HomePage() {
   return (
@@ -20,7 +19,6 @@ export function HomePage() {
       <HomeIndustriesSection />
       <HardwareSection />
       <ResultsSection />
-      <WhySection />
       <HomeSupportSection />
     </main>
   );

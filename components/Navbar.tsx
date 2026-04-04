@@ -736,7 +736,7 @@ export function Navbar() {
                       id={`nav-menu-${menuItem.key}`}
                       aria-labelledby={`nav-trigger-${menuItem.key}`}
                     >
-                      {renderMenuContent(menuItem.key)}
+                      {isOpen ? renderMenuContent(menuItem.key) : null}
                     </div>
                   </div>
                 );

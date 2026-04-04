@@ -82,7 +82,7 @@ export const homepageSectionRegistry = [
   { title: "Results", desc: "Outcomes and operational improvement section.", visible: true, status: "Live" },
   { title: "Architecture", desc: "How-it-works system layers and connector chips.", visible: true, status: "Live" },
   { title: "Industries", desc: "Primary industry block and supporting cards.", visible: true, status: "Live" },
-  { title: "Why Track Fleetio", desc: "Differentiator cards and value narrative.", visible: true, status: "Review" },
+  { title: "Why Track Fleetio", desc: "Differentiator cards and value narrative.", visible: false, status: "Merged" },
   { title: "Support & Contact", desc: "Homepage contact cards for sales, support, and direct outreach.", visible: true, status: "Live" },
 ] as const;
 
@@ -125,9 +125,9 @@ export const homepageMetrics: HomepageMetric[] = [
 
 export const buyingPrioritiesContent = {
   eyebrow: "B2B Solution Planning",
-  heading: "Built around how enterprise fleet decisions actually get made",
+  heading: "Built around how fleet buying decisions actually get made",
   description:
-    "Track Fleetio is positioned for the teams that need to align operations, safety, deployment, and procurement before a rollout moves forward.",
+    "Align operations, safety, deployment, and procurement before a rollout moves forward.",
   highlights: [
     "Operations review",
     "Safety workflows",
@@ -138,22 +138,22 @@ export const buyingPrioritiesContent = {
     {
       label: "Operations",
       title: "Daily fleet visibility",
-      description: "See vehicle, trailer, and asset status fast across day-to-day operations.",
+      description: "Keep vehicles, trailers, and assets visible across daily work.",
     },
     {
       label: "Safety",
       title: "Review real driving events",
-      description: "Use dashcam footage and telemetry to review incidents with actual field context.",
+      description: "Review incidents with dashcam footage and field telemetry context.",
     },
     {
       label: "Deployment",
       title: "Plan rollout without guesswork",
-      description: "Match hardwired, battery, and sensor hardware to the vehicles and assets you run.",
+      description: "Match hardwired, battery, and sensor hardware to your fleet mix.",
     },
     {
       label: "Procurement",
       title: "Choose the right hardware mix",
-      description: "Compare device categories clearly before buying the wrong setup at scale.",
+      description: "Shortlist device categories with clarity before you buy at scale.",
     },
   ] satisfies HomepageProofArea[],
 } as const;
@@ -470,9 +470,8 @@ export const homepageCtaContent = {
 
 export const homepageSupportContent = {
   eyebrow: "Support & Contact",
-  heading: "We are here to help you 24/7",
-  description:
-    "Reach the right team for solution planning, sales inquiries, and support follow-up.",
+  heading: "Get help from the right team",
+  description: "Reach sales, solution planning, or support in one step.",
   cards: [
     {
       title: "Talk to Us",
