@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, CheckCircle2, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { startTransition } from "react";
 
 import { solutionsList, type SolutionDetail } from "@/lib/solutions";
@@ -24,15 +24,24 @@ type SolutionMeta = {
   outcome: string;
 };
 
-const discoveryFilters: { value: DiscoveryFilter; label: string }[] = [
-  { value: "all", label: "All solutions" },
-  { value: "tracking", label: "Tracking" },
-  { value: "monitoring", label: "Monitoring" },
-  { value: "video", label: "Video telematics" },
-  { value: "operations", label: "Field ops" },
-  { value: "public-sector", label: "Public sector" },
-  { value: "industrial", label: "Industrial" },
+const problemEntryFilters: Array<{ value: Exclude<DiscoveryFilter, "all">; label: string }> = [
+  { value: "video", label: "Improve driver safety" },
+  { value: "tracking", label: "Track vehicles and assets" },
+  { value: "monitoring", label: "Monitor conditions" },
+  { value: "operations", label: "Manage field teams" },
+  { value: "public-sector", label: "Improve compliance oversight" },
+  { value: "industrial", label: "Reduce visibility gaps" },
 ];
+
+const discoveryFilterLabels: Record<DiscoveryFilter, string> = {
+  all: "All solutions",
+  video: "Improve driver safety",
+  tracking: "Track vehicles and assets",
+  monitoring: "Monitor conditions",
+  operations: "Manage field teams",
+  "public-sector": "Improve compliance oversight",
+  industrial: "Reduce visibility gaps",
+};
 
 const solutionMetaBySlug: Record<string, SolutionMeta> = {
   "monitoring-systems": {
@@ -194,7 +203,7 @@ export function SolutionsCatalogPage() {
     matchesFilter(activeFilter, solution),
   );
   const featuredSolutions = filteredSolutions.filter((solution) => getSolutionMeta(solution).featured);
-  const featuredShelf = (featuredSolutions.length >= 3 ? featuredSolutions : filteredSolutions).slice(0, 3);
+  const featuredShelf = (featuredSolutions.length >= 3 ? featuredSolutions : filteredSolutions).slice(0, 4);
 
   const updateFilter = (filter: DiscoveryFilter) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -221,12 +230,12 @@ export function SolutionsCatalogPage() {
               <span className="products-badge">Solutions</span>
               <h1>Fleet solutions built for real operations.</h1>
               <p className="solutions-hero-text">
-                Track fleets, monitor conditions, review safety footage, and run field
-                workflows from a solution stack designed around actual deployment needs.
+                Start from an operational problem, compare the most common solution paths, and then
+                go deeper into the workflow and hardware fit for your fleet.
               </p>
               <div className="solutions-hero-actions">
                 <Link className="button button-primary" href="/contact">
-                  Explore with Sales
+                  Talk to a solutions specialist
                 </Link>
                 <Link className="button button-secondary" href="/products">
                   View Hardware
@@ -240,52 +249,28 @@ export function SolutionsCatalogPage() {
                 ))}
               </div>
             </div>
+            <div className="solutions-hero-balance" aria-hidden="true" />
 
-            <div className="solutions-hero-panel">
-              <div className="solutions-hero-panel-heading">
-                <p>Find the right solution path in one pass</p>
-                <span>Use case coverage</span>
-              </div>
-
-              <div className="solutions-hero-highlights">
-                <article className="solutions-highlight-card solutions-highlight-card-primary">
-                  <span className="solutions-highlight-eyebrow">Coverage</span>
-                  <strong>{solutionsList.length} solution workflows</strong>
-                  <p>Tracking, monitoring, field execution, public transport, and specialized mobility programs.</p>
-                </article>
-                <div className="solutions-highlight-list" aria-label="Core solution qualities">
-                  <article className="solutions-highlight-row">
-                    <strong>Hardware-ready deployment</strong>
-                    <p>Every solution maps to an actual installable stack, not a vague concept slide.</p>
-                  </article>
-                  <article className="solutions-highlight-row">
-                    <strong>Clearer buying path</strong>
-                    <p>Filter by workflow first, then go deeper into the exact hardware and team fit.</p>
-                  </article>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       <section className="solutions-browse-section">
         <div className="container">
-          <div className="solutions-section-head">
-            <p className="eyebrow">Browse By Need</p>
-            <h2>Start from the operational problem, not the product list.</h2>
-            <p className="section-subtitle">
-              Filter the catalog by workflow type to find the right solution path faster.
-            </p>
+          <div className="solutions-section-head solutions-section-head-balanced">
+            <div className="solutions-section-head-main">
+              <p className="eyebrow">Start Here</p>
+              <h2>Start from your problem, then narrow the best-fit path.</h2>
+              <p className="section-subtitle">
+                Choose a common operational need. We will narrow the library without hiding anything.
+              </p>
+            </div>
+            <div className="solutions-section-head-aside" aria-hidden="true" />
           </div>
 
           <div className="solutions-filter-bar" aria-label="Solution filters">
-            <div className="solutions-filter-title">
-              <SlidersHorizontal size={16} strokeWidth={1.9} />
-              <span>Solution filters</span>
-            </div>
             <div className="solutions-filter-pills">
-              {discoveryFilters.map((filter) => (
+              {problemEntryFilters.map((filter) => (
                 <button
                   key={filter.value}
                   className={`solutions-filter-pill${activeFilter === filter.value ? " is-active" : ""}`}
@@ -295,6 +280,11 @@ export function SolutionsCatalogPage() {
                   {filter.label}
                 </button>
               ))}
+              {activeFilter !== "all" ? (
+                <button className="solutions-filter-pill" type="button" onClick={() => updateFilter("all")}>
+                  View all
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
@@ -304,12 +294,11 @@ export function SolutionsCatalogPage() {
         <div className="container">
           <div className="solutions-section-head solutions-section-head-split solutions-section-head-featured">
             <div>
-              <p className="eyebrow">Featured Solutions</p>
-              <h2>Priority solution paths for buyers who need a fast starting point.</h2>
+              <p className="eyebrow">Common Starting Points</p>
+              <h2>Most-used solution paths buyers start with.</h2>
             </div>
             <p className="section-subtitle">
-              These are the strongest entry points for the current filter, with clearer
-              use-case framing and faster next steps.
+              Pick one path to validate fit quickly, then compare nearby workflows in the library.
             </p>
           </div>
 
@@ -324,21 +313,22 @@ export function SolutionsCatalogPage() {
                     <span>{meta.market}</span>
                   </div>
                   <h3>{solution.title}</h3>
-                  <p className="solutions-featured-description">{solution.description}</p>
-                  <p className="solutions-featured-outcome">{meta.outcome}</p>
-                  <div className="solutions-featured-badges" aria-label={`${solution.title} tags`}>
-                    {meta.badges.map((badge) => (
-                      <span className="solutions-featured-badge" key={`${solution.slug}-${badge}`}>
-                        {badge}
-                      </span>
+                  <p className="solutions-featured-description">{meta.outcome}</p>
+                  <ul className="solutions-library-list" aria-label={`${solution.title} highlights`}>
+                    {solution.useCases.slice(0, 2).map((useCase) => (
+                      <li key={`${solution.slug}-${useCase.title}`}>
+                        <CheckCircle2 size={15} strokeWidth={2} />
+                        <span>{useCase.title}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                   <div className="solutions-featured-actions">
-                    <Link className="solutions-inline-link" href={`/solutions/${solution.slug}`}>
-                      Explore solution <ArrowRight size={15} strokeWidth={2} />
-                    </Link>
-                    <Link className="solutions-inline-link is-muted" href="/contact">
-                      Talk to sales
+                    <Link
+                      className="solutions-inline-link"
+                      href={`/solutions/${solution.slug}`}
+                      aria-label={`View details for ${solution.title}`}
+                    >
+                      View details <ArrowRight size={15} strokeWidth={2} />
                     </Link>
                   </div>
                 </article>
@@ -353,48 +343,69 @@ export function SolutionsCatalogPage() {
           <div className="solutions-section-head solutions-section-head-split">
             <div>
               <p className="eyebrow">Solution Library</p>
-              <h2>All solution workflows, with clearer scan value.</h2>
+              <h2>Browse all workflows grouped for faster scanning.</h2>
             </div>
             <p className="section-subtitle">
               {filteredSolutions.length} result{filteredSolutions.length === 1 ? "" : "s"} shown for{" "}
-              {
-                discoveryFilters.find((filter) => filter.value === activeFilter)?.label ??
-                "All solutions"
-              }
-              .
+              {discoveryFilterLabels[activeFilter] ?? "All solutions"}.
             </p>
           </div>
 
-          <div className="solutions-library-grid">
-            {filteredSolutions.map((solution) => {
-              const meta = getSolutionMeta(solution);
+          <div className="solutions-library-groups">
+            {(["Tracking", "Monitoring", "Video", "Operations"] as const).map((category) => {
+              const groupedSolutions = filteredSolutions.filter(
+                (solution) => getSolutionMeta(solution).category === category,
+              );
+
+              if (!groupedSolutions.length) {
+                return null;
+              }
+
+              const categoryLabel = category === "Video" ? "Video / Safety" : category;
 
               return (
-                <article className="solutions-library-card" key={solution.slug}>
-                  <div className="solutions-library-topline">
-                    <p>{meta.category}</p>
-                    <span>{meta.market}</span>
+                <section
+                  className="solutions-library-group"
+                  key={category}
+                  aria-label={`${categoryLabel} solutions`}
+                >
+                  <div className="solutions-library-group-head">
+                    <h3 className="solutions-library-group-title">{categoryLabel}</h3>
                   </div>
-                  <h3>{solution.title}</h3>
-                  <p className="solutions-library-description">{solution.description}</p>
-                  <ul className="solutions-library-list" aria-label={`${solution.title} highlights`}>
-                    {solution.useCases.slice(0, 2).map((useCase) => (
-                      <li key={`${solution.slug}-${useCase.title}`}>
-                        <CheckCircle2 size={15} strokeWidth={2} />
-                        <span>{useCase.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="solutions-library-footer">
-                    <div className="solutions-library-meta">
-                      <span>{solution.hardware.length} hardware components</span>
-                      <span>{solution.challenges.length} challenge areas</span>
-                    </div>
-                    <Link className="solutions-inline-link" href={`/solutions/${solution.slug}`}>
-                      View details <ArrowRight size={15} strokeWidth={2} />
-                    </Link>
+                  <div className="solutions-library-grid">
+                    {groupedSolutions.map((solution) => {
+                      const meta = getSolutionMeta(solution);
+
+                      return (
+                        <article className="solutions-library-card" key={solution.slug}>
+                          <div className="solutions-library-topline">
+                            <p>{meta.category}</p>
+                            <span>{meta.market}</span>
+                          </div>
+                          <h3>{solution.title}</h3>
+                          <p className="solutions-library-description">{meta.outcome}</p>
+                          <ul className="solutions-library-list" aria-label={`${solution.title} highlights`}>
+                            {solution.useCases.slice(0, 2).map((useCase) => (
+                              <li key={`${solution.slug}-${useCase.title}`}>
+                                <CheckCircle2 size={15} strokeWidth={2} />
+                                <span>{useCase.title}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="solutions-library-footer">
+                            <Link
+                              className="solutions-inline-link"
+                              href={`/solutions/${solution.slug}`}
+                              aria-label={`View details for ${solution.title}`}
+                            >
+                              View details <ArrowRight size={15} strokeWidth={2} />
+                            </Link>
+                          </div>
+                        </article>
+                      );
+                    })}
                   </div>
-                </article>
+                </section>
               );
             })}
           </div>
@@ -405,11 +416,10 @@ export function SolutionsCatalogPage() {
         <div className="container">
           <div className="solutions-bottom-cta-panel">
             <div className="solutions-bottom-cta-copy">
-              <p className="eyebrow">Need A Recommendation?</p>
-              <h2>Get the right solution shortlist before you spec hardware.</h2>
+              <p className="eyebrow">Need help choosing?</p>
+              <h2>Tell us your workflow and we’ll narrow the best fit.</h2>
               <p>
-                Use the solutions team if you want help narrowing the workflow, deployment model,
-                or hardware mix for your fleet.
+                Share your fleet mix and operational goals. We’ll recommend the right starting path and hardware stack.
               </p>
             </div>
             <div className="solutions-bottom-cta-actions">
