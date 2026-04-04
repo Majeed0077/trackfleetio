@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { SolutionsCatalogPage } from "@/components/SolutionsCatalogPage";
 import { createPageMetadata } from "@/lib/metadata";
@@ -13,5 +14,9 @@ export function generateMetadata(): Metadata {
 }
 
 export default function SolutionsPage() {
-  return <SolutionsCatalogPage />;
+  return (
+    <Suspense fallback={null}>
+      <SolutionsCatalogPage />
+    </Suspense>
+  );
 }

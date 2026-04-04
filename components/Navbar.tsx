@@ -276,7 +276,7 @@ export function Navbar() {
     currentSection === "company"
       ? currentSection
       : null);
-  const resolvedAuthUser = hasHydrated ? authUser : null;
+  const resolvedAuthUser = authUser;
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
@@ -287,7 +287,6 @@ export function Navbar() {
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
   const currentThemeModeLabel = themeModeLabels[resolvedTheme];
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
-  const authUiReady = hasHydrated;
 
   const focusMenuButton = (menuKey: MenuKey) => {
     menuButtonRefs.current[menuKey]?.focus();
@@ -743,7 +742,7 @@ export function Navbar() {
                 );
               })}
 
-              {authUiReady && !resolvedAuthUser ? (
+              {!resolvedAuthUser ? (
                 <div className="nav-mobile-auth">
                   <Link className="button button-secondary nav-auth-button" href="/signin">
                     {navigationUtilityLabels.signIn}
@@ -826,8 +825,7 @@ export function Navbar() {
                   <SunMedium size={18} strokeWidth={1.9} />
                 </span>
               </button>
-              {authUiReady ? (
-                !resolvedAuthUser ? (
+              {!resolvedAuthUser ? (
                 <div className="nav-auth-actions">
                   <Link className="button button-secondary nav-auth-button nav-auth-button-secondary" href="/signin">
                     {navigationUtilityLabels.signIn}
@@ -836,7 +834,7 @@ export function Navbar() {
                     {navigationUtilityLabels.createAccount}
                   </Link>
                 </div>
-                ) : (
+              ) : (
                 <div
                   className={`nav-account${accountOpen ? " is-open" : ""}`}
                   data-account-menu
@@ -899,8 +897,7 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
-                )
-              ) : null}
+              )}
             </div>
             <button
               className="nav-utility nav-mobile-toggle"
