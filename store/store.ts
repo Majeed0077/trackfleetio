@@ -453,7 +453,9 @@ export const useAppStore = create<StoreState>()(
 
 export const useStoreHydrated = () => {
   const persistApi = useAppStore.persist;
-  const [hasHydrated, setHasHydrated] = useState(() => persistApi?.hasHydrated?.() ?? false);
+  // Always start with `false` to ensure server + client initial render match.
+  // Persist hydration can complete before React mounts on the client, so we sync in `useEffect`.
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
     if (!persistApi) {
@@ -469,11 +471,10 @@ export const useStoreHydrated = () => {
       setHasHydrated(true);
     });
 
-    if (persistApi.hasHydrated()) {
-      hydrationTimeout = window.setTimeout(() => {
-        setHasHydrated(true);
-      }, 0);
-    }
+    // If hydration already finished before this effect runs, sync immediately.
+    hydrationTimeout = window.setTimeout(() => {
+      setHasHydrated(persistApi.hasHydrated());
+    }, 0);
 
     return () => {
       if (hydrationTimeout !== null) {
