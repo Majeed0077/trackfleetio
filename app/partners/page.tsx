@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -44,22 +43,6 @@ export default function PartnersPage() {
             </article>
           </div>
 
-          <div className="company-page-actions">
-            <Link className="button button-outline" href="/contact">
-              Become a Partner
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section section-cta company-page-cta">
-        <div className="container">
-          <div className="cta-panel">
-            <h2>Build hardware deployment and integration opportunities with Track Fleetio.</h2>
-            <Link className="button button-primary" href="/contact">
-              Request Demo
-            </Link>
-          </div>
         </div>
       </section>
     </main>

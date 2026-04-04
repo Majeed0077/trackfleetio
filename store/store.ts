@@ -433,6 +433,10 @@ export const useAppStore = create<StoreState>()(
       merge: (persistedState, currentState) => {
         const typedState = (persistedState ?? {}) as Partial<StoreState>;
         const legacyState = typedState as Partial<StoreState> & { theme?: unknown };
+        const currentCart = Array.isArray(currentState.cart) ? currentState.cart : [];
+        const persistedCart = Array.isArray(typedState.cart) ? typedState.cart : null;
+        const currentWishlist = Array.isArray(currentState.wishlist) ? currentState.wishlist : [];
+        const persistedWishlist = Array.isArray(typedState.wishlist) ? typedState.wishlist : null;
 
         return {
           ...currentState,
@@ -440,11 +444,12 @@ export const useAppStore = create<StoreState>()(
           themeMode: normalizeThemeMode(typedState.themeMode, legacyState.theme),
           region: normalizeRegion(typedState.region),
           authUser: null,
-          cart: Array.isArray(typedState.cart) ? typedState.cart : currentState.cart,
-          wishlist: Array.isArray(typedState.wishlist)
-            ? typedState.wishlist
-            : currentState.wishlist,
-          checkoutSelection: typedState.checkoutSelection ?? currentState.checkoutSelection,
+          cart: currentCart.length ? currentCart : (persistedCart ?? currentState.cart),
+          wishlist: currentWishlist.length
+            ? currentWishlist
+            : (persistedWishlist ?? currentState.wishlist),
+          checkoutSelection:
+            currentState.checkoutSelection ?? typedState.checkoutSelection ?? currentState.checkoutSelection,
         };
       },
     },

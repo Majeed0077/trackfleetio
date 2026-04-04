@@ -192,6 +192,17 @@ function matchesFilter(filter: DiscoveryFilter, solution: SolutionDetail) {
   }
 }
 
+function toOneLineSummary(text: string, maxLength = 96) {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+
+  if (cleaned.length <= maxLength) {
+    return cleaned;
+  }
+
+  const truncated = cleaned.slice(0, maxLength).trimEnd();
+  return `${truncated.replace(/[.,;:!?-]+$/g, "")}…`;
+}
+
 export function SolutionsCatalogPage() {
   const pathname = usePathname();
   const router = useRouter();
@@ -203,7 +214,8 @@ export function SolutionsCatalogPage() {
     matchesFilter(activeFilter, solution),
   );
   const featuredSolutions = filteredSolutions.filter((solution) => getSolutionMeta(solution).featured);
-  const featuredShelf = (featuredSolutions.length >= 3 ? featuredSolutions : filteredSolutions).slice(0, 4);
+  const featuredShelf = (featuredSolutions.length >= 3 ? featuredSolutions : filteredSolutions).slice(0, 3);
+  const heroMostUsedShelf = (featuredSolutions.length ? featuredSolutions : solutionsList).slice(0, 3);
 
   const updateFilter = (filter: DiscoveryFilter) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -249,7 +261,32 @@ export function SolutionsCatalogPage() {
                 ))}
               </div>
             </div>
-            <div className="solutions-hero-balance" aria-hidden="true" />
+            <div className="solutions-hero-panel" aria-label="Most-used solution paths">
+              <div className="solutions-hero-panel-heading">
+                <p>Most-used solution paths</p>
+                <span>Quick picks</span>
+              </div>
+
+              <div className="solutions-hero-highlights" aria-label="Common starting points">
+                {heroMostUsedShelf.map((solution) => {
+                  const meta = getSolutionMeta(solution);
+
+                  return (
+                    <article className="solutions-highlight-row" key={`hero-${solution.slug}`}>
+                      <strong>{solution.title}</strong>
+                      <p>{toOneLineSummary(meta.outcome)}</p>
+                      <Link
+                        className="solutions-inline-link is-muted solutions-hero-mini-link"
+                        href={`/solutions/${solution.slug}`}
+                        aria-label={`View details for ${solution.title}`}
+                      >
+                        View details <ArrowRight size={15} strokeWidth={2} />
+                      </Link>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
 
           </div>
         </div>
@@ -412,6 +449,7 @@ export function SolutionsCatalogPage() {
         </div>
       </section>
 
+      {false && (
       <section className="solutions-bottom-cta">
         <div className="container">
           <div className="solutions-bottom-cta-panel">
@@ -433,6 +471,7 @@ export function SolutionsCatalogPage() {
           </div>
         </div>
       </section>
+      )}
     </main>
   );
 }

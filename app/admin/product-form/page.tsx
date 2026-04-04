@@ -77,7 +77,7 @@ export default function AdminProductFormPage() {
           <AdminFormSection title="Media & merchandising" description="Gallery, key features, and specification shells used by product detail pages.">
             <AdminUploadBox copy="Gallery / images upload shell" action={<button className="button button-secondary" type="button">Upload media</button>} />
             <AdminFieldGroup label="Gallery items">
-              <AdminTextarea defaultValue={"/Products/product3.png | 4G GPS device front view | catalog-card-image-gps\n/Products/3Products.png | 4G GPS device with product lineup | catalog-card-image-dashcam"} />
+              <AdminTextarea defaultValue={"/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png | 4G GPS device front view | catalog-card-image-gps\n/Products/3Products.png | 4G GPS device with product lineup | catalog-card-image-dashcam"} />
             </AdminFieldGroup>
             <AdminFieldGroup label="Card image class">
               <AdminTextInput type="text" defaultValue="catalog-card-image-gps" />

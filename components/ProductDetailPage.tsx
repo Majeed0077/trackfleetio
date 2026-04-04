@@ -178,9 +178,6 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 ))}
               </ul>
               <div className="product-detail-actions">
-                <Link className="button button-primary" href="/contact">
-                  Request Consultation
-                </Link>
                 <button
                   className="button button-outline"
                   type="button"
@@ -294,27 +291,6 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 </div>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section className="content-section section-cta product-detail-cta">
-          <div className="cta-panel">
-            <h2>Need help matching this hardware to your fleet workflow?</h2>
-            <div className="products-hero-actions product-detail-cta-actions">
-              <Link className="button button-primary" href="/contact">
-                Talk to Solutions Team
-              </Link>
-              <button
-                className="button button-outline"
-                type="button"
-                onClick={() => {
-                  addToCart(product.id);
-                  showToast("Added to cart");
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
           </div>
         </section>
       </div>

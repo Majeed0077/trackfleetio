@@ -131,7 +131,7 @@ export const adminProducts = [
     stock: 186,
     price: "$189",
     status: "Live",
-    image: "/Products/product3.png",
+    image: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
   },
   {
     name: "AI Dashcam",
@@ -140,7 +140,7 @@ export const adminProducts = [
     stock: 48,
     price: "$329",
     status: "Live",
-    image: "/Products/dashcam.png",
+    image: "/Products/DR03.png",
   },
   {
     name: "Battery Asset Tracker",
@@ -149,7 +149,7 @@ export const adminProducts = [
     stock: 22,
     price: "$149",
     status: "Review",
-    image: "/Products/product2.png",
+    image: "/Products/Compact black electronic device close-up.png",
   },
   {
     name: "Fuel Sensor",
@@ -158,7 +158,7 @@ export const adminProducts = [
     stock: 12,
     price: "$79",
     status: "Low",
-    image: "/Products/product1.png",
+    image: "/Products/Compact black electronic device close-up.png",
   },
 ] as const;
 
@@ -275,10 +275,14 @@ export const adminUsers = [
 ] as const;
 
 export const adminMedia = [
-  { name: "hero-4g-tracker.png", meta: "Hero / Homepage", image: "/Products/product3.png" },
-  { name: "ai-dashcam.png", meta: "Product / Video", image: "/Products/dashcam.png" },
-  { name: "asset-tracker.png", meta: "Product / Asset", image: "/Products/product2.png" },
-  { name: "sensor-device.png", meta: "Product / Sensor", image: "/Products/product1.png" },
+  {
+    name: "hero-4g-tracker.png",
+    meta: "Hero / Homepage",
+    image: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+  },
+  { name: "ai-dashcam.png", meta: "Product / Video", image: "/Products/DR03.png" },
+  { name: "asset-tracker.png", meta: "Product / Asset", image: "/Products/Compact black electronic device close-up.png" },
+  { name: "sensor-device.png", meta: "Product / Sensor", image: "/Products/Compact black electronic device close-up.png" },
 ] as const;
 
 export const adminHomepageSections = homepageSectionRegistry;

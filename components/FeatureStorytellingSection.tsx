@@ -23,7 +23,7 @@ export function FeatureStorytellingSection() {
                 <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
                   src="/Products/Video 1.mp4"
-                  poster="/Products/dashcam.png"
+                  poster="/Products/DR03.png"
                   ariaLabel="Driver monitoring dashcam video"
                 />
                 <div className="story-media-overlay" aria-hidden="true">
@@ -69,14 +69,16 @@ export function FeatureStorytellingSection() {
               </div>
             </div>
             <div className="story-media story-media-alt story-media-shell" data-parallax="soft">
-              <Image
-                className={`story-media-image ${imageCard.imageClass ?? ""}`}
-                src={imageCard.imageSrc ?? ""}
-                alt={imageCard.imageAlt ?? ""}
-                width={720}
-                height={520}
-                sizes="(max-width: 991px) 100vw, 50vw"
-              />
+              <div className="story-media-frame">
+                <Image
+                  className={`story-media-image story-media-image-fill ${imageCard.imageClass ?? ""}`}
+                  src={imageCard.imageSrc ?? ""}
+                  alt={imageCard.imageAlt ?? ""}
+                  width={960}
+                  height={498}
+                  sizes="(max-width: 991px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </article>
         </div>

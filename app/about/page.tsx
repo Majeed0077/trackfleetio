@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -73,16 +72,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="content-section section-cta company-page-cta">
-        <div className="container">
-          <div className="cta-panel">
-            <h2>Talk to our team about hardware built for connected fleet operations.</h2>
-            <Link className="button button-primary" href="/contact">
-              Request Demo
-            </Link>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

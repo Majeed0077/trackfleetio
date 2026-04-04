@@ -39,17 +39,14 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
         <div className="container">
           <div className="products-hero-shell">
             <span className="products-badge">B2B Hardware Catalog</span>
-            <h1>Hardware for Connected Fleet Solutions</h1>
-            <p>Browse tracking, video telematics, and sensing devices used across deployment-ready fleet solutions.</p>
-            <div className="products-hero-actions">
-              <Link className="button button-primary" href="/contact">
-                Request Consultation
-              </Link>
-              <Link className="button button-secondary" href="/solutions">
-                Explore Solutions
-              </Link>
+              <h1>Hardware for Connected Fleet Solutions</h1>
+              <p>Browse tracking, video telematics, and sensing devices used across deployment-ready fleet solutions.</p>
+              <div className="products-hero-actions">
+                <Link className="button button-secondary" href="/solutions">
+                  Explore Solutions
+                </Link>
+              </div>
             </div>
-          </div>
         </div>
       </section>
 

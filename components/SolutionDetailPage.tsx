@@ -300,9 +300,6 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
               <p className="solution-detail-hero-description">{solution.description}</p>
 
               <div className="solution-detail-hero-actions-redesign">
-                <Link className="button button-primary" href="/contact">
-                  Talk to Solutions Team
-                </Link>
                 <Link className="button button-secondary" href="/solutions">
                   Back to Solutions
                 </Link>
@@ -570,25 +567,6 @@ export function SolutionDetailPage({ solution }: { solution: SolutionDetail }) {
                 </Link>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="solution-detail-bottom-cta">
-        <div className="container">
-          <div className="solution-detail-bottom-cta-panel">
-            <div className="solution-detail-bottom-cta-copy">
-              <p className="eyebrow">Next Step</p>
-              <h2>Shortlist the workflow first. Match hardware with the solutions team after.</h2>
-            </div>
-            <div className="solution-detail-bottom-cta-actions">
-              <Link className="button button-primary" href="/contact">
-                Request Consultation
-              </Link>
-              <Link className="solutions-inline-link is-muted" href="/products">
-                Browse hardware catalog <ArrowRight size={15} strokeWidth={2} />
-              </Link>
-            </div>
           </div>
         </div>
       </section>

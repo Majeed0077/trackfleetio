@@ -65,7 +65,7 @@ export function SignUpForm() {
       visualLabel="Enterprise-ready"
       visualTitle="Built for operators, buyers, and deployment teams"
       visualDescription="A cleaner start for product access, hardware planning, and fleet operations across your organization."
-      visualImageSrc="/Products/dashcam.png"
+      visualImageSrc="/Products/DR03.png"
       visualImageAlt="Track Fleetio AI dashcam hardware"
       trustLine="Fleet-first onboarding | Multi-region coverage | 24/7 specialist support"
       cardClassName="auth-card-wide"

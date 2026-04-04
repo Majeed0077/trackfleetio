@@ -12,11 +12,6 @@ export function IndustrySolutionPage({ industry }: { industry: IndustrySolution 
             <span className="products-badge">Industry Solution</span>
             <h1>{industry.title}</h1>
             <p>{industry.description}</p>
-            <div className="products-hero-actions industry-detail-hero-actions">
-              <Link className="button button-primary" href="/contact">
-                Request Demo
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -76,17 +71,6 @@ export function IndustrySolutionPage({ industry }: { industry: IndustrySolution 
                 <p>{useCase.description}</p>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section section-cta">
-        <div className="container">
-          <div className="cta-panel">
-            <h2>{industry.cta}</h2>
-            <Link className="button button-primary" href="/contact">
-              Request Demo
-            </Link>
           </div>
         </div>
       </section>

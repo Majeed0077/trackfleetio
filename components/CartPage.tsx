@@ -89,9 +89,6 @@ export function CartPage() {
                     <Link className="button button-secondary" href="/products">
                       Continue Shopping
                     </Link>
-                    <Link className="button button-outline" href="/contact">
-                      Request Quote
-                    </Link>
                     <button
                       className="button button-primary"
                       type="button"

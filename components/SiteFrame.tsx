@@ -6,6 +6,7 @@ import { Suspense, type ReactNode } from "react";
 import { AuthHeader } from "@/components/AuthHeader";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { ScrollToggle } from "@/components/ScrollToggle";
 
 export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -31,6 +32,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
         <Navbar key={pathname} />
       </Suspense>
       {children}
+      <ScrollToggle />
       <Footer />
     </>
   );

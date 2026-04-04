@@ -15,9 +15,13 @@ export function CheckoutPage() {
   const removeFromCheckout = useAppStore((state) => state.removeFromCheckout);
   const showToast = useAppStore((state) => state.showToast);
   const updateCheckoutQuantity = useAppStore((state) => state.updateCheckoutQuantity);
-  const checkoutContext = hasHydrated
-    ? getCheckoutContext()
-    : { mode: "cart" as const, items: [] };
+  const checkoutSelection = useAppStore((state) => state.checkoutSelection);
+  const checkoutContext =
+    hasHydrated
+      ? getCheckoutContext()
+      : checkoutSelection?.mode === "buy-now" && checkoutSelection.items.length
+        ? checkoutSelection
+        : { mode: "cart" as const, items: [] };
   const checkoutLabel = checkoutContext.mode === "buy-now" ? "Buy Now" : "Checkout";
   const summary = getFleetSummary(checkoutContext.items);
   const summaryRows = useFleetSummaryRows(checkoutContext.items);

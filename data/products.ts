@@ -35,6 +35,8 @@ const createVideoProduct = ({
   features,
   useCases,
   related = ["ai-dashcam", "ai-mdvr", "dvr-system"],
+  imageSrc = "/Products/DR03.png",
+  imageClass = "catalog-card-image-dashcam",
 }: {
   id: string;
   title: string;
@@ -43,6 +45,8 @@ const createVideoProduct = ({
   features: string[];
   useCases: string[];
   related?: string[];
+  imageSrc?: string;
+  imageClass?: string;
 }): ProductSeed => ({
   id,
   category: "video",
@@ -53,9 +57,9 @@ const createVideoProduct = ({
   features,
   useCases,
   related,
-  imageSrc: "/Products/dashcam.png",
+  imageSrc,
   imageAlt: title,
-  imageClass: "catalog-card-image-dashcam",
+  imageClass,
 });
 
 const createTrackingProduct = ({
@@ -66,7 +70,7 @@ const createTrackingProduct = ({
   features,
   useCases,
   related = ["gps-tracker", "4g-gps-device", "asset-tracking-device"],
-  imageSrc = "/Products/product3.png",
+  imageSrc = "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
   imageClass = "catalog-card-image-gps",
 }: {
   id: string;
@@ -102,6 +106,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["1-CH", "Motorcycle", "AI Dashcam"],
     features: ["Road event capture", "Compact vehicle install", "Driver safety review", "Connected dashcam workflow"],
     useCases: ["Motorcycle fleet monitoring", "Incident review", "Rider safety programs", "Route evidence capture"],
+    imageSrc: "/Products/MR01.png",
   }),
   createVideoProduct({
     id: "dr033-channel-ai-dashcam",
@@ -111,6 +116,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["AI Dashcam", "Fleet Video", "Driver Review"],
     features: ["AI-assisted event capture", "Fleet video visibility", "Driver coaching support", "Road-facing evidence workflow"],
     useCases: ["Driver monitoring", "Safety event capture", "Incident evidence", "Operational review"],
+    imageSrc: "/Products/DR03.png",
   }),
   createVideoProduct({
     id: "eh80-1-ch-aov-dash-camera",
@@ -129,6 +135,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["1-CH", "4G", "Dashcam"],
     features: ["4G video connectivity", "Remote review support", "Road-facing visibility", "Fleet deployment ready"],
     useCases: ["Live road monitoring", "Remote fleet review", "Driver accountability", "Incident response support"],
+    imageSrc: "/Products/EH21.png",
   }),
   createVideoProduct({
     id: "dr02-3-ch-4g-ai-dashcam",
@@ -147,6 +154,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["4-CH", "AI Dashcam", "Fleet Video"],
     features: ["Four-camera coverage", "Expanded fleet visibility", "AI-assisted review", "Operational evidence support"],
     useCases: ["Commercial vehicle monitoring", "Safety event analysis", "Multi-view route evidence", "Fleet compliance review"],
+    imageSrc: "/Products/EH15-V2.png",
   }),
   createVideoProduct({
     id: "eh03t-4-ch-ai-dashcam",
@@ -156,6 +164,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["4-CH", "AI", "Dashcam"],
     features: ["Four-channel coverage", "Driver and road visibility", "AI event support", "Fleet video review"],
     useCases: ["Driver coaching", "Cabin review", "Road event investigation", "Connected fleet deployments"],
+    imageSrc: "/Products/EH03T-V2.png",
   }),
   createVideoProduct({
     id: "dr01-3-ch-4g-smart-dashcam",
@@ -174,6 +183,7 @@ const aiDashcamModelProducts = buildProductMap([
     specs: ["2-CH", "Smart Dashcam", "Fleet Video"],
     features: ["Dual-camera visibility", "Smart video workflows", "Driver review support", "Compact fleet deployment"],
     useCases: ["Dual-view monitoring", "Safety coaching", "Incident evidence capture", "Operational video oversight"],
+    imageSrc: "/Products/EH24.png",
   }),
   createVideoProduct({
     id: "eh13-p-2-ch-smart-dashcam",
@@ -267,6 +277,8 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Solar-assisted runtime", "Remote asset visibility", "Lower maintenance deployment", "Live tracking alerts"],
     useCases: ["Remote asset tracking", "Trailer visibility", "Outdoor equipment monitoring", "Lower-touch deployments"],
     related: ["gps-tracker", "asset-tracking-device", "eg01g-4g-wireless-gps-tracker"],
+    imageSrc: "/Products/Solar-powered GPS tracker close-up.png",
+    imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
     id: "eg01g-4g-wireless-gps-tracker",
@@ -277,7 +289,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Wireless deployment", "Live location reporting", "Flexible install workflow", "Asset movement visibility"],
     useCases: ["Portable asset tracking", "Retrofit tracking", "Field equipment monitoring", "Vehicle visibility"],
     related: ["gps-tracker", "asset-tracking-device", "eg03g-4g-wireless-gps-tracker"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -309,7 +321,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Wireless install flexibility", "Live movement visibility", "Battery-friendly tracking workflows", "Remote asset support"],
     useCases: ["Asset recovery", "Portable equipment monitoring", "Field deployment tracking", "Wireless fleet visibility"],
     related: ["gps-tracker", "asset-tracking-device", "eg01g-4g-wireless-gps-tracker"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -477,7 +489,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Portable live tracking", "Battery-powered deployment", "Recovery support", "Small asset visibility"],
     useCases: ["Pet visibility", "Portable asset monitoring", "Location alerts", "Recovery workflows"],
     related: ["pet-tracker", "smart-watch", "asset-tracking-device"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -489,7 +501,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Wearable visibility", "Portable safety support", "Connected location workflows", "Compact field deployment"],
     useCases: ["Worker safety", "Portable location tracking", "School transport visibility", "Field team awareness"],
     related: ["smart-watch", "s6-smart-safety-wearable-for-kids", "pet-tracker"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -501,7 +513,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Portable safety visibility", "Location awareness", "Compact wearable design", "Connected alert support"],
     useCases: ["Child location visibility", "School transport support", "Family safety workflows", "Portable awareness"],
     related: ["smart-watch", "s8-smart-watch", "pet-tracker"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageClass: "catalog-card-image-asset",
   }),
 ]);
@@ -528,7 +540,7 @@ const baseProducts = {
       "Essential route oversight",
     ],
     related: ["4g-gps-device", "asset-tracking-device", "ai-dashcam"],
-    imageSrc: "/Products/product3.png",
+    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageAlt: "2G GPS device",
     imageClass: "catalog-card-image-gps",
   },
@@ -553,7 +565,7 @@ const baseProducts = {
       "Operational control rooms",
     ],
     related: ["2g-gps-device", "asset-tracking-device", "fuel-sensors"],
-    imageSrc: "/Products/product3.png",
+    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageAlt: "4G GPS device",
     imageClass: "catalog-card-image-gps",
   },
@@ -578,7 +590,7 @@ const baseProducts = {
       "Remote asset tracking",
     ],
     related: ["4g-gps-device", "harness-relays", "tilt-sensor"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageAlt: "Asset tracking device",
     imageClass: "catalog-card-image-asset",
   },
@@ -607,7 +619,7 @@ const baseProducts = {
       "dr033-channel-ai-dashcam",
       "dr02-3-ch-4g-ai-dashcam",
     ],
-    imageSrc: "/Products/dashcam.png",
+    imageSrc: "/Products/DR03.png",
     imageAlt: "AI dashcam",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -632,7 +644,7 @@ const baseProducts = {
       "Fleet evidence retention",
     ],
     related: ["ai-dashcam", "4g-gps-device", "fuel-sensors"],
-    imageSrc: "/Products/dashcam.png",
+    imageSrc: "/Products/EH25.png",
     imageAlt: "DVR system",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -661,7 +673,7 @@ const baseProducts = {
       "ed08r-8-ch-ai-powered-mdvr",
       "d8-4-ch-smart-android-video-terminal",
     ],
-    imageSrc: "/Products/dashcam.png",
+    imageSrc: "/Products/EH25.png",
     imageAlt: "AI MDVR device",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -690,7 +702,7 @@ const baseProducts = {
       "dms-driver-monitoring-camera",
       "adas-driver-monitoring-camera",
     ],
-    imageSrc: "/Products/dashcam.png",
+    imageSrc: "/Products/EH25.png",
     imageAlt: "Fleet camera system",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -719,7 +731,7 @@ const baseProducts = {
       "c02g-2g-4g-gps-tracker",
       "eg06g-4g-solar-gps-tracker",
     ],
-    imageSrc: "/Products/product3.png",
+    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageAlt: "GPS tracker",
     imageClass: "catalog-card-image-gps",
   },
@@ -744,7 +756,7 @@ const baseProducts = {
       "Recovery workflows",
     ],
     related: ["pet10-gps-tracker", "smart-watch", "asset-tracking-device"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageAlt: "PET tracker",
     imageClass: "catalog-card-image-asset",
   },
@@ -769,7 +781,7 @@ const baseProducts = {
       "Personal alert scenarios",
     ],
     related: ["s8-smart-watch", "s6-smart-safety-wearable-for-kids", "pet-tracker"],
-    imageSrc: "/Products/product2.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageAlt: "Smart watch tracker",
     imageClass: "catalog-card-image-asset",
   },
@@ -799,7 +811,7 @@ const baseProducts = {
       "Operational cost control",
     ],
     related: ["wireless-fuel-sensor", "wired-fuel-level-sensor", "4g-gps-device"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/LoRaWAN fuel sensor device close-up.png",
     imageAlt: "Fuel sensors",
     imageClass: "catalog-card-image-sensor",
   },
@@ -824,7 +836,7 @@ const baseProducts = {
       "Storage condition alerts",
     ],
     related: ["tpms", "fuel-sensors", "grain-level-sensor"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/Industrial temperature sensor close-up.png",
     imageAlt: "Temperature sensors",
     imageClass: "catalog-card-image-sensor",
   },
@@ -849,7 +861,7 @@ const baseProducts = {
       "Road performance visibility",
     ],
     related: ["temperature-sensors", "axle-load-sensor", "ai-dashcam"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/RFID reader close-up shot.png",
     imageAlt: "TPMS sensors",
     imageClass: "catalog-card-image-sensor",
   },
@@ -874,7 +886,7 @@ const baseProducts = {
       "Rapid field rollout",
     ],
     related: ["fuel-sensors", "wired-fuel-level-sensor", "harness-relays"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/LoRaWAN fuel sensor device close-up.png",
     imageAlt: "Wireless fuel sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -899,7 +911,7 @@ const baseProducts = {
       "Operations reporting",
     ],
     related: ["fuel-sensors", "wireless-fuel-sensor", "4g-gps-device"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/LoRaWAN fuel sensor device close-up.png",
     imageAlt: "Wired fuel level sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -924,7 +936,7 @@ const baseProducts = {
       "Operational condition tracking",
     ],
     related: ["asset-tracking-device", "axle-load-sensor", "tpms"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/Magnetic door sensor set close-up.png",
     imageAlt: "Tilt sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -949,7 +961,7 @@ const baseProducts = {
       "Storage reporting",
     ],
     related: ["temperature-sensors", "axle-load-sensor", "harness-relays"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageAlt: "Grain level sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -974,7 +986,7 @@ const baseProducts = {
       "Operational load awareness",
     ],
     related: ["tpms", "tilt-sensor", "grain-level-sensor"],
-    imageSrc: "/Products/product1.png",
+    imageSrc: "/Products/Compact black electronic device close-up.png",
     imageAlt: "Axle load sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -999,7 +1011,7 @@ const baseProducts = {
       "Accessory support readiness",
     ],
     related: ["4g-gps-device", "wireless-fuel-sensor", "asset-tracking-device"],
-    imageSrc: "/Products/product3.png",
+    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageAlt: "Harness and relays",
     imageClass: "catalog-card-image-gps",
   },
@@ -1008,7 +1020,7 @@ const baseProducts = {
 const galleries: Record<string, ProductImage[]> = {
   "2g-gps-device": [
     {
-      src: "/Products/product3.png",
+      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
       alt: "2G GPS device front view",
       imageClass: "catalog-card-image-gps",
     },
@@ -1020,7 +1032,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "4g-gps-device": [
     {
-      src: "/Products/product3.png",
+      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
       alt: "4G GPS device front view",
       imageClass: "catalog-card-image-gps",
     },
@@ -1032,7 +1044,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "asset-tracking-device": [
     {
-      src: "/Products/product2.png",
+      src: "/Products/Compact black electronic device close-up.png",
       alt: "Asset tracking device front view",
       imageClass: "catalog-card-image-asset",
     },
@@ -1044,7 +1056,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "ai-dashcam": [
     {
-      src: "/Products/dashcam.png",
+      src: "/Products/DR03.png",
       alt: "AI dashcam front view",
       imageClass: "catalog-card-image-dashcam",
     },
@@ -1056,7 +1068,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "dvr-system": [
     {
-      src: "/Products/dashcam.png",
+      src: "/Products/EH25.png",
       alt: "DVR system front view",
       imageClass: "catalog-card-image-dashcam",
     },
@@ -1068,7 +1080,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "ai-mdvr": [
     {
-      src: "/Products/dashcam.png",
+      src: "/Products/EH25.png",
       alt: "AI MDVR front view",
       imageClass: "catalog-card-image-dashcam",
     },
@@ -1080,7 +1092,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "camera-systems": [
     {
-      src: "/Products/dashcam.png",
+      src: "/Products/EH25.png",
       alt: "Camera system front view",
       imageClass: "catalog-card-image-dashcam",
     },
@@ -1092,7 +1104,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "gps-tracker": [
     {
-      src: "/Products/product3.png",
+      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
       alt: "GPS tracker front view",
       imageClass: "catalog-card-image-gps",
     },
@@ -1104,7 +1116,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "pet-tracker": [
     {
-      src: "/Products/product2.png",
+      src: "/Products/Compact black electronic device close-up.png",
       alt: "PET tracker front view",
       imageClass: "catalog-card-image-asset",
     },
@@ -1116,7 +1128,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "smart-watch": [
     {
-      src: "/Products/product2.png",
+      src: "/Products/Compact black electronic device close-up.png",
       alt: "Smart watch front view",
       imageClass: "catalog-card-image-asset",
     },
@@ -1128,7 +1140,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "fuel-sensors": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/LoRaWAN fuel sensor device close-up.png",
       alt: "Fuel sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1140,7 +1152,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "temperature-sensors": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/Industrial temperature sensor close-up.png",
       alt: "Temperature sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1152,7 +1164,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   tpms: [
     {
-      src: "/Products/product1.png",
+      src: "/Products/RFID reader close-up shot.png",
       alt: "TPMS front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1164,7 +1176,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "wireless-fuel-sensor": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/LoRaWAN fuel sensor device close-up.png",
       alt: "Wireless fuel sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1176,7 +1188,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "wired-fuel-level-sensor": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/LoRaWAN fuel sensor device close-up.png",
       alt: "Wired fuel level sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1188,7 +1200,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "tilt-sensor": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/Magnetic door sensor set close-up.png",
       alt: "Tilt sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1200,7 +1212,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "grain-level-sensor": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/Compact black electronic device close-up.png",
       alt: "Grain level sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1212,7 +1224,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "axle-load-sensor": [
     {
-      src: "/Products/product1.png",
+      src: "/Products/Compact black electronic device close-up.png",
       alt: "Axle load sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1224,7 +1236,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "harness-relays": [
     {
-      src: "/Products/product3.png",
+      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
       alt: "Harness and relays front view",
       imageClass: "catalog-card-image-gps",
     },
