@@ -77,8 +77,6 @@ const getUseCaseSupportCopy = (useCase: string) => {
 export function ProductDetailPage({ product }: { product: Product }) {
   const router = useRouter();
   const hasHydrated = useStoreHydrated();
-  const addToCart = useAppStore((state) => state.addToCart);
-  const showToast = useAppStore((state) => state.showToast);
   const startImmediateCheckout = useAppStore((state) => state.startImmediateCheckout);
   const toggleWishlist = useAppStore((state) => state.toggleWishlist);
   const wishlist = useAppStore((state) => state.wishlist);
@@ -297,7 +295,6 @@ export function ProductDetailPage({ product }: { product: Product }) {
     </main>
   );
 }
-
 
 
 

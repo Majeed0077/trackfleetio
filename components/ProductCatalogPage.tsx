@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ProductCard } from "@/components/ProductCard";
 import { productsList } from "@/data/products";
@@ -9,6 +9,10 @@ import { productsList } from "@/data/products";
 export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: string }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(8);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const loadMoreSentinelRef = useRef<HTMLDivElement | null>(null);
+  const loadMoreTimeoutRef = useRef<number | null>(null);
+  const lastAutoLoadAtCountRef = useRef<number>(-1);
 
   const normalizedQuery = initialQuery.trim().toLowerCase();
   const filteredProducts = productsList.filter((product) => {
@@ -32,6 +36,75 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
     ? filteredProducts.slice(0, visibleCount)
     : filteredProducts;
   const showLoadMore = shouldPaginate && filteredProducts.length > visibleCount;
+
+  const loadMoreStep = 4;
+  const loadMoreDelayMs = 2000;
+  const canAutoLoad = shouldPaginate && showLoadMore;
+
+  const loadMore = useMemo(() => {
+    return () => {
+      if (!shouldPaginate || !showLoadMore || isLoadingMore) {
+        return;
+      }
+
+      setIsLoadingMore(true);
+
+      if (loadMoreTimeoutRef.current !== null) {
+        window.clearTimeout(loadMoreTimeoutRef.current);
+      }
+
+      loadMoreTimeoutRef.current = window.setTimeout(() => {
+        setVisibleCount((currentValue) => currentValue + loadMoreStep);
+        setIsLoadingMore(false);
+      }, loadMoreDelayMs);
+    };
+  }, [isLoadingMore, loadMoreDelayMs, loadMoreStep, shouldPaginate, showLoadMore]);
+
+  useEffect(() => {
+    return () => {
+      if (loadMoreTimeoutRef.current !== null) {
+        window.clearTimeout(loadMoreTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!canAutoLoad) {
+      return;
+    }
+
+    const sentinel = loadMoreSentinelRef.current;
+
+    if (!sentinel) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+
+        if (!entry || !entry.isIntersecting) {
+          return;
+        }
+
+        if (isLoadingMore || !showLoadMore) {
+          return;
+        }
+
+        if (lastAutoLoadAtCountRef.current === visibleCount) {
+          return;
+        }
+
+        lastAutoLoadAtCountRef.current = visibleCount;
+        loadMore();
+      },
+      { rootMargin: "320px 0px" },
+    );
+
+    observer.observe(sentinel);
+
+    return () => observer.disconnect();
+  }, [canAutoLoad, isLoadingMore, loadMore, showLoadMore, visibleCount]);
 
   return (
     <main id="main-content" className="site-main">
@@ -63,15 +136,22 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
               <button
                 key={value}
                 className={`catalog-filter-pill${activeFilter === value ? " is-active" : ""}`}
-                type="button"
-                onClick={() => {
-                  setActiveFilter(value);
-                  setVisibleCount(8);
-                }}
-              >
-                {label}
-              </button>
-            ))}
+              type="button"
+              onClick={() => {
+                if (loadMoreTimeoutRef.current !== null) {
+                  window.clearTimeout(loadMoreTimeoutRef.current);
+                  loadMoreTimeoutRef.current = null;
+                }
+
+                setIsLoadingMore(false);
+                setActiveFilter(value);
+                setVisibleCount(8);
+                lastAutoLoadAtCountRef.current = -1;
+              }}
+            >
+              {label}
+            </button>
+          ))}
           </div>
         </div>
       </section>
@@ -88,11 +168,21 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
             <button
               className="button button-outline"
               type="button"
-              onClick={() => setVisibleCount((currentValue) => currentValue + 4)}
+              onClick={loadMore}
+              disabled={isLoadingMore}
+              aria-busy={isLoadingMore ? "true" : "false"}
             >
-              Load more products <span aria-hidden="true">&rarr;</span>
+              {isLoadingMore ? (
+                "Loading..."
+              ) : (
+                <>
+                  Load more products <span aria-hidden="true">&rarr;</span>
+                </>
+              )}
             </button>
           </div>
+
+          <div ref={loadMoreSentinelRef} className="catalog-load-more-sentinel" aria-hidden="true" />
         </div>
       </section>
     </main>

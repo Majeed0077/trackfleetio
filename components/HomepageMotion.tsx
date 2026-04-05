@@ -15,7 +15,7 @@ export function HomepageMotion() {
     );
     const parallaxTargets = Array.from(
       document.querySelectorAll<HTMLElement>("[data-parallax='soft']"),
-    );
+    ).filter((target) => Boolean(target.closest(".hero-section")));
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
@@ -54,29 +54,21 @@ export function HomepageMotion() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const target = entry.target as HTMLElement;
-          const isGroup = target.hasAttribute("data-reveal-group");
-
-          if (entry.isIntersecting) {
-            if (isGroup) {
-              target.classList.remove("reveal-group-pending");
-            } else {
-              target.classList.remove("reveal-pending");
-            }
-
-            target.classList.add("is-visible");
+          if (!entry.isIntersecting) {
             return;
           }
 
-          target.classList.remove("is-visible");
+          const target = entry.target as HTMLElement;
+          const isGroup = target.hasAttribute("data-reveal-group");
 
-          if (entry.boundingClientRect.top > window.innerHeight * 0.78) {
-            if (isGroup) {
-              target.classList.add("reveal-group-pending");
-            } else {
-              target.classList.add("reveal-pending");
-            }
+          if (isGroup) {
+            target.classList.remove("reveal-group-pending");
+          } else {
+            target.classList.remove("reveal-pending");
           }
+
+          target.classList.add("is-visible");
+          observer.unobserve(target);
         });
       },
       {
@@ -106,7 +98,7 @@ export function HomepageMotion() {
           0,
           1,
         );
-        const offset = (0.5 - progress) * 24;
+        const offset = (0.5 - progress) * 10;
 
         target.style.setProperty("--parallax-offset", `${offset.toFixed(2)}px`);
       });
