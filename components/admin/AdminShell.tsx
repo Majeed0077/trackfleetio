@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 
+import { ThemeLogo } from "@/components/ThemeLogo";
 import { AdminIcon } from "@/components/admin/AdminIcons";
 import styles from "@/components/admin/Admin.module.css";
 import { adminNavSections, adminPageInfo } from "@/lib/admin";
@@ -101,7 +101,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
           <header className={styles.adminTopbar}>
             <div className={styles.adminTopbarLead}>
               <Link className={styles.adminTopbarBrand} href="/admin/dashboard" aria-label="Track Fleetio admin home">
-                <Image className={styles.adminTopbarBrandLogo} src="/New-logo.png" alt="Track Fleetio logo" width={120} height={32} />
+                <ThemeLogo className={styles.adminTopbarBrandLogo} alt="Track Fleetio logo" width={120} height={32} />
               </Link>
               <div className={styles.adminTopbarCopy}>
                 <p className={styles.adminBreadcrumb}>{pageInfo.section}</p>

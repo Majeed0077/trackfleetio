@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { ThemeLogo } from "@/components/ThemeLogo";
 import { useAppStore, useStoreHydrated, type SiteRegion } from "@/store/store";
 
 const regions: { value: SiteRegion; helper: string }[] = [
@@ -62,9 +62,8 @@ export function RegionSelectorModal() {
         </button>
 
         <div className="region-modal-brand">
-          <Image
+          <ThemeLogo
             className="region-modal-logo"
-            src="/New-logo.png"
             alt="Track Fleetio logo"
             width={164}
             height={40}

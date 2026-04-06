@@ -39,6 +39,7 @@ import {
   useStoreHydrated,
   useSystemTheme,
 } from "@/store/store";
+import { ThemeLogo } from "@/components/ThemeLogo";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
 import { startRouteLoader } from "@/lib/route-loader";
 import {
@@ -671,9 +672,8 @@ export function Navbar() {
           <div className="nav-zone nav-zone-left">
             <Link className="brand" href="/" aria-label="Track Fleetio home">
               <span className="logo-container">
-                <Image
+                <ThemeLogo
                   className="brand-logo"
-                  src="/New-logo.png"
                   alt="Track Fleetio logo"
                   width={164}
                   height={40}

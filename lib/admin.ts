@@ -149,7 +149,7 @@ export const adminProducts = [
     stock: 22,
     price: "$149",
     status: "Review",
-    image: "/Products/Compact black electronic device close-up.png",
+    image: "/Products/Compact black electronic device.png",
   },
   {
     name: "Fuel Sensor",
@@ -158,7 +158,7 @@ export const adminProducts = [
     stock: 12,
     price: "$79",
     status: "Low",
-    image: "/Products/Compact black electronic device close-up.png",
+    image: "/Products/Compact black electronic device.png",
   },
 ] as const;
 
@@ -281,8 +281,8 @@ export const adminMedia = [
     image: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
   },
   { name: "ai-dashcam.png", meta: "Product / Video", image: "/Products/DR03.png" },
-  { name: "asset-tracker.png", meta: "Product / Asset", image: "/Products/Compact black electronic device close-up.png" },
-  { name: "sensor-device.png", meta: "Product / Sensor", image: "/Products/Compact black electronic device close-up.png" },
+  { name: "asset-tracker.png", meta: "Product / Asset", image: "/Products/Compact black electronic device.png" },
+  { name: "sensor-device.png", meta: "Product / Sensor", image: "/Products/Compact black electronic device.png" },
 ] as const;
 
 export const adminHomepageSections = homepageSectionRegistry;

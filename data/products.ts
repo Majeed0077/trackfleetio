@@ -224,6 +224,7 @@ const aiMdvrModelProducts = buildProductMap([
     features: ["Multi-channel recording", "AI-assisted fleet review", "Remote video access", "Operational evidence retention"],
     useCases: ["Public transport monitoring", "Commercial video telematics", "Incident review", "Fleet evidence workflows"],
     related: ["ai-mdvr", "ed08r-8-ch-ai-powered-mdvr", "d8-4-ch-smart-android-video-terminal"],
+    imageSrc: "/Products/Professional MDVR with lockable cover.png",
   }),
   createVideoProduct({
     id: "ed08r-8-ch-ai-powered-mdvr",
@@ -234,6 +235,7 @@ const aiMdvrModelProducts = buildProductMap([
     features: ["Expanded multi-camera support", "AI-powered recording workflows", "Large vehicle coverage", "Remote review readiness"],
     useCases: ["Bus and coach monitoring", "Heavy vehicle video systems", "Complex fleet recording", "Operations oversight"],
     related: ["ai-mdvr", "ed02r-v2-4-ch-ai-powered-mdvr", "d8-4-ch-smart-android-video-terminal"],
+    imageSrc: "/Products/Vehicle MDVR device with detailed front panel.png",
   }),
   createVideoProduct({
     id: "d8-4-ch-smart-android-video-terminal",
@@ -244,6 +246,7 @@ const aiMdvrModelProducts = buildProductMap([
     features: ["Smart Android platform", "Video and telematics integration", "Four-channel monitoring", "Connected vehicle workflow"],
     useCases: ["Smart fleet video operations", "Connected bus systems", "Mobile terminal deployments", "Operational review"],
     related: ["ai-mdvr", "ed02r-v2-4-ch-ai-powered-mdvr", "ed08r-8-ch-ai-powered-mdvr"],
+    imageSrc: "/Products/Vehicle MDVR device with detailed front panel.png",
   }),
 ]);
 
@@ -257,6 +260,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Live route visibility", "Vehicle status tracking", "Modern 4G deployment", "Fleet alert support"],
     useCases: ["Vehicle tracking", "Dispatch monitoring", "Operational telemetry", "Fleet movement control"],
     related: ["gps-tracker", "4g-gps-device", "kg22-4g-wired-gps-tracker"],
+    imageSrc: "/Products/Compact rugged GPS tracker.png",
   }),
   createTrackingProduct({
     id: "c02g-2g-4g-gps-tracker",
@@ -267,6 +271,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Flexible network support", "Live location status", "Movement alert workflows", "Mixed deployment ready"],
     useCases: ["Mixed fleet tracking", "Legacy-to-modern rollouts", "Asset visibility", "Operational oversight"],
     related: ["gps-tracker", "2g-gps-device", "4g-gps-device"],
+    imageSrc: "/Products/Compact GPS tracker with color-coded wires.png",
   }),
   createTrackingProduct({
     id: "eg06g-4g-solar-gps-tracker",
@@ -301,6 +306,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Hardwired fleet install", "Stable location telemetry", "Vehicle status visibility", "Operational alert support"],
     useCases: ["Permanent vehicle tracking", "Commercial fleet deployment", "Route oversight", "Operational telemetry"],
     related: ["gps-tracker", "4g-gps-device", "kg-27-4g-vehicle-gps-tracker"],
+    imageSrc: "/Products/Sleek black GPS tracker with cable.png",
   }),
   createTrackingProduct({
     id: "d03g-2g-4g-gps-tracker",
@@ -321,7 +327,7 @@ const gpsTrackerModelProducts = buildProductMap([
     features: ["Wireless install flexibility", "Live movement visibility", "Battery-friendly tracking workflows", "Remote asset support"],
     useCases: ["Asset recovery", "Portable equipment monitoring", "Field deployment tracking", "Wireless fleet visibility"],
     related: ["gps-tracker", "asset-tracking-device", "eg01g-4g-wireless-gps-tracker"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Compact black electronic device.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -489,7 +495,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Portable live tracking", "Battery-powered deployment", "Recovery support", "Small asset visibility"],
     useCases: ["Pet visibility", "Portable asset monitoring", "Location alerts", "Recovery workflows"],
     related: ["pet-tracker", "smart-watch", "asset-tracking-device"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Pet tracker with LED indicator.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -501,7 +507,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Wearable visibility", "Portable safety support", "Connected location workflows", "Compact field deployment"],
     useCases: ["Worker safety", "Portable location tracking", "School transport visibility", "Field team awareness"],
     related: ["smart-watch", "s6-smart-safety-wearable-for-kids", "pet-tracker"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/smartwatch.png",
     imageClass: "catalog-card-image-asset",
   }),
   createTrackingProduct({
@@ -513,7 +519,7 @@ const wearableModelProducts = buildProductMap([
     features: ["Portable safety visibility", "Location awareness", "Compact wearable design", "Connected alert support"],
     useCases: ["Child location visibility", "School transport support", "Family safety workflows", "Portable awareness"],
     related: ["smart-watch", "s8-smart-watch", "pet-tracker"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Compact black electronic device.png",
     imageClass: "catalog-card-image-asset",
   }),
 ]);
@@ -540,7 +546,7 @@ const baseProducts = {
       "Essential route oversight",
     ],
     related: ["4g-gps-device", "asset-tracking-device", "ai-dashcam"],
-    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+    imageSrc: "/Products/Compact GPS tracker with color-coded wires.png",
     imageAlt: "2G GPS device",
     imageClass: "catalog-card-image-gps",
   },
@@ -565,7 +571,7 @@ const baseProducts = {
       "Operational control rooms",
     ],
     related: ["2g-gps-device", "asset-tracking-device", "fuel-sensors"],
-    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+    imageSrc: "/Products/Sleek black GPS tracker with cable.png",
     imageAlt: "4G GPS device",
     imageClass: "catalog-card-image-gps",
   },
@@ -590,7 +596,7 @@ const baseProducts = {
       "Remote asset tracking",
     ],
     related: ["4g-gps-device", "harness-relays", "tilt-sensor"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Compact black electronic device.png",
     imageAlt: "Asset tracking device",
     imageClass: "catalog-card-image-asset",
   },
@@ -644,7 +650,7 @@ const baseProducts = {
       "Fleet evidence retention",
     ],
     related: ["ai-dashcam", "4g-gps-device", "fuel-sensors"],
-    imageSrc: "/Products/EH25.png",
+    imageSrc: "/Products/Vehicle MDVR device with detailed front panel.png",
     imageAlt: "DVR system",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -673,7 +679,7 @@ const baseProducts = {
       "ed08r-8-ch-ai-powered-mdvr",
       "d8-4-ch-smart-android-video-terminal",
     ],
-    imageSrc: "/Products/EH25.png",
+    imageSrc: "/Products/Professional MDVR with lockable cover.png",
     imageAlt: "AI MDVR device",
     imageClass: "catalog-card-image-dashcam",
   },
@@ -731,7 +737,7 @@ const baseProducts = {
       "c02g-2g-4g-gps-tracker",
       "eg06g-4g-solar-gps-tracker",
     ],
-    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+    imageSrc: "/Products/Compact rugged GPS tracker.png",
     imageAlt: "GPS tracker",
     imageClass: "catalog-card-image-gps",
   },
@@ -756,7 +762,7 @@ const baseProducts = {
       "Recovery workflows",
     ],
     related: ["pet10-gps-tracker", "smart-watch", "asset-tracking-device"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Pet tracker with LED indicator.png",
     imageAlt: "PET tracker",
     imageClass: "catalog-card-image-asset",
   },
@@ -781,7 +787,7 @@ const baseProducts = {
       "Personal alert scenarios",
     ],
     related: ["s8-smart-watch", "s6-smart-safety-wearable-for-kids", "pet-tracker"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/smartwatch.png",
     imageAlt: "Smart watch tracker",
     imageClass: "catalog-card-image-asset",
   },
@@ -961,7 +967,7 @@ const baseProducts = {
       "Storage reporting",
     ],
     related: ["temperature-sensors", "axle-load-sensor", "harness-relays"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Compact black electronic device.png",
     imageAlt: "Grain level sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -986,7 +992,7 @@ const baseProducts = {
       "Operational load awareness",
     ],
     related: ["tpms", "tilt-sensor", "grain-level-sensor"],
-    imageSrc: "/Products/Compact black electronic device close-up.png",
+    imageSrc: "/Products/Compact black electronic device.png",
     imageAlt: "Axle load sensor",
     imageClass: "catalog-card-image-sensor",
   },
@@ -1011,17 +1017,22 @@ const baseProducts = {
       "Accessory support readiness",
     ],
     related: ["4g-gps-device", "wireless-fuel-sensor", "asset-tracking-device"],
-    imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
-    imageAlt: "Harness and relays",
-    imageClass: "catalog-card-image-gps",
+    imageSrc: "/Products/Industrial-grade UPS device with cables.png",
+    imageAlt: "Industrial-grade power accessory with cables",
+    imageClass: "catalog-card-image-asset",
   },
 } satisfies Record<string, Omit<Product, "gallery">>;
 
 const galleries: Record<string, ProductImage[]> = {
   "2g-gps-device": [
     {
-      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+      src: "/Products/Compact GPS tracker with color-coded wires.png",
       alt: "2G GPS device front view",
+      imageClass: "catalog-card-image-gps",
+    },
+    {
+      src: "/Products/Sleek black GPS tracker with cable.png",
+      alt: "2G GPS device alternate view",
       imageClass: "catalog-card-image-gps",
     },
     {
@@ -1032,8 +1043,13 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "4g-gps-device": [
     {
-      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+      src: "/Products/Sleek black GPS tracker with cable.png",
       alt: "4G GPS device front view",
+      imageClass: "catalog-card-image-gps",
+    },
+    {
+      src: "/Products/Compact rugged GPS tracker.png",
+      alt: "4G GPS device alternate view",
       imageClass: "catalog-card-image-gps",
     },
     {
@@ -1044,7 +1060,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "asset-tracking-device": [
     {
-      src: "/Products/Compact black electronic device close-up.png",
+      src: "/Products/Compact black electronic device.png",
       alt: "Asset tracking device front view",
       imageClass: "catalog-card-image-asset",
     },
@@ -1068,8 +1084,13 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "dvr-system": [
     {
-      src: "/Products/EH25.png",
+      src: "/Products/Vehicle MDVR device with detailed front panel.png",
       alt: "DVR system front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/Professional MDVR with lockable cover.png",
+      alt: "DVR system alternate view",
       imageClass: "catalog-card-image-dashcam",
     },
     {
@@ -1080,8 +1101,13 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "ai-mdvr": [
     {
-      src: "/Products/EH25.png",
+      src: "/Products/Professional MDVR with lockable cover.png",
       alt: "AI MDVR front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/Vehicle MDVR device with detailed front panel.png",
+      alt: "AI MDVR alternate view",
       imageClass: "catalog-card-image-dashcam",
     },
     {
@@ -1104,8 +1130,13 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "gps-tracker": [
     {
-      src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+      src: "/Products/Compact rugged GPS tracker.png",
       alt: "GPS tracker front view",
+      imageClass: "catalog-card-image-gps",
+    },
+    {
+      src: "/Products/Sleek black GPS tracker with cable.png",
+      alt: "GPS tracker alternate view",
       imageClass: "catalog-card-image-gps",
     },
     {
@@ -1116,8 +1147,13 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "pet-tracker": [
     {
-      src: "/Products/Compact black electronic device close-up.png",
+      src: "/Products/Pet tracker with LED indicator.png",
       alt: "PET tracker front view",
+      imageClass: "catalog-card-image-asset",
+    },
+    {
+      src: "/Products/Compact black electronic device.png",
+      alt: "PET tracker alternate view",
       imageClass: "catalog-card-image-asset",
     },
     {
@@ -1128,7 +1164,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "smart-watch": [
     {
-      src: "/Products/Compact black electronic device close-up.png",
+      src: "/Products/smartwatch.png",
       alt: "Smart watch front view",
       imageClass: "catalog-card-image-asset",
     },
@@ -1212,7 +1248,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "grain-level-sensor": [
     {
-      src: "/Products/Compact black electronic device close-up.png",
+      src: "/Products/Compact black electronic device.png",
       alt: "Grain level sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1224,7 +1260,7 @@ const galleries: Record<string, ProductImage[]> = {
   ],
   "axle-load-sensor": [
     {
-      src: "/Products/Compact black electronic device close-up.png",
+      src: "/Products/Compact black electronic device.png",
       alt: "Axle load sensor front view",
       imageClass: "catalog-card-image-sensor",
     },
@@ -1239,6 +1275,11 @@ const galleries: Record<string, ProductImage[]> = {
       src: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
       alt: "Harness and relays front view",
       imageClass: "catalog-card-image-gps",
+    },
+    {
+      src: "/Products/Industrial-grade UPS device with cables.png",
+      alt: "Industrial-grade power accessory with cables",
+      imageClass: "catalog-card-image-asset",
     },
     {
       src: "/Products/3Products.png",

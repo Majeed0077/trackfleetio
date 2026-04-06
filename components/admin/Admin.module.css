@@ -77,8 +77,8 @@
 .adminInlineStack { display: grid; gap: 2px; }
 .adminInlineStack small { color: var(--text-muted); font-size: .75rem; }
 .adminStatus { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; letter-spacing: .04em; }
-.adminStatusPositive { background: color-mix(in srgb, #22c55e 12%, transparent); color: #22c55e; }
-.adminStatusWarning { background: color-mix(in srgb, #f59e0b 12%, transparent); color: #f59e0b; }
+.adminStatusPositive { background: var(--success-soft); color: var(--success); }
+.adminStatusWarning { background: var(--warning-soft); color: var(--warning); }
 .adminStatusDanger { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
 .adminTextLink { border: 0; background: transparent; color: var(--text); font-size: .875rem; font-weight: 500; }
 .adminTextLink:hover { color: var(--accent); }

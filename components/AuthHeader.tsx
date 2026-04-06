@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ThemeLogo } from "@/components/ThemeLogo";
 
 export function AuthHeader() {
   return (
@@ -8,9 +8,8 @@ export function AuthHeader() {
         <div className="auth-page-header-shell">
           <Link className="brand" href="/" aria-label="Track Fleetio home">
             <span className="logo-container">
-              <Image
+              <ThemeLogo
                 className="brand-logo"
-                src="/New-logo.png"
                 alt="Track Fleetio logo"
                 width={164}
                 height={40}

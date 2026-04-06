@@ -7,6 +7,7 @@ import { HomepageMotion } from "@/components/HomepageMotion";
 import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
 import { HomeSupportSection } from "@/components/HomeSupportSection";
 import { ResultsSection } from "@/components/ResultsSection";
+import { TrustEvidenceSection } from "@/components/TrustEvidenceSection";
 
 export function HomePage() {
   return (
@@ -18,6 +19,7 @@ export function HomePage() {
       <FleetArchitectureSection />
       <HomeIndustriesSection />
       <HardwareSection />
+      <TrustEvidenceSection />
       <ResultsSection />
       <HomeSupportSection />
     </main>

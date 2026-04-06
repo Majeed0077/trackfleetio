@@ -129,7 +129,8 @@ export function ProductDetailPage({ product }: { product: Product }) {
                     width={PRODUCT_DETAIL_IMAGE_WIDTH}
                     height={PRODUCT_DETAIL_IMAGE_HEIGHT}
                     sizes="(max-width: 991px) 100vw, 50vw"
-                    priority
+                    loading="eager"
+                    fetchPriority="high"
                   />
                 </div>
                 {product.gallery.length > 1 ? (
@@ -295,7 +296,6 @@ export function ProductDetailPage({ product }: { product: Product }) {
     </main>
   );
 }
-
 
 
 

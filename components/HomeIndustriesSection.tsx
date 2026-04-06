@@ -26,17 +26,24 @@ export function HomeIndustriesSection() {
         </div>
 
         <div className="industries-showcase" data-reveal-group>
-          <Link className="industry-featured-card" href={homeIndustriesContent.featured.href} aria-label="View logistics industry details" data-reveal-item>
-            <div className="industry-featured-media" data-parallax="soft">
-              <Image
-                className="industry-featured-image"
-                src={homeIndustriesContent.featured.imageSrc}
-                alt={homeIndustriesContent.featured.imageAlt}
-                width={720}
-                height={520}
-                sizes="(max-width: 991px) 100vw, 50vw"
-              />
-            </div>
+          <div className="industry-featured-card" data-reveal-item>
+            <Link
+              className="industry-featured-media-link"
+              href={homeIndustriesContent.featured.href}
+              aria-label="View logistics industry details"
+            >
+              <div className="industry-featured-media" data-parallax="soft">
+                <Image
+                  className="industry-featured-image"
+                  src={homeIndustriesContent.featured.imageSrc}
+                  alt={homeIndustriesContent.featured.imageAlt}
+                  width={720}
+                  height={520}
+                  sizes="(max-width: 991px) 100vw, 50vw"
+                />
+              </div>
+            </Link>
+
             <div className="industry-featured-content">
               <div className="industry-card-copy">
                 <div className="industry-card-meta">
@@ -47,57 +54,70 @@ export function HomeIndustriesSection() {
                 </div>
                 <h3>{homeIndustriesContent.featured.title}</h3>
                 <p>{homeIndustriesContent.featured.description}</p>
-                <div className="industry-capabilities">
-                  <span className="industry-capabilities-label">Key Capabilities</span>
-                  <ul className="industry-capabilities-list">
-                    {homeIndustriesContent.featured.keyCapabilities.map((capability) => (
-                      <li key={capability}>{capability}</li>
-                    ))}
-                  </ul>
-                </div>
+
+                <ul className="industry-capabilities-list">
+                  {homeIndustriesContent.featured.keyCapabilities.slice(0, 3).map((capability) => (
+                    <li key={capability}>{capability}</li>
+                  ))}
+                </ul>
+
                 <div className="industry-featured-features" aria-label="Logistics highlights">
                   {homeIndustriesContent.featured.featureItems.map((item) => {
                     const Icon = iconMap[item.icon];
 
                     return (
-                      <div className="industry-feature-item" key={item.label}>
-                        <div className="industry-feature-meta">
-                          <span className="industry-feature-icon" aria-hidden="true">
-                            <Icon size={18} strokeWidth={1.9} />
-                          </span>
-                          <span className="industry-card-micro-label">{item.label}</span>
-                        </div>
+                      <div className="industry-feature-chip" key={item.label}>
+                        <span className="industry-feature-icon" aria-hidden="true">
+                          <Icon size={16} strokeWidth={1.9} />
+                        </span>
                         <span>{item.text}</span>
                       </div>
                     );
                   })}
                 </div>
+
+                <Link className="industry-featured-link" href={homeIndustriesContent.featured.href}>
+                  Explore Industry <span aria-hidden="true">&rarr;</span>
+                </Link>
               </div>
             </div>
-          </Link>
+          </div>
 
-          <div className="industries-stack">
+          <aside className="industries-stack" aria-label="Industry selector">
+            <div className="industries-stack-intro" data-reveal-item>
+              <span className="industry-card-micro-label">Operating Environments</span>
+              <p>Choose the industry lens that matches the fleet workflow you want to explore.</p>
+            </div>
+
             {homeIndustriesContent.stackCards.map((card) => {
               const Icon = iconMap[card.icon];
 
               return (
                 <Link className="industry-stack-card" href={card.href} aria-label={`View ${card.title} industry details`} data-reveal-item key={card.title}>
+                  <span className="industry-stack-index" aria-hidden="true">
+                    {String(homeIndustriesContent.stackCards.indexOf(card) + 1).padStart(2, "0")}
+                  </span>
                   <div className="industry-stack-content">
                     <div className="industry-card-copy">
                       <div className="industry-card-meta">
                         <span className="industry-card-icon" aria-hidden="true">
-                          <Icon size={18} strokeWidth={1.9} />
+                          <Icon size={16} strokeWidth={1.9} />
                         </span>
                         <span className="industry-card-micro-label">{card.microLabel}</span>
                       </div>
-                      <h3>{card.title}</h3>
+                      <div className="industry-stack-heading">
+                        <h3>{card.title}</h3>
+                        <span className="industry-stack-arrow" aria-hidden="true">
+                          &rarr;
+                        </span>
+                      </div>
                       <p>{card.description}</p>
                     </div>
                   </div>
                 </Link>
               );
             })}
-          </div>
+          </aside>
         </div>
       </div>
     </section>

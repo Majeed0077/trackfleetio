@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ThemeLogo } from "@/components/ThemeLogo";
 import {
   footerBranding,
   footerEditorialContent,
@@ -147,9 +147,8 @@ export function Footer() {
 
         <div className="footer-legal-row">
           <Link className="footer-brand" href="/" aria-label="Track Fleetio home">
-            <Image
+            <ThemeLogo
               className="brand-logo"
-              src="/New-logo.png"
               alt="Track Fleetio logo"
               width={164}
               height={40}

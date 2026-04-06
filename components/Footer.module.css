@@ -10,5 +10,5 @@
 }
 
 .statusSuccess {
-  color: #22c55e;
+  color: var(--success);
 }

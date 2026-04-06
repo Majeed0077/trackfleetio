@@ -73,6 +73,19 @@ export type HomepageSupportCard = {
   icon: "chat" | "mail" | "phone";
 };
 
+export type HomepageTrustStat = {
+  value: string;
+  label: string;
+  detail: string;
+  icon: "globe" | "route" | "boxes" | "map";
+};
+
+export type HomepageTrustReview = {
+  platform: string;
+  score: string;
+  summary: string;
+};
+
 export const homepageSectionRegistry = [
   { title: "Hero", desc: "Headline, subtext, primary CTA, device collage.", visible: true, status: "Live" },
   { title: "Metrics", desc: "Trust metrics strip under hero with operational proof points.", visible: true, status: "Live" },
@@ -212,7 +225,7 @@ export const hardwareEcosystemContent = {
         "Trailer monitoring",
       ],
       href: "/products/asset-tracking-device",
-      imageSrc: "/Products/Compact black electronic device close-up.png",
+      imageSrc: "/Products/Compact black electronic device.png",
       imageAlt: "Track Fleetio asset tracker",
       imageClass: "product-media-image-asset",
     },
@@ -293,6 +306,56 @@ export const resultsContent = {
       description: "Turn alerts and footage into repeatable follow-up across safety and operations.",
     },
   ] satisfies HomepageOutcome[],
+} as const;
+
+export const homepageTrustContent = {
+  eyebrow: "Trust & Reach",
+  heading: "Operational proof, presented where buyers expect it",
+  description:
+    "Placed after the hardware story so the numbers reinforce credibility right before the outcomes section and final conversion path.",
+  stats: [
+    {
+      value: "05+",
+      label: "Countries",
+      detail: "Active rollout coverage across multiple fleet operating regions.",
+      icon: "globe",
+    },
+    {
+      value: "18K+",
+      label: "Collection Trips",
+      detail: "Tracked field movements and repeat operational journeys.",
+      icon: "route",
+    },
+    {
+      value: "1,200K+",
+      label: "Assets & Bins",
+      detail: "Connected containers, vehicles, and movable fleet equipment.",
+      icon: "boxes",
+    },
+    {
+      value: "25+",
+      label: "Towns",
+      detail: "Local area coverage for regional operations and route visibility.",
+      icon: "map",
+    },
+  ] satisfies HomepageTrustStat[],
+  reviews: [
+    {
+      platform: "G2",
+      score: "4.8/5",
+      summary: "Operational teams rate deployment clarity and day-to-day visibility highly.",
+    },
+    {
+      platform: "Capterra",
+      score: "4.9/5",
+      summary: "Strong fit for buyers comparing telematics, sensors, and video in one stack.",
+    },
+    {
+      platform: "SourceForge",
+      score: "5.0/5",
+      summary: "Consistently valued for practical workflows and clean fleet rollout support.",
+    },
+  ] satisfies HomepageTrustReview[],
 } as const;
 
 export const architectureContent = {
