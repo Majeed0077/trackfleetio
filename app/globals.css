@@ -1452,21 +1452,21 @@ input:disabled {
 }
 
 .nav-menu-mega {
-  width: min(920px, calc(100vw - 88px));
+  width: min(860px, calc(100vw - 112px));
 }
 
 .nav-menu-structured {
-  width: min(440px, calc(100vw - 64px));
+  width: min(408px, calc(100vw - 72px));
 }
 
 .nav-menu-simple {
-  width: 240px;
+  width: 224px;
 }
 
 .nav-menu-surface {
   overflow: hidden;
   border: 1px solid var(--menu-border);
-  border-radius: 22px;
+  border-radius: 20px;
   background:
     radial-gradient(circle at 100% 0%, rgba(239, 68, 68, 0.08), transparent 20%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 32%),
@@ -1477,13 +1477,13 @@ input:disabled {
 
 .nav-menu-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 232px;
-  gap: 24px;
-  padding: 22px;
+  grid-template-columns: minmax(0, 1fr) 214px;
+  gap: 18px;
+  padding: 18px;
 }
 
 .nav-menu-layout-tabbed {
-  grid-template-columns: 170px minmax(0, 1fr) 258px;
+  grid-template-columns: 156px minmax(0, 1fr) 228px;
   gap: 0;
   padding: 0;
 }
@@ -1491,8 +1491,8 @@ input:disabled {
 .nav-menu-rail {
   display: grid;
   align-content: start;
-  gap: 14px;
-  padding: 20px 14px 18px 18px;
+  gap: 12px;
+  padding: 18px 12px 16px 16px;
   border-right: 1px solid var(--menu-divider);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 46%),
@@ -1510,12 +1510,12 @@ input:disabled {
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  padding: 10px 12px;
+  padding: 9px 11px;
   border: 0;
-  border-radius: 14px;
+  border-radius: 12px;
   background: transparent;
   color: var(--text);
-  font-size: 0.94rem;
+  font-size: 0.88rem;
   font-weight: 600;
   text-align: left;
   transition:
@@ -1538,24 +1538,24 @@ input:disabled {
 .nav-menu-main {
   display: grid;
   align-content: start;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
-  padding: 20px 20px 18px;
+  padding: 18px 18px 16px;
 }
 
 .nav-menu-feature-list {
   display: grid;
-  gap: 6px;
+  gap: 4px;
   max-width: none;
 }
 
 .nav-menu-feature-link {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 9px;
   align-items: start;
-  padding: 10px 12px;
-  border-radius: 14px;
+  padding: 8px 10px;
+  border-radius: 12px;
   border: 1px solid transparent;
   color: var(--text);
   transition:
@@ -1578,9 +1578,9 @@ input:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 9px;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.12);
   color: var(--accent);
@@ -1588,21 +1588,21 @@ input:disabled {
 
 .nav-menu-feature-copy {
   display: grid;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
 }
 
 .nav-menu-feature-title {
   color: inherit;
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   font-weight: 650;
   line-height: 1.22;
 }
 
 .nav-menu-feature-description {
   color: var(--menu-helper);
-  font-size: 0.83rem;
-  line-height: 1.45;
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 .nav-menu-columns {
@@ -1624,7 +1624,7 @@ input:disabled {
 .nav-menu-label {
   margin: 0;
   color: var(--menu-label);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1639,12 +1639,12 @@ input:disabled {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 10px;
+  padding: 6px 9px;
   border-radius: 8px;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.35;
   transition:
     background-color 0.18s ease,
     padding-left 0.18s ease,
@@ -1684,10 +1684,10 @@ input:disabled {
 .nav-menu-panel {
   display: grid;
   align-content: start;
-  gap: 10px;
-  padding: 18px;
+  gap: 8px;
+  padding: 16px;
   border: 1px solid var(--menu-panel-border);
-  border-radius: 18px;
+  border-radius: 16px;
   background: var(--menu-panel-bg);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -1709,21 +1709,21 @@ input:disabled {
 .nav-menu-panel-preview::before {
   content: "";
   position: absolute;
-  top: 18px;
-  left: 18px;
-  right: 18px;
+  top: 16px;
+  left: 16px;
+  right: 16px;
   height: 1px;
   background: linear-gradient(90deg, rgba(148, 163, 184, 0.18), rgba(148, 163, 184, 0));
 }
 
 .nav-menu-preview-media {
   overflow: hidden;
-  border-radius: 14px;
-  aspect-ratio: 16 / 9.5;
+  border-radius: 12px;
+  aspect-ratio: 16 / 8.75;
   background: var(--product-media-bg);
   display: grid;
   place-items: center;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .nav-menu-preview-image {
@@ -1733,8 +1733,8 @@ input:disabled {
 }
 
 .nav-menu-preview-image-contain {
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
   object-fit: contain;
 }
 
@@ -1810,7 +1810,7 @@ input:disabled {
 .nav-menu-panel-label {
   margin: 0;
   color: var(--menu-label);
-  font-size: 0.6875rem;
+  font-size: 0.64rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1818,7 +1818,7 @@ input:disabled {
 
 .nav-menu-panel-title {
   margin: 0;
-  font-size: 1.32rem;
+  font-size: 1.12rem;
   line-height: 1.08;
   letter-spacing: -0.02em;
 }
@@ -1827,8 +1827,8 @@ input:disabled {
 .nav-menu-helper {
   margin: 0;
   color: var(--menu-helper);
-  font-size: 0.86rem;
-  line-height: 1.58;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 .nav-menu-panel-link,
@@ -1837,7 +1837,7 @@ input:disabled {
   align-items: center;
   gap: 6px;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 500;
   transition:
     color 0.18s ease,
@@ -1902,30 +1902,30 @@ input:disabled {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 14px 18px 16px;
+  padding: 12px 16px 14px;
   border-top: 1px solid var(--menu-divider);
   background: rgba(255, 255, 255, 0.015);
 }
 
 .nav-menu-structured .nav-menu-surface,
 .nav-menu-simple .nav-menu-surface {
-  padding: 24px;
+  padding: 20px;
 }
 
 .nav-menu-intro {
   display: grid;
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 6px;
+  margin-bottom: 14px;
 }
 
 .nav-menu-grid-links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 10px;
+  gap: 6px 8px;
 }
 
 .nav-menu-links-simple {
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-utilities {
@@ -2452,7 +2452,7 @@ input:disabled {
 
 .hero-copy h1 {
   margin: 0;
-  font-size: clamp(2.75rem, 3.8vw, 3.35rem);
+  font-size: clamp(2.35rem, 3.35vw, 2.9rem);
   line-height: 1.06;
   letter-spacing: -0.03em;
   font-weight: 700;
@@ -2485,7 +2485,7 @@ input:disabled {
   max-width: 490px;
   margin: 16px 0 0;
   color: var(--text-secondary);
-  font-size: 0.96rem;
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
 }
@@ -2648,7 +2648,7 @@ input:disabled {
 
 .section-heading h2 {
   margin: 0;
-  font-size: clamp(2rem, 3vw, 2.62rem);
+  font-size: clamp(1.74rem, 2.5vw, 2.22rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
   font-weight: 700;
@@ -2657,7 +2657,7 @@ input:disabled {
 .section-subtitle {
   margin: 10px 0 0;
   color: var(--text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   line-height: 1.56;
   font-weight: 400;
 }
@@ -2766,7 +2766,7 @@ input:disabled {
 
 .product-card h3 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.14rem;
   line-height: 1.08;
   letter-spacing: -0.02em;
   font-weight: 600;
@@ -2784,7 +2784,7 @@ input:disabled {
 .product-card p {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.96rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   font-weight: 400;
 }
@@ -2796,7 +2796,7 @@ input:disabled {
   padding: 0;
   list-style: none;
   color: var(--text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   line-height: 1.54;
   font-weight: 400;
 }
@@ -4136,7 +4136,7 @@ input:disabled {
 
 .products-hero h1 {
   margin: 10px 0 0;
-  font-size: clamp(2.2rem, 3.15vw, 2.95rem);
+  font-size: clamp(1.94rem, 2.75vw, 2.45rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
 }
@@ -4145,7 +4145,7 @@ input:disabled {
   max-width: 640px;
   margin: 10px auto 0;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   line-height: 1.54;
 }
 
@@ -4219,6 +4219,7 @@ input:disabled {
 }
 
 .catalog-grid-unified {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
 }
 
@@ -4371,7 +4372,7 @@ input:disabled {
 
 .catalog-card h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.92rem;
   line-height: 1.16;
   letter-spacing: -0.01em;
 }
@@ -4385,7 +4386,7 @@ input:disabled {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.8rem;
+  font-size: 0.74rem;
 }
 
 .catalog-card-list {
@@ -4395,7 +4396,7 @@ input:disabled {
   padding: 0;
   list-style: none;
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   line-height: 1.36;
 }
 
@@ -4679,7 +4680,7 @@ input:disabled {
 
 .product-detail-copy h1 {
   margin: 0;
-  font-size: clamp(1.98rem, 2.9vw, 2.68rem);
+  font-size: clamp(1.72rem, 2.3vw, 2.16rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
 }
@@ -4688,7 +4689,7 @@ input:disabled {
   margin: 0;
   max-width: 58ch;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   line-height: 1.56;
 }
 
@@ -7134,7 +7135,7 @@ input:disabled {
 
 .client-proof-header h2 {
   margin: 0;
-  font-size: clamp(2.1rem, 3.2vw, 2.75rem);
+  font-size: clamp(1.82rem, 2.6vw, 2.22rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }
@@ -7142,7 +7143,7 @@ input:disabled {
 .client-proof-header .section-subtitle {
   margin: 0;
   max-width: 46ch;
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.72;
 }
 
@@ -7331,7 +7332,7 @@ input:disabled {
 .cta-panel h2 {
   max-width: 12ch;
   margin: 0;
-  font-size: clamp(1.85rem, 2.9vw, 2.5rem);
+  font-size: clamp(1.62rem, 2.3vw, 2rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
   font-weight: 700;
@@ -7342,7 +7343,7 @@ input:disabled {
   max-width: 56ch;
   margin: 0;
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.65;
 }
 
@@ -7471,7 +7472,7 @@ input:disabled {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  font-size: clamp(2.15rem, 3.5vw, 3.3rem);
+  font-size: clamp(1.8rem, 2.85vw, 2.5rem);
   font-weight: 700;
   line-height: 1.06;
   letter-spacing: -0.05em;
@@ -10441,7 +10442,7 @@ input:disabled {
 .solutions-hero-copy h1 {
   max-width: 780px;
   margin: 20px 0 0;
-  font-size: clamp(2.16rem, 3vw, 3.02rem);
+  font-size: clamp(1.92rem, 2.5vw, 2.45rem);
   line-height: 1.04;
   letter-spacing: -0.05em;
 }
@@ -10450,7 +10451,7 @@ input:disabled {
   max-width: 600px;
   margin: 20px 0 0;
   color: rgba(226, 232, 240, 0.82);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   line-height: 1.58;
 }
 
@@ -10626,7 +10627,7 @@ input:disabled {
 .solutions-section-head h2 {
   max-width: 780px;
   margin: 0;
-  font-size: clamp(1.7rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.5rem, 2vw, 1.88rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }
@@ -10644,7 +10645,7 @@ input:disabled {
 
 .solutions-section-head-featured h2 {
   max-width: 780px;
-  font-size: clamp(1.95rem, 3.2vw, 2.7rem);
+  font-size: clamp(1.66rem, 2.45vw, 2.08rem);
   line-height: 1.08;
 }
 
@@ -11057,7 +11058,7 @@ input:disabled {
 .solution-detail-hero-copy-redesign h1 {
   max-width: 780px;
   margin: 16px 0 0;
-  font-size: clamp(2.08rem, 3vw, 3rem);
+  font-size: clamp(1.82rem, 2.45vw, 2.34rem);
   line-height: 1.04;
   letter-spacing: -0.05em;
 }
@@ -11066,7 +11067,7 @@ input:disabled {
   max-width: 600px;
   margin: 18px 0 0;
   color: rgba(226, 232, 240, 0.82);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   line-height: 1.58;
 }
 
@@ -11232,7 +11233,7 @@ input:disabled {
 .solution-detail-intro-card h2 {
   max-width: 12ch;
   margin: 0;
-  font-size: clamp(1.72rem, 2.8vw, 2.36rem);
+  font-size: clamp(1.5rem, 2.2vw, 1.92rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }
@@ -11241,7 +11242,7 @@ input:disabled {
   margin: 0;
   max-width: 60ch;
   color: rgba(203, 213, 225, 0.82);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   line-height: 1.58;
 }
 
@@ -11419,7 +11420,7 @@ input:disabled {
 .solution-detail-bottom-cta-copy h2 {
   max-width: 12ch;
   margin: 0;
-  font-size: clamp(1.82rem, 3.2vw, 2.72rem);
+  font-size: clamp(1.58rem, 2.45vw, 2.02rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }

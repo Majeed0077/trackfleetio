@@ -68,7 +68,7 @@ export function ProductCard({
             alt={product.imageAlt}
             width={PRODUCT_CARD_IMAGE_WIDTH}
             height={PRODUCT_CARD_IMAGE_HEIGHT}
-            sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, (max-width: 1399px) 33vw, 20vw"
             loading={prioritizeImage ? "eager" : "lazy"}
             fetchPriority={prioritizeImage ? "high" : "auto"}
           />

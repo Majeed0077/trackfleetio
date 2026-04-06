@@ -6,7 +6,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { productsList } from "@/data/products";
 
-export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: string }) {
+export function ProductCatalogPage({
+  initialQuery = "",
+}: {
+  initialQuery?: string;
+}) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(8);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -136,21 +140,21 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
               <button
                 key={value}
                 className={`catalog-filter-pill${activeFilter === value ? " is-active" : ""}`}
-              type="button"
-              onClick={() => {
-                if (loadMoreTimeoutRef.current !== null) {
-                  window.clearTimeout(loadMoreTimeoutRef.current);
-                  loadMoreTimeoutRef.current = null;
-                }
+                type="button"
+                onClick={() => {
+                  if (loadMoreTimeoutRef.current !== null) {
+                    window.clearTimeout(loadMoreTimeoutRef.current);
+                    loadMoreTimeoutRef.current = null;
+                  }
 
-                setIsLoadingMore(false);
-                setActiveFilter(value);
-                setVisibleCount(8);
-                lastAutoLoadAtCountRef.current = -1;
-              }}
-            >
-              {label}
-            </button>
+                  setIsLoadingMore(false);
+                  setActiveFilter(value);
+                  setVisibleCount(8);
+                  lastAutoLoadAtCountRef.current = -1;
+                }}
+              >
+                {label}
+              </button>
           ))}
           </div>
         </div>
