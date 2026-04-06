@@ -1,10 +1,14 @@
 import Link from "next/link";
 
-import { AdminPageHeader, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
+import { AdminPageHeader, AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminCategories } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 
-export default function AdminCategoriesPage() {
+export default async function AdminCategoriesPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const categoriesPagination = getPagination(adminCategories, resolvedSearchParams);
+
   return (
     <>
       <AdminPageHeader
@@ -15,7 +19,7 @@ export default function AdminCategoriesPage() {
       <AdminTableCard title="Storefront categories" description="Current category records with display order and status.">
         <AdminTable
           headers={["Name", "Slug", "Featured", "Order", "Status", "Action"]}
-          rows={adminCategories.map((category) => (
+          rows={categoriesPagination.items.map((category) => (
             <tr key={category.slug}>
               <td><span className={styles.adminTableTitle}>{category.name}</span></td>
               <td>{category.slug}</td>
@@ -26,6 +30,7 @@ export default function AdminCategoriesPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...categoriesPagination} searchParams={resolvedSearchParams} />
       </AdminTableCard>
     </>
   );

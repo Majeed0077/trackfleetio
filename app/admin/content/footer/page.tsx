@@ -2,6 +2,7 @@ import {
   AdminFieldGroup,
   AdminFormCard,
   AdminFormSection,
+  AdminPagination,
   AdminPageHeader,
   AdminTable,
   AdminTableCard,
@@ -9,6 +10,7 @@ import {
   AdminTextInput,
 } from "@/components/admin/AdminUi";
 import { adminFooterGroups } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 import styles from "@/components/admin/Admin.module.css";
 import {
   footerBranding,
@@ -17,8 +19,12 @@ import {
   footerLinkGroups,
   footerSocialLinks,
 } from "@/lib/content/footer";
+import { AdminCmsWorkflowPanel } from "@/components/AdminCmsWorkflowPanel";
 
-export default function AdminContentFooterPage() {
+export default async function AdminContentFooterPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const footerPagination = getPagination(adminFooterGroups, resolvedSearchParams, "footerGroupsPage");
+
   return (
     <>
       <AdminPageHeader
@@ -29,7 +35,7 @@ export default function AdminContentFooterPage() {
       <AdminTableCard title="Footer columns" description="Current link groups visible in the public footer.">
         <AdminTable
           headers={["Group", "Links / Content", "Action"]}
-          rows={adminFooterGroups.map((group) => (
+          rows={footerPagination.items.map((group) => (
             <tr key={group.title}>
               <td><span className={styles.adminTableTitle}>{group.title}</span></td>
               <td>{group.links}</td>
@@ -37,7 +43,10 @@ export default function AdminContentFooterPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...footerPagination} pageKey="footerGroupsPage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
+
+      <AdminCmsWorkflowPanel title="Footer CMS" searchParams={resolvedSearchParams} pageKey="footerRevisionsPage" />
 
       <section className={styles.adminFormGrid}>
         <AdminFormCard>

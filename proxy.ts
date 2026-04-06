@@ -3,9 +3,7 @@ import { NextResponse } from "next/server";
 
 import { AUTH_COOKIE_NAME, verifySessionToken } from "@/lib/auth";
 
-const ADMIN_LOGIN_PATH = "/admin/login";
-const ADMIN_DASHBOARD_PATH = "/admin/dashboard";
-
+const SIGNIN_PATH = "/signin";
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
@@ -15,19 +13,21 @@ export async function proxy(request: NextRequest) {
 
   const sessionUser = await verifySessionToken(request.cookies.get(AUTH_COOKIE_NAME)?.value);
   const isAdmin = sessionUser?.role === "admin";
+  const isAuthenticated = Boolean(sessionUser);
 
-  if (pathname === ADMIN_LOGIN_PATH) {
-    if (isAdmin) {
-      return NextResponse.redirect(new URL(ADMIN_DASHBOARD_PATH, request.url));
-    }
-
-    return NextResponse.next();
+  if (pathname === "/admin/login") {
+    return NextResponse.redirect(new URL(SIGNIN_PATH, request.url));
   }
 
   if (!isAdmin) {
-    const loginUrl = new URL(ADMIN_LOGIN_PATH, request.url);
-    loginUrl.searchParams.set("next", `${pathname}${search}`);
-    return NextResponse.redirect(loginUrl);
+    const destination = isAuthenticated ? "/unauthorized" : SIGNIN_PATH;
+    const redirectUrl = new URL(destination, request.url);
+
+    if (!isAuthenticated) {
+      redirectUrl.searchParams.set("next", `${pathname}${search}`);
+    }
+
+    return NextResponse.redirect(redirectUrl);
   }
 
   return NextResponse.next();

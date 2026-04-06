@@ -1,6 +1,7 @@
 import {
   AdminActivityCard,
   AdminMetricGrid,
+  AdminPagination,
   AdminPageHeader,
   AdminStatusBadge,
   AdminTable,
@@ -9,8 +10,13 @@ import {
 } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminRecentActivity, adminReports, adminTrafficSources } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 
-export default function AdminReportsPage() {
+export default async function AdminReportsPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const trafficPagination = getPagination(adminTrafficSources, resolvedSearchParams, "trafficPage");
+  const notesPagination = getPagination(adminRecentActivity, resolvedSearchParams, "notesPage");
+
   return (
     <>
       <AdminPageHeader
@@ -39,7 +45,7 @@ export default function AdminReportsPage() {
         >
           <AdminTable
             headers={["Source", "Visits", "Conversion", "Trend"]}
-            rows={adminTrafficSources.map((item) => (
+            rows={trafficPagination.items.map((item) => (
               <tr key={item.source}>
                 <td>
                   <span className={styles.adminTableTitle}>{item.source}</span>
@@ -52,12 +58,16 @@ export default function AdminReportsPage() {
               </tr>
             ))}
           />
+          <AdminPagination {...trafficPagination} pageKey="trafficPage" searchParams={resolvedSearchParams} />
         </AdminTableCard>
-        <AdminActivityCard
-          title="Reporting notes"
-          description="Recent mock analysis highlights prepared for stakeholders."
-          items={adminRecentActivity}
-        />
+        <>
+          <AdminActivityCard
+            title="Reporting notes"
+            description="Recent mock analysis highlights prepared for stakeholders."
+            items={notesPagination.items}
+          />
+          <AdminPagination {...notesPagination} pageKey="notesPage" searchParams={resolvedSearchParams} />
+        </>
       </section>
     </>
   );

@@ -62,6 +62,8 @@ export const adminNavSections: Array<{
       { key: "users", label: "Users / Roles", href: "/admin/users", icon: "shield" },
       { key: "notifications", label: "Notifications", href: "/admin/notifications", icon: "bell" },
       { key: "integrations", label: "Integrations", href: "/admin/integrations", icon: "plug" },
+      { key: "audit", label: "Audit Logs", href: "/admin/audit-logs", icon: "file-text" },
+      { key: "system-health", label: "System Health", href: "/admin/system-health", icon: "chart" },
     ],
   },
 ];
@@ -88,7 +90,17 @@ export const adminPageInfo: Record<
   "/admin/settings": { title: "Site Settings", section: "System" },
   "/admin/users": { title: "Users / Roles", section: "System" },
   "/admin/notifications": { title: "Notifications", section: "System" },
+  "/admin/notifications/logs": { title: "Notification Logs", section: "System" },
+  "/admin/notifications/templates": { title: "Notification Templates", section: "System" },
   "/admin/integrations": { title: "Integrations", section: "System" },
+  "/admin/integrations/status": { title: "Integration Status", section: "System" },
+  "/admin/roles": { title: "Roles & Permissions", section: "System" },
+  "/admin/roles/new": { title: "Create Role", section: "System" },
+  "/admin/roles/edit": { title: "Edit Role", section: "System" },
+  "/admin/users/new": { title: "Invite User", section: "System" },
+  "/admin/users/manage": { title: "Manage User", section: "System" },
+  "/admin/audit-logs": { title: "Audit Logs", section: "System" },
+  "/admin/system-health": { title: "System Health", section: "System" },
 };
 
 export const adminMetrics = [
@@ -274,6 +286,52 @@ export const adminUsers = [
   { name: "Support Desk", email: "support@trackfleetio.com", role: "Support", status: "Inactive" },
 ] as const;
 
+export const adminRoleItems = [
+  {
+    name: "Super Admin",
+    members: 1,
+    description: "Full access across users, content, commerce, inventory, and settings.",
+    permissions: ["users.manage", "orders.write", "content.publish", "notifications.manage"],
+  },
+  {
+    name: "Content Manager",
+    members: 1,
+    description: "Manages homepage, footer, industries, and solution content.",
+    permissions: ["content.read", "content.write", "content.publish", "media.read"],
+  },
+  {
+    name: "Store Ops",
+    members: 1,
+    description: "Handles products, stock adjustments, order processing, and fulfillment.",
+    permissions: ["products.write", "inventory.write", "orders.write", "customers.read"],
+  },
+  {
+    name: "Support",
+    members: 1,
+    description: "Views customer accounts, notes, and operational notification history.",
+    permissions: ["customers.read", "orders.read", "notifications.read"],
+  },
+] as const;
+
+export const adminPermissionGroups = [
+  {
+    title: "Commerce",
+    permissions: ["products.read", "products.write", "orders.read", "orders.write", "payments.read"],
+  },
+  {
+    title: "Operations",
+    permissions: ["inventory.read", "inventory.write", "customers.read", "customers.write"],
+  },
+  {
+    title: "Content & Media",
+    permissions: ["content.read", "content.write", "content.publish", "media.read", "media.write"],
+  },
+  {
+    title: "System",
+    permissions: ["users.manage", "roles.manage", "notifications.manage", "integrations.read"],
+  },
+] as const;
+
 export const adminMedia = [
   {
     name: "hero-4g-tracker.png",
@@ -300,8 +358,193 @@ export const adminNotificationItems = [
   { title: "Content review reminders", description: "Flag homepage or footer edits awaiting approval.", enabled: false },
 ] as const;
 
+export const adminNotificationLogs = [
+  {
+    type: "Order created",
+    recipient: "ops@trackfleetio.com",
+    channel: "Email",
+    status: "Sent",
+    time: "5 minutes ago",
+  },
+  {
+    type: "Payment success",
+    recipient: "procurement@blueline.co",
+    channel: "Email",
+    status: "Sent",
+    time: "11 minutes ago",
+  },
+  {
+    type: "Order canceled",
+    recipient: "support@trackfleetio.com",
+    channel: "Internal",
+    status: "Queued",
+    time: "29 minutes ago",
+  },
+  {
+    type: "Password reset",
+    recipient: "majeed@trackfleetio.com",
+    channel: "Email",
+    status: "Failed",
+    time: "1 hour ago",
+  },
+] as const;
+
+export const adminOrderDetails = [
+  {
+    id: "TF-2048",
+    customer: "BlueLine Logistics",
+    company: "BlueLine Logistics",
+    email: "procurement@blueline.co",
+    phone: "+92 300 7788990",
+    payment: "Paid",
+    fulfillment: "Processing",
+    assignedTo: "Areeb Khan",
+    billing: "Suite 8, Shahrah-e-Faisal, Karachi",
+    shipping: "Plot 14, Logistics Park, Lahore",
+    notes: "Priority deployment for 4G trackers and two AI dashcams.",
+    timeline: [
+      { title: "Order created", detail: "Checkout submitted from public storefront.", time: "Apr 4, 2026 11:32 AM" },
+      { title: "Payment captured", detail: "Gateway callback marked payment successful.", time: "Apr 4, 2026 11:34 AM" },
+      { title: "Assigned to ops", detail: "Store Ops picked the order for allocation.", time: "Apr 4, 2026 12:10 PM" },
+      { title: "Processing", detail: "Warehouse preparing package and labels.", time: "Apr 4, 2026 1:20 PM" },
+    ],
+  },
+  {
+    id: "TF-2047",
+    customer: "Northgate Transport",
+    company: "Northgate Transport",
+    email: "ops@northgatefleet.com",
+    phone: "+92 321 4455667",
+    payment: "Pending",
+    fulfillment: "Queued",
+    assignedTo: "Support Desk",
+    billing: "Northgate Transit Hub, Islamabad",
+    shipping: "Northgate Transit Hub, Islamabad",
+    notes: "Waiting on payment confirmation before stock reservation.",
+    timeline: [
+      { title: "Order created", detail: "Bulk sensor request submitted.", time: "Apr 3, 2026 10:02 AM" },
+      { title: "Payment pending", detail: "Awaiting bank confirmation.", time: "Apr 3, 2026 10:05 AM" },
+      { title: "Queued", detail: "Order visible to ops but not released to warehouse.", time: "Apr 3, 2026 10:12 AM" },
+    ],
+  },
+] as const;
+
 export const adminIntegrationItems = [
   { title: "Warehouse API", description: "Sync stock and shipment state with fulfillment systems.", status: "Connected" },
   { title: "CRM Export", description: "Push enterprise leads and orders into the sales workspace.", status: "Queued" },
   { title: "Analytics Webhook", description: "Deliver purchase and engagement events to reporting tools.", status: "Review" },
+] as const;
+
+export const adminNotificationTemplates = [
+  {
+    key: "order_created",
+    subject: "Your Track Fleetio order has been received",
+    channel: "Email",
+    status: "Live",
+  },
+  {
+    key: "payment_success",
+    subject: "Payment confirmed for your hardware order",
+    channel: "Email",
+    status: "Live",
+  },
+  {
+    key: "order_canceled",
+    subject: "Your order has been canceled",
+    channel: "Email",
+    status: "Draft",
+  },
+  {
+    key: "password_reset",
+    subject: "Reset your Track Fleetio password",
+    channel: "Email",
+    status: "Live",
+  },
+] as const;
+
+export const adminInventoryMovements = [
+  {
+    product: "4G GPS Tracker",
+    type: "Reserve",
+    quantity: 12,
+    reference: "Order TF-2048",
+    time: "Apr 4, 2026 12:14 PM",
+  },
+  {
+    product: "Fuel Sensor",
+    type: "Adjust",
+    quantity: -4,
+    reference: "Cycle count correction",
+    time: "Apr 4, 2026 9:30 AM",
+  },
+  {
+    product: "AI Dashcam",
+    type: "Restock",
+    quantity: 20,
+    reference: "PO 3118",
+    time: "Apr 3, 2026 4:10 PM",
+  },
+] as const;
+
+export const adminCmsRevisions = [
+  {
+    area: "Homepage hero",
+    status: "Review",
+    author: "Majeed Abro",
+    time: "25 minutes ago",
+    note: "Updated heading and metrics strip.",
+  },
+  {
+    area: "Footer links",
+    status: "Draft",
+    author: "Support Desk",
+    time: "1 hour ago",
+    note: "Added deployment support link group.",
+  },
+  {
+    area: "Solutions directory",
+    status: "Live",
+    author: "Admin Operator",
+    time: "Today",
+    note: "Published revised CTA copy.",
+  },
+] as const;
+
+export const adminAuditLogs = [
+  {
+    actor: "Admin Operator",
+    action: "Updated order status to Processing",
+    entity: "Order TF-2048",
+    time: "Apr 4, 2026 1:20 PM",
+  },
+  {
+    actor: "Majeed Abro",
+    action: "Staged homepage hero revision",
+    entity: "CMS Homepage",
+    time: "Apr 4, 2026 12:50 PM",
+  },
+  {
+    actor: "Areeb Khan",
+    action: "Adjusted stock threshold",
+    entity: "Fuel Sensor inventory",
+    time: "Apr 4, 2026 10:08 AM",
+  },
+] as const;
+
+export const adminSystemHealth = [
+  {
+    service: "Storefront API",
+    status: "Healthy",
+    detail: "Auth, contact, and checkout routes responding normally.",
+  },
+  {
+    service: "Notification worker",
+    status: "Review",
+    detail: "One failed password reset email pending retry.",
+  },
+  {
+    service: "Payment webhooks",
+    status: "Draft",
+    detail: "Webhook receiver UI prepared but gateway not connected yet.",
+  },
 ] as const;

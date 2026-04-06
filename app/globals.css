@@ -9679,6 +9679,294 @@ input:disabled {
   }
 }
 
+.state-page,
+.account-page {
+  padding-bottom: 72px;
+}
+
+.state-section,
+.account-section {
+  padding: 0 0 56px;
+}
+
+.state-card,
+.account-card,
+.account-sidebar-card {
+  background: var(--surface-elevated, rgba(10, 20, 35, 0.72));
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+.state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.state-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.state-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.state-list-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.checkout-steps,
+.checkout-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.checkout-step-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  color: var(--text-muted);
+}
+
+.checkout-step-chip.is-active {
+  color: var(--text);
+  border-color: rgba(59, 130, 246, 0.34);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.checkout-panel {
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.checkout-choice-grid,
+.checkout-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.checkout-choice-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.checkout-choice-card.is-active {
+  border-color: rgba(59, 130, 246, 0.34);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.checkout-field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.state-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.state-meta span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.timeline-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding-left: 20px;
+}
+
+.timeline-list li {
+  display: grid;
+  gap: 4px;
+}
+
+.account-shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+}
+
+.account-sidebar {
+  display: grid;
+  gap: 16px;
+  align-self: start;
+  position: sticky;
+  top: 110px;
+}
+
+.account-sidebar-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.account-sidebar-card strong,
+.account-card h2,
+.state-card h2 {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.account-sidebar-card span {
+  color: var(--text-muted);
+}
+
+.account-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.account-nav-link {
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--transition-standard), background var(--transition-standard);
+}
+
+.account-nav-link.is-active {
+  border-color: rgba(59, 130, 246, 0.34);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.account-content,
+.account-grid,
+.account-grid-nested {
+  display: grid;
+  gap: 24px;
+}
+
+.workflow-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(7, 13, 24, 0.48);
+}
+
+.workflow-modal-card {
+  width: min(100%, 520px);
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--surface);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.26);
+}
+
+.workflow-modal-field {
+  width: 100%;
+  min-height: 140px;
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: var(--field-bg);
+  color: var(--text);
+}
+
+.workflow-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.account-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.account-grid-nested,
+.account-stat-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.account-stat-grid {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.account-stat-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+@media (max-width: 991px) {
+  .account-shell,
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .state-card,
+  .account-card,
+  .account-sidebar-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .state-list-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .state-actions .button {
+    width: 100%;
+  }
+
+  .workflow-modal-actions .button {
+    width: 100%;
+  }
+}
+
 /* Mobile-only layout refinement: keep desktop/tablet untouched */
 @media (max-width: 767px) {
   /* Mobile-only: use 2-column grids for compact feature/highlight sections */

@@ -2,12 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
 
-import { AdminPageHeader, AdminTable, AdminTableCard, AdminToolbar, AdminStatusBadge } from "@/components/admin/AdminUi";
+import { AdminPageHeader, AdminPagination, AdminTable, AdminTableCard, AdminToolbar, AdminStatusBadge } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminProducts } from "@/lib/admin";
 import { productsList } from "@/data/products";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 
-export default function AdminProductsPage() {
+export default async function AdminProductsPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const productsPagination = getPagination(adminProducts, resolvedSearchParams, "productsPage");
+  const storefrontPagination = getPagination(productsList, resolvedSearchParams, "catalogPage");
+
   return (
     <>
       <AdminPageHeader
@@ -31,7 +36,7 @@ export default function AdminProductsPage() {
       <AdminTableCard title="Storefront products" description="Current ecommerce-facing product records with operational fields.">
         <AdminTable
           headers={["Image", "Product", "SKU", "Category", "Stock", "Price", "Status", "Actions"]}
-          rows={adminProducts.map((product) => (
+          rows={productsPagination.items.map((product) => (
             <tr key={product.sku}>
               <td><Image className={styles.adminThumbnail} src={product.image} alt={product.name} width={44} height={44} /></td>
               <td><div className={styles.adminInlineStack}><span className={styles.adminTableTitle}>{product.name}</span><small>{product.category}</small></div></td>
@@ -44,6 +49,7 @@ export default function AdminProductsPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...productsPagination} pageKey="productsPage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
 
       <AdminTableCard
@@ -52,7 +58,7 @@ export default function AdminProductsPage() {
       >
         <AdminTable
           headers={["Product", "ID", "Category", "Specs", "Features", "Use Cases", "Gallery"]}
-          rows={productsList.map((product) => (
+          rows={storefrontPagination.items.map((product) => (
             <tr key={product.id}>
               <td>
                 <div className={styles.adminInlineStack}>
@@ -69,6 +75,7 @@ export default function AdminProductsPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...storefrontPagination} pageKey="catalogPage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
     </>
   );

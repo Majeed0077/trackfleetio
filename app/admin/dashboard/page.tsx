@@ -4,6 +4,7 @@ import {
   AdminActivityCard,
   AdminGridTwo,
   AdminMetricGrid,
+  AdminPagination,
   AdminPageHeader,
   AdminStatusBadge,
   AdminTable,
@@ -11,8 +12,13 @@ import {
   AdminTextLink,
 } from "@/components/admin/AdminUi";
 import { adminMetrics, adminOrders, adminRecentActivity } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const ordersPagination = getPagination(adminOrders, resolvedSearchParams, "ordersPage");
+  const activityPagination = getPagination(adminRecentActivity, resolvedSearchParams, "activityPage");
+
   return (
     <>
       <AdminPageHeader
@@ -41,7 +47,7 @@ export default function AdminDashboardPage() {
           >
             <AdminTable
               headers={["Order", "Customer", "Date", "Total", "Payment", "Fulfillment"]}
-              rows={adminOrders.map((order) => (
+              rows={ordersPagination.items.map((order) => (
                 <tr key={order.id}>
                   <td><span>{order.id}</span></td>
                   <td>{order.customer}</td>
@@ -52,14 +58,18 @@ export default function AdminDashboardPage() {
                 </tr>
               ))}
             />
+            <AdminPagination {...ordersPagination} pageKey="ordersPage" searchParams={resolvedSearchParams} />
           </AdminTableCard>
         }
         secondary={
-          <AdminActivityCard
-            title="Recent activity"
-            description="Mock operational events across content, inventory, and order workflows."
-            items={adminRecentActivity}
-          />
+          <>
+            <AdminActivityCard
+              title="Recent activity"
+              description="Mock operational events across content, inventory, and order workflows."
+              items={activityPagination.items}
+            />
+            <AdminPagination {...activityPagination} pageKey="activityPage" searchParams={resolvedSearchParams} />
+          </>
         }
       />
     </>

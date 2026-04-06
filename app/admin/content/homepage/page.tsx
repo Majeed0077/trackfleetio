@@ -2,6 +2,7 @@ import {
   AdminFieldGroup,
   AdminFormCard,
   AdminFormSection,
+  AdminPagination,
   AdminPageHeader,
   AdminSectionList,
   AdminSectionRow,
@@ -11,6 +12,7 @@ import {
 } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminHomepageSections } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 import {
   architectureContent,
   buyingPrioritiesContent,
@@ -23,8 +25,12 @@ import {
   resultsContent,
   whyTrackFleetioContent,
 } from "@/lib/content/homepage";
+import { AdminCmsWorkflowPanel } from "@/components/AdminCmsWorkflowPanel";
 
-export default function AdminContentHomepagePage() {
+export default async function AdminContentHomepagePage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const sectionsPagination = getPagination(adminHomepageSections, resolvedSearchParams, "sectionsPage");
+
   return (
     <>
       <AdminPageHeader
@@ -38,17 +44,18 @@ export default function AdminContentHomepagePage() {
         }
       />
 
-      <AdminSectionList>
-        {adminHomepageSections.map((section, index) => (
+      <AdminSectionList className={styles.adminSectionGridCompact}>
+        {sectionsPagination.items.map((section, index) => (
           <AdminSectionRow
             key={section.title}
             title={section.title}
             description={section.desc}
             status={section.status}
+            className={styles.adminSectionCardCompact}
             footer={
               <div className={styles.adminToolbar}>
                 <div className={styles.adminToolbarGroup}>
-                  <span className={styles.adminChip}>Order {index + 1}</span>
+                  <span className={styles.adminChip}>Order {(sectionsPagination.currentPage - 1) * sectionsPagination.perPage + index + 1}</span>
                   <label className={styles.adminToggle}><input type="checkbox" defaultChecked={section.visible} /> Visible</label>
                 </div>
                 <div className={styles.adminToolbarGroup}>
@@ -60,6 +67,9 @@ export default function AdminContentHomepagePage() {
           />
         ))}
       </AdminSectionList>
+      <AdminPagination {...sectionsPagination} pageKey="sectionsPage" searchParams={resolvedSearchParams} />
+
+      <AdminCmsWorkflowPanel title="Homepage CMS" searchParams={resolvedSearchParams} pageKey="homepageRevisionsPage" />
 
       <section className={styles.adminFormGrid}>
         <AdminFormCard>

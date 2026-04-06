@@ -8,6 +8,7 @@ import type {
 } from "react";
 
 import styles from "@/components/admin/Admin.module.css";
+export { AdminPagination } from "@/components/admin/AdminPagination";
 
 const positiveStatuses = new Set(["live", "paid", "active", "in stock", "shipped", "delivered", "connected"]);
 const warningStatuses = new Set(["draft", "pending", "low", "review", "processing", "queued"]);
@@ -148,13 +149,25 @@ export function AdminUploadBox({ copy, action }: { copy: string; action?: ReactN
   );
 }
 
-export function AdminSectionList({ children }: { children: ReactNode }) {
-  return <section className={styles.adminSectionList}>{children}</section>;
+export function AdminSectionList({ children, className }: { children: ReactNode; className?: string }) {
+  return <section className={[styles.adminSectionList, className].filter(Boolean).join(" ")}>{children}</section>;
 }
 
-export function AdminSectionRow({ title, description, status, footer }: { title: string; description: string; status: string; footer: ReactNode }) {
+export function AdminSectionRow({
+  title,
+  description,
+  status,
+  footer,
+  className,
+}: {
+  title: string;
+  description: string;
+  status: string;
+  footer: ReactNode;
+  className?: string;
+}) {
   return (
-    <article className={styles.adminSectionCard}>
+    <article className={[styles.adminSectionCard, className].filter(Boolean).join(" ")}>
       <div className={styles.adminSectionRowHead}>
         <div>
           <h3 className={styles.adminCardHeaderTitle}>{title}</h3>

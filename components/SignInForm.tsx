@@ -186,7 +186,7 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
             >
               Use passkey
             </button>
-            <Link className="auth-inline-link" href="/contact">
+            <Link className="auth-inline-link" href="/forgot-password">
               Forgot password?
             </Link>
           </div>

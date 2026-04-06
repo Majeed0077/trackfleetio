@@ -27,15 +27,10 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const isLoginRoute = pathname === "/admin/login";
   const pageInfo = useMemo(
     () => adminPageInfo[pathname] ?? { title: "Admin", section: "Admin" },
     [pathname],
   );
-
-  if (isLoginRoute) {
-    return <div className={styles.adminRoot}>{children}</div>;
-  }
 
   return (
     <div
@@ -89,7 +84,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
               onClick={async () => {
                 await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
                 startRouteLoader();
-                router.push("/admin/login");
+                router.push("/signin");
               }}
             >
               Log out
@@ -134,7 +129,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
                       onClick={async () => {
                         await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
                         startRouteLoader();
-                        router.push("/admin/login");
+                        router.push("/signin");
                       }}
                     >
                       Log out

@@ -11,7 +11,15 @@ import { ScrollToggle } from "@/components/ScrollToggle";
 export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
-  const isAuthRoute = pathname === "/signin" || pathname === "/signup";
+  const isAuthRoute =
+    pathname === "/signin" ||
+    pathname === "/signup" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/verify-email" ||
+    pathname === "/session-expired" ||
+    pathname === "/unauthorized" ||
+    pathname.startsWith("/invite/");
 
   if (isAdminRoute) {
     return <>{children}</>;

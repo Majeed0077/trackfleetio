@@ -2,6 +2,7 @@ import {
   AdminFieldGroup,
   AdminFormCard,
   AdminFormSection,
+  AdminPagination,
   AdminPageHeader,
   AdminTable,
   AdminTableCard,
@@ -9,6 +10,7 @@ import {
   AdminTextInput,
 } from "@/components/admin/AdminUi";
 import { adminNavigationItems } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 import styles from "@/components/admin/Admin.module.css";
 import {
   companyMenuLinks,
@@ -19,6 +21,7 @@ import {
   solutionsMenuColumns,
   solutionsMenuFeaturedPanel,
 } from "@/lib/content/navigation";
+import { AdminCmsWorkflowPanel } from "@/components/AdminCmsWorkflowPanel";
 
 const navigationCoverage = [
   {
@@ -43,7 +46,11 @@ const navigationCoverage = [
   },
 ] as const;
 
-export default function AdminContentNavigationPage() {
+export default async function AdminContentNavigationPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const navItemsPagination = getPagination(adminNavigationItems, resolvedSearchParams, "navItemsPage");
+  const coveragePagination = getPagination(navigationCoverage, resolvedSearchParams, "coveragePage");
+
   return (
     <>
       <AdminPageHeader
@@ -55,7 +62,7 @@ export default function AdminContentNavigationPage() {
       <AdminTableCard title="Primary navigation items" description="Top-level header links already visible on the storefront.">
         <AdminTable
           headers={["Label", "Link", "Order", "Visibility", "Action"]}
-          rows={adminNavigationItems.map((item) => (
+          rows={navItemsPagination.items.map((item) => (
             <tr key={item.label}>
               <td><span className={styles.adminTableTitle}>{item.label}</span></td>
               <td>{item.link}</td>
@@ -65,19 +72,23 @@ export default function AdminContentNavigationPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...navItemsPagination} pageKey="navItemsPage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
 
       <AdminTableCard title="Navigation coverage map" description="What the admin must eventually own for the live navbar.">
         <AdminTable
           headers={["Area", "Current storefront surface"]}
-          rows={navigationCoverage.map((item) => (
+          rows={coveragePagination.items.map((item) => (
             <tr key={item.area}>
               <td><span className={styles.adminTableTitle}>{item.area}</span></td>
               <td>{item.source}</td>
             </tr>
           ))}
         />
+        <AdminPagination {...coveragePagination} pageKey="coveragePage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
+
+      <AdminCmsWorkflowPanel title="Navigation CMS" searchParams={resolvedSearchParams} pageKey="navigationRevisionsPage" />
 
       <section className={styles.adminFormGrid}>
         <AdminFormCard>

@@ -1,8 +1,14 @@
-import { AdminPageHeader, AdminStatusBadge, AdminTable, AdminTableCard, AdminToolbar } from "@/components/admin/AdminUi";
+import Link from "next/link";
+
+import { AdminPageHeader, AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard, AdminToolbar } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminOrders } from "@/lib/admin";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 
-export default function AdminOrdersPage() {
+export default async function AdminOrdersPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const ordersPagination = getPagination(adminOrders, resolvedSearchParams);
+
   return (
     <>
       <AdminPageHeader title="Order operations" description="Track payment state, fulfillment state, and customer handoff for hardware orders." />
@@ -13,7 +19,7 @@ export default function AdminOrdersPage() {
       <AdminTableCard title="Order queue" description="Operational order list with payment and fulfillment tracking shells.">
         <AdminTable
           headers={["Order ID", "Customer", "Date", "Total", "Payment", "Fulfillment", "Action"]}
-          rows={adminOrders.map((order) => (
+          rows={ordersPagination.items.map((order) => (
             <tr key={order.id}>
               <td><span className={styles.adminTableTitle}>{order.id}</span></td>
               <td>{order.customer}</td>
@@ -21,10 +27,11 @@ export default function AdminOrdersPage() {
               <td>{order.total}</td>
               <td><AdminStatusBadge value={order.payment} /></td>
               <td><AdminStatusBadge value={order.fulfillment} /></td>
-              <td><button className={styles.adminTextLink} type="button">View</button></td>
+              <td><Link className={styles.adminTextLink} href={`/admin/orders/${order.id.replace(/^#/, "")}`}>View</Link></td>
             </tr>
           ))}
         />
+        <AdminPagination {...ordersPagination} searchParams={resolvedSearchParams} />
       </AdminTableCard>
     </>
   );

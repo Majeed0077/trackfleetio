@@ -1,8 +1,13 @@
-import { AdminFieldGroup, AdminFormCard, AdminFormSection, AdminPageHeader, AdminTable, AdminTableCard, AdminTextarea, AdminTextInput } from "@/components/admin/AdminUi";
+import { AdminFieldGroup, AdminFormCard, AdminFormSection, AdminPagination, AdminPageHeader, AdminTable, AdminTableCard, AdminTextarea, AdminTextInput } from "@/components/admin/AdminUi";
+import { AdminCmsWorkflowPanel } from "@/components/AdminCmsWorkflowPanel";
 import styles from "@/components/admin/Admin.module.css";
+import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
 import { industriesList } from "@/lib/industries";
 
-export default function AdminContentIndustriesPage() {
+export default async function AdminContentIndustriesPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const industriesPagination = getPagination(industriesList, resolvedSearchParams, "industriesPage");
+
   return (
     <>
       <AdminPageHeader
@@ -17,7 +22,7 @@ export default function AdminContentIndustriesPage() {
       >
         <AdminTable
           headers={["Title", "Slug", "Hardware", "Use Cases", "CTA", "Action"]}
-          rows={industriesList.map((industry) => (
+          rows={industriesPagination.items.map((industry) => (
             <tr key={industry.slug}>
               <td>
                 <div className={styles.adminInlineStack}>
@@ -33,7 +38,10 @@ export default function AdminContentIndustriesPage() {
             </tr>
           ))}
         />
+        <AdminPagination {...industriesPagination} pageKey="industriesPage" searchParams={resolvedSearchParams} />
       </AdminTableCard>
+
+      <AdminCmsWorkflowPanel title="Industries CMS" searchParams={resolvedSearchParams} pageKey="industriesRevisionsPage" />
 
       <section className={styles.adminFormGrid}>
         <AdminFormCard>
