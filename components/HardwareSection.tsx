@@ -13,7 +13,7 @@ export function HardwareSection() {
         </div>
 
         <div className="hardware-grid" data-reveal-group>
-          {hardwareEcosystemContent.cards.map((card) => (
+          {hardwareEcosystemContent.cards.map((card, index) => (
             <article
               className={`product-card${card.featured ? " product-card-featured" : ""}`}
               data-reveal-item
@@ -27,6 +27,8 @@ export function HardwareSection() {
                   width={360}
                   height={280}
                   sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
                 />
               </div>
               <p className="product-category">{card.category}</p>

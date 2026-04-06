@@ -12,7 +12,13 @@ import { useAppStore, useStoreHydrated } from "@/store/store";
 const PRODUCT_CARD_IMAGE_WIDTH = 420;
 const PRODUCT_CARD_IMAGE_HEIGHT = 320;
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  prioritizeImage = false,
+}: {
+  product: Product;
+  prioritizeImage?: boolean;
+}) {
   const router = useRouter();
   const hasHydrated = useStoreHydrated();
   const quickAddToCart = useAppStore((state) => state.quickAddToCart);
@@ -63,6 +69,8 @@ export function ProductCard({ product }: { product: Product }) {
             width={PRODUCT_CARD_IMAGE_WIDTH}
             height={PRODUCT_CARD_IMAGE_HEIGHT}
             sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
+            loading={prioritizeImage ? "eager" : "lazy"}
+            fetchPriority={prioritizeImage ? "high" : "auto"}
           />
         </Link>
       </div>

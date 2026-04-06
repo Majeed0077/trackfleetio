@@ -159,8 +159,8 @@ export function ProductCatalogPage({ initialQuery = "" }: { initialQuery?: strin
       <section className="products-catalog">
         <div className="container">
           <div className="catalog-grid catalog-grid-unified">
-            {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {visibleProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} prioritizeImage={index === 0} />
             ))}
           </div>
 
