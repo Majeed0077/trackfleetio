@@ -14,10 +14,32 @@ const metricIconMap = {
   wrench: Wrench,
 } as const;
 
+const heroDefaultImageSources = new Set([
+  "/Products/Hero-image.png",
+  "/Products/Telematics fleet system infographic.png",
+  "/Products/Telematics hardware architecture diagram.png",
+  "/Products/Telematics hardware architecture.png",
+]);
+
+const heroDefaultImageAlts = new Set([
+  "Track Fleetio hardware showcase",
+  "Fleet telematics hardware architecture diagram",
+  "Telematics hardware architecture diagram",
+  "Telematics hardware architecture",
+]);
+
 export function HeroSection() {
   const heroDraft = useAppStore((state) => state.cmsDrafts.homepageHero);
-  const heroImageSrc = heroDraft.imageSrc.trim() || heroContent.image.src;
-  const heroImageAlt = heroDraft.imageAlt.trim() || heroContent.image.alt;
+  const heroDraftImageSrc = heroDraft.imageSrc.trim();
+  const heroDraftImageAlt = heroDraft.imageAlt.trim();
+  const heroImageSrc =
+    !heroDraftImageSrc || heroDefaultImageSources.has(heroDraftImageSrc)
+      ? heroContent.image.src
+      : heroDraftImageSrc;
+  const heroImageAlt =
+    !heroDraftImageAlt || heroDefaultImageAlts.has(heroDraftImageAlt)
+      ? heroContent.image.alt
+      : heroDraftImageAlt;
 
   return (
     <>
@@ -52,12 +74,12 @@ export function HeroSection() {
                   className="hero-cluster-image"
                   src={resolveCloudinaryAsset(heroImageSrc)}
                   alt={heroImageAlt}
-                  width={790}
-                  height={590}
+                  width={920}
+                  height={920}
                   loading="eager"
                   fetchPriority="high"
                   priority
-                  sizes="(max-width: 991px) 100vw, 50vw"
+                  sizes="(max-width: 991px) 100vw, 48vw"
                 />
               </div>
             </div>

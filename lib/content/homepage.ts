@@ -108,8 +108,8 @@ export const heroContent = {
   trustLine:
     "Built for operations, safety, compliance, and procurement teams managing fleet rollouts.",
   image: {
-    src: "/Products/Hero-image.png",
-    alt: "Track Fleetio hardware showcase",
+    src: "/Products/Telematics hardware architecture.png",
+    alt: "Telematics hardware architecture",
   },
 } as const;
 

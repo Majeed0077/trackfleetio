@@ -160,6 +160,13 @@
     rgba(181, 198, 220, 0.12) 100%
   );
   --hero-section-bg:
+    linear-gradient(
+      90deg,
+      rgba(8, 17, 31, 0.74) 0%,
+      rgba(8, 17, 31, 0.56) 38%,
+      rgba(8, 17, 31, 0.28) 64%,
+      rgba(8, 17, 31, 0.16) 100%
+    ),
     radial-gradient(
       circle at 18% 20%,
       rgba(37, 99, 235, 0.08),
@@ -169,7 +176,8 @@
       circle at 72% 22%,
       rgba(255, 255, 255, 0.03),
       transparent 18%
-    );
+    ),
+    url("https://res.cloudinary.com/dj7zo10jf/image/upload/f_auto,q_auto/v1775771763/trackfleetio/Images/hero-bgg.png");
   --secondary-button-bg: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
   --secondary-button-bg-hover: linear-gradient(
     180deg,
@@ -456,13 +464,21 @@
     rgba(241, 245, 249, 0.98) 100%
   );
   --hero-section-bg:
+    linear-gradient(
+      90deg,
+      rgba(247, 250, 255, 0.9) 0%,
+      rgba(247, 250, 255, 0.78) 38%,
+      rgba(247, 250, 255, 0.46) 64%,
+      rgba(247, 250, 255, 0.26) 100%
+    ),
     radial-gradient(
       circle at 18% 18%,
       rgba(37, 99, 235, 0.07),
       transparent 24%
     ),
     radial-gradient(circle at 74% 16%, rgba(148, 163, 184, 0.04), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0)),
+    url("https://res.cloudinary.com/dj7zo10jf/image/upload/f_auto,q_auto/v1775771763/trackfleetio/Images/hero-bgg.png");
   --secondary-button-bg: linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
   --secondary-button-bg-hover: linear-gradient(
     180deg,
@@ -702,7 +718,7 @@ body::before {
 img,
 svg {
   display: block;
-  max-width: 100%;
+  max-width: 80%;
 }
 
 a {
@@ -2574,12 +2590,15 @@ input:disabled {
   width: 100%;
   padding: 44px 0 28px;
   background: var(--hero-section-bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(500px, 590px) minmax(500px, 620px);
-  max-width: 1320px;
+  grid-template-columns: minmax(500px, 590px) minmax(520px, 700px);
+  max-width: 1360px;
   margin: 0 auto;
   justify-content: space-between;
   gap: 20px;
@@ -2650,14 +2669,14 @@ input:disabled {
 
 .hero-visual {
   position: relative;
-  min-height: 368px;
+  min-height: 408px;
   display: flex;
   justify-content: flex-start;
 }
 
 .hero-devices {
   width: 100%;
-  max-width: 560px;
+  max-width: 620px;
   margin-left: 0;
   margin-right: 0;
 }
@@ -10581,7 +10600,7 @@ input:disabled {
   }
 
   .hero-devices {
-    max-width: 500px;
+    max-width: 520px;
   }
 
   .client-strip {
@@ -12112,7 +12131,7 @@ input:disabled {
   }
 
   .hero-devices {
-    max-width: 500px;
+    max-width: 520px;
     margin-left: auto;
   }
 

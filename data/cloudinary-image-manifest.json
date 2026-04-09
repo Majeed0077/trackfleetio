@@ -36,6 +36,24 @@
     "format": "png"
   },
   {
+    "localPath": "/Images/hero-bg.png",
+    "publicId": "trackfleetio/Images/hero-bg",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775771762/trackfleetio/Images/hero-bg.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2134414,
+    "format": "png"
+  },
+  {
+    "localPath": "/Images/hero-bgg.png",
+    "publicId": "trackfleetio/Images/hero-bgg",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775771763/trackfleetio/Images/hero-bgg.png",
+    "width": 1792,
+    "height": 592,
+    "bytes": 1325218,
+    "format": "png"
+  },
+  {
     "localPath": "/Logo-dark.png",
     "publicId": "trackfleetio/Logo-dark",
     "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508893/trackfleetio/Logo-dark.png",
@@ -330,6 +348,24 @@
     "width": 384,
     "height": 245,
     "bytes": 67384,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Telematics fleet system infographic.png",
+    "publicId": "trackfleetio/Products/Telematics-fleet-system-infographic",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775771798/trackfleetio/Products/Telematics-fleet-system-infographic.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2340208,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Telematics hardware architecture.png",
+    "publicId": "trackfleetio/Products/Telematics-hardware-architecture",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775771799/trackfleetio/Products/Telematics-hardware-architecture.png",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 1644467,
     "format": "png"
   },
   {
