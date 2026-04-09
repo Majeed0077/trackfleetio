@@ -65,6 +65,7 @@ type DocumentWithViewTransition = Document & {
 
 const menuKeys: MenuKey[] = ["solutions", "products", "industries", "company"];
 const themeModeLabels = {
+  system: "System",
   light: "Light",
   dark: "Dark",
 } as const;
@@ -290,10 +291,17 @@ export function Navbar() {
     : SSR_THEME_FALLBACK;
   const resolvedCartCount = hasHydrated ? cartCount : 0;
   const nextThemeMode = hasHydrated
-    ? getNextThemeMode(themeMode, systemTheme)
+    ? getNextThemeMode(themeMode)
+    : "light";
+  const nextResolvedTheme = hasHydrated
+    ? resolveThemeMode(nextThemeMode, systemTheme)
     : "light";
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
-  const currentThemeModeLabel = themeModeLabels[resolvedTheme];
+  const currentThemeModeLabel = themeModeLabels[themeMode];
+  const currentThemeStateLabel =
+    themeMode === "system"
+      ? `${currentThemeModeLabel} (${resolvedTheme})`
+      : currentThemeModeLabel;
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
   const deferredSearchDraft = useDeferredValue(searchDraft);
   const normalizedLiveSearch = deferredSearchDraft.trim().toLowerCase();
@@ -677,7 +685,6 @@ export function Navbar() {
   };
 
   const handleThemeToggle = () => {
-    const nextResolvedTheme = nextThemeMode;
     const supportsViewTransition =
       typeof window !== "undefined" &&
       typeof document !== "undefined" &&
@@ -930,11 +937,11 @@ export function Navbar() {
                 className={`nav-utility nav-theme-toggle nav-theme-toggle-${resolvedTheme} nav-theme-toggle-mode-${resolvedTheme}`}
                 type="button"
                 data-theme-toggle
-                aria-label={`Theme: ${currentThemeModeLabel}. Switch to ${nextThemeModeLabel}.`}
-                title={`Theme: ${currentThemeModeLabel}. Click to switch to ${nextThemeModeLabel}.`}
+                aria-label={`Theme mode: ${currentThemeStateLabel}. Switch to ${nextThemeModeLabel}.`}
+                title={`Theme mode: ${currentThemeStateLabel}. Click to switch to ${nextThemeModeLabel}.`}
                 aria-pressed={resolvedTheme === "light" ? "true" : "false"}
                 onClick={handleThemeToggle}
-                data-theme-mode={resolvedTheme}
+                data-theme-mode={themeMode}
                 ref={themeToggleRef}
               >
                 <span className="theme-icon theme-icon-moon" aria-hidden="true">

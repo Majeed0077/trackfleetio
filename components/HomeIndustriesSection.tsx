@@ -96,13 +96,21 @@ export function HomeIndustriesSection() {
               <p>Choose the industry lens that matches the fleet workflow you want to explore.</p>
             </div>
 
-            {homeIndustriesContent.stackCards.map((card) => {
+            {homeIndustriesContent.stackCards.map((card, index) => {
               const Icon = iconMap[card.icon];
+              const isActive = index === 0;
 
               return (
-                <Link className="industry-stack-card" href={card.href} aria-label={`View ${card.title} industry details`} data-reveal-item key={card.title}>
+                <Link
+                  className={`industry-stack-card${isActive ? " is-active" : ""}`}
+                  href={card.href}
+                  aria-label={`View ${card.title} industry details`}
+                  aria-current={isActive ? "page" : undefined}
+                  data-reveal-item
+                  key={card.title}
+                >
                   <span className="industry-stack-index" aria-hidden="true">
-                    {String(homeIndustriesContent.stackCards.indexOf(card) + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="industry-stack-content">
                     <div className="industry-card-copy">

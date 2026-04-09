@@ -11,8 +11,8 @@ import "./globals.css";
 const themeScript = `
 (() => {
   const root = document.documentElement;
-  const applyTheme = (resolvedTheme) => {
-    root.dataset.themeMode = resolvedTheme;
+  const applyTheme = (themeMode, resolvedTheme) => {
+    root.dataset.themeMode = themeMode;
     root.dataset.theme = resolvedTheme;
     root.style.colorScheme = resolvedTheme;
   };
@@ -47,13 +47,13 @@ const themeScript = `
       : "light";
     const resolvedTheme = themeMode === "system" ? systemTheme : themeMode;
 
-    applyTheme(resolvedTheme);
+    applyTheme(themeMode, resolvedTheme);
   } catch {
     const fallbackTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
 
-    applyTheme(fallbackTheme);
+    applyTheme("system", fallbackTheme);
   }
 })();
 `;
@@ -84,7 +84,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme={SSR_THEME_FALLBACK}
-      data-theme-mode={SSR_THEME_FALLBACK}
+      data-theme-mode="system"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

@@ -42,6 +42,7 @@ export function FleetArchitectureSection() {
             {architectureLayers.map((layer, index) => {
               const Icon = layer.icon;
               const isMultiLineConnector = layer.connector?.includes("\n");
+              const layerLabel = layer.label.replace(/\s*\d+\s*$/, "").trim() || layer.label;
 
               return (
                 <div className="architecture-node-group" key={layer.id} data-reveal-item>
@@ -49,7 +50,12 @@ export function FleetArchitectureSection() {
                     className={`architecture-card${layer.highlighted ? " is-highlighted" : ""}`}
                   >
                     <div className="architecture-card-topline">
-                      <span className="architecture-layer-label">{layer.label}</span>
+                      <div className="architecture-layer-shell">
+                        <span className="architecture-step-badge">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="architecture-layer-label">{layerLabel}</span>
+                      </div>
                       <span className="architecture-card-icon" aria-hidden="true">
                         <Icon size={16} strokeWidth={1.9} />
                       </span>
