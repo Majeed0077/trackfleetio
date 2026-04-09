@@ -506,16 +506,11 @@ export const resolveThemeMode = (
 
 export const getNextThemeMode = (
   themeMode: ThemeMode,
-): ThemeMode => {
-  if (themeMode === "light") {
-    return "dark";
-  }
+  systemTheme: ResolvedTheme,
+): Exclude<ThemeMode, "system"> => {
+  const activeTheme = resolveThemeMode(themeMode, systemTheme);
 
-  if (themeMode === "dark") {
-    return "system";
-  }
-
-  return "light";
+  return activeTheme === "dark" ? "light" : "dark";
 };
 
 const normalizeThemeMode = (themeMode: unknown, legacyTheme?: unknown): ThemeMode => {
@@ -552,7 +547,7 @@ export const useAppStore = create<StoreState>()(
       toastVisible: false,
       toggleTheme: () => {
         set((state) => ({
-          themeMode: getNextThemeMode(state.themeMode),
+          themeMode: getNextThemeMode(state.themeMode, getSystemTheme()),
         }));
       },
       setThemeMode: (themeMode) => {

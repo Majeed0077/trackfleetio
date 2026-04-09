@@ -291,7 +291,7 @@ export function Navbar() {
     : SSR_THEME_FALLBACK;
   const resolvedCartCount = hasHydrated ? cartCount : 0;
   const nextThemeMode = hasHydrated
-    ? getNextThemeMode(themeMode)
+    ? getNextThemeMode(themeMode, systemTheme)
     : "light";
   const nextResolvedTheme = hasHydrated
     ? resolveThemeMode(nextThemeMode, systemTheme)
