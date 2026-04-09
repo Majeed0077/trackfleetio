@@ -131,17 +131,6 @@ export function ContactPage() {
           </div>
         </div>
       </section>
-
-      <section className="content-section section-cta company-page-cta">
-        <div className="container">
-          <div className="cta-panel">
-            <h2>Connect with our team to plan the right fleet solution for your operation.</h2>
-            <a className="button button-primary" href="#contact-form">
-              Request Consultation
-            </a>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

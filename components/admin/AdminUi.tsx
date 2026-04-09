@@ -8,6 +8,7 @@ import type {
 } from "react";
 
 import styles from "@/components/admin/Admin.module.css";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 export { AdminPagination } from "@/components/admin/AdminPagination";
 
 const positiveStatuses = new Set(["live", "paid", "active", "in stock", "shipped", "delivered", "connected"]);
@@ -203,7 +204,7 @@ export function AdminMediaGrid({ items }: { items: ReadonlyArray<{ name: string;
     <section className={styles.adminMediaGrid}>
       {items.map((item) => (
         <article className={styles.adminMediaCard} key={item.name}>
-          <Image className={styles.adminMediaThumb} src={item.image} alt={item.name} width={320} height={240} />
+          <Image className={styles.adminMediaThumb} src={resolveCloudinaryAsset(item.image)} alt={item.name} width={320} height={240} />
           <div className={styles.adminMediaCardHead}>
             <div>
               <h3 className={styles.adminMediaCardTitle}>{item.name}</h3>

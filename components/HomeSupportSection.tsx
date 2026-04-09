@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { LifeBuoy, Mail, PhoneCall } from "lucide-react";
 
 import { homepageSupportContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 const supportIconMap = {
   chat: LifeBuoy,
@@ -10,13 +13,15 @@ const supportIconMap = {
 } as const;
 
 export function HomeSupportSection() {
+  const supportDraft = useAppStore((state) => state.cmsDrafts.homepageSupport);
+
   return (
     <section className="content-section section-home-support" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
-          <p className="eyebrow">{homepageSupportContent.eyebrow}</p>
-          <h2>{homepageSupportContent.heading}</h2>
-          <p className="section-subtitle">{homepageSupportContent.description}</p>
+          <p className="eyebrow">{supportDraft.eyebrow}</p>
+          <h2>{supportDraft.heading}</h2>
+          <p className="section-subtitle">{supportDraft.description}</p>
         </div>
 
         <div className="home-support-grid" data-reveal-group>

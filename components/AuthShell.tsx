@@ -1,6 +1,8 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
+
 type AuthShellProps = {
   cardBadge: string;
   title: string;
@@ -30,6 +32,8 @@ export function AuthShell({
   footer,
   cardClassName = "",
 }: AuthShellProps) {
+  const resolvedVisualImageSrc = resolveCloudinaryAsset(visualImageSrc);
+
   return (
     <main className="auth-page-main auth-page-main-premium" id="main-content">
       <section className="auth-layout auth-layout-premium">
@@ -46,10 +50,11 @@ export function AuthShell({
                 <span className="auth-visual-chip auth-visual-chip-top">Live fleet hardware</span>
                 <Image
                   className="auth-visual-image"
-                  src={visualImageSrc}
+                  src={resolvedVisualImageSrc}
                   alt={visualImageAlt}
                   width={760}
                   height={560}
+                  loading="eager"
                   sizes="(max-width: 991px) 100vw, 50vw"
                 />
                 <span className="auth-visual-chip auth-visual-chip-bottom">Trusted by operators</span>

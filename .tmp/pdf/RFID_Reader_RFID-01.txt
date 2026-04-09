@@ -1,0 +1,53 @@
+V1.0.0
+Technical
+System  RTOS
+Sensor Type  NFC Sensor
+Application  Used for identifying the driver’s
+information and Card Programming
+Features
+Transmission Range  < 5 cm (The swipe distance varies for
+different types of cards)
+Data Upload  RS232
+Supported Card Type  1443A
+ 15693
+Interaction  LED
+ Buzzer
+Physical & Interface Specifications
+Dimensions  L 104* W 70* H 10mm
+Weight  74g
+Environmental
+Tolerance
+ Operating temperature:-25°C to
+70°C
+ Storage temperature:-25°C to 80°C
+Ingress Protection
+Rating
+ IP54
+Interface  Type-C port
+Color  Black
+LED  Red/Green
+Buzzer  ≥85dB (Sound Output at 10cm)
+Power Consumption
+Operating Power  DC 5V
+Power Consumption  @5V 150mA(Working Mode)
+ @5V 5mA (Standby Mode)
+RFID-01 Specification
+RFID-01 | High-Precision NFC Reader
+Efficient, Low-Power Identification for Integrated
+Systems
+Integrated RFID Authentication & AI Safety
+Monitoring
+This product supports:
+1.NFC
+2.High Sensitivity
+3.Low Power
+4.Supported Card Type:1443A,15693
+5.Supported Card Programming
+6.Configurator
+
+
+Appearance
+Connector
+Regulatory Compliance
+Certification  CE,FCC
+Product Code  RFID-01

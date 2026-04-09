@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { homepageCtaContent } from "@/lib/content/homepage";
 
 export function CtaSection() {
@@ -25,7 +26,7 @@ export function CtaSection() {
             <div className="cta-visual-device">
               <Image
                 className="cta-visual-image"
-                src={homepageCtaContent.image.src}
+                src={resolveCloudinaryAsset(homepageCtaContent.image.src)}
                 alt=""
                 width={720}
                 height={520}

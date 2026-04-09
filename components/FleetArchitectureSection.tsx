@@ -1,6 +1,8 @@
+"use client";
+
 import { Cable, Gauge, Radar, ServerCog } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { architectureContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 type ArchitectureLayer = {
   id: string;
@@ -19,19 +21,20 @@ const iconMap: Record<string, LucideIcon> = {
   radar: Radar,
 };
 
-const architectureLayers: ArchitectureLayer[] = architectureContent.layers.map((layer) => ({
-  ...layer,
-  icon: iconMap[layer.icon],
-}));
-
 export function FleetArchitectureSection() {
+  const architectureDraft = useAppStore((state) => state.cmsDrafts.homepageArchitecture);
+  const architectureLayers: ArchitectureLayer[] = architectureDraft.layers.map((layer) => ({
+    ...layer,
+    icon: iconMap[layer.icon],
+  }));
+
   return (
     <section className="content-section section-architecture" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered architecture-heading">
-          <p className="eyebrow">{architectureContent.eyebrow}</p>
-          <h2>{architectureContent.heading}</h2>
-          <p>{architectureContent.description}</p>
+          <p className="eyebrow">{architectureDraft.eyebrow}</p>
+          <h2>{architectureDraft.heading}</h2>
+          <p>{architectureDraft.description}</p>
         </div>
 
         <div className="architecture-shell" data-reveal-group>

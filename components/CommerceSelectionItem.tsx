@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Trash2 } from "lucide-react";
 
 import { getProductById, getProductHref } from "@/data/products";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 
 export function CommerceSelectionItem({
   item,
@@ -21,11 +22,13 @@ export function CommerceSelectionItem({
     return null;
   }
 
+  const productImageSrc = resolveCloudinaryAsset(product.imageSrc);
+
   return (
     <article className="cart-drawer-item">
       <div className="cart-drawer-item-media">
         <Image
-          src={product.imageSrc}
+          src={productImageSrc}
           alt={product.imageAlt}
           width={120}
           height={90}

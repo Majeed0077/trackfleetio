@@ -9,6 +9,29 @@ import {
   productSummaryLabels,
   type ProductCategory,
 } from "@/data/products";
+import { footerEditorialContent } from "@/lib/content/footer";
+import {
+  architectureContent,
+  buyingPrioritiesContent,
+  fieldUseCasesContent,
+  hardwareEcosystemContent,
+  heroContent,
+  homeIndustriesContent,
+  homepageTrustContent,
+  homepageSupportContent,
+  resultsContent,
+  type HomepageArchitectureLayer,
+  type HomepageOutcome,
+  type HomepageProofArea,
+  type HomepageTrustReview,
+  type HomepageTrustStat,
+} from "@/lib/content/homepage";
+import {
+  solutionsMenuColumns,
+  solutionsMenuFeaturedPanel,
+  type NavigationColumn,
+} from "@/lib/content/navigation";
+import { solutionsList, type SolutionDetail } from "@/lib/solutions";
 import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export type AuthUser = {
@@ -41,6 +64,151 @@ export type SignUpPayload = {
 export type SiteRegion = "Pakistan" | "UAE" | "UK" | "USA";
 export type ThemeMode = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
+export type InlineCmsSectionId =
+  | "homepage.hero"
+  | "homepage.buying-priorities"
+  | "homepage.story"
+  | "homepage.architecture"
+  | "homepage.industries"
+  | "homepage.hardware"
+  | "homepage.trust"
+  | "homepage.results"
+  | "homepage.support"
+  | "footer.editorial"
+  | "solutions.catalog"
+  | "navigation.solutions-menu"
+  | `solutions.detail.${string}`
+  | `solutions.detail.${string}.${string}`;
+
+type InlineCmsHeroDraft = {
+  visible: boolean;
+  heading: [string, string, string];
+  description: string;
+  primaryCtaLabel: string;
+  secondaryCtaLabel: string;
+  trustLine: string;
+  imageSrc: string;
+  imageAlt: string;
+};
+
+type InlineCmsSimpleSectionDraft = {
+  visible: boolean;
+  eyebrow: string;
+  heading: string;
+  description: string;
+};
+
+type InlineCmsBuyingPrioritiesDraft = InlineCmsSimpleSectionDraft & {
+  proofAreas: HomepageProofArea[];
+};
+
+type InlineCmsStoryDraft = InlineCmsSimpleSectionDraft & {
+  videoCard: {
+    title: string;
+    description: string;
+    ctaLabel: string;
+    videoSrc: string;
+    posterSrc: string;
+  };
+  imageCard: {
+    title: string;
+    description: string;
+    ctaLabel: string;
+    imageSrc: string;
+    imageAlt: string;
+  };
+};
+
+type InlineCmsArchitectureDraft = InlineCmsSimpleSectionDraft & {
+  layers: HomepageArchitectureLayer[];
+};
+
+type InlineCmsIndustriesDraft = InlineCmsSimpleSectionDraft & {
+  featuredImageSrc: string;
+  featuredImageAlt: string;
+};
+
+type InlineCmsResultsDraft = {
+  visible: boolean;
+  eyebrow: string;
+  heading: [string, string];
+  description: string;
+  outcomes: HomepageOutcome[];
+};
+
+type InlineCmsTrustDraft = InlineCmsSimpleSectionDraft & {
+  stats: HomepageTrustStat[];
+  reviews: HomepageTrustReview[];
+};
+
+type InlineCmsFooterDraft = {
+  visible: boolean;
+  eyebrow: string;
+  heading: string;
+  description: string;
+  contactEmail: string;
+  primaryCtaLabel: string;
+  secondaryCtaLabel: string;
+};
+
+type InlineCmsSolutionsCatalogDraft = {
+  visible: boolean;
+  heroHeadline: string;
+  heroBenefit: string;
+  heroCtaLabel: string;
+  heroImageSrc: string;
+  platformEyebrow: string;
+  platformHeading: string;
+  platformDescription: string;
+  resultsEyebrow: string;
+  resultsHeading: string;
+  resultsCards: Array<{ value: string; label: string; detail: string }>;
+  featuredEyebrow: string;
+  featuredHeading: string;
+  featuredDescription: string;
+  libraryEyebrow: string;
+  libraryHeading: string;
+  browseEyebrow: string;
+  browseHeading: string;
+  browseDescription: string;
+  bottomCtaEyebrow: string;
+  bottomCtaHeading: string;
+  bottomCtaDescription: string;
+  bottomCtaPrimaryLabel: string;
+  bottomCtaSecondaryLabel: string;
+};
+
+type InlineCmsSolutionsMenuDraft = {
+  columns: NavigationColumn[];
+  featuredPanel: {
+    label: string;
+    title: string;
+    description: string;
+    ctaLabel: string;
+    ctaHref: string;
+    footerCtaLabel: string;
+    footerCtaHref: string;
+  };
+};
+
+type InlineCmsDrafts = {
+  homepageHero: InlineCmsHeroDraft;
+  homepageBuyingPriorities: InlineCmsBuyingPrioritiesDraft;
+  homepageStory: InlineCmsStoryDraft;
+  homepageArchitecture: InlineCmsArchitectureDraft;
+  homepageIndustries: InlineCmsIndustriesDraft;
+  homepageHardware: InlineCmsSimpleSectionDraft & {
+    ctaLabel: string;
+    cardMedia: Array<{ imageSrc: string; imageAlt: string }>;
+  };
+  homepageTrust: InlineCmsTrustDraft;
+  homepageResults: InlineCmsResultsDraft;
+  homepageSupport: InlineCmsSimpleSectionDraft;
+  footerEditorial: InlineCmsFooterDraft;
+  solutionsCatalog: InlineCmsSolutionsCatalogDraft;
+  solutionsMenu: InlineCmsSolutionsMenuDraft;
+  solutionDetails: Record<string, SolutionDetail>;
+};
 
 type FleetSummary = {
   totalDevices: number;
@@ -56,6 +224,10 @@ type StoreState = {
   themeMode: ThemeMode;
   region: SiteRegion | null;
   authUser: AuthUser | null;
+  cmsEditMode: boolean;
+  cmsPreviewMode: boolean;
+  cmsActiveSection: InlineCmsSectionId | null;
+  cmsDrafts: InlineCmsDrafts;
   cart: CartItem[];
   wishlist: string[];
   checkoutSelection: CheckoutSelection;
@@ -66,6 +238,17 @@ type StoreState = {
   setRegion: (region: SiteRegion) => void;
   setAuthUser: (user: AuthUser | null) => void;
   clearAuthUser: () => void;
+  toggleCmsEditMode: () => void;
+  setCmsEditMode: (enabled: boolean) => void;
+  openCmsSection: (sectionId: InlineCmsSectionId) => void;
+  closeCmsSection: () => void;
+  updateCmsDraft: <TSection extends keyof InlineCmsDrafts>(
+    section: TSection,
+    patch: Partial<InlineCmsDrafts[TSection]>,
+  ) => void;
+  saveCmsDraft: () => void;
+  enterCmsPreview: () => void;
+  publishCmsDraft: () => void;
   toggleWishlist: (productId: string) => boolean;
   addToCart: (productId: string) => void;
   quickAddToCart: (productId: string) => void;
@@ -82,6 +265,156 @@ type StoreState = {
 };
 
 let toastTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const defaultCmsDrafts: InlineCmsDrafts = {
+  homepageHero: {
+    visible: true,
+    heading: [...heroContent.heading] as [string, string, string],
+    description: heroContent.description,
+    primaryCtaLabel: heroContent.primaryCta.label,
+    secondaryCtaLabel: heroContent.secondaryCta.label,
+    trustLine: heroContent.trustLine,
+    imageSrc: heroContent.image.src,
+    imageAlt: heroContent.image.alt,
+  },
+  homepageBuyingPriorities: {
+    visible: true,
+    eyebrow: buyingPrioritiesContent.eyebrow,
+    heading: buyingPrioritiesContent.heading,
+    description: buyingPrioritiesContent.description,
+    proofAreas: buyingPrioritiesContent.proofAreas.map((area) => ({ ...area })),
+  },
+  homepageStory: {
+    visible: true,
+    eyebrow: fieldUseCasesContent.eyebrow,
+    heading: fieldUseCasesContent.heading,
+    description: fieldUseCasesContent.description,
+    videoCard: {
+      title: fieldUseCasesContent.cards[0].title,
+      description: fieldUseCasesContent.cards[0].description,
+      ctaLabel: fieldUseCasesContent.cards[0].ctaLabel,
+      videoSrc: "/Products/Video 1.mp4",
+      posterSrc: "/Products/DR03.png",
+    },
+    imageCard: {
+      title: fieldUseCasesContent.cards[1].title,
+      description: fieldUseCasesContent.cards[1].description,
+      ctaLabel: fieldUseCasesContent.cards[1].ctaLabel,
+      imageSrc: fieldUseCasesContent.cards[1].imageSrc ?? "",
+      imageAlt: fieldUseCasesContent.cards[1].imageAlt ?? "",
+    },
+  },
+  homepageArchitecture: {
+    visible: true,
+    eyebrow: architectureContent.eyebrow,
+    heading: architectureContent.heading,
+    description: architectureContent.description,
+    layers: architectureContent.layers.map((layer) => ({ ...layer })),
+  },
+  homepageIndustries: {
+    visible: true,
+    eyebrow: homeIndustriesContent.eyebrow,
+    heading: homeIndustriesContent.heading,
+    description: homeIndustriesContent.description,
+    featuredImageSrc: homeIndustriesContent.featured.imageSrc,
+    featuredImageAlt: homeIndustriesContent.featured.imageAlt,
+  },
+  homepageHardware: {
+    visible: true,
+    eyebrow: hardwareEcosystemContent.eyebrow,
+    heading: hardwareEcosystemContent.heading,
+    description: hardwareEcosystemContent.description,
+    ctaLabel: hardwareEcosystemContent.cta.label,
+    cardMedia: hardwareEcosystemContent.cards.map((card) => ({
+      imageSrc: card.imageSrc,
+      imageAlt: card.imageAlt,
+    })),
+  },
+  homepageTrust: {
+    visible: true,
+    eyebrow: homepageTrustContent.eyebrow,
+    heading: homepageTrustContent.heading,
+    description: homepageTrustContent.description,
+    stats: homepageTrustContent.stats.map((stat) => ({ ...stat })),
+    reviews: homepageTrustContent.reviews.map((review) => ({ ...review })),
+  },
+  homepageResults: {
+    visible: true,
+    eyebrow: resultsContent.eyebrow,
+    heading: [...resultsContent.heading] as [string, string],
+    description: resultsContent.description,
+    outcomes: resultsContent.outcomes.map((outcome) => ({ ...outcome })),
+  },
+  homepageSupport: {
+    visible: true,
+    eyebrow: homepageSupportContent.eyebrow,
+    heading: homepageSupportContent.heading,
+    description: homepageSupportContent.description,
+  },
+  footerEditorial: {
+    visible: true,
+    eyebrow: footerEditorialContent.eyebrow,
+    heading: footerEditorialContent.heading,
+    description: footerEditorialContent.description,
+    contactEmail: footerEditorialContent.contactEmail,
+    primaryCtaLabel: footerEditorialContent.primaryCta.label,
+    secondaryCtaLabel: footerEditorialContent.secondaryCta.label,
+  },
+  solutionsCatalog: {
+    visible: true,
+    heroHeadline: "Get complete visibility and control across fleet operations.",
+    heroBenefit:
+      "Compare the highest-impact solution paths first, then move into the workflow and hardware fit that closes delays, losses, and blind spots.",
+    heroCtaLabel: "Book live demo",
+    heroImageSrc: "/Images/Banner-size.png",
+    platformEyebrow: "See It In Action",
+    platformHeading: "Bring routes, dashboards, and field visibility into one story.",
+    platformDescription:
+      "Premium solution pages should feel visual first. Show the buyer the operating environment, then explain the workflow underneath it.",
+    resultsEyebrow: "Proven Results",
+    resultsHeading: "Operational impact should feel immediate, not buried in copy.",
+    resultsCards: [
+      { value: "30%", label: "less avoidable fuel waste", detail: "after route and usage visibility improve" },
+      { value: "25%", label: "faster operational response", detail: "when alerts and workflows are connected" },
+      { value: "24/7", label: "live fleet awareness", detail: "across routes, assets, and exceptions" },
+    ],
+    featuredEyebrow: "Our Core Solutions",
+    featuredHeading: "Start with the solution paths buyers usually evaluate first.",
+    featuredDescription:
+      "Lead with strong visual anchors, then move into the workflow and hardware fit that closes the gap.",
+    libraryEyebrow: "Solution Library",
+    libraryHeading: "Browse all workflows grouped for faster scanning.",
+    browseEyebrow: "Start Here",
+    browseHeading: "Start from your problem, then narrow the best-fit path.",
+    browseDescription:
+      "Choose a common operational need. We will narrow the library without hiding anything.",
+    bottomCtaEyebrow: "Ready To Shortlist?",
+    bottomCtaHeading: "Book a live walkthrough and see the right solution path first.",
+    bottomCtaDescription:
+      "Share the vehicles, assets, or operating issue you need to control. We will recommend the right workflow, hardware stack, and rollout starting point.",
+    bottomCtaPrimaryLabel: "Book live demo",
+    bottomCtaSecondaryLabel: "See hardware fit",
+  },
+  solutionsMenu: {
+    columns: solutionsMenuColumns.map((column) => ({
+      ...column,
+      links: column.links.map((link) => ({ ...link })),
+      preview: { ...column.preview },
+    })),
+    featuredPanel: { ...solutionsMenuFeaturedPanel },
+  },
+  solutionDetails: Object.fromEntries(
+    solutionsList.map((solution) => [
+      solution.slug,
+      {
+        ...solution,
+        challenges: solution.challenges.map((challenge) => ({ ...challenge })),
+        hardware: solution.hardware.map((hardware) => ({ ...hardware })),
+        useCases: solution.useCases.map((useCase) => ({ ...useCase })),
+      },
+    ]),
+  ),
+};
 
 const createFleetSummary = (items: CartItem[]): FleetSummary => {
   const summary: FleetSummary = {
@@ -203,6 +536,10 @@ export const useAppStore = create<StoreState>()(
       themeMode: "system",
       region: null,
       authUser: null,
+      cmsEditMode: false,
+      cmsPreviewMode: false,
+      cmsActiveSection: null,
+      cmsDrafts: defaultCmsDrafts,
       cart: [],
       wishlist: [],
       checkoutSelection: null,
@@ -224,6 +561,52 @@ export const useAppStore = create<StoreState>()(
       },
       clearAuthUser: () => {
         set({ authUser: null });
+      },
+      toggleCmsEditMode: () => {
+        set((state) => ({
+          cmsEditMode: !state.cmsEditMode,
+          cmsPreviewMode: state.cmsEditMode ? false : state.cmsPreviewMode,
+          cmsActiveSection: state.cmsEditMode ? null : state.cmsActiveSection,
+        }));
+      },
+      setCmsEditMode: (enabled) => {
+        set({
+          cmsEditMode: enabled,
+          cmsPreviewMode: enabled ? get().cmsPreviewMode : false,
+          cmsActiveSection: enabled ? get().cmsActiveSection : null,
+        });
+      },
+      openCmsSection: (sectionId) => {
+        set({
+          cmsEditMode: true,
+          cmsActiveSection: sectionId,
+        });
+      },
+      closeCmsSection: () => {
+        set({ cmsActiveSection: null });
+      },
+      updateCmsDraft: (section, patch) => {
+        set((state) => ({
+          cmsDrafts: {
+            ...state.cmsDrafts,
+            [section]: {
+              ...state.cmsDrafts[section],
+              ...patch,
+            },
+          },
+          cmsPreviewMode: false,
+        }));
+      },
+      saveCmsDraft: () => {
+        get().showToast("Draft saved");
+      },
+      enterCmsPreview: () => {
+        set({ cmsPreviewMode: true });
+        get().showToast("Preview updated");
+      },
+      publishCmsDraft: () => {
+        set({ cmsPreviewMode: false, cmsActiveSection: null, cmsEditMode: false });
+        get().showToast("Changes marked ready to publish");
       },
       toggleWishlist: (productId) => {
         let isSaved = false;
@@ -426,6 +809,7 @@ export const useAppStore = create<StoreState>()(
       partialize: (state) => ({
         themeMode: state.themeMode,
         region: state.region,
+        cmsDrafts: state.cmsDrafts,
         cart: state.cart,
         wishlist: state.wishlist,
         checkoutSelection: state.checkoutSelection,
@@ -444,6 +828,10 @@ export const useAppStore = create<StoreState>()(
           themeMode: normalizeThemeMode(typedState.themeMode, legacyState.theme),
           region: normalizeRegion(typedState.region),
           authUser: null,
+          cmsEditMode: false,
+          cmsPreviewMode: false,
+          cmsActiveSection: null,
+          cmsDrafts: typedState.cmsDrafts ?? currentState.cmsDrafts,
           cart: currentCart.length ? currentCart : (persistedCart ?? currentState.cart),
           wishlist: currentWishlist.length
             ? currentWishlist

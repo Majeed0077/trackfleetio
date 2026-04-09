@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Route, ShieldCheck, Wrench } from "lucide-react";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { heroContent, homepageMetrics } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 const metricIconMap = {
   boxes: Boxes,
@@ -11,6 +15,10 @@ const metricIconMap = {
 } as const;
 
 export function HeroSection() {
+  const heroDraft = useAppStore((state) => state.cmsDrafts.homepageHero);
+  const heroImageSrc = heroDraft.imageSrc.trim() || heroContent.image.src;
+  const heroImageAlt = heroDraft.imageAlt.trim() || heroContent.image.alt;
+
   return (
     <>
       <section className="hero-section">
@@ -18,32 +26,32 @@ export function HeroSection() {
           <div className="hero-grid" data-reveal-group>
             <div className="hero-copy" data-reveal-item>
               <h1>
-                {heroContent.heading[0].replace(" ", "\u00a0")}
+                {heroDraft.heading[0].replace(" ", "\u00a0")}
                 <br />
-                {heroContent.heading[1].replace(/ /g, "\u00a0")}
+                {heroDraft.heading[1].replace(/ /g, "\u00a0")}
                 <br />
-                {heroContent.heading[2]}
+                {heroDraft.heading[2]}
               </h1>
-              <p className="hero-text">{heroContent.description}</p>
+              <p className="hero-text">{heroDraft.description}</p>
 
               <div className="hero-actions">
                 <Link className="button button-primary" href={heroContent.primaryCta.href}>
-                  {heroContent.primaryCta.label}
+                  {heroDraft.primaryCtaLabel}
                 </Link>
                 <Link className="button button-secondary" href={heroContent.secondaryCta.href}>
-                  {heroContent.secondaryCta.label}
+                  {heroDraft.secondaryCtaLabel}
                 </Link>
               </div>
 
-              <p className="hero-trust">{heroContent.trustLine}</p>
+              <p className="hero-trust">{heroDraft.trustLine}</p>
             </div>
 
             <div className="hero-visual" data-reveal-item>
               <div className="hero-devices" aria-label="Track Fleetio hardware showcase" data-parallax="soft">
                 <Image
                   className="hero-cluster-image"
-                  src={heroContent.image.src}
-                  alt={heroContent.image.alt}
+                  src={resolveCloudinaryAsset(heroImageSrc)}
+                  alt={heroImageAlt}
                   width={790}
                   height={590}
                   loading="eager"

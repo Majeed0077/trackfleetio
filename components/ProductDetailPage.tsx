@@ -7,6 +7,8 @@ import { Heart } from "lucide-react";
 import { useState, type CSSProperties } from "react";
 
 import { getProductHref, getRelatedProducts, type Product } from "@/data/products";
+import { CompareToggleButton } from "@/components/CompareToggleButton";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
@@ -85,6 +87,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
   const [pan, setPan] = useState({ x: "0px", y: "0px", zoom: "1" });
   const isSaved = hasHydrated && wishlist.includes(product.id);
   const relatedProducts = getRelatedProducts(product);
+  const resolvedActiveImageSrc = resolveCloudinaryAsset(activeImage.src);
 
   return (
     <main id="main-content" className="site-main">
@@ -124,7 +127,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 >
                   <Image
                     className={`product-detail-main-image catalog-card-image ${activeImage.imageClass}`}
-                    src={activeImage.src}
+                    src={resolvedActiveImageSrc}
                     alt={activeImage.alt}
                     width={PRODUCT_DETAIL_IMAGE_WIDTH}
                     height={PRODUCT_DETAIL_IMAGE_HEIGHT}
@@ -153,7 +156,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                         >
                           <Image
                             className={`catalog-card-image ${image.imageClass}`}
-                            src={image.src}
+                            src={resolveCloudinaryAsset(image.src)}
                             alt={image.alt}
                             width={PRODUCT_THUMBNAIL_IMAGE_WIDTH}
                             height={PRODUCT_THUMBNAIL_IMAGE_HEIGHT}
@@ -188,6 +191,13 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 >
                   Start Order
                 </button>
+                <CompareToggleButton
+                  productId={product.id}
+                  mode="button"
+                  className="button button-secondary product-detail-compare"
+                  label="Compare"
+                  navigateToCompare
+                />
                 <button
                   className={`catalog-card-tool product-detail-favorite${isSaved ? " is-saved" : ""}`}
                   type="button"
@@ -265,7 +275,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 <Link className="product-detail-related-media" href={getProductHref(relatedProduct.id)}>
                   <Image
                     className={`catalog-card-image ${relatedProduct.imageClass}`}
-                    src={relatedProduct.imageSrc}
+                    src={resolveCloudinaryAsset(relatedProduct.imageSrc)}
                     alt={relatedProduct.imageAlt}
                     width={PRODUCT_RELATED_IMAGE_WIDTH}
                     height={PRODUCT_RELATED_IMAGE_HEIGHT}
@@ -296,6 +306,3 @@ export function ProductDetailPage({ product }: { product: Product }) {
     </main>
   );
 }
-
-
-

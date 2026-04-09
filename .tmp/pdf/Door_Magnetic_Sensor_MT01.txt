@@ -1,0 +1,41 @@
+V1.0.0
+Technical
+System  RTOS
+Sensor type  Hall sensor & Reed sensor
+Application  Vehicle Door Monitoring
+Features
+Service Life  3 years (≤ 20 Cycles/day)
+LoRa Frequency  868MHz/915MHz
+Physical & Interface Specifications
+Product Dimensions  Door magnetic sensor:
+L 86.8* W 31.4* H 7.9mm
+Magnet block:
+L 90* W 32* H 12.5mm
+Weight  Door magnetic sensor:59g
+Magnet block:59g
+Working Temperature  -20°C to 70°C
+Storage Temperature  -40°C to 85°C
+Ingress Protection
+Rating
+ IP67
+Interface  Type-C port
+Color  Silver + Black
+LED  Red
+Power Consumption
+Operating Power  DC 3V
+Power Consumption  @3V 10uA(Standby Mode)
+Battery capacity  1500mAh
+Appearance
+Regulatory Compliance
+Certification  CE,FCC
+Product Code  MT01
+MT01 Specification
+MT01 | Ultra-Endurance Wireless LoRa Door Sensor
+Smart Perimeter Security with Zero-Maintenance
+Stability
+This product supports:
+1.Long-Distance LoRa Communication
+2.IP67
+3.Low-Power
+4.Easy Installation
+5.Configurator

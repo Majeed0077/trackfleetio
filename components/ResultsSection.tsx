@@ -1,23 +1,27 @@
+"use client";
+
 import styles from "./ResultsSection.module.css";
-import { resultsContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 export function ResultsSection() {
+  const resultsDraft = useAppStore((state) => state.cmsDrafts.homepageResults);
+
   return (
     <section className={`content-section ${styles.section}`} data-reveal>
       <div className="container">
         <div className={styles.shell}>
           <div className={styles.intro}>
-            <p className={styles.eyebrow}>{resultsContent.eyebrow}</p>
+            <p className={styles.eyebrow}>{resultsDraft.eyebrow}</p>
             <h2 className={styles.heading}>
-              {resultsContent.heading[0]}
+              {resultsDraft.heading[0]}
               <br />
-              {resultsContent.heading[1]}
+              {resultsDraft.heading[1]}
             </h2>
-            <p className={styles.copy}>{resultsContent.description}</p>
+            <p className={styles.copy}>{resultsDraft.description}</p>
           </div>
 
           <ol className={styles.list} data-reveal-group>
-            {resultsContent.outcomes.map((outcome) => (
+            {resultsDraft.outcomes.map((outcome) => (
               <li className={styles.row} key={outcome.number} data-reveal-item>
                 <span className={styles.number}>{outcome.number}</span>
                 <div className={styles.content}>

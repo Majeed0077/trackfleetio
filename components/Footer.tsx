@@ -10,6 +10,8 @@ import {
   footerLinkGroups,
   footerSocialLinks,
 } from "@/lib/content/footer";
+import { useAppStore } from "@/store/store";
+import { InlineEditableSection } from "@/components/InlineEditableSection";
 
 function FooterStaticLink({ children }: { children: string }) {
   return <span className="footer-link footer-link-static">{children}</span>;
@@ -17,6 +19,7 @@ function FooterStaticLink({ children }: { children: string }) {
 
 export function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const footerDraft = useAppStore((state) => state.cmsDrafts.footerEditorial);
   const currentYear = String(new Date().getFullYear());
 
   const toggleSection = (key: string) => {
@@ -27,25 +30,31 @@ export function Footer() {
   };
 
   return (
+    <InlineEditableSection
+      sectionId="footer.editorial"
+      title="Footer Editorial"
+      description="Footer intro copy, contact email, and footer CTAs."
+      draftKey="footerEditorial"
+    >
     <footer id="footer" className="site-footer footer">
       <div className="container footer-container">
         <section className="footer-editorial-intro" aria-label="Footer overview">
           <div className="footer-editorial-copy">
-            <p className="footer-editorial-eyebrow">{footerEditorialContent.eyebrow}</p>
-            <h2>{footerEditorialContent.heading}</h2>
-            <p>{footerEditorialContent.description}</p>
+            <p className="footer-editorial-eyebrow">{footerDraft.eyebrow}</p>
+            <h2>{footerDraft.heading}</h2>
+            <p>{footerDraft.description}</p>
           </div>
 
           <div className="footer-editorial-actions">
-            <a className="footer-contact-link footer-editorial-contact" href={`mailto:${footerEditorialContent.contactEmail}`}>
-              {footerEditorialContent.contactEmail}
+            <a className="footer-contact-link footer-editorial-contact" href={`mailto:${footerDraft.contactEmail}`}>
+              {footerDraft.contactEmail}
             </a>
             <div className="footer-editorial-buttons">
               <Link className="button button-primary" href={footerEditorialContent.primaryCta.href}>
-                {footerEditorialContent.primaryCta.label}
+                {footerDraft.primaryCtaLabel}
               </Link>
               <Link className="button button-secondary" href={footerEditorialContent.secondaryCta.href}>
-                {footerEditorialContent.secondaryCta.label}
+                {footerDraft.secondaryCtaLabel}
               </Link>
             </div>
           </div>
@@ -183,5 +192,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </InlineEditableSection>
   );
 }

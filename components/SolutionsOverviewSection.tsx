@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Fuel, MapPinned, Radar, ScreenShare, Truck } from "lucide-react";
 
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { solutionsOverviewContent } from "@/lib/solutions";
 
 const overviewIconMap = {
@@ -48,7 +49,7 @@ export function SolutionsOverviewSection() {
                 <div className="solutions-overview-glow" aria-hidden="true"></div>
                 <Image
                   className="solutions-overview-image"
-                  src={solutionsOverviewContent.image.src}
+                  src={resolveCloudinaryAsset(solutionsOverviewContent.image.src)}
                   alt={solutionsOverviewContent.image.alt}
                   width={700}
                   height={500}

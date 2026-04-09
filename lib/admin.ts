@@ -33,26 +33,30 @@ export const adminNavSections: Array<{
   items: AdminNavItem[];
 }> = [
   {
-    title: "Main",
+    title: "Commerce",
     items: [
       { key: "dashboard", label: "Dashboard", href: "/admin/dashboard", icon: "grid" },
       { key: "reports", label: "Reports", href: "/admin/reports", icon: "chart" },
       { key: "orders", label: "Orders", href: "/admin/orders", icon: "receipt" },
+      { key: "payments", label: "Payments", href: "/admin/payments", icon: "receipt" },
+      { key: "discounts", label: "Discounts", href: "/admin/discounts", icon: "briefcase" },
       { key: "products", label: "Products", href: "/admin/products", icon: "box" },
       { key: "categories", label: "Categories", href: "/admin/categories", icon: "layers" },
       { key: "inventory", label: "Inventory", href: "/admin/inventory", icon: "archive" },
+      { key: "shipping", label: "Shipping", href: "/admin/shipping", icon: "briefcase" },
+      { key: "taxes", label: "Tax Rules", href: "/admin/taxes", icon: "settings" },
+      { key: "returns", label: "Returns", href: "/admin/returns", icon: "archive" },
       { key: "customers", label: "Customers", href: "/admin/customers", icon: "users" },
+      { key: "support", label: "Support", href: "/admin/support", icon: "users" },
     ],
   },
   {
-    title: "Content",
+    title: "Growth",
     items: [
-      { key: "content-homepage", label: "Homepage", href: "/admin/content/homepage", icon: "home" },
-      { key: "content-navigation", label: "Navigation", href: "/admin/content/navigation", icon: "menu" },
-      { key: "content-solutions", label: "Solutions", href: "/admin/content/solutions", icon: "file-text" },
-      { key: "content-industries", label: "Industries", href: "/admin/content/industries", icon: "briefcase" },
-      { key: "content-footer", label: "Footer", href: "/admin/content/footer", icon: "columns" },
-      { key: "media", label: "Banners / Media", href: "/admin/media", icon: "image" },
+      { key: "leads", label: "Leads", href: "/admin/leads", icon: "users" },
+      { key: "newsletter", label: "Newsletter", href: "/admin/newsletter", icon: "bell" },
+      { key: "reviews", label: "Reviews", href: "/admin/reviews", icon: "file-text" },
+      { key: "seo", label: "SEO / Redirects", href: "/admin/seo", icon: "menu" },
     ],
   },
   {
@@ -72,15 +76,25 @@ export const adminPageInfo: Record<
   string,
   { title: string; section: string }
 > = {
-  "/admin/dashboard": { title: "Dashboard", section: "Main" },
-  "/admin/reports": { title: "Reports", section: "Main" },
-  "/admin/orders": { title: "Orders", section: "Main" },
-  "/admin/products": { title: "Products", section: "Main" },
-  "/admin/product-form": { title: "Add / Edit Product", section: "Main" },
-  "/admin/categories": { title: "Categories", section: "Main" },
-  "/admin/category-form": { title: "Add / Edit Category", section: "Main" },
-  "/admin/inventory": { title: "Inventory", section: "Main" },
-  "/admin/customers": { title: "Customers", section: "Main" },
+  "/admin/dashboard": { title: "Dashboard", section: "Commerce" },
+  "/admin/reports": { title: "Reports", section: "Commerce" },
+  "/admin/orders": { title: "Orders", section: "Commerce" },
+  "/admin/payments": { title: "Payments", section: "Commerce" },
+  "/admin/discounts": { title: "Discounts", section: "Commerce" },
+  "/admin/products": { title: "Products", section: "Commerce" },
+  "/admin/product-form": { title: "Add / Edit Product", section: "Commerce" },
+  "/admin/categories": { title: "Categories", section: "Commerce" },
+  "/admin/category-form": { title: "Add / Edit Category", section: "Commerce" },
+  "/admin/inventory": { title: "Inventory", section: "Commerce" },
+  "/admin/shipping": { title: "Shipping", section: "Commerce" },
+  "/admin/taxes": { title: "Tax Rules", section: "Commerce" },
+  "/admin/returns": { title: "Returns", section: "Commerce" },
+  "/admin/customers": { title: "Customers", section: "Commerce" },
+  "/admin/support": { title: "Support", section: "Commerce" },
+  "/admin/leads": { title: "Leads", section: "Growth" },
+  "/admin/newsletter": { title: "Newsletter", section: "Growth" },
+  "/admin/reviews": { title: "Reviews", section: "Growth" },
+  "/admin/seo": { title: "SEO / Redirects", section: "Growth" },
   "/admin/content/homepage": { title: "Homepage Content", section: "Content" },
   "/admin/content/navigation": { title: "Navigation Content", section: "Content" },
   "/admin/content/solutions": { title: "Solutions Content", section: "Content" },
@@ -137,6 +151,7 @@ export const adminRecentActivity = [
 
 export const adminProducts = [
   {
+    productId: "4g-gps-device",
     name: "4G GPS Tracker",
     sku: "TF-4G-110",
     category: "Tracking Devices",
@@ -146,6 +161,7 @@ export const adminProducts = [
     image: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
   },
   {
+    productId: "ai-dashcam",
     name: "AI Dashcam",
     sku: "TF-CAM-220",
     category: "Video Telematics",
@@ -155,6 +171,7 @@ export const adminProducts = [
     image: "/Products/DR03.png",
   },
   {
+    productId: "asset-tracking-device",
     name: "Battery Asset Tracker",
     sku: "TF-AST-310",
     category: "Asset Tracking",
@@ -164,6 +181,7 @@ export const adminProducts = [
     image: "/Products/Compact black electronic device.png",
   },
   {
+    productId: "fuel-sensors",
     name: "Fuel Sensor",
     sku: "TF-SEN-410",
     category: "Sensors",
@@ -546,5 +564,242 @@ export const adminSystemHealth = [
     service: "Payment webhooks",
     status: "Draft",
     detail: "Webhook receiver UI prepared but gateway not connected yet.",
+  },
+] as const;
+
+export const adminPayments = [
+  {
+    orderId: "#TF-2048",
+    gateway: "Stripe",
+    amount: "$2,460",
+    method: "Card",
+    status: "Paid",
+    reference: "pi_2048_trackfleetio",
+  },
+  {
+    orderId: "#TF-2047",
+    gateway: "Bank Transfer",
+    amount: "$1,280",
+    method: "Transfer",
+    status: "Pending",
+    reference: "bank_ref_99814",
+  },
+  {
+    orderId: "#TF-2046",
+    gateway: "Stripe",
+    amount: "$4,920",
+    method: "Card",
+    status: "Paid",
+    reference: "pi_2046_trackfleetio",
+  },
+] as const;
+
+export const adminDiscounts = [
+  {
+    code: "FLEET10",
+    type: "Percentage",
+    value: "10%",
+    usage: "34 / 100",
+    status: "Live",
+  },
+  {
+    code: "OPS500",
+    type: "Fixed",
+    value: "$500",
+    usage: "7 / 20",
+    status: "Draft",
+  },
+  {
+    code: "APRILB2B",
+    type: "Percentage",
+    value: "15%",
+    usage: "12 / 50",
+    status: "Live",
+  },
+] as const;
+
+export const adminShippingZones = [
+  {
+    zone: "Karachi",
+    method: "Same day dispatch",
+    rate: "$18",
+    eta: "0-1 day",
+    status: "Live",
+  },
+  {
+    zone: "Punjab Metro",
+    method: "Priority courier",
+    rate: "$24",
+    eta: "1-2 days",
+    status: "Live",
+  },
+  {
+    zone: "Remote regions",
+    method: "Freight partner",
+    rate: "$42",
+    eta: "3-5 days",
+    status: "Review",
+  },
+] as const;
+
+export const adminReturns = [
+  {
+    requestId: "RT-118",
+    customer: "Northgate Transport",
+    orderId: "#TF-2031",
+    reason: "Damaged unit on delivery",
+    status: "Pending",
+  },
+  {
+    requestId: "RT-117",
+    customer: "Metro Transit Ops",
+    orderId: "#TF-2028",
+    reason: "Wrong model supplied",
+    status: "Review",
+  },
+  {
+    requestId: "RT-116",
+    customer: "BlueLine Logistics",
+    orderId: "#TF-2014",
+    reason: "Approved replacement",
+    status: "Delivered",
+  },
+] as const;
+
+export const adminLeads = [
+  {
+    company: "Falcon Haulage",
+    contact: "Imran Raza",
+    channel: "Quote request",
+    interest: "4G GPS + fuel sensors",
+    status: "New",
+  },
+  {
+    company: "Rapid Fleet",
+    contact: "Sana Yousaf",
+    channel: "Contact form",
+    interest: "AI dashcam rollout",
+    status: "Review",
+  },
+  {
+    company: "Desert Movers",
+    contact: "Ali Jafri",
+    channel: "WhatsApp referral",
+    interest: "Cold chain monitoring",
+    status: "Active",
+  },
+] as const;
+
+export const adminNewsletterSubscribers = [
+  {
+    email: "ops@northgatefleet.com",
+    segment: "Customers",
+    source: "Footer signup",
+    status: "Active",
+  },
+  {
+    email: "fleet@atlasbuild.com",
+    segment: "Leads",
+    source: "Contact page",
+    status: "Active",
+  },
+  {
+    email: "support@metrotransit.io",
+    segment: "Partners",
+    source: "Manual import",
+    status: "Review",
+  },
+] as const;
+
+export const adminReviews = [
+  {
+    name: "BlueLine Logistics",
+    product: "4G GPS Tracker",
+    rating: "5/5",
+    status: "Live",
+    summary: "Clean install and dependable route visibility.",
+  },
+  {
+    name: "Northgate Transport",
+    product: "AI Dashcam",
+    rating: "4/5",
+    status: "Review",
+    summary: "Strong camera clarity with useful safety playback.",
+  },
+  {
+    name: "Atlas Construction",
+    product: "Fuel Sensor",
+    rating: "5/5",
+    status: "Draft",
+    summary: "Helpful monitoring for usage and refill behaviour.",
+  },
+] as const;
+
+export const adminSupportTickets = [
+  {
+    ticketId: "SUP-401",
+    customer: "BlueLine Logistics",
+    topic: "Installation support",
+    priority: "Active",
+    status: "Processing",
+  },
+  {
+    ticketId: "SUP-398",
+    customer: "Atlas Construction",
+    topic: "Warranty clarification",
+    priority: "Review",
+    status: "Pending",
+  },
+  {
+    ticketId: "SUP-392",
+    customer: "Metro Transit Ops",
+    topic: "Dashcam playback issue",
+    priority: "Active",
+    status: "Connected",
+  },
+] as const;
+
+export const adminTaxRules = [
+  {
+    region: "Pakistan",
+    type: "Standard sales tax",
+    rate: "18%",
+    scope: "All hardware",
+    status: "Live",
+  },
+  {
+    region: "Export orders",
+    type: "Zero-rated",
+    rate: "0%",
+    scope: "Verified export invoices",
+    status: "Live",
+  },
+  {
+    region: "Special projects",
+    type: "Manual override",
+    rate: "Custom",
+    scope: "Enterprise contracts",
+    status: "Review",
+  },
+] as const;
+
+export const adminSeoRedirects = [
+  {
+    source: "/fleet-trackers",
+    destination: "/products",
+    type: "301",
+    status: "Live",
+  },
+  {
+    source: "/old-dashcam-range",
+    destination: "/products/ai-dashcam",
+    type: "301",
+    status: "Live",
+  },
+  {
+    source: "/gps-monitoring-demo",
+    destination: "/solutions/monitoring-systems",
+    type: "302",
+    status: "Draft",
   },
 ] as const;

@@ -1,0 +1,69 @@
+V1.0.1
+Communication Specifications
+Technology  2G+4G Cat. 1
+Data Support  SMS (TXT/ PDU)
+4G Band  GSM:850/900/1800/1900MHZ
+ STD Band: B1/ B2/ B3/ B5/ B7/ B8/ B20/
+B28/ B66(B4)/ B34/B38/B39/B40/ B41
+(Optional)
+ NA Band: B2/ B5/ B12/B13/ B17/
+B66(B4)/B38/B39(34)/B40/B41
+(Optional)
+ MX Band: B2/ B4/ B5/ B7/ B7/ B12/ B13/
+B17/ B66(Optional)
+GNSS Technical
+Technology  GNSS: GPS/ GALILEO/ BeiDou/
+GLONASS
+Tracking Sensitivity  -165dB
+Capture Sensitivity  -159dB
+Position Accuracy  <2.0m CEP
+Hot Start  <1s
+Cold Start  <26s
+Power Consumption
+Operating
+Power
+ DC 9-90V
+Backup battery  3.7V 180mAH Lithium batteries
+Power
+Consumption
+ @12V 5ma (Online Sleep Mode)
+ @12V 30mA (Working Mode)
+Features
+Alarm Function  Low Voltage Alert
+ SOS Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+Function  ACC detection
+ Cut off oil circuit
+ Monitor
+Configuration
+Support
+ Configurator, FOTA WEB, SMS,
+Monitoring Platform
+Physical & Interface Specifications
+Working Temperature  -25°C to 75°C
+Storage Temperature  -40°C to 85°C
+Ingress Protection Rating  IP54
+LED  Yellow: Location
+ Red: Communication
+Interface  Micro-SIM, Type-C
+Color  Black
+Product Dimensions  L 86* W 43* H 15 mm
+Weight  70g
+C02G Specification
+C02G | 2G+ 4G Cat.1 High-Voltage Tracker
+Industrial-grade 8-Wire tracker with Rock-
+solid stability.
+This product supports:
+1.2G+4G Cat. 1
+2.GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+3.9-90V wide voltage input
+4.Configurator and FOTA WEB
+
+
+Appearance Regulatory Compliance
+Certification  CE,FCC,EMARK,UKCA
+Product Name  C02G

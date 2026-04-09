@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { AdminPageHeader, AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
+import { AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminCategories } from "@/lib/admin";
 import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
@@ -11,12 +11,11 @@ export default async function AdminCategoriesPage({ searchParams }: { searchPara
 
   return (
     <>
-      <AdminPageHeader
+      <AdminTableCard
         title="Category management"
         description="Manage storefront-facing category taxonomy and merchandising order."
-        actions={<Link className="button button-primary" href="/admin/category-form">Add category</Link>}
-      />
-      <AdminTableCard title="Storefront categories" description="Current category records with display order and status.">
+        action={<Link className="button button-primary" href="/admin/category-form">Add category</Link>}
+      >
         <AdminTable
           headers={["Name", "Slug", "Featured", "Order", "Status", "Action"]}
           rows={categoriesPagination.items.map((category) => (

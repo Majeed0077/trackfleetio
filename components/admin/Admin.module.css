@@ -1,23 +1,28 @@
 .adminRoot { height: 100vh; overflow: hidden; background: var(--page-background-color); }
 .sidebarOpen {}
 .sidebarCollapsed {}
-.adminShell { display: grid; grid-template-columns: 248px minmax(0, 1fr); height: 100vh; }
+.adminShell { display: grid; grid-template-columns: 220px minmax(0, 1fr); height: 100vh; }
 .sidebarCollapsed .adminShell { grid-template-columns: 84px minmax(0, 1fr); }
-.adminSidebar { display: grid; grid-template-rows: auto 1fr auto; gap: 14px; height: 100vh; padding: 14px 10px 10px; border-right: 1px solid var(--border); background: var(--surface); overflow: hidden; }
+.adminSidebar { display: grid; grid-template-rows: auto 1fr auto; gap: 14px; height: 100vh; padding: 14px 8px 10px; border-right: 1px solid var(--border); background: var(--surface); overflow: hidden; }
 .adminSidebarBrand,.adminSidebarNav,.adminNavSection,.adminNavLinks,.adminPageHeaderCopy,.adminActivityList,.adminSectionList,.adminListGrid,.adminUserMeta,.adminTopbarCopy,.adminLoginHeader,.adminLoginActions,.adminLoginForm,.adminFormSection,.adminFormSectionHeader,.adminFieldGroup { display: grid; }
 .adminSidebarTools { display: flex; align-items: center; justify-content: flex-end; padding: 4px 4px 0; }
 .adminSidebarBrandLabel,.adminNavSectionTitle,.adminBreadcrumb,.adminStatLabel { color: var(--text-muted); font-size: .69rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .adminSidebarNav { gap: 14px; align-content: start; overflow-y: auto; min-height: 0; padding-right: 4px; }
 .adminNavSection { gap: 8px; }
-.adminNavSectionTitle { margin: 0; padding: 0 10px; }
+.adminNavSectionHeader { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.adminNavSectionTitle { margin: 0; padding: 0 8px; }
+.adminNavSectionToggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: 0; border-radius: 8px; background: transparent; color: var(--text-muted); cursor: pointer; transition: background-color .18s ease, color .18s ease, transform .18s ease; }
+.adminNavSectionToggle:hover { background: var(--surface-soft); color: var(--text); }
+.adminNavSectionToggleCollapsed { transform: rotate(-90deg); }
 .adminNavLinks { gap: 4px; }
-.adminNavLink { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 0 10px; border-radius: 10px; color: var(--text-secondary); font-size: .82rem; font-weight: 500; line-height: 1.35; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.adminNavLinksCollapsed { display: none; }
+.adminNavLink { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 8px; border-radius: 10px; color: var(--text-secondary); font-size: .82rem; font-weight: 500; line-height: 1.35; transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
 .adminNavLink:hover { background: var(--surface-soft); color: var(--text); }
 .adminNavLinkActive { background: var(--surface-soft); color: var(--text); box-shadow: inset 0 0 0 1px var(--border); }
 .adminNavIcon { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--text-muted); }
 .adminNavLink:hover .adminNavIcon,.adminNavLinkActive .adminNavIcon { color: var(--accent); }
 .adminNavLabel { min-width: 0; }
-.sidebarCollapsed .adminSidebarBrandLabel,.sidebarCollapsed .adminNavSectionTitle,.sidebarCollapsed .adminNavLabel,.sidebarCollapsed .adminSidebarFooterCopy { display: none; }
+.sidebarCollapsed .adminSidebarBrandLabel,.sidebarCollapsed .adminNavSectionTitle,.sidebarCollapsed .adminNavSectionToggle,.sidebarCollapsed .adminNavLabel,.sidebarCollapsed .adminSidebarFooterCopy { display: none; }
 .sidebarCollapsed .adminSidebar { padding-left: 10px; padding-right: 10px; }
 .sidebarCollapsed .adminNavLink { justify-content: center; padding: 0; }
 .sidebarCollapsed .adminSidebarTools { justify-content: center; }
@@ -26,9 +31,10 @@
 .adminSidebarToggle { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text-secondary); }
 .adminSidebarToggle:hover { background: var(--surface-soft); color: var(--text); }
 .adminNavIcon svg,.adminSearchShell svg,.adminMobileToggle svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; fill: none; }
-.adminSidebarFooter { display: grid; gap: 10px; padding: 10px 6px 0; border-top: 1px solid var(--border); }
+.adminSidebarFooter { display: grid; gap: 10px; padding: 10px 4px 0; border-top: 1px solid var(--border); }
 .adminSidebarFooterCopy,.adminPageHeaderText,.adminCardHeaderText,.adminActivityText,.adminActivityTime,.adminSectionCopy,.adminMetaText,.adminStatMeta,.adminLoginHeader p,.adminLoginDemo,.adminLoginStatus,.adminFormSectionHeader p,.adminSettingsGroupText,.adminMediaCardText,.adminPaginationMeta,.adminPaginationCurrent { margin: 0; color: var(--text-secondary); }
 .adminSidebarFooterCopy,.adminStatMeta { font-size: .75rem; line-height: 1.45; }
+.adminSidebarFooter :global(.button) { min-height: 34px; padding: 0 12px; font-size: .78rem; border-radius: 999px; }
 .adminMain { min-width: 0; height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
 .adminTopbar,.adminTopbarLead,.adminTopbarActions,.adminActions,.adminToolbar,.adminToolbarGroup,.adminActionsInline,.adminSectionRowHead,.adminSettingsGroupHead,.adminMediaCardHead,.adminCardHeader,.adminPageHeader,.adminUserTrigger,.adminPagination,.adminPaginationActions { display: flex; align-items: center; }
 .adminTopbar { justify-content: space-between; gap: 16px; min-height: 60px; padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--page-background-color); }
@@ -58,7 +64,14 @@
 .adminCardHeaderTitle { font-size: .9rem; line-height: 1.3; }
 .adminPageHeaderText,.adminMetaText { font-size: .82rem; line-height: 1.5; }
 .adminToolbar { gap: 12px; flex-wrap: wrap; }
+.adminFilterRowCompact { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.adminOrdersCardAction { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
 .adminChip,.adminFilter { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text-secondary); font-size: .76rem; font-weight: 500; }
+.adminFilterSelect { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text-secondary); }
+.adminFilterSelectLabel { color: var(--text-muted); font-size: .72rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.adminFilterSelect select { border: 0; background: transparent; color: var(--text); font-size: .8rem; font-weight: 500; color-scheme: dark; }
+.adminFilterSelect select:focus { outline: none; }
+.adminFilterSelect select option { background: var(--surface); color: var(--text); }
 .adminTableCard,.adminFormCard,.adminSectionCard,.adminListCard,.adminSettingsGroup,.adminMediaCard,.adminStatCard { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: none; }
 .adminStatGrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
 .adminStatCard { display: grid; gap: 6px; padding: 13px; }
@@ -92,14 +105,31 @@
 .adminFormSection + .adminFormSection { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .adminFormSectionHeader { gap: 6px; }
 .adminFormSectionHeader h3,.adminSettingsGroupTitle,.adminMediaCardTitle { margin: 0; font-size: .9rem; font-weight: 600; }
+.adminDetails { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
+.adminDetailsSummary { display: grid; gap: 4px; cursor: pointer; list-style: none; }
+.adminDetailsSummary::-webkit-details-marker { display: none; }
+.adminDetailsSummary::after { content: "▾"; justify-self: end; margin-top: -26px; color: var(--text-muted); font-size: .9rem; transition: transform .18s ease, color .18s ease; }
+.adminDetails[open] .adminDetailsSummary::after { transform: rotate(180deg); color: var(--text); }
+.adminDetailsSummary span { color: var(--text); font-size: .86rem; font-weight: 600; }
+.adminDetailsSummary small { color: var(--text-secondary); font-size: .76rem; line-height: 1.5; }
+.adminDetailsBody { margin-top: 12px; }
 .adminFieldGroup { gap: 6px; }
 .adminFieldGroup label { color: var(--text); font-size: .78rem; font-weight: 500; }
-.adminField,.adminFieldGroup textarea,.adminFieldGroup select { width: 100%; min-width: 0; min-height: 36px; padding: 0 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--field-bg); color: var(--text); font-size: .82rem; }
+.adminField,.adminFieldGroup textarea,.adminFieldGroup select { width: 100%; min-width: 0; min-height: 36px; padding: 0 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--field-bg); color: var(--text); font-size: .82rem; color-scheme: dark; }
 .adminFieldGroup textarea { min-height: 104px; padding: 10px 12px; resize: vertical; }
+.adminFieldGroup select option { background: var(--surface); color: var(--text); }
 .adminField:focus,.adminFieldGroup textarea:focus,.adminFieldGroup select:focus { outline: none; border-color: var(--field-focus-border); box-shadow: var(--field-focus-ring); }
 .adminFieldRow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.adminFieldQuad { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .adminUploadBox,.adminEmptyState { display: grid; place-items: center; gap: 8px; min-height: 116px; padding: 14px; border: 1px dashed var(--border-strong); border-radius: 12px; background: var(--surface-soft); text-align: center; }
 .adminEmptyState { min-height: 170px; }
+.adminModalBackdrop { position: fixed; inset: 0; z-index: 180; display: grid; place-items: center; padding: 24px; background: rgba(6, 11, 22, .62); backdrop-filter: blur(8px); }
+.adminModalCard { width: min(100%, 960px); max-height: calc(100vh - 48px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 0; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: 0 28px 70px rgba(0, 0, 0, .35); }
+.adminModalHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.adminModalClose { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); color: var(--text); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.adminModalClose:hover { background: var(--surface); }
+.adminModalScroll { overflow-y: auto; padding: 18px 20px; display: grid; gap: 14px; }
+.adminModalActions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 16px 20px 20px; border-top: 1px solid var(--border); }
 .adminSectionList,.adminListGrid { gap: 14px; }
 .adminSectionCard,.adminSettingsGroup,.adminMediaCard { display: grid; gap: 11px; padding: 12px 13px; }
 .adminSectionGridCompact { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
@@ -155,12 +185,19 @@
   .adminTopbarActions { width: 100%; justify-content: space-between; }
   .adminSearchShell { flex: 1 1 auto; min-width: 0; }
   .adminUserMeta { display: none; }
-  .adminStatGrid,.adminMediaGrid,.adminFormGrid,.adminFieldRow,.adminSectionGridCompact { grid-template-columns: 1fr; }
+  .adminStatGrid,.adminMediaGrid,.adminFormGrid,.adminFieldRow,.adminFieldQuad,.adminSectionGridCompact { grid-template-columns: 1fr; }
   .adminPageHeader,.adminToolbar,.adminPagination { flex-direction: column; align-items: stretch; }
+  .adminFilterRowCompact { align-items: stretch; }
+  .adminOrdersCardAction { align-items: stretch; }
   .adminActions,.adminToolbarGroup,.adminPaginationActions { width: 100%; flex-wrap: wrap; }
-  .adminActions :global(.button),.adminToolbarGroup :global(.button),.adminPaginationLink,.adminPaginationLinkDisabled { width: 100%; justify-content: center; }
+  .adminActions :global(.button),.adminToolbarGroup :global(.button),.adminOrdersCardAction :global(.button),.adminPaginationLink,.adminPaginationLinkDisabled { width: 100%; justify-content: center; }
   .adminSectionCardCompact { min-height: auto; }
   .adminSectionCardCompact .adminToolbarGroup:last-child { margin-left: 0; }
   .adminTable { min-width: 640px; }
   .adminLoginCard { padding: 24px 20px; }
+  .adminModalBackdrop { padding: 12px; }
+  .adminModalCard { width: 100%; max-height: calc(100vh - 24px); }
+  .adminModalHeader,.adminModalScroll,.adminModalActions { padding-left: 16px; padding-right: 16px; }
+  .adminModalActions { flex-direction: column-reverse; align-items: stretch; }
+  .adminModalActions :global(.button) { width: 100%; justify-content: center; }
 }

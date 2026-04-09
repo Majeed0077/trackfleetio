@@ -1,4 +1,4 @@
-import { AdminPageHeader, AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
+import { AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
 import styles from "@/components/admin/Admin.module.css";
 import { adminCustomers } from "@/lib/admin";
 import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
@@ -9,8 +9,10 @@ export default async function AdminCustomersPage({ searchParams }: { searchParam
 
   return (
     <>
-      <AdminPageHeader title="Customer operations" description="Monitor enterprise customer accounts, active orders, and review state." />
-      <AdminTableCard title="Customer directory" description="Frontend-ready customer list for future CRM and account management integration.">
+      <AdminTableCard
+        title="Customer operations"
+        description="Monitor enterprise customer accounts, active orders, and review state."
+      >
         <AdminTable
           headers={["Customer", "Email", "Company", "Orders", "Status", "Action"]}
           rows={customersPagination.items.map((customer) => (

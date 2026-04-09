@@ -1,0 +1,80 @@
+V1.0.1
+Communication Specifications
+Technology  4G Cat. 1
+Data support  SMS (TXT/ PDU)
+4G band  STD Band: B1/ B2/ B3/ B5/ B7/ B8/ B20/
+B28/ B66(B4)/ B38/ B41 (Optional)
+ NA Band: B2/ B5/ B12/ B17/ B13/ B66(B4)/
+B38/ B41(Optional)
+GNSS Technical
+Technology  GNSS: GPS/ GALILEO/ BeiDou/
+GLONASS
+Tracking sensitivity  -165dB
+Capture Sensitivity  -159dB
+Position accuracy  <2.0m CEP
+Hot start  <1s
+Cold start  <24s
+Power Consumption
+Operating
+Power
+ DC 9-90V
+Battery capacity  3.7V/55mAh Lithium battery
+Power
+Consumption
+ @12V 10uA (Offline Deep Sleep Mode)
+ @12V 3.8mA (Online Sleep Mode)
+ @12V 11.6mA (Tracking Mode)
+Features
+Multi-IP  Dual-IP support
+Working modes  Normal
+ Online Sleep
+ Offline Deep Sleep
+Alarm function  Vibration Alert
+ Position Change Alert
+ Power-cut Alert
+ Low voltage Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+Data storage  16,000 blind spot storage entries
+(total for both IPs)
+Configuration support  Configurator, FOTA WEB, SMS,
+Monitoring Platform
+KG-22 Specification
+KG-22 is a rugged 4G vehicle tracker, which is compact and
+waterproof, designed for harsh environments. It features
+ultra-low power consumption and high-precision
+positioning for optimal tracking efficiency.
+This product supports:
+1. 4G Cat.1
+2. GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+3. IP67 waterproof rating
+4. Ultra-low Power Consumption
+5. 9-90V DC Wide Operating Voltage
+6. Configurator and FOTA WEB
+7. 16,000 Blind Spot Data Storage Entries
+
+
+Physical & Interface Specifications
+Connector  7pin female connector
+Working Temperature  -20°C to 75°C
+Storage Temperature  -40°C to 85°C
+Humidity  < 95%
+Ingress Protection
+Rating
+ IP67
+LED  Yellow: Location
+ Red: Communication
+Interface  Nano-SIM, Type-C
+V+, GND, ADC, Fuel-, SOS, ACC,
+Custom heightdetection9-36V
+Color  Black
+Product Dimensions  L 158* W 42* H 17mm
+Weight  51g
+Appearance
+Connector
+Regulatory Compliance
+Certification  CE, FCC,UKCA,IPV6
+Product Name  KG-22

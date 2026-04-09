@@ -7,7 +7,7 @@
 .shell {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.82fr);
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.08fr);
   gap: clamp(40px, 6vw, 88px);
   max-width: 1160px;
   margin: 0 auto;
@@ -35,7 +35,7 @@
 }
 
 .intro {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
   position: sticky;
   top: 110px;
@@ -43,14 +43,14 @@
   align-self: start;
   max-width: 26rem;
   padding-top: 10px;
-  padding-left: 4px;
+  padding-right: 10px;
 }
 
 .intro::before {
   content: "";
   position: absolute;
   top: 18px;
-  left: -22px;
+  right: -22px;
   width: 1px;
   height: calc(100% - 18px);
   background: linear-gradient(
@@ -91,7 +91,7 @@
 }
 
 .list {
-  grid-column: 1;
+  grid-column: 2;
   grid-row: 1;
   list-style: none;
   margin: 0;

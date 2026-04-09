@@ -1,0 +1,51 @@
+V1.0.0
+Technical
+System  RTOS
+Application  Emergency electrical power supply
+Features
+Power Output  16V (Without Main Power)
+Power Input  9-36V
+Waterproof  IP54
+Input Protection  Overload/Short-circuit
+protection; Over shoot/Under
+voltage protection
+Transfer Time  ≤5ms
+Capacity  @10.5 V 4000mAh
+ 38.4Wh
+ LiFePO₄ Battery
+Charging Current  800mA
+Power Consumption
+Power Consumption  245uA (Standby mode)
+ 7mA (Working mode)
+Battery Runtime  @16V 100mA 16h
+ @16V 500mA 3.2h
+ @16V 1000mA 1.6h
+Physical
+Product Dimensions  L109* W80* H50mm
+Weight  550g
+Connector  Type-C
+Working
+Temperature
+ -20°C to 70°C
+Storage Temperature  -20°C to 70°C
+Service Life  ≥5 years
+LED  Red (Power output)
+ Green(Charging)
+Colour  Full Black colour
+Regulatory Compliance
+Certification  CE, FCC
+ Smart UPS
+Product Name  UPS-01
+UPS-01 Specification
+UPS-01 | Professional Vehicle Uninterruptible
+Power Supply.
+Continuous Power for Uninterrupted Fleet Intellige
+nce.
+This product supports:
+1.Configurable External Discharge Duration
+2.Switch Status Configurable via Software
+3.Maximum Discharge Current: 2.5A @ 16V
+4.Power Failure Alarm
+
+
+Appearance

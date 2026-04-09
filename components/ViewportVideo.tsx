@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
+
 type ViewportVideoProps = {
   className?: string;
   src: string;
@@ -18,11 +20,15 @@ export function ViewportVideo({
   ariaLabel,
 }: ViewportVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const normalizedSrc = src.trim();
+  const normalizedPoster = poster?.trim();
+  const resolvedSrc = normalizedSrc ? resolveCloudinaryAsset(normalizedSrc) : null;
+  const resolvedPoster = normalizedPoster ? resolveCloudinaryAsset(normalizedPoster) : undefined;
 
   useEffect(() => {
     const video = videoRef.current;
 
-    if (!video) {
+    if (!video || !resolvedSrc) {
       return;
     }
 
@@ -64,7 +70,11 @@ export function ViewportVideo({
       observer.disconnect();
       video.pause();
     };
-  }, []);
+  }, [resolvedSrc]);
+
+  if (!resolvedSrc) {
+    return null;
+  }
 
   return (
     <video
@@ -74,10 +84,10 @@ export function ViewportVideo({
       loop
       playsInline
       preload="metadata"
-      poster={poster}
+      poster={resolvedPoster}
       aria-label={ariaLabel}
     >
-      <source src={src} type={type} />
+      <source src={resolvedSrc} type={type} />
     </video>
   );
 }

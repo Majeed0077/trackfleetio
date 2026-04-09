@@ -4,7 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
+  startTransition,
+  useDeferredValue,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type FocusEvent as ReactFocusEvent,
@@ -40,16 +43,16 @@ import {
   useSystemTheme,
 } from "@/store/store";
 import { ThemeLogo } from "@/components/ThemeLogo";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
 import { startRouteLoader } from "@/lib/route-loader";
+import { getProductHref, productsList } from "@/data/products";
 import {
   companyMenuLinks,
   industriesMenuLinks,
   navigationUtilityLabels,
   productMenuColumns,
   productsMenuFeaturedPanel,
-  solutionsMenuColumns,
-  solutionsMenuFeaturedPanel,
 } from "@/lib/content/navigation";
 
 type MenuKey = "solutions" | "products" | "industries" | "company";
@@ -137,6 +140,10 @@ export function Navbar() {
   const hasHydrated = useStoreHydrated();
   const authUser = useAppStore((state) => state.authUser);
   const clearAuthUser = useAppStore((state) => state.clearAuthUser);
+  const cmsEditMode = useAppStore((state) => state.cmsEditMode);
+  const toggleCmsEditMode = useAppStore((state) => state.toggleCmsEditMode);
+  const openCmsSection = useAppStore((state) => state.openCmsSection);
+  const solutionsMenuDraft = useAppStore((state) => state.cmsDrafts.solutionsMenu);
   const themeMode = useAppStore((state) => state.themeMode);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
   const systemTheme = useSystemTheme();
@@ -288,6 +295,53 @@ export function Navbar() {
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
   const currentThemeModeLabel = themeModeLabels[resolvedTheme];
   const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
+  const deferredSearchDraft = useDeferredValue(searchDraft);
+  const normalizedLiveSearch = deferredSearchDraft.trim().toLowerCase();
+
+  const liveSearchResults = useMemo(() => {
+    if (normalizedLiveSearch.length < 2) {
+      return [];
+    }
+
+    const tokens = normalizedLiveSearch
+      .split(/\s+/)
+      .map((token) => token.trim())
+      .filter(Boolean);
+
+    return productsList
+      .map((product) => {
+        const haystack = [
+          product.title,
+          product.categoryLabel,
+          product.shortDescription,
+          ...product.specs,
+          ...product.features,
+          ...product.useCases,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        let score = 0;
+        for (const token of tokens) {
+          const index = haystack.indexOf(token);
+          if (index === -1) {
+            return null;
+          }
+          score += 100 - Math.min(index, 80);
+        }
+
+        const titleIndex = product.title.toLowerCase().indexOf(normalizedLiveSearch);
+        if (titleIndex >= 0) {
+          score += 180 - Math.min(titleIndex, 80);
+        }
+
+        return { product, score };
+      })
+      .filter((item): item is { product: (typeof productsList)[number]; score: number } => Boolean(item))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+      .map((item) => item.product);
+  }, [normalizedLiveSearch]);
 
   const focusMenuButton = (menuKey: MenuKey) => {
     menuButtonRefs.current[menuKey]?.focus();
@@ -440,7 +494,7 @@ export function Navbar() {
                 <div className="nav-menu-preview-media">
                   <Image
                     className={`nav-menu-preview-image${activeColumn.preview.imageFit === "contain" ? " nav-menu-preview-image-contain" : ""}`}
-                    src={activeColumn.preview.imageSrc}
+                    src={resolveCloudinaryAsset(activeColumn.preview.imageSrc)}
                     alt={activeColumn.preview.imageAlt}
                     width={320}
                     height={220}
@@ -466,15 +520,23 @@ export function Navbar() {
       }
 
       case "solutions": {
-        const activeColumn = solutionsMenuColumns[solutionsMenuIndex] ?? solutionsMenuColumns[0];
+        const solutionMenuColumns = solutionsMenuDraft.columns;
+        const activeColumn = solutionMenuColumns[solutionsMenuIndex] ?? solutionMenuColumns[0];
 
         return (
           <div className="nav-menu-surface">
             <div className="nav-menu-layout nav-menu-layout-tabbed">
               <div className="nav-menu-rail">
-                <p className="nav-menu-label">Solution Groups</p>
+                <div className="nav-menu-inline-head">
+                  <p className="nav-menu-label">Solution Groups</p>
+                  {resolvedAuthUser?.role === "admin" && cmsEditMode ? (
+                    <button className="button button-secondary nav-menu-inline-edit" type="button" onClick={() => openCmsSection("navigation.solutions-menu")}>
+                      Edit Menu
+                    </button>
+                  ) : null}
+                </div>
                 <div className="nav-menu-rail-links" role="tablist" aria-label="Solution groups">
-                  {solutionsMenuColumns.map((column, index) => (
+                  {solutionMenuColumns.map((column, index) => (
                     <button
                       key={column.label}
                       className={`nav-menu-rail-link${index === solutionsMenuIndex ? " is-active" : ""}`}
@@ -522,7 +584,7 @@ export function Navbar() {
                 <div className="nav-menu-preview-media">
                   <Image
                     className={`nav-menu-preview-image${activeColumn.preview.imageFit === "contain" ? " nav-menu-preview-image-contain" : ""}`}
-                    src={activeColumn.preview.imageSrc}
+                    src={resolveCloudinaryAsset(activeColumn.preview.imageSrc)}
                     alt={activeColumn.preview.imageAlt}
                     width={320}
                     height={220}
@@ -539,8 +601,8 @@ export function Navbar() {
             </div>
 
             <div className="nav-menu-footer">
-              <Link className="nav-menu-footer-link" href={solutionsMenuFeaturedPanel.footerCtaHref} onClick={closeMenuNavigation}>
-                {solutionsMenuFeaturedPanel.footerCtaLabel} <span aria-hidden="true">&rarr;</span>
+              <Link className="nav-menu-footer-link" href={solutionsMenuDraft.featuredPanel.footerCtaHref} onClick={closeMenuNavigation}>
+                {solutionsMenuDraft.featuredPanel.footerCtaLabel} <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
@@ -605,6 +667,13 @@ export function Navbar() {
     startRouteLoader();
     router.push(`/products?q=${encodeURIComponent(query)}`);
     setSearchOpen(false);
+  };
+
+  const openSearchResult = (href: string) => {
+    closeMenus();
+    setSearchOpen(false);
+    startRouteLoader();
+    router.push(href);
   };
 
   const handleThemeToggle = () => {
@@ -788,18 +857,68 @@ export function Navbar() {
                     autoComplete="off"
                     value={currentSearchValue}
                     ref={searchInputRef}
-                    onChange={(event) => setSearchDraft(event.target.value)}
+                    onChange={(event) => {
+                      const nextValue = event.target.value;
+                      startTransition(() => {
+                        setSearchDraft(nextValue);
+                      });
+                    }}
                   />
                   <button
                     className="nav-search-clear"
                     type="button"
                     aria-label="Clear search"
                     hidden={!currentSearchValue.trim()}
-                    onClick={() => setSearchDraft("")}
+                    onMouseDown={(event) => {
+                      event.preventDefault();
+                    }}
+                    onClick={() => {
+                      setSearchDraft("");
+                      searchInputRef.current?.focus();
+                    }}
                   >
                     <X size={16} strokeWidth={1.9} />
                   </button>
                 </form>
+                {searchOpen && normalizedLiveSearch.length >= 2 ? (
+                  <div className="nav-search-results" aria-label="Live search results">
+                    {liveSearchResults.length ? (
+                      <>
+                        {liveSearchResults.map((product) => (
+                          <button
+                            key={`nav-search-${product.id}`}
+                            className="nav-search-result"
+                            type="button"
+                            onClick={() => openSearchResult(getProductHref(product.id))}
+                          >
+                            <Image
+                              className={`catalog-card-image ${product.imageClass}`}
+                              src={resolveCloudinaryAsset(product.imageSrc)}
+                              alt={product.imageAlt}
+                              width={52}
+                              height={40}
+                            />
+                            <span className="nav-search-result-copy">
+                              <span className="nav-search-result-title">{product.title}</span>
+                              <span className="nav-search-result-meta">{product.categoryLabel}</span>
+                            </span>
+                          </button>
+                        ))}
+                        <button
+                          className="nav-search-view-all"
+                          type="button"
+                          onClick={() => openSearchResult(`/products?q=${encodeURIComponent(deferredSearchDraft.trim())}`)}
+                        >
+                          View all results <span aria-hidden="true">&rarr;</span>
+                        </button>
+                      </>
+                    ) : (
+                      <p className="nav-search-empty">
+                        No product found for &quot;{deferredSearchDraft.trim()}&quot;.
+                      </p>
+                    )}
+                  </div>
+                ) : null}
               </div>
               <Link className="nav-utility nav-utility-cart" href="/cart" aria-label="Cart">
                 <ShoppingCart size={18} strokeWidth={1.9} />
@@ -825,6 +944,15 @@ export function Navbar() {
                   <SunMedium size={18} strokeWidth={1.9} />
                 </span>
               </button>
+              {resolvedAuthUser?.role === "admin" ? (
+                <button
+                  className={`button nav-inline-edit-toggle${cmsEditMode ? " is-active" : ""}`}
+                  type="button"
+                  onClick={toggleCmsEditMode}
+                >
+                  {cmsEditMode ? "Editing On" : "Edit Mode"}
+                </button>
+              ) : null}
               {!resolvedAuthUser ? (
                 <div className="nav-auth-actions">
                   <Link className="button button-secondary nav-auth-button nav-auth-button-secondary" href="/signin">
@@ -863,16 +991,45 @@ export function Navbar() {
                       </div>
                     </div>
                     <div className="nav-account-links">
-                      <button className="nav-account-link" type="button" role="menuitem">
+                      {resolvedAuthUser.role === "admin" ? (
+                        <Link
+                          className="nav-account-link"
+                          href="/admin/dashboard"
+                          role="menuitem"
+                          data-skip-route-loader
+                          onClick={() => setAccountOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                      ) : null}
+                      <Link
+                        className="nav-account-link"
+                        href={resolvedAuthUser.role === "admin" ? "/admin/settings" : "/account/profile"}
+                        role="menuitem"
+                        data-skip-route-loader={resolvedAuthUser.role === "admin" ? true : undefined}
+                        onClick={() => setAccountOpen(false)}
+                      >
                         My Profile
-                      </button>
-                      <button className="nav-account-link" type="button" role="menuitem">
+                      </Link>
+                      <Link
+                        className="nav-account-link"
+                        href={resolvedAuthUser.role === "admin" ? "/admin/orders" : "/account/orders"}
+                        role="menuitem"
+                        data-skip-route-loader={resolvedAuthUser.role === "admin" ? true : undefined}
+                        onClick={() => setAccountOpen(false)}
+                      >
                         Orders
-                      </button>
-                      <button className="nav-account-link" type="button" role="menuitem">
+                      </Link>
+                      <Link
+                        className="nav-account-link"
+                        href={resolvedAuthUser.role === "admin" ? "/admin/settings" : "/account/security"}
+                        role="menuitem"
+                        data-skip-route-loader={resolvedAuthUser.role === "admin" ? true : undefined}
+                        onClick={() => setAccountOpen(false)}
+                      >
                         Account Settings
-                      </button>
-                      <Link className="nav-account-link" href="/contact" role="menuitem">
+                      </Link>
+                      <Link className="nav-account-link" href="/contact" role="menuitem" onClick={() => setAccountOpen(false)}>
                         {navigationUtilityLabels.support}
                       </Link>
                     </div>

@@ -1,0 +1,79 @@
+V1.0.1
+Communication Specifications
+Technology  4G Cat. 1
+Data support  SMS (TXT/ PDU)
+4G band  STD Band: B1/ B2/ B3/ B5/ B7/ B8/ B20/
+B28/ B66(B4)/ B38/ B41 (Optional)
+ NA Band: B2/ B5/ B12/ B17/ B13/
+B66(B4)/ B38/ B41 (Optional)
+GNSS Technical
+Technology  GNSS: GPS/ GALILEO/ BeiDou/
+GLONASS
+Tracking sensitivity  -165dB
+Capture Sensitivity  -159dB
+Position accuracy  <2.0m CEP
+Hot start  <1s
+Cold start  <24s
+Power Consumption
+Operating
+Power
+ DC 3.2-4.2V
+Battery
+capacity
+ 3.7V 1500mAh Lithium batteries
+Power
+Consumption
+ @3.7V 76uA (Offline Deep Sleep Mode)
+ @3.7V 1.2mA (Online Sleep Mode)
+ @3.7V 25mA (Tracking Mode)
+Charging input  Type-C: DC 5V
+Battery Life Excluding Self-Discharge
+ Deep Power Saving: ~300days @
+2 data/day
+ Online Sleep Mode: ~15 days @ 2h /day
+ Tracking Mode: ~2 days
+Features
+Working modes  Tracking Mode
+ Smart Power Saving Mode
+ Deep Power Saving Mode
+Alarm function  Light Sensor Alert
+ Low Voltage Alert
+ SOS Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+Data storage  Expandable up to 500 entries
+Configuration
+support
+ Configurator, FOTA WEB, SMS,
+Monitoring Platform
+Physical & Interface Specifications
+Working Temperature  -25°C to 75°C
+Storage Temperature  -40°C to 85°C
+LED  Yellow: Location
+ Red: Communication
+ Green: Battery Level
+Interface  Nano SIM, Type-C
+Color  Black
+Product Dimensions  L 55.4* W 36.6* H 20 mm
+Weight  70g
+EG03G Specification
+EG03G is a wireless positioning device with integrated
+recording functionality, suitable for vehicle tracking and
+personnel positioning. It features Type-C charging, and is
+characterized by its compact size, concealed installation,
+ultra-low power consumption, and extended standby time.
+This product supports:
+1. 4G Cat.1
+2. GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+3. Small size and easy to install
+4. 1500mAh Battery
+5. Configurator and FOTA WEB
+
+
+Regulatory Compliance
+Certification  CE,FCC,UKCA
+Product Name  EG03G
+Appearance

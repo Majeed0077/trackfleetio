@@ -1,0 +1,93 @@
+V1.0.1
+KG-27 Specification
+The KG-27 is a high-performance 4G vehicle tracker
+designed for advanced fleet and industrial applications.
+It features a 9-90 VDC input range, versatile I/O
+interfaces, and supports Lora sensor connectivity, with
+robust security including remote cut-off and intelligent
+status alerts.
+This product supports:
+1. 2G + 4G Cat.1
+2. GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+3. LoRa
+4. Abundant External Interfaces (1-WIRE, RS485,
+RS232, ADC)
+5. 9-90 VDC Wide Operating Voltage
+6. 6,000 Blind Spot Data Storage Entries
+7. Configurator and FOTA WEB
+Communication Specifications
+Technology  2G+4G Cat. 1
+Data support  SMS (TXT/ PDU)
+LTE FDD/ LTE-TDD  GSM: 850/ 900/ 1800/ 1900
+ STD Band: B1/ B2/ B3/ B5/ B7/ B8/
+B20/ B28/ B66(B4)/ B38/ B39/ B34/
+B40/ B41(Optional)
+ NA Band: B2/ B5/ B12/ B17/
+B13/66(B4)
+ / B38/ B39/ B34/ B40/ B41(Optional)
+Lora  868MHz / 915MHz for Sensor
+Connectivity
+GNSS Technical
+Technology  GNSS: GPS/ GALILEO/ BeiDou
+/ GLONASS
+Tracking sensitivity  -165dB
+Capture Sensitivity  -159dB
+Position accuracy  <2.0m CEP
+Hot start  <1s
+Cold start  <24s
+Features
+Multi-IP  Dual-IP support
+Working modes  Normal
+ Online Sleep
+LORA  Support
+Alarm function  Vibration Alert
+ Position Change Alert
+ Power-cut Alert
+ Low voltage Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+Data storage  6000 blind spot storage entries (total
+for both IPs)
+Configuration
+support
+ Configurator, FOTA WEB, SMS,
+Monitoring Platform
+Power Consumption
+Operating Power  DC 9-90V
+Battery capacity  3.7V/ 400mAh Lithium battery
+Power
+Consumption
+ @12V 10.72mA (Online Sleep Mode)
+ @12V 43.5mA (Tracking Mode)
+
+Physical & Interface Specifications
+Connector  30pin female
+Working
+Temperature
+ -20°C to 70°C
+Storage
+Temperature
+ -40°C to 85°C
+Humidity  < 95%
+LED  Yellow: Location
+ Red: Communication
+Interface  Nano-SIM, TypeC
+V+, GND, ACC, 1_Wire_Data,
+1_Wire_5V, ADC_1, ADC2, CAR_IN_L1,
+CAR_IN_L2, CAR_IN_H1, CAR_IN_H2,
+Buzzer, Buzzer_5V, Fuel 1-, S485_A,
+RS485_B, RS232TX, RS232RX, 5V_OUT,
+MIC_P, MIC_N, SOS , SPK_P , SPK_N
+Color  Black
+Product
+Dimensions
+ L 93* W 50* H 19 mm
+Weight  75g
+Appearance
+Regulatory Compliance
+Certification  CE, FCC
+Product Name  KG-27
+Connector

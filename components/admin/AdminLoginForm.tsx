@@ -46,14 +46,20 @@ export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string })
                 body: JSON.stringify({ email, password }),
               });
 
-              const payload = (await response.json()) as {
+              const contentType = response.headers.get("content-type") ?? "";
+              const payload = (contentType.includes("application/json") ? await response.json() : null) as {
                 ok?: boolean;
                 user?: { role?: string };
                 message?: string;
-              };
+              } | null;
 
-              if (!response.ok || !payload.ok || payload.user?.role !== "admin") {
-                setStatusMessage(payload.message || "Admin access is required.");
+              if (response.status === 404) {
+                setStatusMessage("Admin sign-in API route is not loaded. Restart the dev server and try again.");
+                return;
+              }
+
+              if (!response.ok || !payload?.ok || payload.user?.role !== "admin") {
+                setStatusMessage(payload?.message || "Admin access is required.");
                 return;
               }
 

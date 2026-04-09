@@ -13,6 +13,7 @@ export type Product = {
   title: string;
   shortDescription: string;
   specs: string[];
+  specTable?: Record<string, string>;
   features: string[];
   useCases: string[];
   related: string[];
@@ -32,6 +33,7 @@ const createVideoProduct = ({
   title,
   shortDescription,
   specs,
+  specTable,
   features,
   useCases,
   related = ["ai-dashcam", "ai-mdvr", "dvr-system"],
@@ -42,6 +44,7 @@ const createVideoProduct = ({
   title: string;
   shortDescription: string;
   specs: string[];
+  specTable?: Record<string, string>;
   features: string[];
   useCases: string[];
   related?: string[];
@@ -54,6 +57,7 @@ const createVideoProduct = ({
   title,
   shortDescription,
   specs,
+  specTable,
   features,
   useCases,
   related,
@@ -67,6 +71,7 @@ const createTrackingProduct = ({
   title,
   shortDescription,
   specs,
+  specTable,
   features,
   useCases,
   related = ["gps-tracker", "4g-gps-device", "asset-tracking-device"],
@@ -77,6 +82,7 @@ const createTrackingProduct = ({
   title: string;
   shortDescription: string;
   specs: string[];
+  specTable?: Record<string, string>;
   features: string[];
   useCases: string[];
   related?: string[];
@@ -89,6 +95,7 @@ const createTrackingProduct = ({
   title,
   shortDescription,
   specs,
+  specTable,
   features,
   useCases,
   related,
@@ -100,71 +107,77 @@ const createTrackingProduct = ({
 const aiDashcamModelProducts = buildProductMap([
   createVideoProduct({
     id: "mr012-ch-dashcam-for-motorcycle",
-    title: "MR012-CH Dashcam for Motorcycle",
+    title: "MR01 2-CH Motorcycle Dashcam",
     shortDescription:
-      "Motorcycle-ready AI dashcam hardware for road event capture, rider visibility, and two-wheel fleet safety review.",
-    specs: ["1-CH", "Motorcycle", "AI Dashcam"],
-    features: ["Road event capture", "Compact vehicle install", "Driver safety review", "Connected dashcam workflow"],
-    useCases: ["Motorcycle fleet monitoring", "Incident review", "Rider safety programs", "Route evidence capture"],
+      "Motorcycle-ready 4G dashcam built for two-channel recording, starlight visibility, and IP67 deployment across two-wheel fleets.",
+    specs: ["2-CH Video", "4G CAT.4", "IP67 Waterproof"],
+    features: ["Motorcycle-specific rugged housing", "Starlight front camera", "GNSS with GPS, Galileo, BeiDou, and GLONASS", "FOTA and configurator support"],
+    useCases: ["Motorcycle fleet monitoring", "Rider incident evidence", "Two-wheel delivery safety review", "Outdoor route and trip capture"],
     imageSrc: "/Products/MR01.png",
+    related: ["ai-dashcam", "dr033-channel-ai-dashcam", "eh21-1-ch-4g-dashcam"],
   }),
   createVideoProduct({
     id: "dr033-channel-ai-dashcam",
-    title: "DR033-Channel AI Dashcam",
+    title: "DR03 3-CH AI Dashcam",
     shortDescription:
-      "AI dashcam hardware built for fleet driving event detection, road visibility, and operational video review.",
-    specs: ["AI Dashcam", "Fleet Video", "Driver Review"],
-    features: ["AI-assisted event capture", "Fleet video visibility", "Driver coaching support", "Road-facing evidence workflow"],
-    useCases: ["Driver monitoring", "Safety event capture", "Incident evidence", "Operational review"],
+      "Modular three-channel AI dashcam with built-in ADAS and DMS, 4G CAT.4 connectivity, and GNSS-led fleet video visibility.",
+    specs: ["3-CH Video", "ADAS + DMS", "4G CAT.4"],
+    features: ["Built-in forward ADAS camera", "Built-in in-cabin DMS camera", "Optional LoRa support", "TF storage up to 512GB"],
+    useCases: ["Driver behavior monitoring", "Road and cabin event capture", "Incident evidence retention", "Connected video telematics rollout"],
     imageSrc: "/Products/DR03.png",
+    related: ["ai-dashcam", "eh15-v2-4-ch-ai-dashcam", "eh03t-4-ch-ai-dashcam"],
   }),
   createVideoProduct({
     id: "eh80-1-ch-aov-dash-camera",
-    title: "EH80 1-CH AOV Dash Camera",
+    title: "EH80 1-CH AOV Dashcam",
     shortDescription:
-      "Single-channel fleet dash camera for always-on road visibility and dependable incident footage retention.",
-    specs: ["1-CH", "AOV", "Dash Camera"],
-    features: ["Always-on video support", "Road-facing monitoring", "Fleet evidence retention", "Simple single-channel deployment"],
-    useCases: ["Basic vehicle monitoring", "Incident footage capture", "Driver route review", "Entry fleet video rollout"],
+      "Always-on single-channel dashcam with low-power human and vehicle detection, starlight night vision, and 4G fleet connectivity.",
+    specs: ["1-CH Video", "AOV Mode", "Starlight Vision"],
+    features: ["Low-power always-on monitoring", "Human and vehicle detection in AOV mode", "9-90V operating power", "Optional LoRa support"],
+    useCases: ["Off-hours parking surveillance", "Vehicle perimeter monitoring", "Night-time incident capture", "Low-power fleet security workflows"],
+    related: ["ai-dashcam", "eh21-1-ch-4g-dashcam", "dr033-channel-ai-dashcam"],
   }),
   createVideoProduct({
     id: "eh21-1-ch-4g-dashcam",
-    title: "EH21 1-CH 4G Dashcam",
+    title: "EH21 1-CH 4G ADAS Dashcam",
     shortDescription:
-      "4G-connected single-channel dashcam for live fleet visibility, route evidence, and remote review workflows.",
-    specs: ["1-CH", "4G", "Dashcam"],
-    features: ["4G video connectivity", "Remote review support", "Road-facing visibility", "Fleet deployment ready"],
-    useCases: ["Live road monitoring", "Remote fleet review", "Driver accountability", "Incident response support"],
+      "Single-channel AI dashcam with ADAS, 4G CAT.1 connectivity, GNSS positioning, and compact road-facing deployment.",
+    specs: ["1-CH Video", "4G CAT.1", "ADAS"],
+    features: ["AI-assisted forward safety alerts", "GNSS with four-satellite support", "Optional LoRa module", "Type-C debug and TF storage support"],
+    useCases: ["Road-facing fleet monitoring", "Remote route review", "Driver accountability programs", "Entry-level connected dashcam rollout"],
     imageSrc: "/Products/EH21.png",
+    related: ["ai-dashcam", "eh80-1-ch-aov-dash-camera", "eh24-2-ch-smart-dashcam"],
   }),
   createVideoProduct({
     id: "dr02-3-ch-4g-ai-dashcam",
     title: "DR02 3-CH 4G AI Dashcam",
     shortDescription:
       "Three-channel 4G AI dashcam for broader cabin and road coverage with connected fleet video intelligence.",
-    specs: ["3-CH", "4G", "AI Dashcam"],
+    specs: ["3-CH Video", "4G Connectivity", "AI Dashcam"],
     features: ["Multi-angle fleet coverage", "Connected AI video workflows", "Driver behavior visibility", "Remote incident review"],
     useCases: ["Cabin and road monitoring", "Safety coaching", "Incident investigation", "Connected fleet oversight"],
   }),
   createVideoProduct({
     id: "eh15-v2-4-ch-ai-dashcam",
-    title: "EH15-V2 4-CH AI Dashcam",
+    title: "EH15-V2 4/6-CH AI Dashcam",
     shortDescription:
-      "Four-channel AI dashcam hardware for commercial fleet video coverage, safety analysis, and review workflows.",
-    specs: ["4-CH", "AI Dashcam", "Fleet Video"],
-    features: ["Four-camera coverage", "Expanded fleet visibility", "AI-assisted review", "Operational evidence support"],
-    useCases: ["Commercial vehicle monitoring", "Safety event analysis", "Multi-view route evidence", "Fleet compliance review"],
+      "Expandable AI dashcam with four- or six-channel recording, ADAS and DMS support, 4G connectivity, and GNSS-led video operations.",
+    specs: ["4/6-CH Video", "ADAS + DMS", "4G CAT.4"],
+    features: ["Supports six-channel or full-HD four-channel modes", "Integrated forward and cabin cameras", "Super capacitor design", "Optional LoRa and Wi-Fi support"],
+    useCases: ["Commercial vehicle video coverage", "Bus and van safety review", "Multi-view incident investigation", "Compliance-focused fleet recording"],
     imageSrc: "/Products/EH15-V2.png",
+    related: ["ai-dashcam", "eh03t-4-ch-ai-dashcam", "dr033-channel-ai-dashcam"],
   }),
   createVideoProduct({
     id: "eh03t-4-ch-ai-dashcam",
-    title: "EH03T 4-CH AI Dashcam",
+    title: "EH03T-V2 4-CH AI Dashcam",
     shortDescription:
-      "Multi-channel AI dashcam for broader road and cabin visibility in connected telematics deployments.",
-    specs: ["4-CH", "AI", "Dashcam"],
-    features: ["Four-channel coverage", "Driver and road visibility", "AI event support", "Fleet video review"],
-    useCases: ["Driver coaching", "Cabin review", "Road event investigation", "Connected fleet deployments"],
+      "Four-channel AI dashcam with ADAS, DMS, 4G connectivity, GNSS positioning, and optional LoRa for connected fleet video deployments.",
+    specs: ["4-CH Video", "ADAS + DMS", "2G/3G/4G"],
+    features: ["2.0 TOPS AI processing", "Four-channel full-HD recording", "Optional LoRa and Wi-Fi", "Dual TF storage up to 512GB"],
+    useCases: ["Driver coaching programs", "Cabin and road visibility", "Connected fleet video management", "Incident and safety event investigation"],
     imageSrc: "/Products/EH03T-V2.png",
+    related: ["ai-dashcam", "eh15-v2-4-ch-ai-dashcam", "dr033-channel-ai-dashcam"],
   }),
   createVideoProduct({
     id: "dr01-3-ch-4g-smart-dashcam",
@@ -177,13 +190,25 @@ const aiDashcamModelProducts = buildProductMap([
   }),
   createVideoProduct({
     id: "eh24-2-ch-smart-dashcam",
-    title: "EH24 2-CH Smart Dashcam",
+    title: "EH24 2-CH 4G Dashcam",
     shortDescription:
-      "Dual-channel smart dashcam hardware for streamlined fleet video capture and safer driving review workflows.",
-    specs: ["2-CH", "Smart Dashcam", "Fleet Video"],
-    features: ["Dual-camera visibility", "Smart video workflows", "Driver review support", "Compact fleet deployment"],
-    useCases: ["Dual-view monitoring", "Safety coaching", "Incident evidence capture", "Operational video oversight"],
+      "Dual-channel 4G dashcam with forward and cabin cameras, GNSS support, and dependable two-view fleet evidence capture.",
+    specs: ["2-CH Video", "4G CAT.1", "GNSS"],
+    features: ["Forward and cabin 1080p cameras", "9-36V fleet installation support", "LiFePO4 battery backup", "Configurator and FOTA readiness"],
+    useCases: ["Dual-view driver monitoring", "Cabin and road incident review", "Route evidence capture", "Connected vehicle safety programs"],
     imageSrc: "/Products/EH24.png",
+    related: ["ai-dashcam", "eh25-2-ch-4g-dashcam", "eh21-1-ch-4g-dashcam"],
+  }),
+  createVideoProduct({
+    id: "eh25-2-ch-4g-dashcam",
+    title: "EH25 2-CH 4G Dashcam",
+    shortDescription:
+      "Compact two-channel 4G dashcam with GNSS positioning, H.265 recording, and dependable road-plus-cabin fleet coverage.",
+    specs: ["2-CH Video", "4G CAT.1", "GNSS"],
+    features: ["Forward 1080p main camera", "Supports second 1080p or 720p channel", "3-axis G-sensor", "Configurator and FOTA web support"],
+    useCases: ["Connected fleet video monitoring", "Road and cabin evidence capture", "Daily route review", "Compact dashcam deployments"],
+    imageSrc: "/Products/EH25.png",
+    related: ["ai-dashcam", "eh24-2-ch-smart-dashcam", "eh21-1-ch-4g-dashcam"],
   }),
   createVideoProduct({
     id: "eh13-p-2-ch-smart-dashcam",
@@ -217,23 +242,88 @@ const aiDashcamModelProducts = buildProductMap([
 const aiMdvrModelProducts = buildProductMap([
   createVideoProduct({
     id: "ed02r-v2-4-ch-ai-powered-mdvr",
-    title: "ED02R-V2 4-CH AI-Powered MDVR",
+    title: "ED02R-V2 4-CH AI MDVR",
     shortDescription:
-      "Four-channel AI-powered MDVR for connected fleet recording, live review, and operational incident visibility.",
-    specs: ["4-CH", "AI MDVR", "Remote Review"],
-    features: ["Multi-channel recording", "AI-assisted fleet review", "Remote video access", "Operational evidence retention"],
-    useCases: ["Public transport monitoring", "Commercial video telematics", "Incident review", "Fleet evidence workflows"],
+      "Professional 4-channel AI MDVR built on Linux with 2.0 TOPS NPU, ADAS/DMS/BSD algorithms, and connected 4G + GNSS fleet visibility.",
+    specs: ["4-CH 1080p/720p", "2.0 TOPS NPU", "ADAS + DMS + BSD", "4G CAT.4 + GNSS"],
+    specTable: {
+      OS: "Linux",
+      "AI Compute": "2.0 TOPS NPU",
+      "AI Algorithms": "ADAS / DMS / BSD",
+      "Video Channels": "4 channels @ 1080p or 720p",
+      Encoding: "H.265 / H.264",
+      Cellular: "2G / 3G / 4G CAT.4",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      LoRa: "Optional",
+      "Power Input": "9-36V DC",
+      "Built-in Battery": "Supercapacitor",
+      Storage: "2x SD (32GB-512GB, Class 10)",
+      "Acceleration Sensor": "3-axis G-sensor",
+      Dimensions: "161 x 124.8 x 41 mm",
+      Weight: "558 g",
+      Certification: "CE, FCC",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "4-channel recording with H.265/H.264 encoding",
+      "Dual SD storage (2x SD, Class 10, 32GB-512GB per card)",
+      "9-36V DC input with supercapacitor for safe shutdown",
+      "3-axis G-sensor for event capture support",
+      "Optional LoRa module support",
+      "GNSS support: GPS, Galileo, BeiDou, GLONASS",
+      "Rich vehicle I/O: ACC/SOS/ADC, turn, brake, door, 1-WIRE, RS-485, RS-232",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Bus and coach multi-camera monitoring",
+      "School transport safety review",
+      "Logistics and delivery incident evidence",
+      "Heavy-vehicle compliance and operational oversight",
+    ],
     related: ["ai-mdvr", "ed08r-8-ch-ai-powered-mdvr", "d8-4-ch-smart-android-video-terminal"],
     imageSrc: "/Products/Professional MDVR with lockable cover.png",
   }),
   createVideoProduct({
     id: "ed08r-8-ch-ai-powered-mdvr",
-    title: "ED08R 8-CH AI-Powered MDVR",
+    title: "ED08R-V2 8-CH AI MDVR",
     shortDescription:
-      "Eight-channel AI MDVR platform for larger fleet video deployments requiring broader camera coverage.",
-    specs: ["8-CH", "AI MDVR", "Fleet Video"],
-    features: ["Expanded multi-camera support", "AI-powered recording workflows", "Large vehicle coverage", "Remote review readiness"],
-    useCases: ["Bus and coach monitoring", "Heavy vehicle video systems", "Complex fleet recording", "Operations oversight"],
+      "Enterprise 8-channel AI MDVR with 2.0 TOPS NPU, ADAS/DMS/BSD algorithms, 4G CAT.4 + GNSS connectivity, and high-capacity storage for large fleets.",
+    specs: ["8-CH 1080p/720p", "2.0 TOPS NPU", "ADAS + DMS + BSD", "4G CAT.4 + GNSS + Wi-Fi"],
+    specTable: {
+      OS: "Linux",
+      "AI Compute": "2.0 TOPS NPU",
+      "AI Algorithms": "ADAS / DMS / BSD",
+      "Video Channels": "8 channels @ 1080p or 720p",
+      Encoding: "H.265 / H.264",
+      Cellular: "2G / 3G / 4G CAT.4",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      WiFi: "2.4GHz",
+      LoRa: "Optional",
+      "Power Input": "9-36V DC",
+      Storage: "SD (32GB-512GB) + Disk (128GB-2TB)",
+      "Acceleration Sensor": "3-axis G-sensor",
+      Dimensions: "170 x 150 x 65 mm",
+      Weight: "1260 g",
+      Certification: "CE, FCC",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "8-channel recording with H.265/H.264 encoding (1080p or 720p)",
+      "Storage: SD (Class 10, 32GB-512GB) + Disk (128GB-2TB)",
+      "9-36V DC input for commercial vehicle installations",
+      "2.4GHz Wi-Fi support for local connectivity",
+      "Optional LoRa module support",
+      "GNSS support: GPS, Galileo, BeiDou, GLONASS",
+      "9-channel audio input support (AV3-AV8 + external microphone)",
+      "Rich vehicle I/O with 1-WIRE, plus RS-485 and RS-232 ports",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Large fleet and public transport monitoring",
+      "Multi-camera safety coverage (road, cabin, perimeter)",
+      "Longer retention recording with disk storage",
+      "Enterprise compliance and incident review workflows",
+    ],
     related: ["ai-mdvr", "ed02r-v2-4-ch-ai-powered-mdvr", "d8-4-ch-smart-android-video-terminal"],
     imageSrc: "/Products/Vehicle MDVR device with detailed front panel.png",
   }),
@@ -255,10 +345,39 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "kg-27-4g-vehicle-gps-tracker",
     title: "KG-27 4G Vehicle GPS Tracker",
     shortDescription:
-      "4G vehicle GPS tracker for live route visibility, status alerts, and modern fleet telematics deployments.",
-    specs: ["4G", "Vehicle GPS", "Tracker"],
-    features: ["Live route visibility", "Vehicle status tracking", "Modern 4G deployment", "Fleet alert support"],
-    useCases: ["Vehicle tracking", "Dispatch monitoring", "Operational telemetry", "Fleet movement control"],
+      "High-performance fleet tracker with wide 9-90V input, 2G + 4G Cat.1 connectivity, LoRa sensor support, and rich I/O for industrial-grade deployments.",
+    specs: ["2G + 4G Cat.1", "GNSS <2m", "LoRa 868/915", "9-90V DC"],
+    specTable: {
+      Cellular: "2G + 4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      "Power Input": "9-90V DC",
+      Battery: "3.7V 400mAh",
+      "LoRa Frequency": "868 / 915MHz",
+      "Blind Spot Storage": "6000 entries",
+      "Interfaces / I-O": "1-WIRE, RS485, RS232, ADC",
+      "SIM / Ports": "Nano-SIM, Type-C",
+      Dimensions: "93 x 50 x 19 mm",
+      Weight: "75 g",
+      Certification: "CE, FCC",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "2G + 4G Cat.1 with SMS support (TXT/PDU) and dual-IP",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "LoRa 868/915MHz for sensor connectivity (datasheet)",
+      "Abundant external interfaces: 1-WIRE, RS485, RS232, ADC (datasheet)",
+      "Remote fuel/oil cut-off circuit support",
+      "Alerts: vibration, position change, power-cut, low voltage, speeding, harsh driving, collision (datasheet)",
+      "6000 blind-spot storage entries (total for both IPs)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Commercial vehicle live tracking and route replay",
+      "Industrial fleet telemetry with sensor expansion (LoRa)",
+      "Driver safety alerts and harsh driving review",
+      "Remote immobilization workflows (where permitted)",
+    ],
     related: ["gps-tracker", "4g-gps-device", "kg22-4g-wired-gps-tracker"],
     imageSrc: "/Products/Compact rugged GPS tracker.png",
   }),
@@ -266,10 +385,38 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "c02g-2g-4g-gps-tracker",
     title: "C02G 2G/4G GPS Tracker",
     shortDescription:
-      "Dual-network GPS tracker built for flexible fleet visibility across mixed telematics environments.",
-    specs: ["2G/4G", "GNSS", "Fleet Tracking"],
-    features: ["Flexible network support", "Live location status", "Movement alert workflows", "Mixed deployment ready"],
-    useCases: ["Mixed fleet tracking", "Legacy-to-modern rollouts", "Asset visibility", "Operational oversight"],
+      "Industrial high-voltage tracker with 2G + 4G Cat.1, wide 9-90V input, GNSS positioning, ACC detection, and fuel cut-off support.",
+    specs: ["2G + 4G Cat.1", "GNSS <2m", "9-90V DC", "ACC + Cut-off"],
+    specTable: {
+      Cellular: "2G + 4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      "Power Input": "9-90V DC",
+      "Backup Battery": "3.7V 180mAh",
+      "Ingress Protection": "IP54",
+      Functions: "ACC detection, cut-off oil circuit",
+      "SIM / Ports": "Micro-SIM, Type-C",
+      Dimensions: "86 x 43 x 15 mm",
+      Weight: "70 g",
+      Certification: "CE, FCC, EMARK, UKCA",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "2G + 4G Cat.1 with SMS support (TXT/PDU)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "ACC detection and monitoring support",
+      "Fuel/oil circuit cut-off support (datasheet)",
+      "Backup battery: 3.7V 180mAh (datasheet)",
+      "Alerts: low voltage, SOS, speeding, harsh driving, collision (datasheet)",
+      "Configurator and FOTA web support",
+      "IP54 ingress protection (datasheet)",
+    ],
+    useCases: [
+      "Mixed-network fleet tracking (2G + 4G coverage)",
+      "High-voltage vehicle installs (industrial and heavy-duty)",
+      "Dispatch monitoring with ACC status awareness",
+      "Security workflows with cut-off support (where permitted)",
+    ],
     related: ["gps-tracker", "2g-gps-device", "4g-gps-device"],
     imageSrc: "/Products/Compact GPS tracker with color-coded wires.png",
   }),
@@ -277,10 +424,38 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "eg06g-4g-solar-gps-tracker",
     title: "EG06G 4G Solar GPS Tracker",
     shortDescription:
-      "Solar-powered GPS tracker for lower-touch asset monitoring and long-runtime field visibility.",
-    specs: ["4G", "Solar", "GPS Tracker"],
-    features: ["Solar-assisted runtime", "Remote asset visibility", "Lower maintenance deployment", "Live tracking alerts"],
-    useCases: ["Remote asset tracking", "Trailer visibility", "Outdoor equipment monitoring", "Lower-touch deployments"],
+      "4G Cat.1 solar tracker with powerful magnetic mount, IP67 protection, and 7500mAh battery for long-term outdoor asset visibility.",
+    specs: ["4G Cat.1", "Solar + Type-C", "IP67", "7500mAh"],
+    specTable: {
+      Cellular: "4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      "Ingress Protection": "IP67",
+      Battery: "3.7V 7500mAh",
+      Charging: "Solar panel (6V 90mA max) + Type-C 5V",
+      Mount: "Powerful magnetic mount",
+      Storage: "Up to 10,000 entries (optional flash)",
+      Dimensions: "157 x 70 x 26.5 mm",
+      Weight: "310 g",
+      Certification: "CE, FCC, UKCA",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "High-efficiency solar panel charging (6V 90mA max, datasheet)",
+      "Type-C charging input (DC 5V)",
+      "Powerful magnetic mount for discreet installs",
+      "Battery life modes (datasheet): deep power saving, smart power saving, tracking",
+      "Alerts: tamper, SOS, low voltage, speeding, harsh driving, collision (datasheet)",
+      "Expandable storage up to 10,000 entries with optional flash (datasheet)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Trailer and container tracking",
+      "Outdoor equipment monitoring",
+      "Long-term asset visibility with solar top-up",
+      "Theft recovery and tamper detection programs",
+    ],
     related: ["gps-tracker", "asset-tracking-device", "eg01g-4g-wireless-gps-tracker"],
     imageSrc: "/Products/Solar-powered GPS tracker close-up.png",
     imageClass: "catalog-card-image-asset",
@@ -289,11 +464,38 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "eg01g-4g-wireless-gps-tracker",
     title: "EG01G 4G Wireless GPS Tracker",
     shortDescription:
-      "Wireless 4G GPS tracker for flexible installs and dependable movement visibility across mobile assets.",
-    specs: ["4G", "Wireless", "GPS Tracker"],
-    features: ["Wireless deployment", "Live location reporting", "Flexible install workflow", "Asset movement visibility"],
-    useCases: ["Portable asset tracking", "Retrofit tracking", "Field equipment monitoring", "Vehicle visibility"],
-    related: ["gps-tracker", "asset-tracking-device", "eg03g-4g-wireless-gps-tracker"],
+      "Rechargeable 4G Cat.1 magnetic tracker with IP67 protection and 7500mAh battery for extended asset visibility and recovery workflows.",
+    specs: ["4G Cat.1", "Magnetic Mount", "IP67", "7500mAh"],
+    specTable: {
+      Cellular: "4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      "Ingress Protection": "IP67",
+      Battery: "3.7V 7500mAh",
+      Charging: "Type-C 5V",
+      Mount: "Powerful magnetic mount",
+      Storage: "Up to 10,000 entries (optional flash)",
+      Dimensions: "95 x 72 x 35 mm",
+      Weight: "291 g",
+      Certification: "CE, FCC, EMARK, UKCA",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "Powerful magnetic mount for concealed installation",
+      "Battery life modes (datasheet): deep power saving, smart power saving, tracking",
+      "Expandable storage up to 10,000 entries with optional flash (datasheet)",
+      "Alerts: light sensor, SOS, low voltage, speeding, harsh driving, collision (datasheet)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "Type-C charging input (DC 5V)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Asset recovery and theft protection",
+      "Portable equipment tracking",
+      "Discreet magnetic installs on vehicles and assets",
+      "Longer runtime deployments without hardwiring",
+    ],
+    related: ["gps-tracker", "asset-tracking-device", "eg06g-4g-solar-gps-tracker"],
     imageSrc: "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
     imageClass: "catalog-card-image-asset",
   }),
@@ -301,10 +503,39 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "kg22-4g-wired-gps-tracker",
     title: "KG22 4G Wired GPS Tracker",
     shortDescription:
-      "Wired 4G GPS tracker for permanent fleet installs, stable telemetry, and reliable vehicle visibility.",
-    specs: ["4G", "Wired", "GPS Tracker"],
-    features: ["Hardwired fleet install", "Stable location telemetry", "Vehicle status visibility", "Operational alert support"],
-    useCases: ["Permanent vehicle tracking", "Commercial fleet deployment", "Route oversight", "Operational telemetry"],
+      "Rugged IP67 4G Cat.1 tracker with wide 9-90V input and ultra-low power modes for harsh-environment vehicle deployments.",
+    specs: ["4G Cat.1", "IP67", "9-90V DC", "16,000 Storage"],
+    specTable: {
+      Cellular: "4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      "Power Input": "9-90V DC",
+      "Ingress Protection": "IP67",
+      Battery: "3.7V 55mAh",
+      "Blind Spot Storage": "16,000 entries",
+      "Working Modes": "Normal, online sleep, offline deep sleep",
+      "SIM / Ports": "Nano-SIM, Type-C",
+      Dimensions: "158 x 42 x 17 mm",
+      Weight: "51 g",
+      Certification: "CE, FCC, UKCA",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "Ultra-low power: 10uA offline deep sleep (datasheet)",
+      "Online sleep and offline deep sleep working modes (datasheet)",
+      "16,000 blind-spot storage entries (total for both IPs)",
+      "Dual-IP support",
+      "Alerts: vibration, position change, power-cut, low voltage, speeding, harsh driving, collision (datasheet)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "Nano-SIM + Type-C (datasheet)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Permanent vehicle installs in harsh environments",
+      "Low-maintenance fleet tracking with deep sleep modes",
+      "Route oversight and dispatch monitoring",
+      "Security alerts (vibration/power-cut) for parked vehicles",
+    ],
     related: ["gps-tracker", "4g-gps-device", "kg-27-4g-vehicle-gps-tracker"],
     imageSrc: "/Products/Sleek black GPS tracker with cable.png",
   }),
@@ -322,10 +553,37 @@ const gpsTrackerModelProducts = buildProductMap([
     id: "eg03g-4g-wireless-gps-tracker",
     title: "EG03G 4G Wireless GPS Tracker",
     shortDescription:
-      "Wireless 4G GPS tracker for mobile asset visibility and lower-touch telematics deployment scenarios.",
-    specs: ["4G", "Wireless", "GPS Tracker"],
-    features: ["Wireless install flexibility", "Live movement visibility", "Battery-friendly tracking workflows", "Remote asset support"],
-    useCases: ["Asset recovery", "Portable equipment monitoring", "Field deployment tracking", "Wireless fleet visibility"],
+      "Compact wireless 4G Cat.1 positioning device with Type-C charging, 1500mAh battery, and extended standby options for discreet installs.",
+    specs: ["4G Cat.1", "1500mAh", "Type-C", "GNSS <2m"],
+    specTable: {
+      Cellular: "4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2.0m CEP",
+      Battery: "3.7V 1500mAh",
+      Charging: "Type-C 5V",
+      Storage: "Expandable up to 500 entries",
+      "Deep Sleep Current": "76uA (offline deep sleep)",
+      "SIM / Ports": "Nano-SIM, Type-C",
+      Dimensions: "55.4 x 36.6 x 20 mm",
+      Weight: "70 g",
+      Certification: "CE, FCC, UKCA",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "Working modes: tracking, smart power saving, deep power saving (datasheet)",
+      "Very low deep sleep current: 76uA (datasheet)",
+      "Expandable storage up to 500 entries (datasheet)",
+      "Light sensor alert + standard safety alerts (SOS, low voltage, harsh driving, collision) (datasheet)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2.0m CEP accuracy (datasheet)",
+      "Nano-SIM + Type-C (datasheet)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: [
+      "Discreet vehicle tracking installs",
+      "Personnel or equipment positioning",
+      "Portable tracking with extended standby",
+      "Low-touch recovery workflows",
+    ],
     related: ["gps-tracker", "asset-tracking-device", "eg01g-4g-wireless-gps-tracker"],
     imageSrc: "/Products/Compact black electronic device.png",
     imageClass: "catalog-card-image-asset",
@@ -488,12 +746,34 @@ const cameraModelProducts = buildProductMap([
 const wearableModelProducts = buildProductMap([
   createTrackingProduct({
     id: "pet10-gps-tracker",
-    title: "PET10 GPS Tracker",
+    title: "PET12 Smart GPS Pet Locator",
     shortDescription:
-      "Portable GPS tracker for pets and small moving assets that need simple live location awareness.",
-    specs: ["Portable", "GPS Tracker", "Battery Powered"],
-    features: ["Portable live tracking", "Battery-powered deployment", "Recovery support", "Small asset visibility"],
-    useCases: ["Pet visibility", "Portable asset monitoring", "Location alerts", "Recovery workflows"],
+      "Compact 4G Cat.1 pet locator with Bluetooth nearby search, geo-fence alerts, and acoustic + light finding modes for quick recovery.",
+    specs: ["4G Cat.1", "Bluetooth 5.0", "IP67", "700mAh"],
+    specTable: {
+      Cellular: "4G Cat.1",
+      GNSS: "GPS / Galileo / BeiDou / GLONASS",
+      "Position Accuracy": "< 2m CEP",
+      Bluetooth: "5.0",
+      "Ingress Protection": "IP67",
+      Battery: "3.7V 700mAh",
+      Charging: "Magnetic connector (DC 5V)",
+      "Working Modes": "Standby, smart power saving, extended battery life, smart geo-fence",
+      Dimensions: "63.9 x 36.1 x 19.2 mm",
+      Weight: "34 g",
+      Certification: "CE",
+      "FOTA / Configurator": "Supported",
+    },
+    features: [
+      "Bluetooth-based nearby pet finding (pet search mode)",
+      "Geo-fence alert support (datasheet)",
+      "Acoustic and light pet finding modes (datasheet)",
+      "Magnetic charging connector",
+      "Working modes: standby, smart power saving, extended battery life, smart geo-fence (datasheet)",
+      "GNSS: GPS, Galileo, BeiDou, GLONASS with <2m CEP accuracy (datasheet)",
+      "Configurator and FOTA web support",
+    ],
+    useCases: ["Pet safety and location visibility", "Near-by recovery search", "Geo-fence alerts", "Outdoor pet tracking"],
     related: ["pet-tracker", "smart-watch", "asset-tracking-device"],
     imageSrc: "/Products/Pet tracker with LED indicator.png",
     imageClass: "catalog-card-image-asset",
@@ -606,24 +886,24 @@ const baseProducts = {
     categoryLabel: "Video Telematics",
     title: "AI Dashcam",
     shortDescription:
-      "Dual-facing dashcam hardware built for safety events, driver review, and fleet video capture.",
-    specs: ["1080p", "Dual Cam", "ADAS"],
+      "Connected dashcam range covering single, dual, three, four, and six-channel deployments with ADAS, DMS, GNSS, and 4G-ready fleet visibility.",
+    specs: ["1-6 CH Range", "4G + GNSS", "ADAS / DMS"],
     features: [
-      "Dual-facing event capture",
-      "Driver review workflows",
-      "ADAS-ready visibility",
-      "Safety event recording",
+      "Single-channel to multi-channel video coverage",
+      "ADAS and DMS safety alert support",
+      "Connected 4G and GNSS video workflows",
+      "FOTA and configurator-ready deployment",
     ],
     useCases: [
-      "Driver coaching",
-      "Incident review",
-      "Safety event capture",
-      "Video evidence workflows",
+      "Driver coaching and safety review",
+      "Incident evidence and route playback",
+      "Cabin and road monitoring programs",
+      "Connected fleet video deployments",
     ],
     related: [
-      "mr012-ch-dashcam-for-motorcycle",
       "dr033-channel-ai-dashcam",
-      "dr02-3-ch-4g-ai-dashcam",
+      "eh15-v2-4-ch-ai-dashcam",
+      "eh24-2-ch-smart-dashcam",
     ],
     imageSrc: "/Products/DR03.png",
     imageAlt: "AI dashcam",
@@ -747,19 +1027,19 @@ const baseProducts = {
     categoryLabel: "Tracking Devices",
     title: "PET Tracker",
     shortDescription:
-      "Compact portable tracking hardware for people, pets, and small moving assets that need live location awareness.",
-    specs: ["Portable", "Battery Powered", "Location Alerts"],
+      "Compact 4G pet locator family with GNSS tracking, geo-fence alerts, and quick nearby recovery search support.",
+    specs: ["4G", "Geo-fence", "Bluetooth Search"],
     features: [
-      "Portable tracking form factor",
-      "Battery-powered deployment",
-      "Live location status",
-      "Alert and recovery support",
+      "Portable tracker form factor with rechargeable battery",
+      "Geo-fence alert workflows (supported models)",
+      "Nearby recovery via Bluetooth search (supported models)",
+      "Acoustic and light finding support (supported models)",
     ],
     useCases: [
       "Pet location visibility",
-      "Portable asset tracking",
-      "Personal safety tracking",
-      "Recovery workflows",
+      "Near-by recovery search",
+      "Geo-fence alerts",
+      "Outdoor pet tracking",
     ],
     related: ["pet10-gps-tracker", "smart-watch", "asset-tracking-device"],
     imageSrc: "/Products/Pet tracker with LED indicator.png",
@@ -827,23 +1107,82 @@ const baseProducts = {
     categoryLabel: "Sensors",
     title: "Temperature Sensors",
     shortDescription:
-      "Designed for temperature-sensitive operations and cold-chain visibility.",
-    specs: ["Temp Monitoring", "Cold Chain", "Alerts"],
+      "Industrial wireless LoRa temperature sensor for cold-chain monitoring, deep-signal penetration, and dependable condition logging.",
+    specs: ["LoRa 868/915MHz", "IP67", "±0.5°C Precision", "Battery Powered"],
+    specTable: {
+      Sensor: "Temperature",
+      LoRa: "868MHz / 915MHz",
+      "Ingress Protection": "IP67",
+      "Detection Cycle": "60s",
+      "Upload Cycle": "Up to 1,440 times/day",
+      Precision: "Up to ±0.5°C (datasheet claim)",
+      "Operating Temperature": "-30°C to 70°C",
+      Battery: "1500mAh Li-Mn dry battery",
+      Interface: "Type-C",
+      Certification: "CE, FCC",
+      Configurator: "Supported",
+    },
     features: [
-      "Cold-chain visibility",
-      "Temp-sensitive workflows",
-      "Threshold alert support",
-      "Condition monitoring",
+      "Temperature measurement with datasheet-listed precision down to ±0.5°C (high-range)",
+      "Low-power design with 1500mAh Li-Mn dry battery",
+      "Detection cycle: 60s",
+      "Upload cycle: up to 1,440 times per day",
+      "Type-C port",
+      "Configurator support",
+      "Operating temperature: -30°C to 70°C",
     ],
     useCases: [
       "Cold-chain tracking",
       "Food transport compliance",
       "Pharma fleet monitoring",
-      "Storage condition alerts",
+      "Warehouse and storage condition alerts",
     ],
     related: ["tpms", "fuel-sensors", "grain-level-sensor"],
     imageSrc: "/Products/Industrial temperature sensor close-up.png",
     imageAlt: "Temperature sensors",
+    imageClass: "catalog-card-image-sensor",
+  },
+  "rfid-01-nfc-reader": {
+    id: "rfid-01-nfc-reader",
+    category: "sensors",
+    categoryLabel: "Sensors",
+    title: "RFID-01 NFC Reader",
+    shortDescription:
+      "High-precision NFC reader for driver identification and card programming in integrated fleet safety and access workflows.",
+    specs: ["NFC Reader", "RS232 Upload", "< 5cm Range", "IP54"],
+    specTable: {
+      Sensor: "NFC reader",
+      Range: "< 5 cm",
+      "Card Types": "1443A, 15693",
+      Interface: "Type-C, RS232 upload",
+      "Ingress Protection": "IP54",
+      "Operating Temperature": "-25°C to 70°C",
+      Power: "DC 5V",
+      "Power Consumption": "150mA working, 5mA standby",
+      Feedback: "LED + buzzer (>=85dB at 10cm)",
+      Dimensions: "104 x 70 x 10 mm",
+      Weight: "74 g",
+      Certification: "CE, FCC",
+      Configurator: "Supported",
+    },
+    features: [
+      "Supports NFC card types 1443A and 15693",
+      "RS232 data upload for embedded/vehicle integrations",
+      "LED + buzzer interaction feedback",
+      "Low power: 5V 150mA working, 5V 5mA standby (datasheet)",
+      "Type-C port",
+      "Operating temperature: -25°C to 70°C",
+      "Configurator support",
+    ],
+    useCases: [
+      "Driver identity check-in and authentication",
+      "Fleet safety monitoring integrations",
+      "Card programming for staff access",
+      "Shift start and compliance workflows",
+    ],
+    related: ["ai-dashcam", "ai-mdvr", "dvr-system"],
+    imageSrc: "/Products/RFID reader close-up shot.png",
+    imageAlt: "RFID-01 NFC reader",
     imageClass: "catalog-card-image-sensor",
   },
   tpms: {
@@ -875,25 +1214,87 @@ const baseProducts = {
     id: "wireless-fuel-sensor",
     category: "sensors",
     categoryLabel: "Sensors",
-    title: "Wireless Fuel Sensor",
+    title: "FUEL-01 Wireless Fuel Sensor",
     shortDescription:
-      "Wireless sensor solution for flexible fuel monitoring deployments.",
-    specs: ["Wireless", "Fuel Data", "Flexible Install"],
+      "Next-gen wireless LoRa ultrasonic fuel sensor with easy installation, IP67 protection, and no drilling required for most retrofit deployments.",
+    specs: ["LoRa 868/915MHz", "Ultrasonic", "IP67", "DC 9-36V"],
+    specTable: {
+      Sensor: "Ultrasonic fuel level",
+      LoRa: "868MHz / 915MHz",
+      "Ingress Protection": "IP67",
+      "Detection Cycle": "3s",
+      "Upload Cycle": "30s",
+      Power: "DC 9-36V",
+      "Power Consumption": "43.5mA working @12V, 10.72mA standby @12V",
+      Interface: "Type-C",
+      "Operating Temperature": "-25°C to 70°C",
+      Dimensions: "85 x 53 x 24 mm",
+      Weight: "200 g",
+      Certification: "CE, FCC",
+      Configurator: "Supported",
+    },
     features: [
-      "Flexible deployment setup",
-      "Wireless fuel reporting",
-      "Fast retrofit support",
-      "Operational fuel visibility",
+      "Ultrasonic fuel level detection",
+      "Fast detection cycle: 3s",
+      "Upload cycle: 30s",
+      "Easy installation with no drilling needed (datasheet claim)",
+      "Type-C port",
+      "Low power: ~43.5mA working at 12V, ~10.72mA standby at 12V (datasheet)",
+      "Configurator support",
     ],
     useCases: [
-      "Retrofit fuel monitoring",
-      "Flexible fleet installs",
-      "Tank monitoring",
-      "Rapid field rollout",
+      "Fuel theft awareness programs",
+      "Fleet fuel consumption monitoring",
+      "Tank level visibility for dispatch and operations",
+      "Retrofit installs where drilling is not preferred",
     ],
     related: ["fuel-sensors", "wired-fuel-level-sensor", "harness-relays"],
     imageSrc: "/Products/LoRaWAN fuel sensor device close-up.png",
     imageAlt: "Wireless fuel sensor",
+    imageClass: "catalog-card-image-sensor",
+  },
+  "mt01-door-magnetic-sensor": {
+    id: "mt01-door-magnetic-sensor",
+    category: "sensors",
+    categoryLabel: "Sensors",
+    title: "MT01 LoRa Door Magnetic Sensor",
+    shortDescription:
+      "Ultra-endurance wireless LoRa door sensor for vehicle door monitoring, perimeter security, and low-maintenance fleet deployments.",
+    specs: ["LoRa 868/915MHz", "Hall + Reed Sensor", "IP67", "1500mAh Battery"],
+    specTable: {
+      Sensor: "Door magnetic (hall + reed)",
+      LoRa: "868MHz / 915MHz",
+      "Ingress Protection": "IP67",
+      Battery: "1500mAh",
+      Power: "DC 3V",
+      "Standby Current": "10uA @3V",
+      "Service Life": "Up to 3 years (<=20 cycles/day, datasheet)",
+      Interface: "Type-C",
+      "Operating Temperature": "-20°C to 70°C",
+      Dimensions: "Sensor 86.8 x 31.4 x 7.9 mm; Magnet 90 x 32 x 12.5 mm",
+      Weight: "Sensor 59 g; Magnet 59 g",
+      Certification: "CE, FCC",
+      Configurator: "Supported",
+    },
+    features: [
+      "Vehicle door monitoring with hall + reed sensors",
+      "Service life: up to 3 years (≤ 20 cycles/day, datasheet)",
+      "Very low standby power: 10uA at 3V (datasheet)",
+      "IP67 environmental protection",
+      "Built-in LED status indicator (red)",
+      "Type-C port",
+      "Easy installation with magnet block",
+      "Configurator support",
+    ],
+    useCases: [
+      "Cargo door open/close alerts",
+      "Cold-chain door monitoring",
+      "Perimeter security for parked vehicles",
+      "Unauthorized access awareness",
+    ],
+    related: ["asset-tracking-device", "temperature-sensors", "4g-gps-device"],
+    imageSrc: "/Products/Magnetic door sensor set close-up.png",
+    imageAlt: "MT01 door magnetic sensor",
     imageClass: "catalog-card-image-sensor",
   },
   "wired-fuel-level-sensor": {
@@ -1016,9 +1417,58 @@ const baseProducts = {
       "Consistent field deployment",
       "Accessory support readiness",
     ],
-    related: ["4g-gps-device", "wireless-fuel-sensor", "asset-tracking-device"],
+    related: ["ups-01-vehicle-ups", "4g-gps-device", "wireless-fuel-sensor", "asset-tracking-device"],
     imageSrc: "/Products/Industrial-grade UPS device with cables.png",
     imageAlt: "Industrial-grade power accessory with cables",
+    imageClass: "catalog-card-image-asset",
+  },
+  "ups-01-vehicle-ups": {
+    id: "ups-01-vehicle-ups",
+    category: "accessories",
+    categoryLabel: "Accessories",
+    title: "UPS-01 Vehicle UPS",
+    shortDescription:
+      "Professional vehicle uninterruptible power supply (UPS) for uninterrupted fleet intelligence and safe shutdown during power loss events.",
+    specs: ["9-36V Input", "16V Output", "LiFePO4 38.4Wh", "≤5ms Transfer"],
+    specTable: {
+      Application: "Emergency electrical power supply",
+      "Power Input": "9-36V",
+      "Power Output": "16V (without main power)",
+      "Transfer Time": "<= 5ms",
+      Capacity: "4000mAh @10.5V (38.4Wh), LiFePO4",
+      "Max Discharge": "2.5A @16V",
+      "Charging Current": "800mA",
+      "Power Consumption": "245uA standby, 7mA working",
+      "Battery Runtime": "16h @16V/100mA; 3.2h @16V/500mA; 1.6h @16V/1000mA",
+      "Ingress Protection": "IP54",
+      Protection: "Overload/short-circuit, over/under voltage",
+      Interface: "Type-C",
+      "Operating Temperature": "-20°C to 70°C",
+      "Service Life": ">= 5 years",
+      Dimensions: "109 x 80 x 50 mm",
+      Weight: "550 g",
+      Certification: "CE, FCC",
+    },
+    features: [
+      "Emergency power output: 16V when main power is lost (datasheet)",
+      "Wide input range: 9-36V",
+      "Transfer time ≤ 5ms to keep critical devices running",
+      "LiFePO4 battery: 4000mAh at 10.5V (38.4Wh, datasheet)",
+      "Input protection: overload/short-circuit, over/under voltage",
+      "Power failure alarm support (datasheet)",
+      "Configurable discharge duration and switch status via software (datasheet)",
+      "Max discharge current: 2.5A at 16V (datasheet)",
+      "Low consumption: 245uA standby, 7mA working (datasheet)",
+    ],
+    useCases: [
+      "Prevent MDVR/dashcam recording loss during engine-off events",
+      "Graceful shutdown for video and telematics devices",
+      "Power stability for fleet safety systems",
+      "Short power-cut resilience for commercial vehicles",
+    ],
+    related: ["ai-mdvr", "ai-dashcam", "dvr-system", "harness-relays"],
+    imageSrc: "/Products/Industrial-grade UPS device with cables.png",
+    imageAlt: "UPS-01 vehicle uninterruptible power supply",
     imageClass: "catalog-card-image-asset",
   },
 } satisfies Record<string, Omit<Product, "gallery">>;
@@ -1073,12 +1523,118 @@ const galleries: Record<string, ProductImage[]> = {
   "ai-dashcam": [
     {
       src: "/Products/DR03.png",
-      alt: "AI dashcam front view",
+      alt: "AI dashcam product family hero view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/EH15-V2.png",
+      alt: "Multi-channel AI dashcam hardware for commercial fleets",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/EH24.png",
+      alt: "Two-channel connected dashcam hardware",
       imageClass: "catalog-card-image-dashcam",
     },
     {
       src: "/Products/3Products.png",
-      alt: "AI dashcam hardware lineup",
+      alt: "AI dashcam hardware lineup comparison",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "mr012-ch-dashcam-for-motorcycle": [
+    {
+      src: "/Products/MR01.png",
+      alt: "MR01 motorcycle dashcam front hardware view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "MR01 motorcycle dashcam product family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "dr033-channel-ai-dashcam": [
+    {
+      src: "/Products/DR03.png",
+      alt: "DR03 three-channel AI dashcam front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "DR03 AI dashcam lineup and deployment family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh80-1-ch-aov-dash-camera": [
+    {
+      src: "/Products/EH21.png",
+      alt: "EH80 always-on dash camera hardware view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH80 AOV dashcam range comparison view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh21-1-ch-4g-dashcam": [
+    {
+      src: "/Products/EH21.png",
+      alt: "EH21 single-channel 4G dashcam front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH21 connected dashcam family lineup",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh15-v2-4-ch-ai-dashcam": [
+    {
+      src: "/Products/EH15-V2.png",
+      alt: "EH15-V2 multi-channel AI dashcam hardware view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH15-V2 fleet dashcam lineup comparison",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh03t-4-ch-ai-dashcam": [
+    {
+      src: "/Products/EH03T-V2.png",
+      alt: "EH03T-V2 four-channel AI dashcam front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH03T-V2 fleet dashcam product family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh24-2-ch-smart-dashcam": [
+    {
+      src: "/Products/EH24.png",
+      alt: "EH24 two-channel 4G dashcam front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH24 connected dashcam family lineup",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "eh25-2-ch-4g-dashcam": [
+    {
+      src: "/Products/EH25.png",
+      alt: "EH25 two-channel 4G dashcam front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "EH25 compact dashcam product family view",
       imageClass: "catalog-card-image-dashcam",
     },
   ],
@@ -1113,6 +1669,40 @@ const galleries: Record<string, ProductImage[]> = {
     {
       src: "/Products/3Products.png",
       alt: "AI MDVR hardware lineup",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "ed02r-v2-4-ch-ai-powered-mdvr": [
+    {
+      src: "/Products/Professional MDVR with lockable cover.png",
+      alt: "ED02R-V2 4-channel AI MDVR front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/Vehicle MDVR device with detailed front panel.png",
+      alt: "ED02R-V2 AI MDVR alternate view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "MDVR product family lineup",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "ed08r-8-ch-ai-powered-mdvr": [
+    {
+      src: "/Products/Vehicle MDVR device with detailed front panel.png",
+      alt: "ED08R-V2 8-channel AI MDVR front view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/Professional MDVR with lockable cover.png",
+      alt: "ED08R-V2 AI MDVR alternate view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "MDVR product family lineup",
       imageClass: "catalog-card-image-dashcam",
     },
   ],
@@ -1198,6 +1788,18 @@ const galleries: Record<string, ProductImage[]> = {
       imageClass: "catalog-card-image-dashcam",
     },
   ],
+  "rfid-01-nfc-reader": [
+    {
+      src: "/Products/RFID reader close-up shot.png",
+      alt: "RFID-01 NFC reader front view",
+      imageClass: "catalog-card-image-sensor",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "Sensor hardware family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
   tpms: [
     {
       src: "/Products/RFID reader close-up shot.png",
@@ -1219,6 +1821,18 @@ const galleries: Record<string, ProductImage[]> = {
     {
       src: "/Products/3Products.png",
       alt: "Wireless fuel sensor family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
+  "mt01-door-magnetic-sensor": [
+    {
+      src: "/Products/Magnetic door sensor set close-up.png",
+      alt: "MT01 door magnetic sensor front view",
+      imageClass: "catalog-card-image-sensor",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "Sensor hardware family view",
       imageClass: "catalog-card-image-dashcam",
     },
   ],
@@ -1287,6 +1901,18 @@ const galleries: Record<string, ProductImage[]> = {
       imageClass: "catalog-card-image-dashcam",
     },
   ],
+  "ups-01-vehicle-ups": [
+    {
+      src: "/Products/Industrial-grade UPS device with cables.png",
+      alt: "UPS-01 vehicle UPS front view",
+      imageClass: "catalog-card-image-asset",
+    },
+    {
+      src: "/Products/3Products.png",
+      alt: "Accessory hardware family view",
+      imageClass: "catalog-card-image-dashcam",
+    },
+  ],
 };
 
 export const products: Record<string, Product> = Object.fromEntries(
@@ -1326,16 +1952,76 @@ export const getProductHref = (productId: string) => `/products/${encodeURICompo
 
 export const getProductById = (productId: string) => products[productId];
 
+const tokenizeRelatedHints = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9+/-]+/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+
 export const getRelatedProducts = (product: Product) => {
-  const relatedIds = [...product.related];
+  const explicitRelated = product.related.filter(Boolean);
+  const explicitIndex = new Map(explicitRelated.map((id, index) => [id, index]));
+  const explicitSet = new Set(explicitRelated);
+  const baseTokens = new Set(
+    [
+      ...tokenizeRelatedHints(product.title),
+      ...tokenizeRelatedHints(product.categoryLabel),
+      ...product.specs.flatMap((spec) => tokenizeRelatedHints(spec)),
+    ].filter(Boolean),
+  );
 
-  if (relatedIds.length < 3) {
-    productOrder.forEach((id) => {
-      if (id !== product.id && !relatedIds.includes(id) && relatedIds.length < 3) {
-        relatedIds.push(id);
+  const scored = productOrder
+    .filter((id) => id !== product.id)
+    .map((id) => {
+      const candidate = products[id];
+
+      if (!candidate) {
+        return { id, score: -1 };
       }
-    });
-  }
 
-  return relatedIds.slice(0, 3).map((id) => products[id]).filter(Boolean);
+      let score = 0;
+      const explicitRank = explicitIndex.get(id);
+
+      if (explicitRank !== undefined) {
+        // Preserve intentional ordering while still letting the scorer fill gaps smartly.
+        score += 1000 - explicitRank;
+      }
+
+      if (candidate.category === product.category) {
+        score += 80;
+      }
+
+      if (candidate.categoryLabel === product.categoryLabel) {
+        score += 20;
+      }
+
+      const candidateTokens = [
+        ...tokenizeRelatedHints(candidate.title),
+        ...candidate.specs.flatMap((spec) => tokenizeRelatedHints(spec)),
+      ];
+
+      candidateTokens.forEach((token) => {
+        if (baseTokens.has(token)) {
+          score += 8;
+        }
+      });
+
+      // Keep explicit related items ahead even when text similarity is low.
+      if (explicitSet.has(id)) {
+        score += 40;
+      }
+
+      return { id, score };
+    })
+    .filter((item) => item.score >= 0)
+    .sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      return a.id.localeCompare(b.id);
+    });
+
+  return scored.slice(0, 3).map((item) => products[item.id]).filter(Boolean);
 };

@@ -1,11 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { startTransition } from "react";
+import { ArrowRight, CheckCircle2, LayoutDashboard, MapPinned, Smartphone } from "lucide-react";
+import { startTransition, type CSSProperties } from "react";
 
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
+import { InlineEditableSection } from "@/components/InlineEditableSection";
 import { solutionsList, type SolutionDetail } from "@/lib/solutions";
+import { useAppStore } from "@/store/store";
 
 type DiscoveryFilter =
   | "all"
@@ -22,6 +26,17 @@ type SolutionMeta = {
   featured: boolean;
   badges: string[];
   outcome: string;
+};
+
+type SolutionsHeroMessage = {
+  headline: string;
+  benefit: string;
+  ctaLabel: string;
+};
+
+type SolutionScene = {
+  src: string;
+  alt: string;
 };
 
 const problemEntryFilters: Array<{ value: Exclude<DiscoveryFilter, "all">; label: string }> = [
@@ -41,6 +56,50 @@ const discoveryFilterLabels: Record<DiscoveryFilter, string> = {
   operations: "Manage field teams",
   "public-sector": "Improve compliance oversight",
   industrial: "Reduce visibility gaps",
+};
+
+const heroMessages: Record<DiscoveryFilter, SolutionsHeroMessage> = {
+  all: {
+    headline: "Get complete visibility and control across fleet operations.",
+    benefit:
+      "Compare the highest-impact solution paths first, then move into the workflow and hardware fit that closes delays, losses, and blind spots.",
+    ctaLabel: "Book live demo",
+  },
+  tracking: {
+    headline: "Track every vehicle, route, and field asset with less guesswork.",
+    benefit:
+      "Start with the tracking paths buyers use to improve location confidence, recovery readiness, and route accountability.",
+    ctaLabel: "See tracking in action",
+  },
+  monitoring: {
+    headline: "Catch fuel, temperature, and safety issues before they become downtime.",
+    benefit:
+      "Review monitoring solutions built to surface abnormal conditions early and give teams cleaner operational control.",
+    ctaLabel: "Book monitoring demo",
+  },
+  video: {
+    headline: "See what happened on the road and respond faster with evidence.",
+    benefit: "Focus on driver safety, incident review, and operational proof with video-led solution paths.",
+    ctaLabel: "View live video workflows",
+  },
+  operations: {
+    headline: "Run field teams and service workflows with better live coordination.",
+    benefit:
+      "Narrow the solution paths that improve dispatch timing, service proof, and route execution without extra admin overhead.",
+    ctaLabel: "Talk to operations specialist",
+  },
+  "public-sector": {
+    headline: "Improve compliance oversight and service visibility across public fleets.",
+    benefit:
+      "Review solutions tuned for public transport, school fleets, and field operations that need stronger accountability.",
+    ctaLabel: "See public fleet solutions",
+  },
+  industrial: {
+    headline: "Reduce visibility gaps across industrial fleets and remote assets.",
+    benefit:
+      "Start from the solutions that connect monitoring, tracking, and deployment control in heavy-duty operations.",
+    ctaLabel: "Explore industrial workflows",
+  },
 };
 
 const solutionMetaBySlug: Record<string, SolutionMeta> = {
@@ -144,7 +203,6 @@ const solutionMetaBySlug: Record<string, SolutionMeta> = {
   },
 };
 
-const heroProof = ["Transport", "Public Sector", "Field Services", "Industrial fleets"];
 const filterAliases: Record<string, DiscoveryFilter> = {
   all: "all",
   tracking: "tracking",
@@ -153,6 +211,79 @@ const filterAliases: Record<string, DiscoveryFilter> = {
   operations: "operations",
   "public-sector": "public-sector",
   industrial: "industrial",
+};
+
+const platformVisuals = [
+  {
+    title: "Live map visibility",
+    description: "Vehicles, routes, and field assets surfaced in one operating view.",
+    icon: MapPinned,
+  },
+  {
+    title: "Operations dashboard",
+    description: "Alerts, exceptions, and efficiency trends visible without manual follow-up.",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Mobile workflow preview",
+    description: "Drivers and supervisors stay aligned with field-ready status and proof.",
+    icon: Smartphone,
+  },
+];
+
+const heroFeatureBullets: Record<DiscoveryFilter, string[]> = {
+  all: [
+    "Live fleet visibility",
+    "Alert-driven operations",
+    "Route and asset control",
+    "Faster incident response",
+  ],
+  tracking: [
+    "Real-time route tracking",
+    "Vehicle and asset recovery",
+    "Movement history",
+    "Stop and idle visibility",
+  ],
+  monitoring: [
+    "Fuel and temperature alerts",
+    "Sensor-led exception control",
+    "Threshold monitoring",
+    "Service-risk visibility",
+  ],
+  video: [
+    "Driver safety review",
+    "Incident evidence capture",
+    "Road event visibility",
+    "Live video context",
+  ],
+  operations: [
+    "Dispatch visibility",
+    "Arrival and service proof",
+    "Cleaner field coordination",
+    "Route execution control",
+  ],
+  "public-sector": [
+    "Public fleet oversight",
+    "Route timing confidence",
+    "Passenger or service safety",
+    "Compliance-ready workflows",
+  ],
+  industrial: [
+    "Remote asset monitoring",
+    "Heavy-duty route control",
+    "Distributed field visibility",
+    "Telemetry-led decisions",
+  ],
+};
+
+const heroSceneByFilter: Record<DiscoveryFilter, SolutionScene> = {
+  all: { src: "/Images/banner.png", alt: "Fleet vehicles lineup" },
+  tracking: { src: "/Products/cargo vans.png", alt: "Cargo vans fleet" },
+  monitoring: { src: "/Products/construction.png", alt: "Industrial fleet context" },
+  video: { src: "/Images/banner.png", alt: "Transit and vehicle fleet" },
+  operations: { src: "/Products/delivery.png", alt: "Field service vehicle" },
+  "public-sector": { src: "/Images/banner.png", alt: "Public fleet and transport context" },
+  industrial: { src: "/Products/construction.png", alt: "Industrial site fleet" },
 };
 
 function getSolutionMeta(solution: SolutionDetail): SolutionMeta {
@@ -192,15 +323,44 @@ function matchesFilter(filter: DiscoveryFilter, solution: SolutionDetail) {
   }
 }
 
-function toOneLineSummary(text: string, maxLength = 96) {
-  const cleaned = text.replace(/\s+/g, " ").trim();
-
-  if (cleaned.length <= maxLength) {
-    return cleaned;
+function getCategoryScene(meta: SolutionMeta) {
+  switch (meta.category) {
+    case "Tracking":
+      return "/Products/cargo vans.png";
+    case "Monitoring":
+      return "/Products/construction.png";
+    case "Video":
+      return "/Images/banner.png";
+    case "Operations":
+      return "/Products/delivery.png";
+    default:
+      return "/Products/logistics.png";
   }
+}
 
-  const truncated = cleaned.slice(0, maxLength).trimEnd();
-  return `${truncated.replace(/[.,;:!?-]+$/g, "")}…`;
+function getFeaturedScene(solutionSlug: string, meta: SolutionMeta) {
+  switch (solutionSlug) {
+    case "monitoring-systems":
+      return "/Images/banner.png";
+    case "fuel-monitoring-system":
+      return "/Products/logistics.png";
+    case "field-force-management":
+      return "/Products/delivery.png";
+    case "public-transport-business-solution":
+      return "/Images/banner.png";
+    case "school-bus-tracking":
+      return "/Images/banner.png";
+    default:
+      return getCategoryScene(meta);
+  }
+}
+
+function getAnimatedHeadlineParts(headline: string) {
+  return headline.split(" ").map((word, index) => (
+    <span className="solutions-hero-word" style={{ "--word-delay": `${index * 70}ms` } as CSSProperties} key={`${word}-${index}`}>
+      {word}
+    </span>
+  ));
 }
 
 export function SolutionsCatalogPage() {
@@ -209,13 +369,25 @@ export function SolutionsCatalogPage() {
   const searchParams = useSearchParams();
   const requestedFilter = searchParams.get("group");
   const activeFilter = requestedFilter ? filterAliases[requestedFilter] ?? "all" : "all";
+  const solutionsCatalogDraft = useAppStore((state) => state.cmsDrafts.solutionsCatalog);
+  const solutionDetailDrafts = useAppStore((state) => state.cmsDrafts.solutionDetails);
 
-  const filteredSolutions = solutionsList.filter((solution) =>
-    matchesFilter(activeFilter, solution),
-  );
+  const filteredSolutions = solutionsList.filter((solution) => matchesFilter(activeFilter, solution));
   const featuredSolutions = filteredSolutions.filter((solution) => getSolutionMeta(solution).featured);
   const featuredShelf = (featuredSolutions.length >= 3 ? featuredSolutions : filteredSolutions).slice(0, 3);
-  const heroMostUsedShelf = (featuredSolutions.length ? featuredSolutions : solutionsList).slice(0, 3);
+  const heroMessage =
+    activeFilter === "all"
+      ? {
+          headline: solutionsCatalogDraft.heroHeadline,
+          benefit: solutionsCatalogDraft.heroBenefit,
+          ctaLabel: solutionsCatalogDraft.heroCtaLabel,
+        }
+      : heroMessages[activeFilter];
+  const heroScene = heroSceneByFilter[activeFilter];
+  const heroBullets = heroFeatureBullets[activeFilter];
+  const solutionsHeroImage = resolveCloudinaryAsset(
+    activeFilter === "all" ? solutionsCatalogDraft.heroImageSrc : "/Images/Banner-size.png",
+  );
 
   const updateFilter = (filter: DiscoveryFilter) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -235,59 +407,106 @@ export function SolutionsCatalogPage() {
 
   return (
     <main id="main-content" className="site-main solutions-catalog-page">
+      <InlineEditableSection
+        sectionId="solutions.catalog"
+        title="Solutions Catalog"
+        description="Solutions page hero, sections, results band, and CTA content."
+        draftKey="solutionsCatalog"
+      >
       <section className="solutions-hero">
         <div className="container">
-          <div className="solutions-hero-shell">
+          <div
+            className="solutions-hero-shell"
+            style={{ "--solutions-hero-image": `url("${solutionsHeroImage}")` } as CSSProperties}
+          >
             <div className="solutions-hero-copy">
               <span className="products-badge">Solutions</span>
-              <h1>Fleet solutions built for real operations.</h1>
-              <p className="solutions-hero-text">
-                Start from an operational problem, compare the most common solution paths, and then
-                go deeper into the workflow and hardware fit for your fleet.
-              </p>
-              <div className="solutions-hero-actions">
-                <Link className="button button-primary" href="/contact">
-                  Talk to a solutions specialist
-                </Link>
-                <Link className="button button-secondary" href="/products">
-                  View Hardware
-                </Link>
-              </div>
-              <div className="solutions-hero-proof" aria-label="Primary markets">
-                {heroProof.map((item) => (
-                  <span className="solutions-proof-pill" key={item}>
-                    {item}
-                  </span>
-                ))}
+              <div className="solutions-hero-content">
+                <h1 className="solutions-hero-title">{getAnimatedHeadlineParts(heroMessage.headline)}</h1>
+                <p className="solutions-hero-text">{heroMessage.benefit}</p>
+                <div className="solutions-hero-bullet-list" aria-label="Primary solution capabilities">
+                  {heroBullets.map((item) => (
+                    <div className="solutions-hero-bullet" key={item}>
+                      <CheckCircle2 size={16} strokeWidth={2} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="solutions-hero-actions">
+                  <Link className="button button-primary" href="/contact">
+                    {heroMessage.ctaLabel}
+                  </Link>
+                  <Link className="button button-secondary" href="#solutions-core">
+                    Explore core solutions
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="solutions-hero-panel" aria-label="Most-used solution paths">
-              <div className="solutions-hero-panel-heading">
-                <p>Most-used solution paths</p>
-                <span>Quick picks</span>
-              </div>
+          </div>
+        </div>
+      </section>
+      </InlineEditableSection>
 
-              <div className="solutions-hero-highlights" aria-label="Common starting points">
-                {heroMostUsedShelf.map((solution) => {
-                  const meta = getSolutionMeta(solution);
+      <section className="solutions-platform-section">
+        <div className="container">
+          <div className="solutions-platform-shell">
+            <div className="solutions-platform-copy">
+              <p className="eyebrow">{solutionsCatalogDraft.platformEyebrow}</p>
+              <h2>{solutionsCatalogDraft.platformHeading}</h2>
+              <p className="section-subtitle">
+                {solutionsCatalogDraft.platformDescription}
+              </p>
+            </div>
+
+            <div className="solutions-platform-stage">
+              <article className="solutions-platform-visual">
+                <div className="solutions-platform-visual-media">
+                  <Image
+                    src={resolveCloudinaryAsset(heroScene.src)}
+                    alt={heroScene.alt}
+                    width={1200}
+                    height={720}
+                    className="solutions-platform-visual-image"
+                  />
+                </div>
+              </article>
+
+              <div className="solutions-platform-grid">
+                {platformVisuals.map((visual) => {
+                  const Icon = visual.icon;
 
                   return (
-                    <article className="solutions-highlight-row" key={`hero-${solution.slug}`}>
-                      <strong>{solution.title}</strong>
-                      <p>{toOneLineSummary(meta.outcome)}</p>
-                      <Link
-                        className="solutions-inline-link is-muted solutions-hero-mini-link"
-                        href={`/solutions/${solution.slug}`}
-                        aria-label={`View details for ${solution.title}`}
-                      >
-                        View details <ArrowRight size={15} strokeWidth={2} />
-                      </Link>
+                    <article className="solutions-platform-card" key={visual.title}>
+                      <div className="solutions-platform-icon" aria-hidden="true">
+                        <Icon size={18} strokeWidth={2} />
+                      </div>
+                      <strong>{visual.title}</strong>
+                      <p>{visual.description}</p>
                     </article>
                   );
                 })}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
+      <section className="solutions-results-band">
+        <div className="container">
+          <div className="solutions-results-shell">
+            <div className="solutions-results-copy">
+              <p className="eyebrow">{solutionsCatalogDraft.resultsEyebrow}</p>
+              <h2>{solutionsCatalogDraft.resultsHeading}</h2>
+            </div>
+            <div className="solutions-results-grid">
+              {solutionsCatalogDraft.resultsCards.map((result) => (
+                <article className="solutions-results-card" key={result.label}>
+                  <strong>{result.value}</strong>
+                  <span>{result.label}</span>
+                  <p>{result.detail}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -296,10 +515,10 @@ export function SolutionsCatalogPage() {
         <div className="container">
           <div className="solutions-section-head solutions-section-head-balanced">
             <div className="solutions-section-head-main">
-              <p className="eyebrow">Start Here</p>
-              <h2>Start from your problem, then narrow the best-fit path.</h2>
+              <p className="eyebrow">{solutionsCatalogDraft.browseEyebrow}</p>
+              <h2>{solutionsCatalogDraft.browseHeading}</h2>
               <p className="section-subtitle">
-                Choose a common operational need. We will narrow the library without hiding anything.
+                {solutionsCatalogDraft.browseDescription}
               </p>
             </div>
             <div className="solutions-section-head-aside" aria-hidden="true" />
@@ -327,32 +546,46 @@ export function SolutionsCatalogPage() {
         </div>
       </section>
 
-      <section className="solutions-featured-section">
+      <section className="solutions-featured-section" id="solutions-core">
         <div className="container">
           <div className="solutions-section-head solutions-section-head-split solutions-section-head-featured">
             <div>
-              <p className="eyebrow">Common Starting Points</p>
-              <h2>Most-used solution paths buyers start with.</h2>
+              <p className="eyebrow">{solutionsCatalogDraft.featuredEyebrow}</p>
+              <h2>{solutionsCatalogDraft.featuredHeading}</h2>
             </div>
             <p className="section-subtitle">
-              Pick one path to validate fit quickly, then compare nearby workflows in the library.
+              {solutionsCatalogDraft.featuredDescription}
             </p>
           </div>
 
           <div className="solutions-featured-grid">
             {featuredShelf.map((solution) => {
-              const meta = getSolutionMeta(solution);
+              const solutionDraft = solutionDetailDrafts[solution.slug] ?? solution;
+              const meta = getSolutionMeta(solutionDraft);
 
               return (
                 <article className="solutions-featured-card" key={solution.slug}>
-                  <div className="solutions-featured-topline">
-                    <span>{meta.category}</span>
-                    <span>{meta.market}</span>
+                  <div className="solutions-featured-media">
+                    <Image
+                      src={resolveCloudinaryAsset(getFeaturedScene(solution.slug, meta))}
+                      alt={solutionDraft.title}
+                      width={720}
+                      height={420}
+                      className="solutions-featured-image"
+                    />
+                    <div className="solutions-featured-overlay">
+                      <div className="solutions-featured-topline">
+                        <span>{meta.category}</span>
+                        <span>{meta.market}</span>
+                      </div>
+                      <div className="solutions-featured-overlay-copy">
+                        <h3>{solutionDraft.title}</h3>
+                        <p className="solutions-featured-description">{meta.outcome}</p>
+                      </div>
+                    </div>
                   </div>
-                  <h3>{solution.title}</h3>
-                  <p className="solutions-featured-description">{meta.outcome}</p>
-                  <ul className="solutions-library-list" aria-label={`${solution.title} highlights`}>
-                    {solution.useCases.slice(0, 2).map((useCase) => (
+                  <ul className="solutions-library-list solutions-featured-list" aria-label={`${solutionDraft.title} highlights`}>
+                    {solutionDraft.useCases.slice(0, 2).map((useCase) => (
                       <li key={`${solution.slug}-${useCase.title}`}>
                         <CheckCircle2 size={15} strokeWidth={2} />
                         <span>{useCase.title}</span>
@@ -363,7 +596,7 @@ export function SolutionsCatalogPage() {
                     <Link
                       className="solutions-inline-link"
                       href={`/solutions/${solution.slug}`}
-                      aria-label={`View details for ${solution.title}`}
+                      aria-label={`View details for ${solutionDraft.title}`}
                     >
                       View details <ArrowRight size={15} strokeWidth={2} />
                     </Link>
@@ -379,8 +612,8 @@ export function SolutionsCatalogPage() {
         <div className="container">
           <div className="solutions-section-head solutions-section-head-split">
             <div>
-              <p className="eyebrow">Solution Library</p>
-              <h2>Browse all workflows grouped for faster scanning.</h2>
+              <p className="eyebrow">{solutionsCatalogDraft.libraryEyebrow}</p>
+              <h2>{solutionsCatalogDraft.libraryHeading}</h2>
             </div>
             <p className="section-subtitle">
               {filteredSolutions.length} result{filteredSolutions.length === 1 ? "" : "s"} shown for{" "}
@@ -411,18 +644,32 @@ export function SolutionsCatalogPage() {
                   </div>
                   <div className="solutions-library-grid">
                     {groupedSolutions.map((solution) => {
-                      const meta = getSolutionMeta(solution);
+                      const solutionDraft = solutionDetailDrafts[solution.slug] ?? solution;
+                      const meta = getSolutionMeta(solutionDraft);
 
                       return (
                         <article className="solutions-library-card" key={solution.slug}>
-                          <div className="solutions-library-topline">
-                            <p>{meta.category}</p>
-                            <span>{meta.market}</span>
+                          <div className="solutions-library-media">
+                            <Image
+                              src={resolveCloudinaryAsset(getFeaturedScene(solution.slug, meta))}
+                              alt={solutionDraft.title}
+                              width={720}
+                              height={420}
+                              className="solutions-library-image"
+                            />
+                            <div className="solutions-library-overlay">
+                              <div className="solutions-library-topline">
+                                <p>{meta.category}</p>
+                                <span>{meta.market}</span>
+                              </div>
+                              <div className="solutions-library-overlay-copy">
+                                <h3>{solutionDraft.title}</h3>
+                                <p className="solutions-library-description">{meta.outcome}</p>
+                              </div>
+                            </div>
                           </div>
-                          <h3>{solution.title}</h3>
-                          <p className="solutions-library-description">{meta.outcome}</p>
-                          <ul className="solutions-library-list" aria-label={`${solution.title} highlights`}>
-                            {solution.useCases.slice(0, 2).map((useCase) => (
+                          <ul className="solutions-library-list" aria-label={`${solutionDraft.title} highlights`}>
+                            {solutionDraft.useCases.slice(0, 2).map((useCase) => (
                               <li key={`${solution.slug}-${useCase.title}`}>
                                 <CheckCircle2 size={15} strokeWidth={2} />
                                 <span>{useCase.title}</span>
@@ -433,7 +680,7 @@ export function SolutionsCatalogPage() {
                             <Link
                               className="solutions-inline-link"
                               href={`/solutions/${solution.slug}`}
-                              aria-label={`View details for ${solution.title}`}
+                              aria-label={`View details for ${solutionDraft.title}`}
                             >
                               View details <ArrowRight size={15} strokeWidth={2} />
                             </Link>
@@ -449,29 +696,27 @@ export function SolutionsCatalogPage() {
         </div>
       </section>
 
-      {false && (
       <section className="solutions-bottom-cta">
         <div className="container">
           <div className="solutions-bottom-cta-panel">
             <div className="solutions-bottom-cta-copy">
-              <p className="eyebrow">Need help choosing?</p>
-              <h2>Tell us your workflow and we’ll narrow the best fit.</h2>
+              <p className="eyebrow">{solutionsCatalogDraft.bottomCtaEyebrow}</p>
+              <h2>{solutionsCatalogDraft.bottomCtaHeading}</h2>
               <p>
-                Share your fleet mix and operational goals. We’ll recommend the right starting path and hardware stack.
+                {solutionsCatalogDraft.bottomCtaDescription}
               </p>
             </div>
             <div className="solutions-bottom-cta-actions">
               <Link className="button button-primary" href="/contact">
-                Talk to Solutions Team
+                {solutionsCatalogDraft.bottomCtaPrimaryLabel}
               </Link>
               <Link className="solutions-inline-link is-muted solutions-bottom-text-link" href="/products">
-                Browse hardware first <ArrowRight size={15} strokeWidth={2} />
+                {solutionsCatalogDraft.bottomCtaSecondaryLabel} <ArrowRight size={15} strokeWidth={2} />
               </Link>
             </div>
           </div>
         </div>
       </section>
-      )}
     </main>
   );
 }

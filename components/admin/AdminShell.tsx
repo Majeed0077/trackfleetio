@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-react";
+import { ChevronDown, Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 
@@ -27,6 +27,9 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(adminNavSections.map((section) => [section.title, false])),
+  );
   const pageInfo = useMemo(
     () => adminPageInfo[pathname] ?? { title: "Admin", section: "Admin" },
     [pathname],
@@ -55,13 +58,34 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
           <nav className={styles.adminSidebarNav} aria-label="Admin navigation">
             {adminNavSections.map((section) => (
               <section className={styles.adminNavSection} key={section.title}>
-                <p className={styles.adminNavSectionTitle}>{section.title}</p>
-                <div className={styles.adminNavLinks}>
+                <div className={styles.adminNavSectionHeader}>
+                  <p className={styles.adminNavSectionTitle}>{section.title}</p>
+                  {!sidebarCollapsed ? (
+                    <button
+                      className={`${styles.adminNavSectionToggle} ${collapsedSections[section.title] ? styles.adminNavSectionToggleCollapsed : ""}`}
+                      type="button"
+                      aria-label={`${collapsedSections[section.title] ? "Expand" : "Collapse"} ${section.title}`}
+                      aria-expanded={collapsedSections[section.title] ? "false" : "true"}
+                      onClick={() =>
+                        setCollapsedSections((currentValue) => ({
+                          ...currentValue,
+                          [section.title]: !currentValue[section.title],
+                        }))
+                      }
+                    >
+                      <ChevronDown size={14} strokeWidth={1.9} />
+                    </button>
+                  ) : null}
+                </div>
+                <div
+                  className={`${styles.adminNavLinks} ${collapsedSections[section.title] && !sidebarCollapsed ? styles.adminNavLinksCollapsed : ""}`}
+                >
                   {section.items.map((item) => (
                     <Link
                       key={item.key}
                       className={`${styles.adminNavLink} ${pathname === item.href ? styles.adminNavLinkActive : ""}`}
                       href={item.href}
+                      data-skip-route-loader
                       onClick={() => setSidebarOpen(false)}
                       title={sidebarCollapsed ? item.label : undefined}
                     >
@@ -95,7 +119,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
         <div className={styles.adminMain}>
           <header className={styles.adminTopbar}>
             <div className={styles.adminTopbarLead}>
-              <Link className={styles.adminTopbarBrand} href="/admin/dashboard" aria-label="Track Fleetio admin home">
+              <Link className={styles.adminTopbarBrand} href="/admin/dashboard" aria-label="Track Fleetio admin home" data-skip-route-loader>
                 <ThemeLogo className={styles.adminTopbarBrandLogo} alt="Track Fleetio logo" width={120} height={32} />
               </Link>
               <div className={styles.adminTopbarCopy}>
@@ -121,8 +145,8 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
                 </button>
                 {userMenuOpen ? (
                   <div className={styles.adminUserDropdown}>
-                    <Link className={styles.adminUserDropdownLink} href="/admin/users">Users &amp; roles</Link>
-                    <Link className={styles.adminUserDropdownLink} href="/admin/settings">Site settings</Link>
+                    <Link className={styles.adminUserDropdownLink} href="/admin/users" data-skip-route-loader>Users &amp; roles</Link>
+                    <Link className={styles.adminUserDropdownLink} href="/admin/settings" data-skip-route-loader>Site settings</Link>
                     <button
                       className={styles.adminUserDropdownLink}
                       type="button"

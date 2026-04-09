@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { Heart, ShoppingCart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
+import { CompareToggleButton } from "@/components/CompareToggleButton";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
@@ -27,6 +29,7 @@ export function ProductCard({
   const wishlist = useAppStore((state) => state.wishlist);
   const isSaved = hasHydrated && wishlist.includes(product.id);
   const topFeatures = product.features.slice(0, 3);
+  const productImageSrc = resolveCloudinaryAsset(product.imageSrc);
 
   return (
     <article
@@ -36,16 +39,25 @@ export function ProductCard({
     >
       <div className="catalog-card-media">
         <div className="catalog-card-tools">
-          <button
-            className={`catalog-card-tool catalog-card-tool-favorite${isSaved ? " is-saved" : ""}`}
-            type="button"
-            aria-label="Save to wishlist"
-            title="Save to wishlist"
-            aria-pressed={isSaved ? "true" : "false"}
-            onClick={() => toggleWishlist(product.id)}
-          >
-            <Heart size={18} strokeWidth={1.9} />
-          </button>
+          <div className="catalog-card-tool-group">
+            <button
+              className={`catalog-card-tool catalog-card-tool-favorite${isSaved ? " is-saved" : ""}`}
+              type="button"
+              aria-label="Save to wishlist"
+              title="Save to wishlist"
+              aria-pressed={isSaved ? "true" : "false"}
+              onClick={() => toggleWishlist(product.id)}
+            >
+              <Heart size={18} strokeWidth={1.9} />
+            </button>
+            <CompareToggleButton
+              productId={product.id}
+              mode="tool"
+              className="catalog-card-tool catalog-card-tool-compare"
+              label="Compare"
+              navigateToCompare
+            />
+          </div>
           <button
             className="catalog-card-tool catalog-card-tool-quick-cart"
             type="button"
@@ -64,7 +76,7 @@ export function ProductCard({
         >
           <Image
             className={`catalog-card-image ${product.imageClass}`}
-            src={product.imageSrc}
+            src={productImageSrc}
             alt={product.imageAlt}
             width={PRODUCT_CARD_IMAGE_WIDTH}
             height={PRODUCT_CARD_IMAGE_HEIGHT}

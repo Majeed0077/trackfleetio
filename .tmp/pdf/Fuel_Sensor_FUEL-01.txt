@@ -1,0 +1,42 @@
+V1.0.0
+Technical
+System  RTOS
+Sensor Type  Ultrasonic Sensor
+Application  Fuel Level Detection
+Features
+LoRa Frequency  868MHz/915MHz
+Detection cycle  3s
+Upload cycle  30s
+Physical & Interface Specifications
+Product Dimensions  L 85* W 53* H 24mm
+Weight  200g
+Working
+Temperature
+ -25°C to 70°C
+Storage Temperature  -25°C to 80°C
+Ingress Protection
+Rating
+ IP67
+Interface  Type-C port
+Color  Black
+Power Consumption
+Operating Power  DC 9-36V
+Power Consumption  @12V 43.5mA (Working Mode)
+ @12V 10.72mA (Standby Mode)
+Appearance
+FUEL-01 Specification
+FUEL-01 | The Next-Gen Wireless Fuel Sensor, No
+Holes. No Complexity. Just Precision.
+This product supports:
+1.LoRa
+2.IP67
+3.High Precision
+4.Easy Installation with No Drilling Needed
+5.Ultrasonic Fuel Detection
+6.Configurator
+
+
+Regulatory Compliance
+Certification  CE,FCC
+Product Code  FUEL-01
+Connector

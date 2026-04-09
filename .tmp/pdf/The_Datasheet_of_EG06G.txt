@@ -1,0 +1,87 @@
+EG06G is a 4G solar-powered tracker, equipped with high-
+efficiency solar panels for continuous charging and powerful
+magnets for discreet and long-term deployment.
+This device supports:
+1. 4G Cat.1
+2. GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+3. IP67
+4. Solar power charging
+5. Powerful Magnetic Mount
+6. 7500mAh Battery
+7. Configurator and FOTA WEB
+Communication Specifications
+Technology  4G Cat. 1
+Data support  SMS (TXT/ PDU)
+4G band  STD Band: B1/ B2/ B3/ B5/ B7/ B8/ B20/
+B28/ B66(B4)/ B38/ B41 (Optional)
+ NA Band: B2/ B5/ B12/ B17/ B13/ B66(B4)/
+B38/ B41 (Optional)
+GNSS Technical
+Technology  GNSS: GPS/ GALILEO/ BeiDou/
+GLONASS
+Tracking sensitivity  -165dB
+Capture Sensitivity  -159dB
+Position accuracy  <2.0m CEP
+Hot start  <1s
+Cold start  <24s
+Power Consumption
+Operating
+Power
+ DC 3.2-4.2V
+Battery
+capacity
+ 3.7V 7500mAh Lithium batteries
+Power
+Consumption
+ @3.7V 90uA (Deep Power Saving Mode)
+ @3.7V 0.8mA (Smart Power Saving Mode)
+ @3.7V 19mA (Tracking Mode)
+Charging
+input
+ Solar panel: 6V 90mA(Max)
+Type-C: DC 5V
+Battery Life Excluding Self-Discharge
+ Deep Power Saving: ~3years @
+2 data/day
+ Smart Power Saving: ~80days @ 2h /day
+ Tracking Mode: ~10days
+Features
+Working modes  Tracking Mode
+ Smart Power Saving Mode
+ Deep Power Saving Mode
+Alarm function  Tamper Alert
+ Low voltage Alert
+ SOS Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+Data storage  Expandable up to 10,000 entries with
+optional Flash
+Configuration
+support
+ Configurator, FOTA WEB, SMS,
+Monitoring Platform
+EG06G Specification
+
+
+Physical & Interface Specifications
+Working
+Temperature
+ -25°C to 75°C
+Storage Temperature  -40°C to 85°C
+Ingress Protection
+Rating
+ IP67
+LED  Yellow: Location
+ Red: Communication & Battery Level
+ Red/Green: Charging
+Interface  Micro-SIM, Type C
+Color  White
+Product Dimensions  L 157* W 70* H 26.5 mm
+Weight  310g
+Appearance
+Regulatory Compliance
+Certification  CE,FCC,UKCA
+Product Name  EG06G

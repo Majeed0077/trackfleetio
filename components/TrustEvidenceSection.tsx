@@ -1,24 +1,28 @@
+"use client";
+
 import { Star } from "lucide-react";
 
 import styles from "./TrustEvidenceSection.module.css";
-import { homepageTrustContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 export function TrustEvidenceSection() {
+  const trustDraft = useAppStore((state) => state.cmsDrafts.homepageTrust);
+
   return (
     <section className={`content-section ${styles.section}`} data-reveal>
       <div className="container">
         <div className={styles.intro} data-reveal-item>
           <div className={styles.introLead}>
-            <p className={styles.eyebrow}>{homepageTrustContent.eyebrow}</p>
-            <h2 className={styles.heading}>{homepageTrustContent.heading}</h2>
+            <p className={styles.eyebrow}>{trustDraft.eyebrow}</p>
+            <h2 className={styles.heading}>{trustDraft.heading}</h2>
           </div>
           <div className={styles.introSupport}>
-            <p className={styles.copy}>{homepageTrustContent.description}</p>
+            <p className={styles.copy}>{trustDraft.description}</p>
           </div>
         </div>
 
         <div className={styles.statsRow} data-reveal-group>
-          {homepageTrustContent.stats.map((stat) => (
+          {trustDraft.stats.map((stat) => (
             <div className={styles.statItem} key={stat.label} data-reveal-item>
               <span className={styles.statValue}>{stat.value}</span>
               <span className={styles.statLabel}>{stat.label}</span>
@@ -27,7 +31,7 @@ export function TrustEvidenceSection() {
         </div>
 
         <div className={styles.reviewsRow} data-reveal-group>
-          {homepageTrustContent.reviews.map((review) => (
+          {trustDraft.reviews.map((review) => (
             <div className={styles.reviewItem} key={review.platform} data-reveal-item>
               <div className={styles.reviewHeader}>
                 <span className={styles.reviewPlatform}>{review.platform}</span>

@@ -1,19 +1,28 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { ViewportVideo } from "@/components/ViewportVideo";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { fieldUseCasesContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 export function FeatureStorytellingSection() {
+  const storyDraft = useAppStore((state) => state.cmsDrafts.homepageStory);
   const [videoCard, imageCard] = fieldUseCasesContent.cards;
+  const videoSrc = storyDraft.videoCard.videoSrc.trim() || "/Products/Video 1.mp4";
+  const videoPoster = storyDraft.videoCard.posterSrc.trim() || "/Products/DR03.png";
+  const storyImageSrc = storyDraft.imageCard.imageSrc.trim() || imageCard.imageSrc || "/Products/Industrial temperature sensor close-up.png";
+  const storyImageAlt = storyDraft.imageCard.imageAlt.trim() || imageCard.imageAlt || "Story media";
 
   return (
     <section id="story" className="content-section content-section-last section-story" data-reveal>
         <div className="container">
           <div className="section-heading">
-            <p className="eyebrow">{fieldUseCasesContent.eyebrow}</p>
-            <h2>{fieldUseCasesContent.heading}</h2>
-            <p className="section-subtitle">{fieldUseCasesContent.description}</p>
+            <p className="eyebrow">{storyDraft.eyebrow}</p>
+            <h2>{storyDraft.heading}</h2>
+            <p className="section-subtitle">{storyDraft.description}</p>
           </div>
 
         <div className="story-layout" data-reveal-group>
@@ -22,8 +31,8 @@ export function FeatureStorytellingSection() {
               <div className="story-media-frame" data-parallax="soft">
                 <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
-                  src="/Products/Video 1.mp4"
-                  poster="/Products/DR03.png"
+                  src={videoSrc}
+                  poster={resolveCloudinaryAsset(videoPoster)}
                   ariaLabel="Driver monitoring dashcam video"
                 />
                 <div className="story-media-overlay" aria-hidden="true">
@@ -48,11 +57,11 @@ export function FeatureStorytellingSection() {
               </div>
             </div>
             <div className="story-copy-block">
-              <h3>{videoCard.title}</h3>
-              <p>{videoCard.description}</p>
+              <h3>{storyDraft.videoCard.title}</h3>
+              <p>{storyDraft.videoCard.description}</p>
               <div className="story-copy-actions">
                 <Link className="button button-outline story-button" href={videoCard.ctaHref}>
-                  {videoCard.ctaLabel}
+                  {storyDraft.videoCard.ctaLabel}
                 </Link>
               </div>
             </div>
@@ -60,11 +69,11 @@ export function FeatureStorytellingSection() {
 
           <article className="story-card story-card-reverse" data-reveal-item>
             <div className="story-copy-block">
-              <h3>{imageCard.title}</h3>
-              <p>{imageCard.description}</p>
+              <h3>{storyDraft.imageCard.title}</h3>
+              <p>{storyDraft.imageCard.description}</p>
               <div className="story-copy-actions">
                 <Link className="button button-outline story-button" href={imageCard.ctaHref}>
-                  {imageCard.ctaLabel}
+                  {storyDraft.imageCard.ctaLabel}
                 </Link>
               </div>
             </div>
@@ -72,8 +81,8 @@ export function FeatureStorytellingSection() {
               <div className="story-media-frame">
                 <Image
                   className={`story-media-image story-media-image-fill ${imageCard.imageClass ?? ""}`}
-                  src={imageCard.imageSrc ?? ""}
-                  alt={imageCard.imageAlt ?? ""}
+                  src={resolveCloudinaryAsset(storyImageSrc)}
+                  alt={storyImageAlt}
                   width={960}
                   height={498}
                   sizes="(max-width: 991px) 100vw, 50vw"

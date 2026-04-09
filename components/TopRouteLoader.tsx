@@ -8,6 +8,10 @@ import { routeLoaderEvents } from "@/lib/route-loader";
 const COMPLETE_HIDE_DELAY_MS = 220;
 
 const isInternalNavigationLink = (anchor: HTMLAnchorElement) => {
+  if (anchor.hasAttribute("data-skip-route-loader")) {
+    return false;
+  }
+
   if (!anchor.href || anchor.target === "_blank" || anchor.hasAttribute("download")) {
     return false;
   }

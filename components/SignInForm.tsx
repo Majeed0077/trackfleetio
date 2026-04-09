@@ -102,16 +102,23 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
               body: JSON.stringify({ email, password, rememberMe }),
             });
 
-            const payload = (await response.json()) as {
+            const contentType = response.headers.get("content-type") ?? "";
+            const payload = (contentType.includes("application/json") ? await response.json() : null) as {
               ok?: boolean;
               user?: unknown;
               message?: string;
-            };
+            } | null;
 
-            if (!response.ok || !payload.ok || !payload.user) {
+            if (response.status === 404) {
+              setStatusTone("error");
+              setStatusMessage("Sign-in API route is not loaded. Restart the dev server and try again.");
+              return;
+            }
+
+            if (!response.ok || !payload?.ok || !payload.user) {
               setFieldErrors({ password: "Invalid email or password." });
               setStatusTone("error");
-              setStatusMessage(payload.message || "Unable to sign in.");
+              setStatusMessage(payload?.message || "Unable to sign in.");
               return;
             }
 

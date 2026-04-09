@@ -1,0 +1,76 @@
+V1.0.1
+Communication Specifications
+Technology  4G Cat. 1
+Data Support  SMS (TXT/ PDU)
+4G Band  LTE:B1/B2/B3/B4/B5/B7/B8/B20/B28/B38/
+B41/B66
+Bluetooth
+Version
+ 5.0
+GNSS Technical
+Technology  GNSS:
+GPS/GALILEO/BeiDou/GLONASS
+Tracking Sensitivity  -165dB
+Acquisition
+Sensitivity
+ -159dB
+Position Accuracy  <2m CEP
+Hot Start  <1s
+Cold Start  <26s
+Features
+Working Modes  Standby Mode
+ Smart Power Saving Mode
+ Extended Battery Life Mode
+ Smart Geo-fence Mode
+Lighting Modes  Fast Blink Mode
+ Steady On Mode
+ Slow Blink Mode
+Alarm Function  Low voltage Alert
+Pet Search Mode  Bluetooth Pet Search
+Configuration
+Support
+ Configurator, FOTA WEB, SMS,
+Monitoring Platform
+Power Consumption
+Operating
+Power
+ DC3.1V-4.35V
+Battery Capacity  3.7V 700mAH Lithium batteries
+Power
+Consumption
+ @4V 1.5mA (Standby Mode)
+ @4 V 23mA (Smart Power Saving Mode)
+ @4V 40mA (Pet Search Mode)
+Charging Input  Magnetic: DC 5V
+Battery Life Excluding Self-Discharge
+ Standby Mode：~12days
+ Smart Power Saving ： ~ 11 days @
+2h/day
+ Pet Search Mode： ~3days
+PET12 Specification
+PET-12 | Smart GPS Pet Locator
+Precision Tracking and Ultimate
+Safety for Your Pet’s Adventures.
+This product supports:
+1. Acoustic and light pet finding
+2. IP67
+3. Magnetic Charging
+4. Geo-fence Alert
+5. Configurator and FOTA WEB
+6. Bluetooth-based pet finding (nearby search)
+
+Physical & Interface Specifications
+Working Temperature  -25°C to 75°C
+Storage Temperature  -40°C to 85°C
+Ingress Protection Rating  IP67
+LED  Blue: Charging
+ Green: Fully Charged
+ Red: Operating Status
+Interface  Magnetic Connector
+Color  Blue and black/Blue and yellow
+Product Dimensions  L63.9*W36.1*H19.2mm
+Weight  34g
+Appearance
+Regulatory Compliance
+Certification  CE
+Product Name  PET12

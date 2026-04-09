@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
 import { resolveThemeMode, useAppStore, useStoreHydrated, useSystemTheme } from "@/store/store";
 
@@ -31,7 +32,7 @@ export function ThemeLogo({
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
-  const src = resolvedTheme === "dark" ? "/Logo-dark.png" : "/Logo-light.png";
+  const src = resolveCloudinaryAsset(resolvedTheme === "dark" ? "/Logo-dark.png" : "/Logo-light.png");
 
   return (
     <span className={["theme-logo", wrapperClassName].filter(Boolean).join(" ")}>

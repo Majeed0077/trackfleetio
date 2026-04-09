@@ -5,6 +5,8 @@ import { Suspense, type ReactNode } from "react";
 
 import { AuthHeader } from "@/components/AuthHeader";
 import { Footer } from "@/components/Footer";
+import { InlineCmsBar } from "@/components/InlineCmsBar";
+import { InlineCmsPanel } from "@/components/InlineCmsPanel";
 import { Navbar } from "@/components/Navbar";
 import { ScrollToggle } from "@/components/ScrollToggle";
 
@@ -37,11 +39,13 @@ export function SiteFrame({ children }: { children: ReactNode }) {
   return (
     <>
       <Suspense fallback={null}>
-        <Navbar key={pathname} />
+        <Navbar />
       </Suspense>
+      <InlineCmsBar />
       {children}
       <ScrollToggle />
       <Footer />
+      <InlineCmsPanel />
     </>
   );
 }

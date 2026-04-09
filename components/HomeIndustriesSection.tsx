@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Briefcase, Crosshair, Package, Route, Truck, Wrench } from "lucide-react";
+import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { homeIndustriesContent } from "@/lib/content/homepage";
+import { useAppStore } from "@/store/store";
 
 const iconMap = {
   boxes: Boxes,
@@ -14,15 +18,18 @@ const iconMap = {
 } as const;
 
 export function HomeIndustriesSection() {
+  const industriesDraft = useAppStore((state) => state.cmsDrafts.homepageIndustries);
   const FeaturedIcon = iconMap[homeIndustriesContent.featured.icon];
+  const featuredImageSrc = industriesDraft.featuredImageSrc.trim() || homeIndustriesContent.featured.imageSrc;
+  const featuredImageAlt = industriesDraft.featuredImageAlt.trim() || homeIndustriesContent.featured.imageAlt;
 
   return (
     <section id="industries" className="content-section section-industries" data-reveal>
       <div className="container">
         <div className="section-heading section-heading-centered">
-          <p className="eyebrow">{homeIndustriesContent.eyebrow}</p>
-          <h2>{homeIndustriesContent.heading}</h2>
-          <p className="section-subtitle">{homeIndustriesContent.description}</p>
+          <p className="eyebrow">{industriesDraft.eyebrow}</p>
+          <h2>{industriesDraft.heading}</h2>
+          <p className="section-subtitle">{industriesDraft.description}</p>
         </div>
 
         <div className="industries-showcase" data-reveal-group>
@@ -35,8 +42,8 @@ export function HomeIndustriesSection() {
               <div className="industry-featured-media" data-parallax="soft">
                 <Image
                   className="industry-featured-image"
-                  src={homeIndustriesContent.featured.imageSrc}
-                  alt={homeIndustriesContent.featured.imageAlt}
+                  src={resolveCloudinaryAsset(featuredImageSrc)}
+                  alt={featuredImageAlt}
                   width={720}
                   height={520}
                   sizes="(max-width: 991px) 100vw, 50vw"

@@ -1,24 +1,85 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { AppWindow, ArrowLeft, ArrowRight, Camera, LocateFixed, PackageSearch, Radar } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 
 import { ProductCard } from "@/components/ProductCard";
-import { productsList } from "@/data/products";
+import { productsList, type ProductCategory } from "@/data/products";
+
+const PRODUCTS_PER_PAGE = 20;
+const MAX_VISIBLE_PAGE_BUTTONS = 5;
+const CATEGORY_SCROLL_STEP = 320;
+
+type FilterValue = "all" | ProductCategory;
+
+const PRODUCT_FILTERS: Array<{
+  value: FilterValue;
+  label: string;
+  subtitle: string;
+  Icon: typeof AppWindow;
+}> = [
+  { value: "all", label: "All Hardware", subtitle: "Complete catalog", Icon: AppWindow },
+  { value: "tracking", label: "Tracking Devices", subtitle: "GPS and telematics", Icon: LocateFixed },
+  { value: "video", label: "Video Telematics", subtitle: "Dashcam and MDVR", Icon: Camera },
+  { value: "sensors", label: "Sensors", subtitle: "Fuel, temperature, RFID", Icon: Radar },
+  { value: "accessories", label: "Accessories", subtitle: "UPS, relays, add-ons", Icon: PackageSearch },
+];
+
+function getVisiblePageNumbers(currentPage: number, totalPages: number) {
+  if (totalPages <= MAX_VISIBLE_PAGE_BUTTONS) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const halfWindow = Math.floor(MAX_VISIBLE_PAGE_BUTTONS / 2);
+  let startPage = Math.max(currentPage - halfWindow, 1);
+  let endPage = startPage + MAX_VISIBLE_PAGE_BUTTONS - 1;
+
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = endPage - MAX_VISIBLE_PAGE_BUTTONS + 1;
+  }
+
+  return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+}
 
 export function ProductCatalogPage({
   initialQuery = "",
 }: {
   initialQuery?: string;
 }) {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [visibleCount, setVisibleCount] = useState(8);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const loadMoreSentinelRef = useRef<HTMLDivElement | null>(null);
-  const loadMoreTimeoutRef = useRef<number | null>(null);
-  const lastAutoLoadAtCountRef = useRef<number>(-1);
+  const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoryRailRef = useRef<HTMLDivElement | null>(null);
 
   const normalizedQuery = initialQuery.trim().toLowerCase();
+  const categoryCounts = useMemo(() => {
+    const counts: Record<ProductCategory, number> = {
+      tracking: 0,
+      video: 0,
+      sensors: 0,
+      accessories: 0,
+    };
+
+    for (const product of productsList) {
+      counts[product.category] += 1;
+    }
+
+    return counts;
+  }, []);
+
+  const scrollCategoryRail = (direction: -1 | 1) => {
+    const rail = categoryRailRef.current;
+    if (!rail) {
+      return;
+    }
+
+    rail.scrollBy({
+      left: direction * CATEGORY_SCROLL_STEP,
+      behavior: "smooth",
+    });
+  };
+
   const filteredProducts = productsList.filter((product) => {
     const matchesFilter = activeFilter === "all" || product.category === activeFilter;
     const searchableText = [
@@ -35,80 +96,22 @@ export function ProductCatalogPage({
     return matchesFilter && matchesQuery;
   });
 
-  const shouldPaginate = activeFilter === "all" && !normalizedQuery;
-  const visibleProducts = shouldPaginate
-    ? filteredProducts.slice(0, visibleCount)
-    : filteredProducts;
-  const showLoadMore = shouldPaginate && filteredProducts.length > visibleCount;
-
-  const loadMoreStep = 4;
-  const loadMoreDelayMs = 2000;
-  const canAutoLoad = shouldPaginate && showLoadMore;
-
-  const loadMore = useMemo(() => {
-    return () => {
-      if (!shouldPaginate || !showLoadMore || isLoadingMore) {
-        return;
-      }
-
-      setIsLoadingMore(true);
-
-      if (loadMoreTimeoutRef.current !== null) {
-        window.clearTimeout(loadMoreTimeoutRef.current);
-      }
-
-      loadMoreTimeoutRef.current = window.setTimeout(() => {
-        setVisibleCount((currentValue) => currentValue + loadMoreStep);
-        setIsLoadingMore(false);
-      }, loadMoreDelayMs);
-    };
-  }, [isLoadingMore, loadMoreDelayMs, loadMoreStep, shouldPaginate, showLoadMore]);
-
-  useEffect(() => {
-    return () => {
-      if (loadMoreTimeoutRef.current !== null) {
-        window.clearTimeout(loadMoreTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!canAutoLoad) {
-      return;
-    }
-
-    const sentinel = loadMoreSentinelRef.current;
-
-    if (!sentinel) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-
-        if (!entry || !entry.isIntersecting) {
-          return;
-        }
-
-        if (isLoadingMore || !showLoadMore) {
-          return;
-        }
-
-        if (lastAutoLoadAtCountRef.current === visibleCount) {
-          return;
-        }
-
-        lastAutoLoadAtCountRef.current = visibleCount;
-        loadMore();
-      },
-      { rootMargin: "320px 0px" },
-    );
-
-    observer.observe(sentinel);
-
-    return () => observer.disconnect();
-  }, [canAutoLoad, isLoadingMore, loadMore, showLoadMore, visibleCount]);
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginationStartIndex = (safeCurrentPage - 1) * PRODUCTS_PER_PAGE;
+  const visibleProducts = filteredProducts.slice(
+    paginationStartIndex,
+    paginationStartIndex + PRODUCTS_PER_PAGE,
+  );
+  const shouldShowPagination = filteredProducts.length > PRODUCTS_PER_PAGE;
+  const pageNumbers = useMemo(
+    () => getVisiblePageNumbers(safeCurrentPage, totalPages),
+    [safeCurrentPage, totalPages],
+  );
+  const showLeadingEllipsis = pageNumbers[0] > 1;
+  const showTrailingEllipsis = pageNumbers[pageNumbers.length - 1] < totalPages;
+  const rangeStart = filteredProducts.length === 0 ? 0 : paginationStartIndex + 1;
+  const rangeEnd = paginationStartIndex + visibleProducts.length;
 
   return (
     <main id="main-content" className="site-main">
@@ -116,46 +119,67 @@ export function ProductCatalogPage({
         <div className="container">
           <div className="products-hero-shell">
             <span className="products-badge">B2B Hardware Catalog</span>
-              <h1>Hardware for Connected Fleet Solutions</h1>
-              <p>Browse tracking, video telematics, and sensing devices used across deployment-ready fleet solutions.</p>
-              <div className="products-hero-actions">
-                <Link className="button button-secondary" href="/solutions">
-                  Explore Solutions
-                </Link>
-              </div>
+            <h1>Hardware for Connected Fleet Solutions</h1>
+            <p>Browse tracking, video telematics, and sensing devices used across deployment-ready fleet solutions.</p>
+            <div className="products-hero-actions">
+              <Link className="button button-secondary" href="/solutions">
+                Explore Solutions
+              </Link>
             </div>
+          </div>
         </div>
       </section>
 
       <section className="products-catalog-nav">
         <div className="container">
-          <div className="catalog-filter-bar" aria-label="Product categories">
-            {[
-              ["all", "All"],
-              ["tracking", "Tracking Devices"],
-              ["video", "Video Telematics"],
-              ["sensors", "Sensors"],
-              ["accessories", "Accessories"],
-            ].map(([value, label]) => (
-              <button
-                key={value}
-                className={`catalog-filter-pill${activeFilter === value ? " is-active" : ""}`}
-                type="button"
-                onClick={() => {
-                  if (loadMoreTimeoutRef.current !== null) {
-                    window.clearTimeout(loadMoreTimeoutRef.current);
-                    loadMoreTimeoutRef.current = null;
-                  }
+          <div className="catalog-category-rail" aria-label="Product categories">
+            <button
+              className="catalog-category-scroll-button"
+              type="button"
+              aria-label="Scroll categories left"
+              onClick={() => scrollCategoryRail(-1)}
+            >
+              <ArrowLeft size={17} strokeWidth={2} />
+            </button>
+            <div className="catalog-category-scroll" ref={categoryRailRef}>
+              <div className="catalog-category-track" role="tablist" aria-label="Product category filters">
+                {PRODUCT_FILTERS.map(({ value, label, subtitle, Icon }) => {
+                  const count = value === "all" ? productsList.length : categoryCounts[value];
+                  const isActive = activeFilter === value;
 
-                  setIsLoadingMore(false);
-                  setActiveFilter(value);
-                  setVisibleCount(8);
-                  lastAutoLoadAtCountRef.current = -1;
-                }}
-              >
-                {label}
-              </button>
-          ))}
+                  return (
+                    <button
+                      key={value}
+                      className={`catalog-category-item${isActive ? " is-active" : ""}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive ? "true" : "false"}
+                      onClick={() => {
+                        setActiveFilter(value);
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <span className="catalog-category-icon" aria-hidden="true">
+                        <Icon size={18} strokeWidth={1.9} />
+                      </span>
+                      <span className="catalog-category-copy">
+                        <span className="catalog-category-title">{label}</span>
+                        <span className="catalog-category-subtitle">{subtitle}</span>
+                      </span>
+                      <span className="catalog-category-count">{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <button
+              className="catalog-category-scroll-button"
+              type="button"
+              aria-label="Scroll categories right"
+              onClick={() => scrollCategoryRail(1)}
+            >
+              <ArrowRight size={17} strokeWidth={2} />
+            </button>
           </div>
         </div>
       </section>
@@ -168,25 +192,95 @@ export function ProductCatalogPage({
             ))}
           </div>
 
-          <div className="catalog-load-more" hidden={!showLoadMore}>
-            <button
-              className="button button-outline"
-              type="button"
-              onClick={loadMore}
-              disabled={isLoadingMore}
-              aria-busy={isLoadingMore ? "true" : "false"}
-            >
-              {isLoadingMore ? (
-                "Loading..."
-              ) : (
-                <>
-                  Load more products <span aria-hidden="true">&rarr;</span>
-                </>
-              )}
-            </button>
+          <div className="catalog-pagination" hidden={!shouldShowPagination}>
+            {shouldShowPagination ? (
+              <>
+                <div className="catalog-pagination-summary">
+                  <span className="catalog-pagination-kicker">Catalog Pages</span>
+                  <p className="catalog-pagination-text">
+                    Showing <strong>{rangeStart}</strong> to <strong>{rangeEnd}</strong> of{" "}
+                    <strong>{filteredProducts.length}</strong> products
+                  </p>
+                </div>
+
+                <div className="catalog-pagination-controls" aria-label="Product catalog pagination">
+                  <button
+                    className="catalog-pagination-nav"
+                    type="button"
+                    onClick={() => setCurrentPage((value) => Math.max(1, value - 1))}
+                    disabled={safeCurrentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  <div className="catalog-pagination-pages">
+                    {showLeadingEllipsis ? (
+                      <>
+                        <button
+                          className={`catalog-pagination-page${safeCurrentPage === 1 ? " is-active" : ""}`}
+                          type="button"
+                          onClick={() => setCurrentPage(1)}
+                          aria-current={safeCurrentPage === 1 ? "page" : undefined}
+                        >
+                          1
+                        </button>
+                        <span className="catalog-pagination-ellipsis" aria-hidden="true">
+                          ...
+                        </span>
+                      </>
+                    ) : null}
+
+                    {pageNumbers.map((pageNumber) => (
+                      <button
+                        key={pageNumber}
+                        className={`catalog-pagination-page${safeCurrentPage === pageNumber ? " is-active" : ""}`}
+                        type="button"
+                        onClick={() => setCurrentPage(pageNumber)}
+                        aria-current={safeCurrentPage === pageNumber ? "page" : undefined}
+                      >
+                        {pageNumber}
+                      </button>
+                    ))}
+
+                    {showTrailingEllipsis ? (
+                      <>
+                        <span className="catalog-pagination-ellipsis" aria-hidden="true">
+                          ...
+                        </span>
+                        <button
+                          className={`catalog-pagination-page${safeCurrentPage === totalPages ? " is-active" : ""}`}
+                          type="button"
+                          onClick={() => setCurrentPage(totalPages)}
+                          aria-current={safeCurrentPage === totalPages ? "page" : undefined}
+                        >
+                          {totalPages}
+                        </button>
+                      </>
+                    ) : null}
+                  </div>
+
+                  <button
+                    className="catalog-pagination-nav"
+                    type="button"
+                    onClick={() => setCurrentPage((value) => Math.min(totalPages, value + 1))}
+                    disabled={safeCurrentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            ) : null}
           </div>
 
-          <div ref={loadMoreSentinelRef} className="catalog-load-more-sentinel" aria-hidden="true" />
+          <div className="catalog-pagination-empty" hidden={filteredProducts.length > 0}>
+            <button
+              className="catalog-pagination-single"
+              type="button"
+              disabled
+            >
+              No products found
+            </button>
+          </div>
         </div>
       </section>
     </main>

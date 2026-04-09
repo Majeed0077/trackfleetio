@@ -1,0 +1,344 @@
+[
+  {
+    "localPath": "/image.png",
+    "publicId": "trackfleetio/image",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775590849/trackfleetio/image.png",
+    "width": 1916,
+    "height": 939,
+    "bytes": 755669,
+    "format": "png"
+  },
+  {
+    "localPath": "/Images/banner-image.png",
+    "publicId": "trackfleetio/Images/banner-image",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775590851/trackfleetio/Images/banner-image.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2418031,
+    "format": "png"
+  },
+  {
+    "localPath": "/Images/Banner-size.png",
+    "publicId": "trackfleetio/Images/Banner-size",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775590852/trackfleetio/Images/Banner-size.png",
+    "width": 1536,
+    "height": 471,
+    "bytes": 1309326,
+    "format": "png"
+  },
+  {
+    "localPath": "/Images/banner.png",
+    "publicId": "trackfleetio/Images/banner",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775590853/trackfleetio/Images/banner.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2366864,
+    "format": "png"
+  },
+  {
+    "localPath": "/Logo-dark.png",
+    "publicId": "trackfleetio/Logo-dark",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508893/trackfleetio/Logo-dark.png",
+    "width": 3194,
+    "height": 944,
+    "bytes": 437318,
+    "format": "png"
+  },
+  {
+    "localPath": "/Logo-L.png",
+    "publicId": "trackfleetio/Logo-L",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508894/trackfleetio/Logo-L.png",
+    "width": 248,
+    "height": 72,
+    "bytes": 18310,
+    "format": "png"
+  },
+  {
+    "localPath": "/Logo-light.png",
+    "publicId": "trackfleetio/Logo-light",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508900/trackfleetio/Logo-light.png",
+    "width": 3194,
+    "height": 944,
+    "bytes": 640033,
+    "format": "png"
+  },
+  {
+    "localPath": "/logo1.png",
+    "publicId": "trackfleetio/logo1",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508902/trackfleetio/logo1.png",
+    "width": 1024,
+    "height": 322,
+    "bytes": 188910,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/3Products.png",
+    "publicId": "trackfleetio/Products/3Products",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508932/trackfleetio/Products/3Products.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2261292,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/cargo vans.png",
+    "publicId": "trackfleetio/Products/cargo-vans",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508937/trackfleetio/Products/cargo-vans.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2389253,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Compact black electronic device.png",
+    "publicId": "trackfleetio/Products/Compact-black-electronic-device",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508944/trackfleetio/Products/Compact-black-electronic-device.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2333846,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Compact GPS tracker with color-coded wires.png",
+    "publicId": "trackfleetio/Products/Compact-GPS-tracker-with-color-coded-wires",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508945/trackfleetio/Products/Compact-GPS-tracker-with-color-coded-wires.png",
+    "width": 638,
+    "height": 606,
+    "bytes": 166929,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Compact rugged GPS tracker.png",
+    "publicId": "trackfleetio/Products/Compact-rugged-GPS-tracker",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508947/trackfleetio/Products/Compact-rugged-GPS-tracker.png",
+    "width": 979,
+    "height": 638,
+    "bytes": 532456,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/construction.png",
+    "publicId": "trackfleetio/Products/construction",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508951/trackfleetio/Products/construction.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2914070,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/delivery.png",
+    "publicId": "trackfleetio/Products/delivery",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508954/trackfleetio/Products/delivery.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2043468,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/DR03.png",
+    "publicId": "trackfleetio/Products/DR03",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508955/trackfleetio/Products/DR03.png",
+    "width": 816,
+    "height": 564,
+    "bytes": 477658,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/EH03T-V2.png",
+    "publicId": "trackfleetio/Products/EH03T-V2",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508956/trackfleetio/Products/EH03T-V2.png",
+    "width": 892,
+    "height": 727,
+    "bytes": 526233,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/EH15-V2.png",
+    "publicId": "trackfleetio/Products/EH15-V2",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508957/trackfleetio/Products/EH15-V2.png",
+    "width": 914,
+    "height": 699,
+    "bytes": 961259,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/EH21.png",
+    "publicId": "trackfleetio/Products/EH21",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508958/trackfleetio/Products/EH21.png",
+    "width": 836,
+    "height": 752,
+    "bytes": 698233,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/EH24.png",
+    "publicId": "trackfleetio/Products/EH24",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508959/trackfleetio/Products/EH24.png",
+    "width": 919,
+    "height": 749,
+    "bytes": 740727,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/EH25.png",
+    "publicId": "trackfleetio/Products/EH25",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508960/trackfleetio/Products/EH25.png",
+    "width": 1053,
+    "height": 752,
+    "bytes": 701974,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Fleet management system diagram transparent.png",
+    "publicId": "trackfleetio/Products/Fleet-management-system-diagram-transparent",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508962/trackfleetio/Products/Fleet-management-system-diagram-transparent.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2371784,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Fleet management system diagram.png",
+    "publicId": "trackfleetio/Products/Fleet-management-system-diagram",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508963/trackfleetio/Products/Fleet-management-system-diagram.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 1794219,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Hero-image.png",
+    "publicId": "trackfleetio/Products/Hero-image",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508964/trackfleetio/Products/Hero-image.png",
+    "width": 1164,
+    "height": 871,
+    "bytes": 911487,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Industrial temperature sensor close-up.png",
+    "publicId": "trackfleetio/Products/Industrial-temperature-sensor-close-up",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508965/trackfleetio/Products/Industrial-temperature-sensor-close-up.png",
+    "width": 325,
+    "height": 277,
+    "bytes": 64811,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Industrial-grade UPS device with cables.png",
+    "publicId": "trackfleetio/Products/Industrial-grade-UPS-device-with-cables",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508966/trackfleetio/Products/Industrial-grade-UPS-device-with-cables.png",
+    "width": 861,
+    "height": 687,
+    "bytes": 681631,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/logistics.png",
+    "publicId": "trackfleetio/Products/logistics",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508967/trackfleetio/Products/logistics.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2024776,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/LoRaWAN fuel sensor device close-up.png",
+    "publicId": "trackfleetio/Products/LoRaWAN-fuel-sensor-device-close-up",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508968/trackfleetio/Products/LoRaWAN-fuel-sensor-device-close-up.png",
+    "width": 781,
+    "height": 749,
+    "bytes": 598303,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Magnetic door sensor set close-up.png",
+    "publicId": "trackfleetio/Products/Magnetic-door-sensor-set-close-up",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508968/trackfleetio/Products/Magnetic-door-sensor-set-close-up.png",
+    "width": 307,
+    "height": 346,
+    "bytes": 93542,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/MR01.png",
+    "publicId": "trackfleetio/Products/MR01",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508969/trackfleetio/Products/MR01.png",
+    "width": 600,
+    "height": 400,
+    "bytes": 85329,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Pet tracker with LED indicator.png",
+    "publicId": "trackfleetio/Products/Pet-tracker-with-LED-indicator",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508970/trackfleetio/Products/Pet-tracker-with-LED-indicator.png",
+    "width": 891,
+    "height": 628,
+    "bytes": 487384,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Professional MDVR with lockable cover.png",
+    "publicId": "trackfleetio/Products/Professional-MDVR-with-lockable-cover",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508971/trackfleetio/Products/Professional-MDVR-with-lockable-cover.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2253643,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/RFID reader close-up shot.png",
+    "publicId": "trackfleetio/Products/RFID-reader-close-up-shot",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508972/trackfleetio/Products/RFID-reader-close-up-shot.png",
+    "width": 378,
+    "height": 265,
+    "bytes": 58419,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Rugged GPS tracking device close-up The Datasheet of EG01G.png",
+    "publicId": "trackfleetio/Products/Rugged-GPS-tracking-device-close-up-The-Datasheet-of-EG01G",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508972/trackfleetio/Products/Rugged-GPS-tracking-device-close-up-The-Datasheet-of-EG01G.png",
+    "width": 931,
+    "height": 652,
+    "bytes": 651700,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Sleek black GPS tracker with cable.png",
+    "publicId": "trackfleetio/Products/Sleek-black-GPS-tracker-with-cable",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508973/trackfleetio/Products/Sleek-black-GPS-tracker-with-cable.png",
+    "width": 607,
+    "height": 604,
+    "bytes": 166943,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/smartwatch.png",
+    "publicId": "trackfleetio/Products/smartwatch",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508975/trackfleetio/Products/smartwatch.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2545516,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Solar-powered GPS tracker close-up.png",
+    "publicId": "trackfleetio/Products/Solar-powered-GPS-tracker-close-up",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508976/trackfleetio/Products/Solar-powered-GPS-tracker-close-up.png",
+    "width": 384,
+    "height": 245,
+    "bytes": 67384,
+    "format": "png"
+  },
+  {
+    "localPath": "/Products/Vehicle MDVR device with detailed front panel.png",
+    "publicId": "trackfleetio/Products/Vehicle-MDVR-device-with-detailed-front-panel",
+    "secureUrl": "https://res.cloudinary.com/dj7zo10jf/image/upload/v1775508976/trackfleetio/Products/Vehicle-MDVR-device-with-detailed-front-panel.png",
+    "width": 1121,
+    "height": 625,
+    "bytes": 661767,
+    "format": "png"
+  }
+]

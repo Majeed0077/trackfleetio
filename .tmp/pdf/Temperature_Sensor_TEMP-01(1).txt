@@ -1,0 +1,45 @@
+V1.0.0
+Technical
+System  RTOS
+Sensor Type  Temperature sensor
+Application  Temperature measurement
+Features
+Service Life  5 year (based on 300s interval)
+LoRa Frequency  868MHz/915MHz
+Detection cycle  60s
+Upload cycle  1,440 times per day
+Detection Precision  80°C : ±0.5~1°C
+ -20°C : ±1°C
+ -30°C : ±1.5°C
+ -30°C to -40°C : ±2°C
+Physical & Interface Specifications
+Product Dimensions  L 56* W 48* H 24.5mm
+Weight  47g
+Working Temperature  -30°C to 70°C
+Storage Temperature  -30°C to 80°C
+Ingress Protection
+Rating
+ IP67
+Interface  Type-C port
+Color  Black
+Power Consumption
+Operating Power  1500mAh Li-Mn dry battery
+Power Consumption  @3V 22mA(Working Mode)
+ @3V 4uA(Standby Mode)
+TEMP-01 Specification
+TEMP-01 | Industrial Wireless LoRa Temperature
+Sensor
+Precision Cold Chain Monitoring with Deep-Signal
+Penetration
+This product supports:
+1.IP67
+2.Low-Power
+3.LoRa
+4.Precise to 0.5°C
+5.Configurator
+
+
+Appearance
+ Regulatory Compliance
+Certification  CE,FCC
+Product Code  TEMP-01

@@ -1,0 +1,105 @@
+V1.0.0
+Technical
+OS  Linux
+AI Computing Power  2.0TOPS NPU
+Intelligent Algorithms  ADAS/ DMS/ BSD
+Video
+Multi-Channel
+Recording
+ 4 Channels @ 4x1080p or 720p
+（Support multiple connections）
+ H.265 & H.264 encoding
+GNSS&Cellular
+Cellular  2G/ 3G/ 4G CAT.4
+LTE Bands  LTE: B2/ B4/ B5/ B12/ B13/ B14/ B66/
+B71 (NA)
+ LTE: B1/ B3/ B5/ B7/ B8/ B20/ B28/
+B38/ B40/ B41 (EU & Asia)
+ LTE: B1/ B2/ B3/ B4/ B5/ B7/ B8/ B28/
+B66/ B40 (AU)
+Positioning System  GPS / GALILEO/ BeiDou / GLONASS
+LoRa  Support LoRa (optional)
+Electrical Specification&Sensors
+Power &
+Consumption(Configure
+four external cameras)
+ Input 9-36V DC
+ Standby：19.5mA@12V
+ Full-load：1041mA@12V
+Built-in Battery  Supercapacitor
+Environmental
+Tolerance
+ Operating temperature:
+-30℃ to 80℃
+ Storage temperature: -40℃ to
+85℃.
+Acceleration Sensor  3-axis G-sensor
+Audio(input)  5- channel audio , AV3, AV4, MIC,
+ADAS, DMS
+Audio(output)  Speaker （8Ω/2W）
+Physical & Interface Specifications
+I/O  Input:
+VIN/ ACC/ SOS/ ADC1/ ADC2/ Left
+turn/ Right turn/ Custom High1/
+Custom High2/ Custom Low/ One
+wire communication (1-WIRE) /
+GND/ Brake/ Door sensors
+ Output:
+5V/ Custom output low/ Cut off
+fuel circuit
+ RS-485 (485A/ 485B/ 5V/ GND)
+Device Interfaces  SIM card slot (nano SIM)
+ Power connector
+ Type-C debug port
+ SD card slot *2 (32GB~512GB)
+Above CLASS 10
+ AHD camera port *2
+ ADAS camera port
+ DMS camera port
+ RS232 port
+ TTS speaker port
+ED02R-V2 Specification
+ED02R | Professional 4-Channel MDVR System
+The Central Intelligence Hub for Advanced Fleet
+Safety .
+This Product supports：
+1. 4-Channel Videos
+2. ADAS & DMS & BSD
+3. 2G, 3G, 4G
+4. GNSS: GPS/ GALILEO/ BeiDou/ GLONASS
+5. LoRa (optional)
+6. Configurator and FOTA WEB
+
+ MIC Microphone port
+ VGA & 12V out port
+ 4G Antenna port
+ GNSS Antenna port
+Dimensions  L 161* W 124.8* H 41mm
+Weight  558g
+LED*4  Red/ Yellow/ Green/ Blue
+AI
+ADAS  Forward Collision Warning (FCW)
+ Pedestrian Collision Warning (PCW)
+ Lane Departure Warning (LDW)
+ Following Distance Alert
+ Speeding Alert
+ Harsh Braking Alert
+ Harsh Acceleration Alert
+ Harsh Turning Alert
+ Collision Warning
+DMS  Distracted Driving
+ Drowsiness Alert (Close eyes &Yawn)
+ Cell Phone Use Alert
+ Seat belt Alert
+ Camera Obstruction Alert
+ Smoking Alert
+ Driver Detection Alert
+ Camera Obstruction
+BSD  Rear Blind Spot Detection (RBSD)
+ Left Blind Spot Detection (LBSD)
+ Right Blind Spot Detection (RBSD)
+ Front Blind Spot Detection (FBSD)
+Regulatory Compliance
+Certification  CE, FCC
+Product Name  AI MDVR
+Product Code  ED02R-V2
