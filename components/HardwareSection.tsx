@@ -8,6 +8,22 @@ import { useAppStore } from "@/store/store";
 
 export function HardwareSection() {
   const hardwareDraft = useAppStore((state) => state.cmsDrafts.homepageHardware);
+  const hardwareCards = hardwareEcosystemContent.cards.map((card, index) => {
+    const cardCopy = hardwareDraft.cardContent[index];
+
+    return {
+      ...card,
+      category: cardCopy?.category?.trim() || card.category,
+      title: cardCopy?.title?.trim() || card.title,
+      specs: cardCopy?.specs?.trim() || card.specs,
+      description: cardCopy?.description?.trim() || card.description,
+      href: cardCopy?.href?.trim() || card.href,
+      bullets:
+        cardCopy?.bullets?.map((bullet) => bullet.trim()).filter(Boolean).length
+          ? cardCopy.bullets.map((bullet) => bullet.trim()).filter(Boolean)
+          : card.bullets,
+    };
+  });
 
   return (
     <section id="hardware" className="content-section" data-reveal>
@@ -19,13 +35,13 @@ export function HardwareSection() {
         </div>
 
         <div className="hardware-grid" data-reveal-group>
-          {hardwareEcosystemContent.cards.map((card, index) => (
+          {hardwareCards.map((card, index) => (
             <article
               className={`product-card${card.featured ? " product-card-featured" : ""}`}
               data-reveal-item
-              key={card.title}
+              key={`${card.href}-${index}`}
             >
-              <div className={`product-media${card.lightMedia ? " product-media-light" : ""}`} data-parallax="soft">
+              <div className={`product-media${card.lightMedia ? " product-media-light" : ""}`}>
                 {(() => {
                   const cardImageSrc = hardwareDraft.cardMedia[index]?.imageSrc?.trim() || card.imageSrc;
                   const cardImageAlt = hardwareDraft.cardMedia[index]?.imageAlt?.trim() || card.imageAlt;
@@ -54,7 +70,7 @@ export function HardwareSection() {
                 ))}
               </ul>
               <Link className="button button-outline" href={card.href}>
-                View Details
+                {hardwareDraft.cardButtonLabel}
               </Link>
             </article>
           ))}

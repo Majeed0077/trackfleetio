@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { SiteFrame } from "@/components/SiteFrame";
 import { SiteProviders } from "@/components/SiteProviders";
 import { siteMetadataBase } from "@/lib/metadata";
+import { getSessionUser } from "@/lib/server/auth-session";
 import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 import "./globals.css";
@@ -75,11 +76,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const initialAuthUser = await getSessionUser();
+
   return (
     <html
       lang="en"
@@ -92,8 +95,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body suppressHydrationWarning>
-        <SiteProviders>
-          <SiteFrame>{children}</SiteFrame>
+        <SiteProviders initialAuthUser={initialAuthUser}>
+          <SiteFrame initialAuthUser={initialAuthUser}>{children}</SiteFrame>
         </SiteProviders>
       </body>
     </html>

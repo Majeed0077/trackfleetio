@@ -9,8 +9,15 @@ import { InlineCmsBar } from "@/components/InlineCmsBar";
 import { InlineCmsPanel } from "@/components/InlineCmsPanel";
 import { Navbar } from "@/components/Navbar";
 import { ScrollToggle } from "@/components/ScrollToggle";
+import type { AuthUser } from "@/store/store";
 
-export function SiteFrame({ children }: { children: ReactNode }) {
+export function SiteFrame({
+  children,
+  initialAuthUser,
+}: {
+  children: ReactNode;
+  initialAuthUser: AuthUser | null;
+}) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
   const isAuthRoute =
@@ -39,7 +46,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
   return (
     <>
       <Suspense fallback={null}>
-        <Navbar />
+        <Navbar initialAuthUser={initialAuthUser} />
       </Suspense>
       <InlineCmsBar />
       {children}

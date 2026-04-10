@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   AdminFieldGroup,
   AdminFormCard,
@@ -6,8 +8,16 @@ import {
   AdminTextarea,
   AdminTextInput,
 } from "@/components/admin/AdminUi";
+import { isSuperAdminUser } from "@/lib/admin-access";
+import { getSessionUser } from "@/lib/server/auth-session";
 
-export default function AdminCreateRolePage() {
+export default async function AdminCreateRolePage() {
+  const currentUser = await getSessionUser();
+
+  if (!isSuperAdminUser(currentUser)) {
+    redirect("/unauthorized");
+  }
+
   return (
     <>
       <AdminPageHeader

@@ -28,7 +28,7 @@ export function FeatureStorytellingSection() {
         <div className="story-layout" data-reveal-group>
           <article className="story-card" data-reveal-item>
             <div className="story-media story-media-shell">
-              <div className="story-media-frame" data-parallax="soft">
+              <div className="story-media-frame">
                 <ViewportVideo
                   className="story-media-video story-media-video-dashcam"
                   src={videoSrc}
@@ -77,7 +77,7 @@ export function FeatureStorytellingSection() {
                 </Link>
               </div>
             </div>
-            <div className="story-media story-media-alt story-media-shell" data-parallax="soft">
+            <div className="story-media story-media-alt story-media-shell">
               <div className="story-media-frame">
                 <Image
                   className={`story-media-image story-media-image-fill ${imageCard.imageClass ?? ""}`}

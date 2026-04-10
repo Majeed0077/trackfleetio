@@ -9,10 +9,17 @@ import {
   useAppStore,
   useStoreHydrated,
   useSystemTheme,
+  type AuthUser,
 } from "@/store/store";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
 
-export function SiteProviders({ children }: { children: ReactNode }) {
+export function SiteProviders({
+  children,
+  initialAuthUser,
+}: {
+  children: ReactNode;
+  initialAuthUser: AuthUser | null;
+}) {
   const hasHydrated = useStoreHydrated();
   const themeMode = useAppStore((state) => state.themeMode);
   const setAuthUser = useAppStore((state) => state.setAuthUser);
@@ -30,6 +37,10 @@ export function SiteProviders({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    setAuthUser(initialAuthUser);
+  }, [initialAuthUser, setAuthUser]);
+
+  useEffect(() => {
     document.documentElement.dataset.theme = resolvedTheme;
     document.documentElement.dataset.themeMode = themeMode;
     document.documentElement.style.colorScheme = resolvedTheme;
@@ -39,6 +50,13 @@ export function SiteProviders({ children }: { children: ReactNode }) {
     let isMounted = true;
 
     const syncSession = async () => {
+      if (!initialAuthUser) {
+        if (isMounted) {
+          setAuthUser(null);
+        }
+        return;
+      }
+
       try {
         const response = await fetch("/api/auth/session", {
           credentials: "same-origin",
@@ -49,7 +67,7 @@ export function SiteProviders({ children }: { children: ReactNode }) {
           setAuthUser((payload.user as Parameters<typeof setAuthUser>[0]) ?? null);
         }
       } catch {
-        if (isMounted) {
+        if (isMounted && !initialAuthUser) {
           setAuthUser(null);
         }
       }
@@ -60,7 +78,7 @@ export function SiteProviders({ children }: { children: ReactNode }) {
     return () => {
       isMounted = false;
     };
-  }, [setAuthUser]);
+  }, [initialAuthUser, setAuthUser]);
 
   return (
     <>

@@ -32,7 +32,7 @@ export function ThemeLogo({
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
-  const src = resolveCloudinaryAsset(resolvedTheme === "dark" ? "/Logo-dark.png" : "/Logo-light.png");
+  const src = resolveCloudinaryAsset(resolvedTheme === "dark" ? "/Dark-Logo.png" : "/Light-Logo.png");
 
   return (
     <span className={["theme-logo", wrapperClassName].filter(Boolean).join(" ")}>

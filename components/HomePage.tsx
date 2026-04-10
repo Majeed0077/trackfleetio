@@ -12,7 +12,11 @@ import { TrustEvidenceSection } from "@/components/TrustEvidenceSection";
 
 export function HomePage() {
   return (
-    <main id="main-content" className="site-main">
+    <main
+      id="main-content"
+      className="site-main"
+      data-homepage-motion-root
+    >
       <HomepageMotion />
       <InlineEditableSection
         sectionId="homepage.hero"

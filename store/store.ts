@@ -17,12 +17,18 @@ import {
   hardwareEcosystemContent,
   heroContent,
   homeIndustriesContent,
-  homepageTrustContent,
+  homepageMetrics,
   homepageSupportContent,
+  homepageTrustContent,
   resultsContent,
   type HomepageArchitectureLayer,
+  type HomepageHardwareCard,
+  type HomepageIndustryCard,
+  type HomepageIndustryFeature,
+  type HomepageMetric,
   type HomepageOutcome,
   type HomepageProofArea,
+  type HomepageSupportCard,
   type HomepageTrustReview,
   type HomepageTrustStat,
 } from "@/lib/content/homepage";
@@ -35,6 +41,7 @@ import { solutionsList, type SolutionDetail } from "@/lib/solutions";
 import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export type AuthUser = {
+  id: string;
   isAuthenticated: true;
   name: string;
   email: string;
@@ -42,6 +49,8 @@ export type AuthUser = {
   roleLabel: string;
   company: string;
   phone: string;
+  gender: "male" | "female";
+  avatarUrl: string;
 };
 
 export type CartItem = {
@@ -87,8 +96,10 @@ type InlineCmsHeroDraft = {
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
   trustLine: string;
+  backgroundImageSrc: string;
   imageSrc: string;
   imageAlt: string;
+  metrics: Array<Pick<HomepageMetric, "title" | "description">>;
 };
 
 type InlineCmsSimpleSectionDraft = {
@@ -126,6 +137,15 @@ type InlineCmsArchitectureDraft = InlineCmsSimpleSectionDraft & {
 type InlineCmsIndustriesDraft = InlineCmsSimpleSectionDraft & {
   featuredImageSrc: string;
   featuredImageAlt: string;
+  featuredMicroLabel: string;
+  featuredTitle: string;
+  featuredDescription: string;
+  featuredCapabilities: string[];
+  featuredFeatureItems: Array<Pick<HomepageIndustryFeature, "label" | "text">>;
+  featuredCtaLabel: string;
+  stackIntroLabel: string;
+  stackIntroDescription: string;
+  stackCards: Array<Pick<HomepageIndustryCard, "microLabel" | "title" | "description" | "href">>;
 };
 
 type InlineCmsResultsDraft = {
@@ -140,6 +160,18 @@ type InlineCmsTrustDraft = InlineCmsSimpleSectionDraft & {
   stats: HomepageTrustStat[];
   reviews: HomepageTrustReview[];
 };
+
+type InlineCmsHardwareCardContentDraft = Pick<
+  HomepageHardwareCard,
+  "category" | "title" | "specs" | "description" | "href"
+> & {
+  bullets: string[];
+};
+
+type InlineCmsSupportCardDraft = Pick<
+  HomepageSupportCard,
+  "title" | "description" | "value" | "href"
+>;
 
 type InlineCmsFooterDraft = {
   visible: boolean;
@@ -199,11 +231,15 @@ type InlineCmsDrafts = {
   homepageIndustries: InlineCmsIndustriesDraft;
   homepageHardware: InlineCmsSimpleSectionDraft & {
     ctaLabel: string;
+    cardButtonLabel: string;
     cardMedia: Array<{ imageSrc: string; imageAlt: string }>;
+    cardContent: InlineCmsHardwareCardContentDraft[];
   };
   homepageTrust: InlineCmsTrustDraft;
   homepageResults: InlineCmsResultsDraft;
-  homepageSupport: InlineCmsSimpleSectionDraft;
+  homepageSupport: InlineCmsSimpleSectionDraft & {
+    cards: InlineCmsSupportCardDraft[];
+  };
   footerEditorial: InlineCmsFooterDraft;
   solutionsCatalog: InlineCmsSolutionsCatalogDraft;
   solutionsMenu: InlineCmsSolutionsMenuDraft;
@@ -224,6 +260,7 @@ type StoreState = {
   themeMode: ThemeMode;
   region: SiteRegion | null;
   authUser: AuthUser | null;
+  authResolved: boolean;
   cmsEditMode: boolean;
   cmsPreviewMode: boolean;
   cmsActiveSection: InlineCmsSectionId | null;
@@ -265,6 +302,8 @@ type StoreState = {
 };
 
 let toastTimeout: ReturnType<typeof setTimeout> | null = null;
+const defaultHeroBackgroundImageSrc =
+  "https://res.cloudinary.com/dj7zo10jf/image/upload/f_auto,q_auto/v1775771763/trackfleetio/Images/hero-bgg.png";
 
 const defaultCmsDrafts: InlineCmsDrafts = {
   homepageHero: {
@@ -274,8 +313,13 @@ const defaultCmsDrafts: InlineCmsDrafts = {
     primaryCtaLabel: heroContent.primaryCta.label,
     secondaryCtaLabel: heroContent.secondaryCta.label,
     trustLine: heroContent.trustLine,
+    backgroundImageSrc: defaultHeroBackgroundImageSrc,
     imageSrc: heroContent.image.src,
     imageAlt: heroContent.image.alt,
+    metrics: homepageMetrics.map((metric) => ({
+      title: metric.title,
+      description: metric.description,
+    })),
   },
   homepageBuyingPriorities: {
     visible: true,
@@ -318,6 +362,24 @@ const defaultCmsDrafts: InlineCmsDrafts = {
     description: homeIndustriesContent.description,
     featuredImageSrc: homeIndustriesContent.featured.imageSrc,
     featuredImageAlt: homeIndustriesContent.featured.imageAlt,
+    featuredMicroLabel: homeIndustriesContent.featured.microLabel,
+    featuredTitle: homeIndustriesContent.featured.title,
+    featuredDescription: homeIndustriesContent.featured.description,
+    featuredCapabilities: [...homeIndustriesContent.featured.keyCapabilities],
+    featuredFeatureItems: homeIndustriesContent.featured.featureItems.map((item) => ({
+      label: item.label,
+      text: item.text,
+    })),
+    featuredCtaLabel: "Explore Industry",
+    stackIntroLabel: "Operating Environments",
+    stackIntroDescription:
+      "Choose the industry lens that matches the fleet workflow you want to explore.",
+    stackCards: homeIndustriesContent.stackCards.map((card) => ({
+      microLabel: card.microLabel,
+      title: card.title,
+      description: card.description,
+      href: card.href,
+    })),
   },
   homepageHardware: {
     visible: true,
@@ -325,9 +387,18 @@ const defaultCmsDrafts: InlineCmsDrafts = {
     heading: hardwareEcosystemContent.heading,
     description: hardwareEcosystemContent.description,
     ctaLabel: hardwareEcosystemContent.cta.label,
+    cardButtonLabel: "View Details",
     cardMedia: hardwareEcosystemContent.cards.map((card) => ({
       imageSrc: card.imageSrc,
       imageAlt: card.imageAlt,
+    })),
+    cardContent: hardwareEcosystemContent.cards.map((card) => ({
+      category: card.category,
+      title: card.title,
+      specs: card.specs,
+      description: card.description,
+      href: card.href,
+      bullets: [...card.bullets],
     })),
   },
   homepageTrust: {
@@ -350,6 +421,12 @@ const defaultCmsDrafts: InlineCmsDrafts = {
     eyebrow: homepageSupportContent.eyebrow,
     heading: homepageSupportContent.heading,
     description: homepageSupportContent.description,
+    cards: homepageSupportContent.cards.map((card) => ({
+      title: card.title,
+      description: card.description,
+      value: card.value,
+      href: card.href,
+    })),
   },
   footerEditorial: {
     visible: true,
@@ -473,6 +550,7 @@ export const normalizeAuthUser = (user: unknown): AuthUser | null => {
   const role = candidate.role === "admin" || candidate.type === "admin" ? "admin" : "user";
 
   return {
+    id: typeof candidate.id === "string" ? candidate.id : "",
     isAuthenticated: true,
     name:
       typeof candidate.name === "string" && candidate.name.trim()
@@ -488,6 +566,13 @@ export const normalizeAuthUser = (user: unknown): AuthUser | null => {
           : "Fleet Operations",
     company: typeof candidate.company === "string" ? candidate.company : "",
     phone: typeof candidate.phone === "string" ? candidate.phone : "",
+    gender: candidate.gender === "female" ? "female" : "male",
+    avatarUrl:
+      typeof candidate.avatarUrl === "string"
+        ? candidate.avatarUrl
+        : typeof candidate.profilePhotoUrl === "string"
+          ? candidate.profilePhotoUrl
+          : "",
   };
 };
 
@@ -530,12 +615,160 @@ const normalizeRegion = (region: unknown): SiteRegion | null =>
     ? region
     : null;
 
+const mergeList = <T extends Record<string, unknown>>(
+  defaults: T[],
+  persistedList?: Array<Partial<T>>,
+): T[] => defaults.map((item, index) => ({ ...item, ...(persistedList?.[index] ?? {}) }));
+
+const mergeCmsDrafts = (
+  persistedDrafts?: Partial<InlineCmsDrafts>,
+): InlineCmsDrafts => {
+  const persisted = persistedDrafts ?? {};
+  const hero = persisted.homepageHero;
+  const buyingPriorities = persisted.homepageBuyingPriorities;
+  const story = persisted.homepageStory;
+  const architecture = persisted.homepageArchitecture;
+  const industries = persisted.homepageIndustries;
+  const hardware = persisted.homepageHardware;
+  const trust = persisted.homepageTrust;
+  const results = persisted.homepageResults;
+  const support = persisted.homepageSupport;
+  const footer = persisted.footerEditorial;
+  const solutionsCatalog = persisted.solutionsCatalog;
+  const solutionsMenu = persisted.solutionsMenu;
+
+  return {
+    ...defaultCmsDrafts,
+    ...persisted,
+    homepageHero: {
+      ...defaultCmsDrafts.homepageHero,
+      ...hero,
+      heading: [
+        hero?.heading?.[0] ?? defaultCmsDrafts.homepageHero.heading[0],
+        hero?.heading?.[1] ?? defaultCmsDrafts.homepageHero.heading[1],
+        hero?.heading?.[2] ?? defaultCmsDrafts.homepageHero.heading[2],
+      ],
+      metrics: mergeList(defaultCmsDrafts.homepageHero.metrics, hero?.metrics),
+    },
+    homepageBuyingPriorities: {
+      ...defaultCmsDrafts.homepageBuyingPriorities,
+      ...buyingPriorities,
+      proofAreas: mergeList(
+        defaultCmsDrafts.homepageBuyingPriorities.proofAreas,
+        buyingPriorities?.proofAreas,
+      ),
+    },
+    homepageStory: {
+      ...defaultCmsDrafts.homepageStory,
+      ...story,
+      videoCard: {
+        ...defaultCmsDrafts.homepageStory.videoCard,
+        ...(story?.videoCard ?? {}),
+      },
+      imageCard: {
+        ...defaultCmsDrafts.homepageStory.imageCard,
+        ...(story?.imageCard ?? {}),
+      },
+    },
+    homepageArchitecture: {
+      ...defaultCmsDrafts.homepageArchitecture,
+      ...architecture,
+      layers: mergeList(defaultCmsDrafts.homepageArchitecture.layers, architecture?.layers),
+    },
+    homepageIndustries: {
+      ...defaultCmsDrafts.homepageIndustries,
+      ...industries,
+      featuredCapabilities: defaultCmsDrafts.homepageIndustries.featuredCapabilities.map(
+        (capability, index) => industries?.featuredCapabilities?.[index] ?? capability,
+      ),
+      featuredFeatureItems: mergeList(
+        defaultCmsDrafts.homepageIndustries.featuredFeatureItems,
+        industries?.featuredFeatureItems,
+      ),
+      stackCards: mergeList(
+        defaultCmsDrafts.homepageIndustries.stackCards,
+        industries?.stackCards,
+      ),
+    },
+    homepageHardware: {
+      ...defaultCmsDrafts.homepageHardware,
+      ...hardware,
+      cardMedia: mergeList(defaultCmsDrafts.homepageHardware.cardMedia, hardware?.cardMedia),
+      cardContent: defaultCmsDrafts.homepageHardware.cardContent.map((card, index) => {
+        const persistedCard = hardware?.cardContent?.[index];
+
+        return {
+          ...card,
+          ...(persistedCard ?? {}),
+          bullets: card.bullets.map(
+            (bullet, bulletIndex) => persistedCard?.bullets?.[bulletIndex] ?? bullet,
+          ),
+        };
+      }),
+    },
+    homepageTrust: {
+      ...defaultCmsDrafts.homepageTrust,
+      ...trust,
+      stats: mergeList(defaultCmsDrafts.homepageTrust.stats, trust?.stats),
+      reviews: mergeList(defaultCmsDrafts.homepageTrust.reviews, trust?.reviews),
+    },
+    homepageResults: {
+      ...defaultCmsDrafts.homepageResults,
+      ...results,
+      heading: [
+        results?.heading?.[0] ?? defaultCmsDrafts.homepageResults.heading[0],
+        results?.heading?.[1] ?? defaultCmsDrafts.homepageResults.heading[1],
+      ],
+      outcomes: mergeList(defaultCmsDrafts.homepageResults.outcomes, results?.outcomes),
+    },
+    homepageSupport: {
+      ...defaultCmsDrafts.homepageSupport,
+      ...support,
+      cards: mergeList(defaultCmsDrafts.homepageSupport.cards, support?.cards),
+    },
+    footerEditorial: {
+      ...defaultCmsDrafts.footerEditorial,
+      ...(footer ?? {}),
+    },
+    solutionsCatalog: {
+      ...defaultCmsDrafts.solutionsCatalog,
+      ...(solutionsCatalog ?? {}),
+      resultsCards: mergeList(
+        defaultCmsDrafts.solutionsCatalog.resultsCards,
+        solutionsCatalog?.resultsCards,
+      ),
+    },
+    solutionsMenu: {
+      ...defaultCmsDrafts.solutionsMenu,
+      ...(solutionsMenu ?? {}),
+      columns: defaultCmsDrafts.solutionsMenu.columns.map((column, index) => {
+        const persistedColumn = solutionsMenu?.columns?.[index];
+
+        return {
+          ...column,
+          ...(persistedColumn ?? {}),
+          links: mergeList(column.links, persistedColumn?.links),
+          preview: {
+            ...column.preview,
+            ...(persistedColumn?.preview ?? {}),
+          },
+        };
+      }),
+      featuredPanel: {
+        ...defaultCmsDrafts.solutionsMenu.featuredPanel,
+        ...(solutionsMenu?.featuredPanel ?? {}),
+      },
+    },
+  };
+};
+
 export const useAppStore = create<StoreState>()(
   persist(
     (set, get) => ({
       themeMode: "system",
       region: null,
       authUser: null,
+      authResolved: false,
       cmsEditMode: false,
       cmsPreviewMode: false,
       cmsActiveSection: null,
@@ -557,10 +790,16 @@ export const useAppStore = create<StoreState>()(
         set({ region });
       },
       setAuthUser: (user) => {
-        set({ authUser: normalizeAuthUser(user) });
+        set({
+          authUser: normalizeAuthUser(user),
+          authResolved: true,
+        });
       },
       clearAuthUser: () => {
-        set({ authUser: null });
+        set({
+          authUser: null,
+          authResolved: true,
+        });
       },
       toggleCmsEditMode: () => {
         set((state) => ({
@@ -828,10 +1067,11 @@ export const useAppStore = create<StoreState>()(
           themeMode: normalizeThemeMode(typedState.themeMode, legacyState.theme),
           region: normalizeRegion(typedState.region),
           authUser: null,
+          authResolved: false,
           cmsEditMode: false,
           cmsPreviewMode: false,
           cmsActiveSection: null,
-          cmsDrafts: typedState.cmsDrafts ?? currentState.cmsDrafts,
+          cmsDrafts: mergeCmsDrafts(typedState.cmsDrafts),
           cart: currentCart.length ? currentCart : (persistedCart ?? currentState.cart),
           wishlist: currentWishlist.length
             ? currentWishlist

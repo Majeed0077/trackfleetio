@@ -1,39 +1,37 @@
+import { redirect } from "next/navigation";
+
 import {
-  AdminFieldGroup,
+  AdminEmptyState,
   AdminFormCard,
-  AdminFormSection,
   AdminPageHeader,
-  AdminTextarea,
-  AdminTextInput,
 } from "@/components/admin/AdminUi";
-import { adminRoleItems } from "@/lib/admin";
+import { isSuperAdminUser } from "@/lib/admin-access";
+import { getSessionUser } from "@/lib/server/auth-session";
 
 export default async function AdminEditRolePage({
   searchParams,
 }: {
   searchParams: Promise<{ name?: string }>;
 }) {
-  const params = await searchParams;
-  const role = adminRoleItems.find((item) => item.name === params.name) ?? adminRoleItems[0];
+  const currentUser = await getSessionUser();
+
+  if (!isSuperAdminUser(currentUser)) {
+    redirect("/unauthorized");
+  }
+
+  await searchParams;
 
   return (
     <>
       <AdminPageHeader
-        title={`Edit ${role.name}`}
-        description="Adjust permission sets, member expectations, and role lifecycle before the RBAC schema lands."
+        title="Edit role"
+        description="This screen stays empty until a real role record exists in Mongo."
       />
       <AdminFormCard>
-        <AdminFormSection title="Role details" description="Edit labels and permission scopes.">
-          <AdminFieldGroup label="Role name">
-            <AdminTextInput type="text" defaultValue={role.name} />
-          </AdminFieldGroup>
-          <AdminFieldGroup label="Description">
-            <AdminTextarea defaultValue={role.description} />
-          </AdminFieldGroup>
-          <AdminFieldGroup label="Permissions">
-            <AdminTextarea defaultValue={role.permissions.join("\n")} />
-          </AdminFieldGroup>
-        </AdminFormSection>
+        <AdminEmptyState
+          title="No role selected"
+          description="Dummy role data has been removed. Load a real role document here after the RBAC schema is implemented."
+        />
       </AdminFormCard>
     </>
   );

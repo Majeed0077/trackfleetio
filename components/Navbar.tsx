@@ -31,7 +31,6 @@ import {
   Smartphone,
   SunMedium,
   Thermometer,
-  UserRound,
   X,
 } from "lucide-react";
 
@@ -41,7 +40,9 @@ import {
   useAppStore,
   useStoreHydrated,
   useSystemTheme,
+  type AuthUser,
 } from "@/store/store";
+import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { ThemeLogo } from "@/components/ThemeLogo";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
@@ -124,22 +125,14 @@ const getCurrentSection = (pathname: string) => {
   return "home";
 };
 
-const getUserInitials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("") || "TF";
-
-export function Navbar() {
+export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser | null }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentSearchQuery = searchParams.get("q") ?? "";
   const hasHydrated = useStoreHydrated();
   const authUser = useAppStore((state) => state.authUser);
+  const authResolved = useAppStore((state) => state.authResolved);
   const clearAuthUser = useAppStore((state) => state.clearAuthUser);
   const cmsEditMode = useAppStore((state) => state.cmsEditMode);
   const toggleCmsEditMode = useAppStore((state) => state.toggleCmsEditMode);
@@ -285,7 +278,7 @@ export function Navbar() {
     currentSection === "company"
       ? currentSection
       : null);
-  const resolvedAuthUser = authUser;
+  const resolvedAuthUser = authResolved ? authUser : initialAuthUser;
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
@@ -751,8 +744,8 @@ export function Navbar() {
                 <ThemeLogo
                   className="brand-logo"
                   alt="Track Fleetio logo"
-                  width={164}
-                  height={40}
+                  width={188}
+                  height={46}
                   priority
                 />
               </span>
@@ -984,13 +977,25 @@ export function Navbar() {
                     aria-controls="nav-account-menu"
                     onClick={() => setAccountOpen((currentValue) => !currentValue)}
                   >
-                    <UserRound size={18} strokeWidth={1.9} />
+                    <ProfileAvatar
+                      alt={`${resolvedAuthUser.name} avatar`}
+                      avatarUrl={resolvedAuthUser.avatarUrl}
+                      className="nav-account-toggle-avatar-shell"
+                      gender={resolvedAuthUser.gender}
+                      imageClassName="nav-account-toggle-avatar"
+                      sizes="40px"
+                    />
                   </button>
                   <div className="nav-account-menu" id="nav-account-menu" role="menu" aria-label="Account menu">
                     <div className="nav-account-identity">
-                      <span className="nav-account-avatar" aria-hidden="true">
-                        {getUserInitials(resolvedAuthUser.name)}
-                      </span>
+                      <ProfileAvatar
+                        alt={`${resolvedAuthUser.name} avatar`}
+                        avatarUrl={resolvedAuthUser.avatarUrl}
+                        className="nav-account-avatar"
+                        gender={resolvedAuthUser.gender}
+                        imageClassName="nav-account-avatar-image"
+                        sizes="42px"
+                      />
                       <div className="nav-account-meta">
                         <p className="nav-account-name">{resolvedAuthUser.name}</p>
                         <p className="nav-account-email">{resolvedAuthUser.email}</p>
@@ -1011,9 +1016,8 @@ export function Navbar() {
                       ) : null}
                       <Link
                         className="nav-account-link"
-                        href={resolvedAuthUser.role === "admin" ? "/admin/settings" : "/account/profile"}
+                        href="/account/profile"
                         role="menuitem"
-                        data-skip-route-loader={resolvedAuthUser.role === "admin" ? true : undefined}
                         onClick={() => setAccountOpen(false)}
                       >
                         My Profile

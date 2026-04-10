@@ -5,9 +5,11 @@ import { ChevronDown, Menu, PanelLeftClose, PanelLeftOpen, Search } from "lucide
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 
+import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { ThemeLogo } from "@/components/ThemeLogo";
 import { AdminIcon } from "@/components/admin/AdminIcons";
 import styles from "@/components/admin/Admin.module.css";
+import { isSuperAdminUser } from "@/lib/admin-access";
 import { adminNavSections, adminPageInfo } from "@/lib/admin";
 import { startRouteLoader } from "@/lib/route-loader";
 import type { AuthUser } from "@/store/store";
@@ -34,6 +36,17 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
     () => adminPageInfo[pathname] ?? { title: "Admin", section: "Admin" },
     [pathname],
   );
+  const isSuperAdmin = isSuperAdminUser(user);
+  const visibleNavSections = useMemo(
+    () =>
+      adminNavSections
+        .map((section) => ({
+          ...section,
+          items: section.items.filter((item) => !item.superAdminOnly || isSuperAdmin),
+        }))
+        .filter((section) => section.items.length > 0),
+    [isSuperAdmin],
+  );
 
   return (
     <div
@@ -56,7 +69,7 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
           </div>
 
           <nav className={styles.adminSidebarNav} aria-label="Admin navigation">
-            {adminNavSections.map((section) => (
+            {visibleNavSections.map((section) => (
               <section className={styles.adminNavSection} key={section.title}>
                 <div className={styles.adminNavSectionHeader}>
                   <p className={styles.adminNavSectionTitle}>{section.title}</p>
@@ -137,7 +150,20 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
               </label>
               <div className={styles.adminUserMenu}>
                 <button className={styles.adminUserTrigger} type="button" aria-label="Open admin account menu" onClick={() => setUserMenuOpen((value) => !value)}>
-                  <span className={styles.adminUserAvatar}>{getInitials(user?.name || "Admin")}</span>
+                  <span className={styles.adminUserAvatar}>
+                    {user ? (
+                      <ProfileAvatar
+                        alt={`${user.name} avatar`}
+                        avatarUrl={user.avatarUrl}
+                        className={styles.adminUserAvatarShell}
+                        gender={user.gender}
+                        imageClassName={styles.adminUserAvatarImage}
+                        sizes="28px"
+                      />
+                    ) : (
+                      getInitials("Admin")
+                    )}
+                  </span>
                   <span className={styles.adminUserMeta}>
                     <strong>{user?.name || "Admin Operator"}</strong>
                     <span>{user?.roleLabel || "Super Admin"}</span>
@@ -145,7 +171,13 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Auth
                 </button>
                 {userMenuOpen ? (
                   <div className={styles.adminUserDropdown}>
-                    <Link className={styles.adminUserDropdownLink} href="/admin/users" data-skip-route-loader>Users &amp; roles</Link>
+                    <Link className={styles.adminUserDropdownLink} href="/account/profile">My profile</Link>
+                    {isSuperAdmin ? (
+                      <>
+                        <Link className={styles.adminUserDropdownLink} href="/admin/users" data-skip-route-loader>Users</Link>
+                        <Link className={styles.adminUserDropdownLink} href="/admin/roles" data-skip-route-loader>Roles</Link>
+                      </>
+                    ) : null}
                     <Link className={styles.adminUserDropdownLink} href="/admin/settings" data-skip-route-loader>Site settings</Link>
                     <button
                       className={styles.adminUserDropdownLink}

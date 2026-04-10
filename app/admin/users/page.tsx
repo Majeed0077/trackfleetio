@@ -1,44 +1,47 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { AdminPageHeader, AdminPagination, AdminStatusBadge, AdminTable, AdminTableCard } from "@/components/admin/AdminUi";
-import styles from "@/components/admin/Admin.module.css";
-import { adminUsers } from "@/lib/admin";
+import { AdminUsersBoard } from "@/components/admin/AdminUsersBoard";
+import { AdminEmptyState, AdminPageHeader, AdminPagination, AdminTableCard } from "@/components/admin/AdminUi";
+import { isSuperAdminUser } from "@/lib/admin-access";
 import { getPagination, type AdminSearchParams } from "@/lib/admin-pagination";
+import { getSessionUser } from "@/lib/server/auth-session";
+import { adminUserStatusOptions, getAdminUsers } from "@/lib/server/admin-users";
 
 export default async function AdminUsersPage({ searchParams }: { searchParams: AdminSearchParams }) {
+  const currentUser = await getSessionUser();
+
+  if (!isSuperAdminUser(currentUser)) {
+    redirect("/unauthorized");
+  }
+
   const resolvedSearchParams = await searchParams;
+  const adminUsers = await getAdminUsers();
   const usersPagination = getPagination(adminUsers, resolvedSearchParams);
 
   return (
     <>
       <AdminPageHeader
-        title="Users and roles"
-        description="Manage admin access, storefront operators, and support roles."
+        title="Users"
+        description="Manage workspace users and account status from one place."
         actions={
-          <>
-            <Link className="button button-secondary" href="/admin/roles">
-              Roles
-            </Link>
-            <Link className="button button-primary" href="/admin/users/new">
-              Invite user
-            </Link>
-          </>
+          <Link className="button button-primary" href="/admin/users/new">
+            Invite user
+          </Link>
         }
       />
       <AdminTableCard title="Workspace users" description="Current team members and role assignments for the admin workspace.">
-        <AdminTable
-          headers={["Name", "Email", "Role", "Status", "Action"]}
-          rows={usersPagination.items.map((user) => (
-            <tr key={user.email}>
-              <td><span className={styles.adminTableTitle}>{user.name}</span></td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td><AdminStatusBadge value={user.status} /></td>
-              <td><Link className={styles.adminTextLink} href={`/admin/users/manage?email=${encodeURIComponent(user.email)}`}>Manage</Link></td>
-            </tr>
-          ))}
-        />
-        <AdminPagination {...usersPagination} searchParams={resolvedSearchParams} />
+        {usersPagination.items.length ? (
+          <>
+            <AdminUsersBoard users={usersPagination.items} statusOptions={adminUserStatusOptions} />
+            <AdminPagination {...usersPagination} searchParams={resolvedSearchParams} />
+          </>
+        ) : (
+          <AdminEmptyState
+            title="No users available"
+            description="Create or invite a user first. User cards and modal access controls will appear here automatically."
+          />
+        )}
       </AdminTableCard>
     </>
   );

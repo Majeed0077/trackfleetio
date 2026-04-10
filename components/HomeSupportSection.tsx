@@ -14,6 +14,13 @@ const supportIconMap = {
 
 export function HomeSupportSection() {
   const supportDraft = useAppStore((state) => state.cmsDrafts.homepageSupport);
+  const supportCards = homepageSupportContent.cards.map((card, index) => ({
+    ...card,
+    title: supportDraft.cards[index]?.title?.trim() || card.title,
+    description: supportDraft.cards[index]?.description?.trim() || card.description,
+    value: supportDraft.cards[index]?.value?.trim() || card.value,
+    href: supportDraft.cards[index]?.href?.trim() || card.href,
+  }));
 
   return (
     <section className="content-section section-home-support" data-reveal>
@@ -25,11 +32,11 @@ export function HomeSupportSection() {
         </div>
 
         <div className="home-support-grid" data-reveal-group>
-          {homepageSupportContent.cards.map((card) => {
+          {supportCards.map((card, index) => {
             const Icon = supportIconMap[card.icon];
 
             return (
-              <article className="home-support-card" key={card.title} data-reveal-item>
+              <article className="home-support-card" key={`${card.title}-${index}`} data-reveal-item>
                 <span className="home-support-icon" aria-hidden="true">
                   <Icon size={18} strokeWidth={1.9} />
                 </span>

@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   AdminFieldGroup,
   AdminFormCard,
@@ -7,10 +9,20 @@ import {
   AdminTextInput,
   AdminTextarea,
 } from "@/components/admin/AdminUi";
+import { isSuperAdminUser } from "@/lib/admin-access";
 import styles from "@/components/admin/Admin.module.css";
-import { adminRoleItems } from "@/lib/admin";
+import { getSessionUser } from "@/lib/server/auth-session";
+import { adminUserRoleLabelPresets } from "@/lib/server/admin-users";
 
-export default function AdminInviteUserPage() {
+export default async function AdminInviteUserPage() {
+  const currentUser = await getSessionUser();
+
+  if (!isSuperAdminUser(currentUser)) {
+    redirect("/unauthorized");
+  }
+
+  const inviteRoleOptions = adminUserRoleLabelPresets.filter((roleLabel) => roleLabel !== "Super Admin");
+
   return (
     <>
       <AdminPageHeader
@@ -29,9 +41,9 @@ export default function AdminInviteUserPage() {
           </div>
           <div className={styles.adminFieldRow}>
             <AdminFieldGroup label="Role">
-              <AdminSelect defaultValue={adminRoleItems[1].name}>
-                {adminRoleItems.map((role) => (
-                  <option key={role.name}>{role.name}</option>
+              <AdminSelect defaultValue={inviteRoleOptions[0]}>
+                {inviteRoleOptions.map((roleLabel) => (
+                  <option key={roleLabel}>{roleLabel}</option>
                 ))}
               </AdminSelect>
             </AdminFieldGroup>

@@ -47,20 +47,26 @@ export async function uploadToCloudinary({
   file,
   resourceType,
   folder,
+  publicId,
 }: {
   file: File;
   resourceType: "image" | "video";
   folder: string;
+  publicId?: string;
 }) {
   const config = getCloudinaryConfig();
   const extension = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : "";
   const baseName = file.name.replace(/\.[^.]+$/, "");
   const timestamp = String(Math.floor(Date.now() / 1000));
-  const publicId = `${sanitizePublicIdSegment(folder)}/${sanitizePublicIdSegment(baseName)}`.replace(/\/+/g, "/");
+  const normalizedPublicId = (
+    publicId?.trim()
+      ? sanitizePublicIdSegment(publicId)
+      : `${sanitizePublicIdSegment(folder)}/${sanitizePublicIdSegment(baseName)}`
+  ).replace(/\/+/g, "/");
   const signedParams = {
     invalidate: "true",
     overwrite: "true",
-    public_id: publicId,
+    public_id: normalizedPublicId,
     timestamp,
   };
   const signature = createSignature(signedParams, config.apiSecret);
@@ -70,7 +76,7 @@ export async function uploadToCloudinary({
   formData.append("file", file, `${baseName}${extension}`);
   formData.append("api_key", config.apiKey);
   formData.append("timestamp", timestamp);
-  formData.append("public_id", publicId);
+  formData.append("public_id", normalizedPublicId);
   formData.append("overwrite", "true");
   formData.append("invalidate", "true");
   formData.append("signature", signature);
@@ -97,4 +103,44 @@ export async function uploadToCloudinary({
     bytes: (payload.bytes as number | undefined) ?? null,
     resourceType: (payload.resource_type as string | undefined) ?? resourceType,
   };
+}
+
+export async function deleteFromCloudinary({
+  publicId,
+  resourceType,
+}: {
+  publicId: string;
+  resourceType?: "image" | "video";
+}) {
+  const config = getCloudinaryConfig();
+  const timestamp = String(Math.floor(Date.now() / 1000));
+  const normalizedPublicId = sanitizePublicIdSegment(publicId).replace(/\/+/g, "/");
+  const effectiveResourceType = resourceType ?? "image";
+  const signedParams = {
+    invalidate: "true",
+    public_id: normalizedPublicId,
+    timestamp,
+  };
+  const signature = createSignature(signedParams, config.apiSecret);
+  const endpoint = `https://api.cloudinary.com/v1_1/${config.cloudName}/${effectiveResourceType}/destroy`;
+  const formData = new FormData();
+
+  formData.append("api_key", config.apiKey);
+  formData.append("timestamp", timestamp);
+  formData.append("public_id", normalizedPublicId);
+  formData.append("invalidate", "true");
+  formData.append("signature", signature);
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Cloudinary delete failed: ${response.status} ${detail}`);
+  }
+
+  const payload = (await response.json()) as { result?: string };
+  return payload.result ?? "unknown";
 }

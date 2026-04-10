@@ -10,6 +10,8 @@ export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [tone, setTone] = useState<"info" | "error">("info");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetUrl, setResetUrl] = useState("");
 
   return (
     <AuthShell
@@ -36,17 +38,48 @@ export function ForgotPasswordForm() {
     >
       <form
         className="auth-form auth-form-premium"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
 
           if (!email.trim()) {
             setTone("error");
+            setResetUrl("");
             setMessage("Enter your work email to continue.");
             return;
           }
 
-          setTone("info");
-          setMessage("Recovery link staged. In production this will create a reset token and send the email automatically.");
+          setIsSubmitting(true);
+
+          try {
+            const response = await fetch("/api/auth/forgot-password", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email }),
+            });
+
+            const payload = (await response.json().catch(() => null)) as
+              | { ok?: boolean; message?: string; resetUrl?: string }
+              | null;
+
+            if (!response.ok || !payload?.ok) {
+              setTone("error");
+              setResetUrl("");
+              setMessage(payload?.message || "Unable to start password recovery.");
+              return;
+            }
+
+            setTone("info");
+            setMessage(payload.message || "If the account exists, a reset link has been prepared.");
+            setResetUrl(payload.resetUrl || "");
+          } catch {
+            setTone("error");
+            setResetUrl("");
+            setMessage("Unable to reach the recovery service.");
+          } finally {
+            setIsSubmitting(false);
+          }
         }}
       >
         <div className="auth-input-group">
@@ -62,17 +95,23 @@ export function ForgotPasswordForm() {
             onChange={(event) => {
               setEmail(event.target.value);
               setMessage("");
+              setResetUrl("");
             }}
           />
         </div>
 
         <div className="auth-button-group auth-button-group-premium">
-          <button className="button button-primary auth-submit" type="submit">
-            Send reset link
+          <button className="button button-primary auth-submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Preparing reset link..." : "Send reset link"}
           </button>
           {message ? (
             <p className={`auth-form-status is-${tone}`} aria-live="polite">
               {message}
+            </p>
+          ) : null}
+          {resetUrl ? (
+            <p className="auth-form-status is-info" aria-live="polite">
+              Development reset link: <Link className="auth-switch-link" href={resetUrl}>Open reset page</Link>
             </p>
           ) : null}
         </div>

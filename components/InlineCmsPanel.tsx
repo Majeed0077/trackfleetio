@@ -3,7 +3,12 @@
 import type { ChangeEvent, ReactNode } from "react";
 import { useState } from "react";
 
-import { hardwareEcosystemContent } from "@/lib/content/homepage";
+import {
+  hardwareEcosystemContent,
+  homeIndustriesContent,
+  homepageMetrics,
+  homepageSupportContent,
+} from "@/lib/content/homepage";
 import { useAppStore } from "@/store/store";
 
 function CmsPanelField({
@@ -223,6 +228,12 @@ export function InlineCmsPanel() {
               </CmsPanelGroup>
               <CmsPanelGroup title="Hero Media" description="Replace the main visual directly from Cloudinary.">
                 <CmsMediaField
+                  label="Hero background image"
+                  value={cmsDrafts.homepageHero.backgroundImageSrc}
+                  resourceType="image"
+                  onChange={(value) => updateCmsDraft("homepageHero", { backgroundImageSrc: value })}
+                />
+                <CmsMediaField
                   label="Hero image"
                   value={cmsDrafts.homepageHero.imageSrc}
                   resourceType="image"
@@ -236,6 +247,41 @@ export function InlineCmsPanel() {
                   />
                 </CmsPanelField>
               </CmsPanelGroup>
+              {cmsDrafts.homepageHero.metrics.map((metric, index) => (
+                <CmsPanelGroup
+                  key={`${homepageMetrics[index]?.icon ?? "metric"}-${index}`}
+                  title={`Metric ${index + 1}`}
+                  description={homepageMetrics[index]?.title}
+                >
+                  <CmsPanelField label="Title">
+                    <input
+                      type="text"
+                      value={metric.title}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageHero", {
+                          metrics: cmsDrafts.homepageHero.metrics.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, title: event.target.value } : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Description">
+                    <textarea
+                      value={metric.description}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageHero", {
+                          metrics: cmsDrafts.homepageHero.metrics.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? { ...item, description: event.target.value }
+                              : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                </CmsPanelGroup>
+              ))}
             </>
           ) : null}
 
@@ -597,6 +643,202 @@ export function InlineCmsPanel() {
                   />
                 </CmsPanelField>
               </CmsPanelGroup>
+              <CmsPanelGroup title="Featured Industry Copy">
+                <CmsPanelField label="Micro label">
+                  <input
+                    type="text"
+                    value={cmsDrafts.homepageIndustries.featuredMicroLabel}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        featuredMicroLabel: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+                <CmsPanelField label="Title">
+                  <input
+                    type="text"
+                    value={cmsDrafts.homepageIndustries.featuredTitle}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        featuredTitle: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+                <CmsPanelField label="Description">
+                  <textarea
+                    value={cmsDrafts.homepageIndustries.featuredDescription}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        featuredDescription: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+                <CmsPanelField label="CTA label">
+                  <input
+                    type="text"
+                    value={cmsDrafts.homepageIndustries.featuredCtaLabel}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        featuredCtaLabel: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+              </CmsPanelGroup>
+              {cmsDrafts.homepageIndustries.featuredCapabilities.map((capability, index) => (
+                <CmsPanelGroup key={`featured-capability-${index}`} title={`Featured Capability ${index + 1}`}>
+                  <CmsPanelField label="Capability">
+                    <input
+                      type="text"
+                      value={capability}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          featuredCapabilities: cmsDrafts.homepageIndustries.featuredCapabilities.map(
+                            (item, itemIndex) =>
+                              itemIndex === index ? event.target.value : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                </CmsPanelGroup>
+              ))}
+              {cmsDrafts.homepageIndustries.featuredFeatureItems.map((item, index) => (
+                <CmsPanelGroup
+                  key={`featured-feature-item-${index}`}
+                  title={`Featured Chip ${index + 1}`}
+                  description={homeIndustriesContent.featured.featureItems[index]?.label}
+                >
+                  <CmsPanelField label="Label">
+                    <input
+                      type="text"
+                      value={item.label}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          featuredFeatureItems: cmsDrafts.homepageIndustries.featuredFeatureItems.map(
+                            (featureItem, featureItemIndex) =>
+                              featureItemIndex === index
+                                ? { ...featureItem, label: event.target.value }
+                                : featureItem,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Text">
+                    <textarea
+                      value={item.text}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          featuredFeatureItems: cmsDrafts.homepageIndustries.featuredFeatureItems.map(
+                            (featureItem, featureItemIndex) =>
+                              featureItemIndex === index
+                                ? { ...featureItem, text: event.target.value }
+                                : featureItem,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                </CmsPanelGroup>
+              ))}
+              <CmsPanelGroup title="Stack Intro">
+                <CmsPanelField label="Label">
+                  <input
+                    type="text"
+                    value={cmsDrafts.homepageIndustries.stackIntroLabel}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        stackIntroLabel: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+                <CmsPanelField label="Description">
+                  <textarea
+                    value={cmsDrafts.homepageIndustries.stackIntroDescription}
+                    onChange={(event) =>
+                      updateCmsDraft("homepageIndustries", {
+                        stackIntroDescription: event.target.value,
+                      })
+                    }
+                  />
+                </CmsPanelField>
+              </CmsPanelGroup>
+              {cmsDrafts.homepageIndustries.stackCards.map((card, index) => (
+                <CmsPanelGroup
+                  key={`stack-card-${index}`}
+                  title={`Stack Card ${index + 1}`}
+                  description={homeIndustriesContent.stackCards[index]?.title}
+                >
+                  <CmsPanelField label="Micro label">
+                    <input
+                      type="text"
+                      value={card.microLabel}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          stackCards: cmsDrafts.homepageIndustries.stackCards.map(
+                            (item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, microLabel: event.target.value }
+                                : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Title">
+                    <input
+                      type="text"
+                      value={card.title}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          stackCards: cmsDrafts.homepageIndustries.stackCards.map(
+                            (item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, title: event.target.value }
+                                : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Description">
+                    <textarea
+                      value={card.description}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          stackCards: cmsDrafts.homepageIndustries.stackCards.map(
+                            (item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, description: event.target.value }
+                                : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Link URL">
+                    <input
+                      type="text"
+                      value={card.href}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageIndustries", {
+                          stackCards: cmsDrafts.homepageIndustries.stackCards.map(
+                            (item, itemIndex) =>
+                              itemIndex === index
+                                ? { ...item, href: event.target.value }
+                                : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                </CmsPanelGroup>
+              ))}
             </>
           ) : null}
 
@@ -638,40 +880,159 @@ export function InlineCmsPanel() {
                     onChange={(event) => updateCmsDraft("homepageHardware", { ctaLabel: event.target.value })}
                   />
                 </CmsPanelField>
-              </CmsPanelGroup>
-              {cmsDrafts.homepageHardware.cardMedia.map((card, index) => (
-                <CmsPanelGroup
-                  key={`${hardwareEcosystemContent.cards[index]?.title ?? "hardware"}-${index}`}
-                  title={`Hardware Card ${index + 1}`}
-                  description={hardwareEcosystemContent.cards[index]?.title}
-                >
-                  <CmsMediaField
-                    label="Card image"
-                    value={card.imageSrc}
-                    resourceType="image"
-                    onChange={(value) =>
+                <CmsPanelField label="Card button label">
+                  <input
+                    type="text"
+                    value={cmsDrafts.homepageHardware.cardButtonLabel}
+                    onChange={(event) =>
                       updateCmsDraft("homepageHardware", {
-                        cardMedia: cmsDrafts.homepageHardware.cardMedia.map((item, itemIndex) =>
-                          itemIndex === index ? { ...item, imageSrc: value } : item,
-                        ),
+                        cardButtonLabel: event.target.value,
                       })
                     }
                   />
-                  <CmsPanelField label="Card image alt text">
-                    <input
-                      type="text"
-                      value={card.imageAlt}
-                      onChange={(event) =>
+                </CmsPanelField>
+              </CmsPanelGroup>
+              {cmsDrafts.homepageHardware.cardMedia.map((card, index) => {
+                const cardContent = cmsDrafts.homepageHardware.cardContent[index];
+
+                return (
+                  <CmsPanelGroup
+                    key={`${hardwareEcosystemContent.cards[index]?.title ?? "hardware"}-${index}`}
+                    title={`Hardware Card ${index + 1}`}
+                    description={hardwareEcosystemContent.cards[index]?.title}
+                  >
+                    <CmsMediaField
+                      label="Card image"
+                      value={card.imageSrc}
+                      resourceType="image"
+                      onChange={(value) =>
                         updateCmsDraft("homepageHardware", {
                           cardMedia: cmsDrafts.homepageHardware.cardMedia.map((item, itemIndex) =>
-                            itemIndex === index ? { ...item, imageAlt: event.target.value } : item,
+                            itemIndex === index ? { ...item, imageSrc: value } : item,
                           ),
                         })
                       }
                     />
-                  </CmsPanelField>
-                </CmsPanelGroup>
-              ))}
+                    <CmsPanelField label="Card image alt text">
+                      <input
+                        type="text"
+                        value={card.imageAlt}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardMedia: cmsDrafts.homepageHardware.cardMedia.map((item, itemIndex) =>
+                              itemIndex === index ? { ...item, imageAlt: event.target.value } : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    <CmsPanelField label="Category">
+                      <input
+                        type="text"
+                        value={cardContent?.category ?? ""}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                              (item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, category: event.target.value }
+                                  : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    <CmsPanelField label="Title">
+                      <input
+                        type="text"
+                        value={cardContent?.title ?? ""}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                              (item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, title: event.target.value }
+                                  : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    <CmsPanelField label="Specs">
+                      <input
+                        type="text"
+                        value={cardContent?.specs ?? ""}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                              (item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, specs: event.target.value }
+                                  : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    <CmsPanelField label="Description">
+                      <textarea
+                        value={cardContent?.description ?? ""}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                              (item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, description: event.target.value }
+                                  : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    <CmsPanelField label="Details link">
+                      <input
+                        type="text"
+                        value={cardContent?.href ?? ""}
+                        onChange={(event) =>
+                          updateCmsDraft("homepageHardware", {
+                            cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                              (item, itemIndex) =>
+                                itemIndex === index
+                                  ? { ...item, href: event.target.value }
+                                  : item,
+                            ),
+                          })
+                        }
+                      />
+                    </CmsPanelField>
+                    {(cardContent?.bullets ?? []).map((bullet, bulletIndex) => (
+                      <CmsPanelField key={`hardware-bullet-${index}-${bulletIndex}`} label={`Bullet ${bulletIndex + 1}`}>
+                        <input
+                          type="text"
+                          value={bullet}
+                          onChange={(event) =>
+                            updateCmsDraft("homepageHardware", {
+                              cardContent: cmsDrafts.homepageHardware.cardContent.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index
+                                    ? {
+                                        ...item,
+                                        bullets: item.bullets.map((itemBullet, itemBulletIndex) =>
+                                          itemBulletIndex === bulletIndex
+                                            ? event.target.value
+                                            : itemBullet,
+                                        ),
+                                      }
+                                    : item,
+                              ),
+                            })
+                          }
+                        />
+                      </CmsPanelField>
+                    ))}
+                  </CmsPanelGroup>
+                );
+              })}
             </>
           ) : null}
           {cmsActiveSection === "homepage.trust" ? (
@@ -840,6 +1201,67 @@ export function InlineCmsPanel() {
                   <textarea value={cmsDrafts.homepageSupport.description} onChange={(event) => updateCmsDraft("homepageSupport", { description: event.target.value })} />
                 </CmsPanelField>
               </CmsPanelGroup>
+              {cmsDrafts.homepageSupport.cards.map((card, index) => (
+                <CmsPanelGroup
+                  key={`support-card-${index}`}
+                  title={`Support Card ${index + 1}`}
+                  description={homepageSupportContent.cards[index]?.title}
+                >
+                  <CmsPanelField label="Title">
+                    <input
+                      type="text"
+                      value={card.title}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageSupport", {
+                          cards: cmsDrafts.homepageSupport.cards.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, title: event.target.value } : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Description">
+                    <textarea
+                      value={card.description}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageSupport", {
+                          cards: cmsDrafts.homepageSupport.cards.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? { ...item, description: event.target.value }
+                              : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Value label">
+                    <input
+                      type="text"
+                      value={card.value}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageSupport", {
+                          cards: cmsDrafts.homepageSupport.cards.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, value: event.target.value } : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                  <CmsPanelField label="Link URL">
+                    <input
+                      type="text"
+                      value={card.href}
+                      onChange={(event) =>
+                        updateCmsDraft("homepageSupport", {
+                          cards: cmsDrafts.homepageSupport.cards.map((item, itemIndex) =>
+                            itemIndex === index ? { ...item, href: event.target.value } : item,
+                          ),
+                        })
+                      }
+                    />
+                  </CmsPanelField>
+                </CmsPanelGroup>
+              ))}
             </>
           ) : null}
           {cmsActiveSection === "solutions.catalog" ? (

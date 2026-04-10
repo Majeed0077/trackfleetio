@@ -1,47 +1,15 @@
-import { cookies } from "next/headers";
-
-import {
-  DEMO_ADMIN_EMAIL,
-  DEMO_ADMIN_PASSWORD,
-  DEMO_USER_EMAIL,
-  DEMO_USER_PASSWORD,
-} from "@/lib/demo-auth";
-import type { AuthUser } from "@/store/store";
+import type { UserRole } from "@/lib/server/models/user";
 
 export const AUTH_COOKIE_NAME = "trackfleetio_session";
-const AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+const DEFAULT_AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 const AUTH_SECRET = process.env.TRACKFLEETIO_AUTH_SECRET || "trackfleetio-dev-secret";
 
-type DemoAccount = AuthUser & {
-  password: string;
-};
-
-type SessionPayload = Omit<AuthUser, "isAuthenticated"> & {
+export type SessionCookiePayload = {
+  sid: string;
+  uid: string;
+  role: UserRole;
   exp: number;
 };
-
-const DEMO_ACCOUNTS: DemoAccount[] = [
-  {
-    isAuthenticated: true,
-    name: "Track Fleetio Demo",
-    email: DEMO_USER_EMAIL,
-    password: DEMO_USER_PASSWORD,
-    role: "user",
-    roleLabel: "Operations Lead, Track Fleetio",
-    company: "Track Fleetio",
-    phone: "",
-  },
-  {
-    isAuthenticated: true,
-    name: "Admin Operator",
-    email: DEMO_ADMIN_EMAIL,
-    password: DEMO_ADMIN_PASSWORD,
-    role: "admin",
-    roleLabel: "Super Admin",
-    company: "Track Fleetio",
-    phone: "",
-  },
-];
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -60,7 +28,6 @@ const base64UrlToBytes = (value: string) => {
 };
 
 const encodeBase64Url = (value: string) => bytesToBase64Url(encoder.encode(value));
-
 const decodeBase64Url = (value: string) => decoder.decode(base64UrlToBytes(value));
 
 const getSigningKey = async () =>
@@ -77,34 +44,15 @@ const sign = async (value: string) =>
     new Uint8Array(await crypto.subtle.sign("HMAC", await getSigningKey(), encoder.encode(value))),
   );
 
-export const authenticateDemoUser = (email: string, password: string) => {
-  const normalizedEmail = email.trim().toLowerCase();
-
-  return (
-    DEMO_ACCOUNTS.find(
-      (account) =>
-        account.email.toLowerCase() === normalizedEmail && account.password === password,
-    ) ?? null
-  );
-};
-
-export const createSessionToken = async (user: AuthUser) => {
-  const payload: SessionPayload = {
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    roleLabel: user.roleLabel,
-    company: user.company,
-    phone: user.phone,
-    exp: Math.floor(Date.now() / 1000) + AUTH_COOKIE_MAX_AGE,
-  };
-
+export const createSessionCookieValue = async (payload: SessionCookiePayload) => {
   const encodedPayload = encodeBase64Url(JSON.stringify(payload));
   const signature = await sign(encodedPayload);
   return `${encodedPayload}.${signature}`;
 };
 
-export const verifySessionToken = async (token: string | undefined | null): Promise<AuthUser | null> => {
+export const verifySessionCookie = async (
+  token: string | undefined | null,
+): Promise<SessionCookiePayload | null> => {
   if (!token) {
     return null;
   }
@@ -127,53 +75,34 @@ export const verifySessionToken = async (token: string | undefined | null): Prom
   }
 
   try {
-    const payload = JSON.parse(decodeBase64Url(encodedPayload)) as SessionPayload;
+    const payload = JSON.parse(decodeBase64Url(encodedPayload)) as SessionCookiePayload;
 
-    if (!payload.email || !payload.role || payload.exp <= Math.floor(Date.now() / 1000)) {
+    if (
+      !payload.sid ||
+      !payload.uid ||
+      (payload.role !== "admin" && payload.role !== "user") ||
+      payload.exp <= Math.floor(Date.now() / 1000)
+    ) {
       return null;
     }
 
-    return {
-      isAuthenticated: true,
-      name: payload.name,
-      email: payload.email,
-      role: payload.role,
-      roleLabel: payload.roleLabel,
-      company: payload.company,
-      phone: payload.phone,
-    };
+    return payload;
   } catch {
     return null;
   }
 };
 
-export const getSessionUser = async () => {
-  const cookieStore = await cookies();
-  return await verifySessionToken(cookieStore.get(AUTH_COOKIE_NAME)?.value);
-};
-
-export const createSignedUser = (payload: {
-  name: string;
-  email: string;
-  company?: string;
-  phone?: string;
-}): AuthUser => ({
-  isAuthenticated: true,
-  name: payload.name.trim() || "Track Fleetio User",
-  email: payload.email.trim(),
-  role: "user",
-  roleLabel: payload.company?.trim()
-    ? `Admin, ${payload.company.trim()}`
-    : "Fleet Operations",
-  company: payload.company?.trim() || "",
-  phone: payload.phone?.trim() || "",
-});
-
-export const authCookieConfig = {
+export const getAuthCookieConfig = (maxAge = DEFAULT_AUTH_COOKIE_MAX_AGE) => ({
   name: AUTH_COOKIE_NAME,
-  maxAge: AUTH_COOKIE_MAX_AGE,
+  maxAge,
   httpOnly: true,
   sameSite: "lax" as const,
   secure: process.env.NODE_ENV === "production",
   path: "/",
-};
+});
+
+export const getLogoutCookieConfig = () => ({
+  ...getAuthCookieConfig(),
+  maxAge: 0,
+  value: "",
+});

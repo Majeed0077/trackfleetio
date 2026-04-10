@@ -1,19 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { TrustFooter } from "@/components/TrustFooter";
+import { startRouteLoader } from "@/lib/route-loader";
+import { useAppStore } from "@/store/store";
 
-export function ResetPasswordForm() {
+export function ResetPasswordForm({ token }: { token?: string }) {
+  const router = useRouter();
+  const setAuthUser = useAppStore((state) => state.setAuthUser);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [tone, setTone] = useState<"info" | "error">("info");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <AuthShell
@@ -40,8 +46,14 @@ export function ResetPasswordForm() {
     >
       <form
         className="auth-form auth-form-premium"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
+
+          if (!token) {
+            setTone("error");
+            setMessage("Reset token is missing. Request a new reset link.");
+            return;
+          }
 
           if (password.length < 8) {
             setTone("error");
@@ -55,8 +67,39 @@ export function ResetPasswordForm() {
             return;
           }
 
-          setTone("info");
-          setMessage("Password reset staged. In production this will verify the token, update passwordHash, and revoke old sessions.");
+          setIsSubmitting(true);
+
+          try {
+            const response = await fetch("/api/auth/reset-password", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "same-origin",
+              body: JSON.stringify({ token, password, confirmPassword }),
+            });
+
+            const payload = (await response.json().catch(() => null)) as
+              | { ok?: boolean; message?: string; user?: unknown }
+              | null;
+
+            if (!response.ok || !payload?.ok || !payload.user) {
+              setTone("error");
+              setMessage(payload?.message || "Unable to reset password.");
+              return;
+            }
+
+            setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
+            setTone("info");
+            setMessage(payload.message || "Password reset successful.");
+            startRouteLoader();
+            router.replace("/account/profile");
+          } catch {
+            setTone("error");
+            setMessage("Unable to reach the reset service.");
+          } finally {
+            setIsSubmitting(false);
+          }
         }}
       >
         <PasswordField
@@ -90,8 +133,8 @@ export function ResetPasswordForm() {
         />
 
         <div className="auth-button-group auth-button-group-premium">
-          <button className="button button-primary auth-submit" type="submit">
-            Save new password
+          <button className="button button-primary auth-submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Saving new password..." : "Save new password"}
           </button>
           {message ? (
             <p className={`auth-form-status is-${tone}`} aria-live="polite">

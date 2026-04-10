@@ -26,6 +26,7 @@ export type AdminNavItem = {
   label: string;
   href: string;
   icon: AdminIconKey;
+  superAdminOnly?: boolean;
 };
 
 export const adminNavSections: Array<{
@@ -63,7 +64,8 @@ export const adminNavSections: Array<{
     title: "System",
     items: [
       { key: "settings", label: "Site Settings", href: "/admin/settings", icon: "settings" },
-      { key: "users", label: "Users / Roles", href: "/admin/users", icon: "shield" },
+      { key: "users", label: "Users", href: "/admin/users", icon: "users", superAdminOnly: true },
+      { key: "roles", label: "Roles", href: "/admin/roles", icon: "shield", superAdminOnly: true },
       { key: "notifications", label: "Notifications", href: "/admin/notifications", icon: "bell" },
       { key: "integrations", label: "Integrations", href: "/admin/integrations", icon: "plug" },
       { key: "audit", label: "Audit Logs", href: "/admin/audit-logs", icon: "file-text" },
@@ -102,13 +104,13 @@ export const adminPageInfo: Record<
   "/admin/content/footer": { title: "Footer Content", section: "Content" },
   "/admin/media": { title: "Banners / Media", section: "Content" },
   "/admin/settings": { title: "Site Settings", section: "System" },
-  "/admin/users": { title: "Users / Roles", section: "System" },
+  "/admin/users": { title: "Users", section: "System" },
   "/admin/notifications": { title: "Notifications", section: "System" },
   "/admin/notifications/logs": { title: "Notification Logs", section: "System" },
   "/admin/notifications/templates": { title: "Notification Templates", section: "System" },
   "/admin/integrations": { title: "Integrations", section: "System" },
   "/admin/integrations/status": { title: "Integration Status", section: "System" },
-  "/admin/roles": { title: "Roles & Permissions", section: "System" },
+  "/admin/roles": { title: "Roles", section: "System" },
   "/admin/roles/new": { title: "Create Role", section: "System" },
   "/admin/roles/edit": { title: "Edit Role", section: "System" },
   "/admin/users/new": { title: "Invite User", section: "System" },

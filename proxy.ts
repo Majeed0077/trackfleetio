@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { AUTH_COOKIE_NAME, verifySessionToken } from "@/lib/auth";
+import { AUTH_COOKIE_NAME, verifySessionCookie } from "@/lib/auth";
 
 const SIGNIN_PATH = "/signin";
 export async function proxy(request: NextRequest) {
@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const sessionUser = await verifySessionToken(request.cookies.get(AUTH_COOKIE_NAME)?.value);
+  const sessionUser = await verifySessionCookie(request.cookies.get(AUTH_COOKIE_NAME)?.value);
   const isAdmin = sessionUser?.role === "admin";
   const isAuthenticated = Boolean(sessionUser);
 

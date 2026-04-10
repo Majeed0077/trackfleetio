@@ -7,18 +7,37 @@ const clamp = (value: number, min: number, max: number) =>
 
 export function HomepageMotion() {
   useEffect(() => {
+    const motionRoot = document.querySelector<HTMLElement>(
+      "[data-homepage-motion-root]",
+    );
+
+    if (!motionRoot) {
+      return undefined;
+    }
+
     const standaloneTargets = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+      motionRoot.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
     const groupedTargets = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal-group]"),
+      motionRoot.querySelectorAll<HTMLElement>("[data-reveal-group]"),
     );
     const parallaxTargets = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-parallax='soft']"),
-    ).filter((target) => Boolean(target.closest(".hero-section")));
+      motionRoot.querySelectorAll<HTMLElement>(
+        ".hero-section [data-parallax='soft']",
+      ),
+    );
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
+    const parallaxMediaQuery = window.matchMedia("(min-width: 992px)");
+
+    if (
+      !standaloneTargets.length &&
+      !groupedTargets.length &&
+      !parallaxTargets.length
+    ) {
+      return undefined;
+    }
 
     const finalizeVisibility = () => {
       standaloneTargets.forEach((target) => {
@@ -81,9 +100,21 @@ export function HomepageMotion() {
     groupedTargets.forEach((group) => observer.observe(group));
 
     let frameId = 0;
+    let parallaxEnabled = false;
+
+    const resetParallax = () => {
+      parallaxTargets.forEach((target) => {
+        target.classList.remove("parallax-active");
+        target.style.removeProperty("--parallax-offset");
+      });
+    };
 
     const updateParallax = () => {
       frameId = 0;
+
+      if (!parallaxEnabled) {
+        return;
+      }
 
       parallaxTargets.forEach((target) => {
         const rect = target.getBoundingClientRect();
@@ -112,14 +143,44 @@ export function HomepageMotion() {
       frameId = window.requestAnimationFrame(updateParallax);
     };
 
-    updateParallax();
+    const syncParallaxState = () => {
+      const shouldEnableParallax =
+        !prefersReducedMotion.matches &&
+        parallaxMediaQuery.matches &&
+        parallaxTargets.length > 0;
+
+      if (!shouldEnableParallax) {
+        parallaxEnabled = false;
+
+        if (frameId !== 0) {
+          window.cancelAnimationFrame(frameId);
+          frameId = 0;
+        }
+
+        resetParallax();
+        return;
+      }
+
+      parallaxEnabled = true;
+      parallaxTargets.forEach((target) => {
+        target.classList.add("parallax-active");
+      });
+      requestParallaxFrame();
+    };
+
+    syncParallaxState();
     window.addEventListener("scroll", requestParallaxFrame, { passive: true });
-    window.addEventListener("resize", requestParallaxFrame);
+    window.addEventListener("resize", syncParallaxState);
+    prefersReducedMotion.addEventListener("change", syncParallaxState);
+    parallaxMediaQuery.addEventListener("change", syncParallaxState);
 
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", requestParallaxFrame);
-      window.removeEventListener("resize", requestParallaxFrame);
+      window.removeEventListener("resize", syncParallaxState);
+      prefersReducedMotion.removeEventListener("change", syncParallaxState);
+      parallaxMediaQuery.removeEventListener("change", syncParallaxState);
+      resetParallax();
 
       if (frameId !== 0) {
         window.cancelAnimationFrame(frameId);

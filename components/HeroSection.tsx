@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Route, ShieldCheck, Wrench } from "lucide-react";
@@ -27,6 +28,8 @@ const heroDefaultImageAlts = new Set([
   "Telematics hardware architecture diagram",
   "Telematics hardware architecture",
 ]);
+const defaultHeroBackgroundImageSrc =
+  "https://res.cloudinary.com/dj7zo10jf/image/upload/f_auto,q_auto/v1775771763/trackfleetio/Images/hero-bgg.png";
 
 export function HeroSection() {
   const heroDraft = useAppStore((state) => state.cmsDrafts.homepageHero);
@@ -40,10 +43,20 @@ export function HeroSection() {
     !heroDraftImageAlt || heroDefaultImageAlts.has(heroDraftImageAlt)
       ? heroContent.image.alt
       : heroDraftImageAlt;
+  const heroMetrics = homepageMetrics.map((metric, index) => ({
+    ...metric,
+    title: heroDraft.metrics[index]?.title?.trim() || metric.title,
+    description: heroDraft.metrics[index]?.description?.trim() || metric.description,
+  }));
+  const heroBackgroundImageSrc =
+    heroDraft.backgroundImageSrc.trim() || defaultHeroBackgroundImageSrc;
+  const heroSectionStyle = {
+    "--hero-section-image-url": `url("${resolveCloudinaryAsset(heroBackgroundImageSrc)}")`,
+  } as CSSProperties;
 
   return (
     <>
-      <section className="hero-section">
+      <section className="hero-section" style={heroSectionStyle}>
         <div className="container">
           <div className="hero-grid" data-reveal-group>
             <div className="hero-copy" data-reveal-item>
@@ -90,11 +103,11 @@ export function HeroSection() {
       <section className="metrics-section" aria-label="Fleet buying signals" data-reveal-group>
         <div className="container">
           <div className="metrics-strip">
-            {homepageMetrics.map((metric) => {
+            {heroMetrics.map((metric, index) => {
               const Icon = metricIconMap[metric.icon];
 
               return (
-                <article className="metric-card" data-reveal-item key={metric.title}>
+                <article className="metric-card" data-reveal-item key={`${metric.icon}-${index}`}>
                   <strong>{metric.title}</strong>
                   <div className="metric-meta">
                     <span className="metric-icon" aria-hidden="true">
