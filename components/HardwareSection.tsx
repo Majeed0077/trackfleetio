@@ -47,16 +47,16 @@ export function HardwareSection() {
                   const cardImageAlt = hardwareDraft.cardMedia[index]?.imageAlt?.trim() || card.imageAlt;
 
                   return (
-                <Image
-                  className={`product-media-image ${card.imageClass}`}
-                  src={resolveCloudinaryAsset(cardImageSrc)}
-                  alt={cardImageAlt}
-                  width={360}
-                  height={280}
-                  sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                />
+                    <Image
+                      className={`product-media-image ${card.imageClass}`}
+                      src={resolveCloudinaryAsset(cardImageSrc)}
+                      alt={cardImageAlt}
+                      width={360}
+                      height={280}
+                      sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
+                      loading={index === 0 ? "eager" : "lazy"}
+                      fetchPriority={index === 0 ? "high" : "auto"}
+                    />
                   );
                 })()}
               </div>

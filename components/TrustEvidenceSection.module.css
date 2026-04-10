@@ -1,33 +1,19 @@
 .section {
-  padding-top: 28px;
-  padding-bottom: 44px;
+  padding-top: 34px;
+  padding-bottom: 52px;
 }
 
-.intro,
-.statsRow,
-.reviewsRow {
-  width: 100%;
-  max-width: none;
-  margin: 0;
+.topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  gap: clamp(18px, 2.6vw, 32px);
+  align-items: start;
 }
 
 .intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr);
-  gap: clamp(18px, 2.6vw, 34px);
-  align-items: end;
-}
-
-.introLead {
-  display: grid;
-  gap: 10px;
+  gap: 14px;
   min-width: 0;
-}
-
-.introSupport {
-  min-width: 0;
-  align-self: end;
-  padding-bottom: 6px;
 }
 
 .eyebrow {
@@ -41,95 +27,105 @@
 
 .heading {
   margin: 0;
+  max-width: 16ch;
   color: var(--text);
-  max-width: 20ch;
-  font-size: clamp(1.62rem, 2.35vw, 2.16rem);
-  line-height: 1.04;
+  font-size: clamp(1.72rem, 2.8vw, 2.34rem);
+  line-height: 1.02;
   letter-spacing: -0.05em;
   text-wrap: balance;
 }
 
 .copy {
   margin: 0;
-  max-width: 40ch;
+  max-width: 54ch;
   color: var(--text-secondary);
-  font-size: 0.86rem;
-  line-height: 1.58;
+  font-size: 0.95rem;
+  line-height: 1.68;
 }
 
-.statsRow {
+.platformStrip {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 26px;
-  padding-top: 20px;
-  border-top: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 2px;
 }
 
-.statItem {
-  display: grid;
-  gap: 8px;
-  min-width: max-content;
-}
-
-.statValue {
-  color: var(--text);
-  font-size: clamp(1.8rem, 3vw, 2.46rem);
+.platformPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--border));
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--menu-helper);
+  font-size: 0.72rem;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.08em;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.statLabel {
-  color: var(--text-secondary);
-  font-size: 0.84rem;
-  font-weight: 500;
-  line-height: 1.34;
+.validationPanel {
+  display: grid;
+  gap: 16px;
+  padding: 22px 22px 20px;
+  border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--border));
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 48%),
+    var(--card-bg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    var(--shadow-soft);
 }
 
-.reviewsRow {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
+.validationEyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-.divider {
-  width: 100%;
-  margin-top: 28px;
-  margin-bottom: clamp(72px, 7vw, 88px);
-  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+.reviewStack {
+  display: grid;
+  gap: 14px;
 }
 
 .reviewItem {
   display: grid;
   gap: 8px;
-  min-width: max-content;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+.reviewItem:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .reviewHeader {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: 12px;
 }
 
 .reviewPlatform {
   color: var(--text);
-  font-size: 1.06rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.12;
+  line-height: 1.1;
 }
 
 .reviewScore {
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -139,88 +135,111 @@
   color: var(--rating-star);
 }
 
-@media (max-width: 900px) {
-  .intro {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
+.reviewSummary {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.56;
+}
 
-  .introSupport {
-    padding-bottom: 0;
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.metricCard {
+  display: grid;
+  gap: 12px;
+  min-height: 100%;
+  padding: 22px 20px 20px;
+  border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01)),
+    var(--card-bg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 42px rgba(0, 0, 0, 0.08);
+}
+
+.metricTopline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.metricIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+.metricLabel {
+  color: var(--menu-label);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  color: var(--text);
+  font-size: clamp(1.86rem, 2.4vw, 2.34rem);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.08em;
+}
+
+.metricDetail {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.87rem;
+  line-height: 1.58;
+}
+
+@media (max-width: 1024px) {
+  .topline {
+    grid-template-columns: 1fr;
   }
 
   .heading {
     max-width: 14ch;
   }
 
-  .copy {
-    max-width: 46ch;
-  }
-
-  .statsRow {
-    display: grid;
+  .metricsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px 16px;
-  }
-
-  .reviewsRow {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .statItem,
-  .reviewItem {
-    min-width: 0;
   }
 }
 
 @media (max-width: 640px) {
   .section {
-    padding-top: 22px;
-    padding-bottom: 22px;
+    padding-top: 24px;
+    padding-bottom: 30px;
+  }
+
+  .validationPanel,
+  .metricCard {
+    padding: 18px 18px 16px;
   }
 
   .heading {
-    font-size: clamp(1.64rem, 8vw, 2.14rem);
-    max-width: 11ch;
-    line-height: 1.04;
+    font-size: clamp(1.66rem, 8vw, 2.08rem);
+    max-width: 12ch;
   }
 
   .copy {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    max-width: 34ch;
+    font-size: 0.92rem;
+    line-height: 1.56;
   }
 
-  .statsRow {
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 12px;
-    margin-top: 24px;
-    padding-top: 18px;
-  }
-
-  .statValue {
-    font-size: clamp(1.66rem, 8vw, 2.06rem);
-  }
-
-  .statLabel {
-    font-size: 0.88rem;
-  }
-
-  .reviewsRow {
+  .metricsGrid {
     grid-template-columns: 1fr;
     gap: 14px;
-    margin-top: 22px;
-    padding-top: 16px;
-  }
-
-  .reviewItem {
-    min-width: 0;
-  }
-
-  .divider {
-    margin-top: 24px;
-    margin-bottom: 40px;
   }
 }
