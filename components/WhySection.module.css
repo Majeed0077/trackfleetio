@@ -68,6 +68,7 @@
 .heading {
   margin: 0;
   max-width: 8ch;
+  font-family: var(--font-heading);
   background-image: var(--heading-gradient-display);
   background-clip: text;
   -webkit-background-clip: text;
@@ -134,6 +135,7 @@
 
 .title {
   margin: 0;
+  font-family: var(--font-heading);
   color: var(--text);
   font-size: clamp(1.1rem, 1.55vw, 1.36rem);
   font-weight: 600;

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 
 import { SiteFrame } from "@/components/SiteFrame";
@@ -8,6 +10,39 @@ import { getSessionUser } from "@/lib/server/auth-session";
 import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const generalSans = localFont({
+  src: [
+    {
+      path: "../public/General Font/GeneralSans-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/General Font/GeneralSans-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/General Font/GeneralSans-Semibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/General Font/GeneralSans-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+  variable: "--font-general-sans",
+});
 
 const themeScript = `
 (() => {
@@ -86,6 +121,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
+      className={`${inter.variable} ${generalSans.variable}`}
       data-theme={SSR_THEME_FALLBACK}
       data-theme-mode="system"
       data-scroll-behavior="smooth"
