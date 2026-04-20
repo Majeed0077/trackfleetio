@@ -15,8 +15,8 @@ import {
   Workflow,
 } from "lucide-react";
 
+import { CmsEditableBoundary } from "@/components/CmsEditableBoundary";
 import { getProductById, getProductHref } from "@/data/products";
-import { InlineEditableSection } from "@/components/InlineEditableSection";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { solutionsList, type SolutionDetail } from "@/lib/solutions";
 import { useAppStore } from "@/store/store";
@@ -854,7 +854,7 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
       id="main-content"
       className={`site-main solution-detail-page solution-detail-page-redesign solution-detail-tone-${theme.tone} solution-detail-variant-${blueprint.variant}`}
     >
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.hero` as const}
         title={`${solution.title} Hero`}
         description="Solution headline, intro copy, and primary CTA."
@@ -929,9 +929,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.results` as const}
         title={`${solution.title} Results`}
         description="Proof metrics and business outcome framing."
@@ -960,9 +960,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.intro` as const}
         title={`${solution.title} Intro Fit`}
         description="Best-fit audience and deployment summary."
@@ -999,9 +999,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.blueprint` as const}
         title={`${solution.title} Page Direction`}
         description="Variant strategy and page blueprint."
@@ -1055,9 +1055,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.visuals` as const}
         title={`${solution.title} Visual Story`}
         description="Showcase imagery and visual proof section."
@@ -1112,9 +1112,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.challenges` as const}
         title={`${solution.title} Challenges`}
         description="Operational pain points and challenge cards."
@@ -1140,9 +1140,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.hardware` as const}
         title={`${solution.title} Hardware`}
         description="Recommended hardware stack for this workflow."
@@ -1185,9 +1185,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.process` as const}
         title={`${solution.title} Process`}
         description="How-it-works rollout explanation."
@@ -1216,9 +1216,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.workflow` as const}
         title={`${solution.title} Workflow Fit`}
         description="Use cases and execution outcomes."
@@ -1248,9 +1248,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.decision` as const}
         title={`${solution.title} Decision Criteria`}
         description="Why buyers choose this path."
@@ -1279,9 +1279,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.deployment` as const}
         title={`${solution.title} Deployment Fit`}
         description="Deployment CTA and buyer-oriented summary."
@@ -1334,9 +1334,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.related` as const}
         title={`${solution.title} Related Paths`}
         description="Related solution recommendations."
@@ -1367,9 +1367,9 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId={`solutions.detail.${solution.slug}.cta` as const}
         title={`${solution.title} Bottom CTA`}
         description="Final conversion block at the end of the page."
@@ -1396,7 +1396,8 @@ export function SolutionDetailPage({ solution: initialSolution }: { solution: So
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
     </main>
   );
 }
+

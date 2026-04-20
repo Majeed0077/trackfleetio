@@ -54,8 +54,6 @@ export function HardwareSection() {
                       width={360}
                       height={280}
                       sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 25vw"
-                      loading={index === 0 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : "auto"}
                     />
                   );
                 })()}

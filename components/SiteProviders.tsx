@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
 import { RegionSelectorModal } from "@/components/RegionSelectorModal";
 import { TopRouteLoader } from "@/components/TopRouteLoader";
@@ -15,11 +16,12 @@ import { SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export function SiteProviders({
   children,
-  initialAuthUser,
+  initialAuthUser = null,
 }: {
   children: ReactNode;
-  initialAuthUser: AuthUser | null;
+  initialAuthUser?: AuthUser | null;
 }) {
+  const pathname = usePathname();
   const hasHydrated = useStoreHydrated();
   const themeMode = useAppStore((state) => state.themeMode);
   const setAuthUser = useAppStore((state) => state.setAuthUser);
@@ -29,6 +31,18 @@ export function SiteProviders({
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isAccountRoute = pathname.startsWith("/account");
+  const isAuthRoute =
+    pathname === "/signin" ||
+    pathname === "/signup" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/verify-email" ||
+    pathname === "/session-expired" ||
+    pathname === "/unauthorized" ||
+    pathname.startsWith("/invite/");
+  const shouldSyncPublicSession = !isAdminRoute && !isAccountRoute && !isAuthRoute;
 
   useEffect(() => {
     if (!useAppStore.persist.hasHydrated()) {
@@ -37,7 +51,7 @@ export function SiteProviders({
   }, []);
 
   useEffect(() => {
-    setAuthUser(initialAuthUser);
+    setAuthUser(initialAuthUser ?? null);
   }, [initialAuthUser, setAuthUser]);
 
   useEffect(() => {
@@ -48,12 +62,10 @@ export function SiteProviders({
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: number | null = null;
 
     const syncSession = async () => {
-      if (!initialAuthUser) {
-        if (isMounted) {
-          setAuthUser(null);
-        }
+      if (!shouldSyncPublicSession) {
         return;
       }
 
@@ -67,18 +79,23 @@ export function SiteProviders({
           setAuthUser((payload.user as Parameters<typeof setAuthUser>[0]) ?? null);
         }
       } catch {
-        if (isMounted && !initialAuthUser) {
+        if (isMounted) {
           setAuthUser(null);
         }
       }
     };
 
-    void syncSession();
+    timeoutId = window.setTimeout(() => {
+      void syncSession();
+    }, 0);
 
     return () => {
       isMounted = false;
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
     };
-  }, [initialAuthUser, setAuthUser]);
+  }, [setAuthUser, shouldSyncPublicSession]);
 
   return (
     <>

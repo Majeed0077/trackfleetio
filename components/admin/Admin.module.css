@@ -4,9 +4,9 @@
 .adminShell { display: grid; grid-template-columns: 220px minmax(0, 1fr); height: 100vh; }
 .sidebarCollapsed .adminShell { grid-template-columns: 84px minmax(0, 1fr); }
 .adminSidebar { display: grid; grid-template-rows: auto 1fr auto; gap: 14px; height: 100vh; padding: 14px 8px 10px; border-right: 1px solid var(--border); background: var(--surface); overflow: hidden; }
-.adminSidebarBrand,.adminSidebarNav,.adminNavSection,.adminNavLinks,.adminPageHeaderCopy,.adminActivityList,.adminSectionList,.adminListGrid,.adminUserMeta,.adminTopbarCopy,.adminLoginHeader,.adminLoginActions,.adminLoginForm,.adminFormSection,.adminFormSectionHeader,.adminFieldGroup { display: grid; }
+.adminSidebarNav,.adminNavSection,.adminNavLinks,.adminPageHeaderCopy,.adminActivityList,.adminSectionList,.adminListGrid,.adminUserMeta,.adminTopbarCopy,.adminLoginHeader,.adminLoginActions,.adminLoginForm,.adminFormSection,.adminFormSectionHeader,.adminFieldGroup { display: grid; }
 .adminSidebarTools { display: flex; align-items: center; justify-content: flex-end; padding: 4px 4px 0; }
-.adminSidebarBrandLabel,.adminNavSectionTitle,.adminBreadcrumb,.adminStatLabel { color: var(--text-muted); font-size: .69rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.adminNavSectionTitle,.adminBreadcrumb,.adminStatLabel { color: var(--text-muted); font-size: .69rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .adminSidebarNav { gap: 14px; align-content: start; overflow-y: auto; min-height: 0; padding-right: 4px; }
 .adminNavSection { gap: 8px; }
 .adminNavSectionHeader { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -22,7 +22,7 @@
 .adminNavIcon { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--text-muted); }
 .adminNavLink:hover .adminNavIcon,.adminNavLinkActive .adminNavIcon { color: var(--accent); }
 .adminNavLabel { min-width: 0; }
-.sidebarCollapsed .adminSidebarBrandLabel,.sidebarCollapsed .adminNavSectionTitle,.sidebarCollapsed .adminNavSectionToggle,.sidebarCollapsed .adminNavLabel,.sidebarCollapsed .adminSidebarFooterCopy { display: none; }
+.sidebarCollapsed .adminNavSectionTitle,.sidebarCollapsed .adminNavSectionToggle,.sidebarCollapsed .adminNavLabel,.sidebarCollapsed .adminSidebarFooterCopy { display: none; }
 .sidebarCollapsed .adminSidebar { padding-left: 10px; padding-right: 10px; }
 .sidebarCollapsed .adminNavLink { justify-content: center; padding: 0; }
 .sidebarCollapsed .adminSidebarTools { justify-content: center; }
@@ -30,7 +30,9 @@
 .sidebarCollapsed .adminSidebarFooter :global(.button)::before { content: "Out"; font-size: .74rem; }
 .adminSidebarToggle { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text-secondary); }
 .adminSidebarToggle:hover { background: var(--surface-soft); color: var(--text); }
-.adminNavIcon svg,.adminSearchShell svg,.adminMobileToggle svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.adminNavIcon svg,.adminSearchShell svg,.adminMobileToggle svg { stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.adminNavIcon svg { width: 100%; height: 100%; }
+.adminSearchShell svg,.adminMobileToggle svg { width: 16px; height: 16px; }
 .adminSidebarFooter { display: grid; gap: 10px; padding: 10px 4px 0; border-top: 1px solid var(--border); }
 .adminSidebarFooterCopy,.adminPageHeaderText,.adminCardHeaderText,.adminActivityText,.adminActivityTime,.adminSectionCopy,.adminMetaText,.adminStatMeta,.adminLoginHeader p,.adminLoginDemo,.adminLoginStatus,.adminFormSectionHeader p,.adminSettingsGroupText,.adminMediaCardText,.adminPaginationMeta,.adminPaginationCurrent { margin: 0; color: var(--text-secondary); }
 .adminSidebarFooterCopy,.adminStatMeta { font-size: .75rem; line-height: 1.45; }
@@ -97,11 +99,6 @@
 .adminStatusDanger { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
 .adminTextLink { border: 0; background: transparent; color: var(--text); font-size: .78rem; font-weight: 500; }
 .adminTextLink:hover { color: var(--accent); }
-.adminInlineControl { display: grid; gap: 6px; min-width: 0; }
-.adminInlineStatusCell { display: grid; gap: 10px; min-width: 0; }
-.adminInlineBadgeRow { display: flex; align-items: center; min-height: 22px; }
-.adminInlineActions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-start; }
-.adminInlineActions :global(.button) { min-width: 72px; min-height: 38px; padding: 0 18px; border-radius: 14px; }
 .adminInlineSelect { width: 100%; min-width: 148px; min-height: 36px; padding: 0 14px; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--field-bg) 92%, transparent); color: var(--text); font-size: .8rem; color-scheme: dark; box-shadow: inset 0 1px 0 rgba(255,255,255,.02); }
 .adminInlineSelect:focus { outline: none; border-color: var(--field-focus-border); box-shadow: var(--field-focus-ring); }
 .adminInlineSelect option { background: var(--surface); color: var(--text); }
@@ -125,10 +122,6 @@
 .adminUserStatusWrap .adminStatus { min-height: 36px; padding: 0 18px; border-radius: 999px; font-size: .9rem; letter-spacing: 0; }
 .adminUserCardActions { display: flex; align-items: center; justify-content: flex-start; gap: 10px; flex-wrap: wrap; }
 .adminUserCardActions :global(.button) { min-height: 38px; padding: 0 18px; border-radius: 12px; }
-.adminUserEditDetails { position: relative; z-index: 30; }
-.adminUserEditDetails summary { list-style: none; cursor: pointer; }
-.adminUserEditDetails summary::-webkit-details-marker { display: none; }
-.adminUserEditPanel { position: absolute; top: calc(100% + 10px); right: 0; z-index: 20; width: min(320px, 82vw); display: grid; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--surface) 96%, #0b1220 4%); box-shadow: 0 18px 40px rgba(0,0,0,.32); }
 .adminUserEditField { display: grid; gap: 6px; }
 .adminUserEditField span { color: var(--text-muted); font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 .adminUserMoreButton { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 12px; background: transparent; color: var(--text-muted); }
@@ -228,7 +221,7 @@
   .adminFilterRowCompact { align-items: stretch; }
   .adminOrdersCardAction { align-items: stretch; }
   .adminActions,.adminToolbarGroup,.adminPaginationActions { width: 100%; flex-wrap: wrap; }
-  .adminActions :global(.button),.adminToolbarGroup :global(.button),.adminOrdersCardAction :global(.button),.adminPaginationLink,.adminPaginationLinkDisabled { width: 100%; justify-content: center; }
+  .adminActions :global(.button),.adminToolbarGroup :global(.button),.adminOrdersCardAction :global(.button),.adminPaginationLink,.adminPaginationLinkDisabled,.adminModalActions :global(.button) { width: 100%; justify-content: center; }
   .adminSectionCardCompact { min-height: auto; }
   .adminSectionCardCompact .adminToolbarGroup:last-child { margin-left: 0; }
   .adminTable { min-width: 640px; }
@@ -236,11 +229,9 @@
   .adminUserCardMain { grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
   .adminUserCardActions { justify-content: stretch; }
   .adminUserCardActions :global(.button),.adminUserMoreButton { flex: 1 1 0; justify-content: center; }
-  .adminUserEditPanel { position: static; width: 100%; }
   .adminLoginCard { padding: 24px 20px; }
   .adminModalBackdrop { padding: 12px; }
   .adminModalCard { width: 100%; max-height: calc(100vh - 24px); }
   .adminModalHeader,.adminModalScroll,.adminModalActions { padding-left: 16px; padding-right: 16px; }
   .adminModalActions { flex-direction: column-reverse; align-items: stretch; }
-  .adminModalActions :global(.button) { width: 100%; justify-content: center; }
 }

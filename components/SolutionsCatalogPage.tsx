@@ -6,8 +6,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, CheckCircle2, LayoutDashboard, MapPinned, Smartphone } from "lucide-react";
 import { startTransition, type CSSProperties } from "react";
 
+import { CmsEditableBoundary } from "@/components/CmsEditableBoundary";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
-import { InlineEditableSection } from "@/components/InlineEditableSection";
 import { solutionsList, type SolutionDetail } from "@/lib/solutions";
 import { useAppStore } from "@/store/store";
 
@@ -407,7 +407,7 @@ export function SolutionsCatalogPage() {
 
   return (
     <main id="main-content" className="site-main solutions-catalog-page">
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId="solutions.catalog"
         title="Solutions Catalog"
         description="Solutions page hero, sections, results band, and CTA content."
@@ -445,7 +445,7 @@ export function SolutionsCatalogPage() {
           </div>
         </div>
       </section>
-      </InlineEditableSection>
+      </CmsEditableBoundary>
 
       <section className="solutions-platform-section">
         <div className="container">
@@ -720,3 +720,4 @@ export function SolutionsCatalogPage() {
     </main>
   );
 }
+

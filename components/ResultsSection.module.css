@@ -159,14 +159,6 @@
   );
 }
 
-:global(:root[data-theme="dark"]) .intro::before {
-  background: linear-gradient(
-    180deg,
-    rgba(148, 163, 184, 0.24),
-    rgba(148, 163, 184, 0.04)
-  );
-}
-
 :global(:root[data-theme="dark"]) .shell::after {
   background:
     radial-gradient(circle, rgba(72, 121, 255, 0.08), transparent 72%),

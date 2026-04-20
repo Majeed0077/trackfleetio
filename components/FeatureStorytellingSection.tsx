@@ -13,8 +13,20 @@ export function FeatureStorytellingSection() {
   const [videoCard, imageCard] = fieldUseCasesContent.cards;
   const videoSrc = storyDraft.videoCard.videoSrc.trim() || "/Products/Video 1.mp4";
   const videoPoster = storyDraft.videoCard.posterSrc.trim() || "/Products/DR03.png";
-  const storyImageSrc = storyDraft.imageCard.imageSrc.trim() || imageCard.imageSrc || "/Products/Industrial temperature sensor close-up.png";
-  const storyImageAlt = storyDraft.imageCard.imageAlt.trim() || imageCard.imageAlt || "Story media";
+  const legacyStoryImage = "/Products/Industrial temperature sensor close-up.png";
+  const previousStoryImage = "/Products/logistics.png";
+  const draftImageSrc = storyDraft.imageCard.imageSrc.trim();
+  const draftImageAlt = storyDraft.imageCard.imageAlt.trim();
+  const storyImageSrc =
+    !draftImageSrc || draftImageSrc === legacyStoryImage || draftImageSrc === previousStoryImage
+      ? imageCard.imageSrc || "/Products/logistics.png"
+      : draftImageSrc;
+  const storyImageAlt =
+    !draftImageAlt ||
+    draftImageAlt === "Industrial temperature sensor device" ||
+    draftImageAlt === "Logistics trailer at loading dock"
+      ? imageCard.imageAlt || "Tracked refrigerated trailer parked in a logistics yard"
+      : draftImageAlt;
 
   return (
     <section id="story" className="content-section content-section-last section-story" data-reveal>

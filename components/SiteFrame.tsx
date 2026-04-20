@@ -4,19 +4,15 @@ import { usePathname } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 
 import { AuthHeader } from "@/components/AuthHeader";
+import { CmsChrome } from "@/components/CmsChrome";
 import { Footer } from "@/components/Footer";
-import { InlineCmsBar } from "@/components/InlineCmsBar";
-import { InlineCmsPanel } from "@/components/InlineCmsPanel";
 import { Navbar } from "@/components/Navbar";
 import { ScrollToggle } from "@/components/ScrollToggle";
-import type { AuthUser } from "@/store/store";
 
 export function SiteFrame({
   children,
-  initialAuthUser,
 }: {
   children: ReactNode;
-  initialAuthUser: AuthUser | null;
 }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
@@ -46,13 +42,12 @@ export function SiteFrame({
   return (
     <>
       <Suspense fallback={null}>
-        <Navbar initialAuthUser={initialAuthUser} />
+        <Navbar />
       </Suspense>
-      <InlineCmsBar />
+      <CmsChrome />
       {children}
       <ScrollToggle />
       <Footer />
-      <InlineCmsPanel />
     </>
   );
 }

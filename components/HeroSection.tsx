@@ -50,13 +50,20 @@ export function HeroSection() {
   }));
   const heroBackgroundImageSrc =
     heroDraft.backgroundImageSrc.trim() || defaultHeroBackgroundImageSrc;
-  const heroSectionStyle = {
-    "--hero-section-image-url": `url("${resolveCloudinaryAsset(heroBackgroundImageSrc)}")`,
-  } as CSSProperties;
+  const resolvedHeroBackgroundImageSrc = resolveCloudinaryAsset(heroBackgroundImageSrc, {
+    transforms: ["w_1800", "c_fill"],
+  });
 
   return (
     <>
-      <section className="hero-section" style={heroSectionStyle}>
+      <section
+        className="hero-section"
+        style={
+          {
+            "--hero-section-image-url": `url("${resolvedHeroBackgroundImageSrc}")`,
+          } as CSSProperties
+        }
+      >
         <div className="container">
           <div className="hero-grid" data-reveal-group>
             <div className="hero-copy" data-reveal-item>
@@ -89,8 +96,6 @@ export function HeroSection() {
                   alt={heroImageAlt}
                   width={920}
                   height={920}
-                  loading="eager"
-                  fetchPriority="high"
                   priority
                   sizes="(max-width: 991px) 100vw, 48vw"
                 />

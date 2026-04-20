@@ -272,8 +272,8 @@ export const fieldUseCasesContent = {
       ctaLabel: "View Logistics Use Case",
       ctaHref: "/industries/logistics",
       media: "image",
-      imageSrc: "/Products/Industrial temperature sensor close-up.png",
-      imageAlt: "Industrial temperature sensor device",
+      imageSrc: "/Products/Trailer (2).png",
+      imageAlt: "Tracked refrigerated trailer parked in a logistics yard",
       imageClass: "story-media-image-asset",
     },
   ] satisfies HomepageStoryCard[],
@@ -406,8 +406,8 @@ export const homeIndustriesContent = {
     "Each industry needs a different mix of visibility, safety, sensing, and deployment planning.",
   featured: {
     href: "/industries/logistics",
-    imageSrc: "/Products/logistics.png",
-    imageAlt: "Logistics operations",
+    imageSrc: "/Products/logistics2.png",
+    imageAlt: "Tracked trailers parked in a logistics yard",
     microLabel: "Primary Industry",
     title: "Logistics",
     description:

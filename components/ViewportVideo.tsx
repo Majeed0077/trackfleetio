@@ -23,7 +23,9 @@ export function ViewportVideo({
   const normalizedSrc = src.trim();
   const normalizedPoster = poster?.trim();
   const resolvedSrc = normalizedSrc ? resolveCloudinaryAsset(normalizedSrc) : null;
-  const resolvedPoster = normalizedPoster ? resolveCloudinaryAsset(normalizedPoster) : undefined;
+  const resolvedPoster = normalizedPoster
+    ? resolveCloudinaryAsset(normalizedPoster, { transforms: ["w_1280", "c_fill"] })
+    : undefined;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -83,7 +85,7 @@ export function ViewportVideo({
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       poster={resolvedPoster}
       aria-label={ariaLabel}
     >

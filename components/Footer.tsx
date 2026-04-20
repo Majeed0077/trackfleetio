@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { CmsEditableBoundary } from "@/components/CmsEditableBoundary";
 import { ThemeLogo } from "@/components/ThemeLogo";
 import {
   footerBranding,
@@ -11,7 +12,6 @@ import {
   footerSocialLinks,
 } from "@/lib/content/footer";
 import { useAppStore } from "@/store/store";
-import { InlineEditableSection } from "@/components/InlineEditableSection";
 
 function FooterStaticLink({ children }: { children: string }) {
   return <span className="footer-link footer-link-static">{children}</span>;
@@ -30,7 +30,7 @@ export function Footer() {
   };
 
   return (
-    <InlineEditableSection
+    <CmsEditableBoundary
       sectionId="footer.editorial"
       title="Footer Editorial"
       description="Footer intro copy, contact email, and footer CTAs."
@@ -192,6 +192,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
-    </InlineEditableSection>
+    </CmsEditableBoundary>
   );
 }

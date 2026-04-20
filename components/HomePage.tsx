@@ -1,14 +1,16 @@
-import { ClientsSection } from "@/components/ClientsSection";
-import { FleetArchitectureSection } from "@/components/FleetArchitectureSection";
-import { FeatureStorytellingSection } from "@/components/FeatureStorytellingSection";
-import { HardwareSection } from "@/components/HardwareSection";
-import { HeroSection } from "@/components/HeroSection";
 import { HomepageMotion } from "@/components/HomepageMotion";
-import { HomeIndustriesSection } from "@/components/HomeIndustriesSection";
-import { HomeSupportSection } from "@/components/HomeSupportSection";
-import { InlineEditableSection } from "@/components/InlineEditableSection";
-import { ResultsSection } from "@/components/ResultsSection";
-import { TrustEvidenceSection } from "@/components/TrustEvidenceSection";
+import { CmsEditableBoundary } from "@/components/CmsEditableBoundary";
+import {
+  PublicClientsSection,
+  PublicFeatureStorytellingSection,
+  PublicFleetArchitectureSection,
+  PublicHardwareSection,
+  PublicHeroSection,
+  PublicHomeIndustriesSection,
+  PublicHomeSupportSection,
+  PublicResultsSection,
+  PublicTrustEvidenceSection,
+} from "@/components/PublicHomepageSections";
 
 export function HomePage() {
   return (
@@ -18,78 +20,87 @@ export function HomePage() {
       data-homepage-motion-root
     >
       <HomepageMotion />
-      <InlineEditableSection
+      <CmsEditableBoundary
         sectionId="homepage.hero"
         title="Homepage Hero"
         description="Main headline, trust line, and primary conversion actions."
         draftKey="homepageHero"
+        adminSection="homepage.hero"
       >
-        <HeroSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicHeroSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.buying-priorities"
         title="Buying Priorities"
         description="Proof band for operations, safety, deployment, and procurement."
         draftKey="homepageBuyingPriorities"
+        adminSection="homepage.buying-priorities"
       >
-        <ClientsSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicClientsSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.story"
         title="Field Stories"
         description="Video and image-driven content blocks for solution storytelling."
         draftKey="homepageStory"
+        adminSection="homepage.story"
       >
-        <FeatureStorytellingSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicFeatureStorytellingSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.architecture"
         title="Architecture"
         description="Connected system layers and rollout architecture messaging."
         draftKey="homepageArchitecture"
+        adminSection="homepage.architecture"
       >
-        <FleetArchitectureSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicFleetArchitectureSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.industries"
         title="Industries"
         description="Industry-specific homepage showcase and supporting cards."
         draftKey="homepageIndustries"
+        adminSection="homepage.industries"
       >
-        <HomeIndustriesSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicHomeIndustriesSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.hardware"
         title="Hardware Ecosystem"
         description="Homepage hardware stack and category CTA."
         draftKey="homepageHardware"
+        adminSection="homepage.hardware"
       >
-        <HardwareSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicHardwareSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.trust"
         title="Trust Evidence"
         description="Stats, reviews, and social proof."
         draftKey="homepageTrust"
+        adminSection="homepage.trust"
       >
-        <TrustEvidenceSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicTrustEvidenceSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.results"
         title="Results"
         description="Outcome-driven content showing business value."
         draftKey="homepageResults"
+        adminSection="homepage.results"
       >
-        <ResultsSection />
-      </InlineEditableSection>
-      <InlineEditableSection
+        <PublicResultsSection />
+      </CmsEditableBoundary>
+      <CmsEditableBoundary
         sectionId="homepage.support"
         title="Support"
         description="Contact and support cards for fast lead routing."
         draftKey="homepageSupport"
+        adminSection="homepage.support"
       >
-        <HomeSupportSection />
-      </InlineEditableSection>
+        <PublicHomeSupportSection />
+      </CmsEditableBoundary>
     </main>
   );
 }
