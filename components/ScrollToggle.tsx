@@ -43,15 +43,22 @@ export function ScrollToggle() {
     const update = () => {
       const scrollY = window.scrollY || window.pageYOffset || 0;
       const show = scrollY > 200;
-      setIsVisible(show);
+      setIsVisible((currentValue) =>
+        currentValue === show ? currentValue : show,
+      );
 
       if (!show) {
-        setIsUpMode(false);
+        setIsUpMode((currentValue) =>
+          currentValue === false ? currentValue : false,
+        );
         return;
       }
 
       const viewportSwitchPoint = Math.max(threshold, window.innerHeight * 0.6);
-      setIsUpMode(scrollY > viewportSwitchPoint);
+      const nextIsUpMode = scrollY > viewportSwitchPoint;
+      setIsUpMode((currentValue) =>
+        currentValue === nextIsUpMode ? currentValue : nextIsUpMode,
+      );
     };
 
     const handleScroll = () => {
@@ -101,4 +108,3 @@ export function ScrollToggle() {
     </button>
   );
 }
-

@@ -42,6 +42,7 @@ import {
   useSystemTheme,
   type AuthUser,
 } from "@/store/store";
+import { NavScrollIndicator } from "@/components/NavScrollIndicator";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { ThemeLogo } from "@/components/ThemeLogo";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
@@ -145,7 +146,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
     state.cart.reduce((sum, item) => sum + item.quantity, 0),
   );
   const [isMobile, setIsMobile] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   // Hover only previews a menu while the pointer/focus stays on it.
   // Click pins a menu open until the same trigger, another trigger, or an outside click closes it.
@@ -203,19 +203,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
       } else {
         mediaQuery.removeListener(syncMobileState);
       }
-    };
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 12);
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
@@ -734,8 +721,10 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
 
   return (
     <header
-      className={`site-header${isScrolled ? " is-scrolled" : ""}${mobileNavOpen ? " is-mobile-nav-open" : ""}`}
+      className={`site-header${mobileNavOpen ? " is-mobile-nav-open" : ""}`}
+      id="site-header"
     >
+      <NavScrollIndicator />
       <div className="container">
         <nav className="nav" aria-label="Primary navigation" ref={navRef}>
           <div className="nav-zone nav-zone-left">
