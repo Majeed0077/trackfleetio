@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
@@ -35,19 +34,38 @@ export function ThemeLogo({
   const src = resolveCloudinaryAsset(
     resolvedTheme === "dark" ? "/D-Logo.png" : "/L-Logo.png",
   );
+  const normalizedStyle = {
+    ...style,
+    "--theme-logo-width": `${width}px`,
+    "--theme-logo-height": `${height}px`,
+    aspectRatio: `${width} / ${height}`,
+  } as CSSProperties & {
+    "--theme-logo-width": string;
+    "--theme-logo-height": string;
+  };
+
+  if (style?.width && !style?.height) {
+    normalizedStyle.height = "auto";
+  }
+
+  if (style?.height && !style?.width) {
+    normalizedStyle.width = "auto";
+  }
 
   return (
-    <span className={["theme-logo", wrapperClassName].filter(Boolean).join(" ")}>
-      <Image
+    <span
+      className={["theme-logo", wrapperClassName, className].filter(Boolean).join(" ")}
+      style={normalizedStyle}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         key={src}
-        className={["theme-logo-image", className].filter(Boolean).join(" ")}
+        className="theme-logo-image"
         src={src}
         alt={alt}
-        width={width}
-        height={height}
-        priority={priority}
-        unoptimized
-        style={style}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding="async"
       />
     </span>
   );

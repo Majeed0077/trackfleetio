@@ -68,7 +68,7 @@ export function RegionSelectorModal() {
             width={164}
             height={40}
             priority
-            style={{ width: "110px", height: "78px" }}
+            style={{ width: "110px", height: "auto" }}
           />
         </div>
 

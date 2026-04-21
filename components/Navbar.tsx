@@ -14,7 +14,6 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
-import { flushSync } from "react-dom";
 import {
   Bolt,
   Bus,
@@ -58,12 +57,6 @@ import {
 } from "@/lib/content/navigation";
 
 type MenuKey = "solutions" | "products" | "industries" | "company";
-type ViewTransitionHandle = {
-  ready: Promise<void>;
-};
-type DocumentWithViewTransition = Document & {
-  startViewTransition?: (callback: () => void) => ViewTransitionHandle;
-};
 
 const menuKeys: MenuKey[] = ["solutions", "products", "industries", "company"];
 const themeModeLabels = {
@@ -160,7 +153,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   const searchRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const accountRef = useRef<HTMLDivElement | null>(null);
-  const themeToggleRef = useRef<HTMLButtonElement | null>(null);
   const menuButtonRefs = useRef<Record<MenuKey, HTMLButtonElement | null>>({
     solutions: null,
     products: null,
@@ -272,9 +264,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   const resolvedCartCount = hasHydrated ? cartCount : 0;
   const nextThemeMode = hasHydrated
     ? getNextThemeMode(themeMode, systemTheme)
-    : "light";
-  const nextResolvedTheme = hasHydrated
-    ? resolveThemeMode(nextThemeMode, systemTheme)
     : "light";
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
   const currentThemeModeLabel = themeModeLabels[themeMode];
@@ -665,58 +654,7 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   };
 
   const handleThemeToggle = () => {
-    const supportsViewTransition =
-      typeof window !== "undefined" &&
-      typeof document !== "undefined" &&
-      typeof (document as DocumentWithViewTransition).startViewTransition === "function" &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (
-      !supportsViewTransition ||
-      !themeToggleRef.current ||
-      nextResolvedTheme === resolvedTheme
-    ) {
-      toggleTheme();
-      return;
-    }
-
-    const toggleBounds = themeToggleRef.current.getBoundingClientRect();
-    const transitionCenterX = toggleBounds.left + toggleBounds.width / 2;
-    const transitionCenterY = toggleBounds.top + toggleBounds.height / 2;
-    const transitionRadius = Math.hypot(
-      Math.max(transitionCenterX, window.innerWidth - transitionCenterX),
-      Math.max(transitionCenterY, window.innerHeight - transitionCenterY),
-    );
-
-    try {
-      const transition = (document as DocumentWithViewTransition).startViewTransition?.(() => {
-        flushSync(() => {
-          toggleTheme();
-        });
-      });
-
-      void transition?.ready
-        .then(() => {
-          document.documentElement.animate(
-            {
-              clipPath: [
-                `circle(0px at ${transitionCenterX}px ${transitionCenterY}px)`,
-                `circle(${transitionRadius}px at ${transitionCenterX}px ${transitionCenterY}px)`,
-              ],
-            },
-            {
-              duration: 650,
-              easing: "cubic-bezier(.22, 1, .36, 1)",
-              pseudoElement: "::view-transition-new(root)",
-            },
-          );
-        })
-        .catch(() => {
-          // A rapid second toggle can abort the active view transition; theme state is already updated.
-        });
-    } catch {
-      toggleTheme();
-    }
+    toggleTheme();
   };
 
   return (
@@ -924,7 +862,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
                 aria-pressed={resolvedTheme === "light" ? "true" : "false"}
                 onClick={handleThemeToggle}
                 data-theme-mode={themeMode}
-                ref={themeToggleRef}
               >
                 <span className="theme-icon theme-icon-moon" aria-hidden="true">
                   <MoonStar size={18} strokeWidth={1.9} />

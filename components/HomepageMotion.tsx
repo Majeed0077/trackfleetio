@@ -2,9 +2,6 @@
 
 import { useEffect } from "react";
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
 export function HomepageMotion() {
   useEffect(() => {
     const motionRoot = document.querySelector<HTMLElement>(
@@ -29,10 +26,6 @@ export function HomepageMotion() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const parallaxMediaQuery = window.matchMedia("(min-width: 992px)");
-    const supportsScrollTimeline =
-      typeof CSS !== "undefined" &&
-      CSS.supports("animation-timeline", "scroll()");
 
     if (
       !standaloneTargets.length &&
@@ -154,9 +147,6 @@ export function HomepageMotion() {
     standaloneTargets.forEach((target) => observer.observe(target));
     groupedTargets.forEach((group) => observer.observe(group));
 
-    let frameId = 0;
-    let parallaxEnabled = false;
-
     const resetParallax = () => {
       parallaxTargets.forEach((target) => {
         target.classList.remove("parallax-active");
@@ -164,96 +154,14 @@ export function HomepageMotion() {
       });
     };
 
-    if (supportsScrollTimeline) {
-      resetParallax();
-
-      return () => {
-        observer.disconnect();
-        motionDoneTimeoutIds.forEach((timeoutId) => {
-          window.clearTimeout(timeoutId);
-        });
-      };
-    }
-
-    const updateParallax = () => {
-      frameId = 0;
-
-      if (!parallaxEnabled) {
-        return;
-      }
-
-      parallaxTargets.forEach((target) => {
-        const rect = target.getBoundingClientRect();
-
-        if (rect.bottom < 0 || rect.top > window.innerHeight) {
-          target.style.setProperty("--parallax-offset", "0px");
-          return;
-        }
-
-        const progress = clamp(
-          (window.innerHeight - rect.top) / (window.innerHeight + rect.height),
-          0,
-          1,
-        );
-        const offset = (0.5 - progress) * 10;
-
-        target.style.setProperty("--parallax-offset", `${offset.toFixed(2)}px`);
-      });
-    };
-
-    const requestParallaxFrame = () => {
-      if (frameId !== 0) {
-        return;
-      }
-
-      frameId = window.requestAnimationFrame(updateParallax);
-    };
-
-    const syncParallaxState = () => {
-      const shouldEnableParallax =
-        !prefersReducedMotion.matches &&
-        parallaxMediaQuery.matches &&
-        parallaxTargets.length > 0;
-
-      if (!shouldEnableParallax) {
-        parallaxEnabled = false;
-
-        if (frameId !== 0) {
-          window.cancelAnimationFrame(frameId);
-          frameId = 0;
-        }
-
-        resetParallax();
-        return;
-      }
-
-      parallaxEnabled = true;
-      parallaxTargets.forEach((target) => {
-        target.classList.add("parallax-active");
-      });
-      requestParallaxFrame();
-    };
-
-    syncParallaxState();
-    window.addEventListener("scroll", requestParallaxFrame, { passive: true });
-    window.addEventListener("resize", syncParallaxState);
-    prefersReducedMotion.addEventListener("change", syncParallaxState);
-    parallaxMediaQuery.addEventListener("change", syncParallaxState);
+    resetParallax();
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", requestParallaxFrame);
-      window.removeEventListener("resize", syncParallaxState);
-      prefersReducedMotion.removeEventListener("change", syncParallaxState);
-      parallaxMediaQuery.removeEventListener("change", syncParallaxState);
       motionDoneTimeoutIds.forEach((timeoutId) => {
         window.clearTimeout(timeoutId);
       });
       resetParallax();
-
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId);
-      }
     };
   }, []);
 
