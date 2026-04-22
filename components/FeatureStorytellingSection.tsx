@@ -98,6 +98,8 @@ export function FeatureStorytellingSection() {
                   width={960}
                   height={498}
                   sizes="(max-width: 991px) 100vw, 50vw"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

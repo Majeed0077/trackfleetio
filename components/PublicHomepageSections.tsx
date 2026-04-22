@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import { ViewportVideo } from "@/components/ViewportVideo";
+import { QuoteRequestLauncher } from "@/components/QuoteRequestLauncher";
 import resultsStyles from "@/components/ResultsSection.module.css";
 import trustStyles from "@/components/TrustEvidenceSection.module.css";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
@@ -102,9 +103,9 @@ export function PublicHeroSection() {
               <p className="hero-text">{heroContent.description}</p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href="/quote-request">
+                <QuoteRequestLauncher className="button button-primary" label={heroContent.primaryCta.label}>
                   {heroContent.primaryCta.label}
-                </Link>
+                </QuoteRequestLauncher>
                 <Link className="button button-secondary" href={heroContent.secondaryCta.href}>
                   {heroContent.secondaryCta.label}
                 </Link>
@@ -254,6 +255,8 @@ export function PublicFeatureStorytellingSection() {
                   width={960}
                   height={498}
                   sizes="(max-width: 991px) 100vw, 50vw"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Boxes, Route, ShieldCheck, Wrench } from "lucide-react";
+import { QuoteRequestLauncher } from "@/components/QuoteRequestLauncher";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { heroContent, homepageMetrics } from "@/lib/content/homepage";
 import { useAppStore } from "@/store/store";
@@ -81,9 +82,9 @@ export function HeroSection() {
               <p className="hero-text">{heroDraft.description}</p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href="/quote-request">
+                <QuoteRequestLauncher className="button button-primary" label={primaryCtaLabel}>
                   {primaryCtaLabel}
-                </Link>
+                </QuoteRequestLauncher>
                 <Link className="button button-secondary" href={heroContent.secondaryCta.href}>
                   {heroDraft.secondaryCtaLabel}
                 </Link>

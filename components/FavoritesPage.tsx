@@ -3,8 +3,8 @@
 import Link from "next/link";
 
 import { ProductCard } from "@/components/ProductCard";
+import { QuoteRequestLauncher } from "@/components/QuoteRequestLauncher";
 import { getProductById } from "@/data/products";
-import { getQuoteRequestHref } from "@/lib/quote";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const isDefined = <T,>(value: T | null | undefined): value is T => Boolean(value);
@@ -23,9 +23,9 @@ export function FavoritesPage() {
             <h1>Favorites built for your next quote</h1>
             <p>Keep shortlisted devices here, compare them, then move into a guided quote request when you are ready.</p>
             <div className="products-hero-actions">
-              <Link className="button button-primary" href={getQuoteRequestHref()}>
+              <QuoteRequestLauncher className="button button-primary" label="Get Quote">
                 Get Quote
-              </Link>
+              </QuoteRequestLauncher>
               <Link className="button button-secondary" href="/products">
                 Browse More Hardware
               </Link>

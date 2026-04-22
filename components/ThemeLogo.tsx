@@ -32,7 +32,7 @@ export function ThemeLogo({
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
   const src = resolveCloudinaryAsset(
-    resolvedTheme === "dark" ? "/D-Logo.png" : "/L-Logo.png",
+    resolvedTheme === "dark" ? "/Dark.png" : "/Light.png",
   );
   const normalizedStyle = {
     ...style,

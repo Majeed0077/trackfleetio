@@ -6,9 +6,8 @@ import { Heart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
 import { CompareToggleButton } from "@/components/CompareToggleButton";
+import { QuoteRequestLauncher } from "@/components/QuoteRequestLauncher";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
-import { getQuoteRequestHref } from "@/lib/quote";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const PRODUCT_CARD_IMAGE_WIDTH = 420;
@@ -87,14 +86,13 @@ export function ProductCard({
         ))}
       </ul>
       <div className="catalog-card-actions">
-        <Link
+        <QuoteRequestLauncher
           className="button button-primary catalog-card-buy-now"
-          href={getQuoteRequestHref(product.id)}
-          onClick={() => startRouteLoader()}
+          product={product}
           aria-label={`Request a quote for ${product.title}`}
         >
           Get Quote
-        </Link>
+        </QuoteRequestLauncher>
         <Link className="button button-secondary catalog-card-secondary-link" href={getProductHref(product.id)}>
           View Details
         </Link>

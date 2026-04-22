@@ -57,9 +57,11 @@ const INITIAL_FORM_VALUES: QuoteFormValues = {
 export function QuoteRequestFlow({
   selectedProduct = null,
   initialAuthUser = null,
+  embedded = false,
 }: {
   selectedProduct?: Product | null;
   initialAuthUser?: AuthUser | null;
+  embedded?: boolean;
 }) {
   const router = useRouter();
   const showToast = useAppStore((state) => state.showToast);
@@ -176,12 +178,9 @@ export function QuoteRequestFlow({
     }
   };
 
-  return (
-    <main id="main-content" className="site-main quote-request-page">
-      <section className="quote-request-section">
-        <div className="container">
-          <div className={`quote-request-shell quote-request-shell-step-${step}`}>
-            <div className={`quote-request-stage quote-request-stage-step-${step}`}>
+  const flowContent = (
+    <div className={`quote-request-shell quote-request-shell-step-${step}`}>
+      <div className={`quote-request-stage quote-request-stage-step-${step}`}>
               {step > 1 ? (
                 <button className="quote-request-back" type="button" onClick={previousStep}>
                   <ArrowLeft size={16} strokeWidth={1.9} />
@@ -388,9 +387,18 @@ export function QuoteRequestFlow({
                   <Link href="/products">Prefer to keep browsing hardware first?</Link>
                 </div>
               ) : null}
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
+  );
+
+  if (embedded) {
+    return <div className="quote-request-embedded">{flowContent}</div>;
+  }
+
+  return (
+    <main id="main-content" className="site-main quote-request-page">
+      <section className="quote-request-section">
+        <div className="container">{flowContent}</div>
       </section>
     </main>
   );

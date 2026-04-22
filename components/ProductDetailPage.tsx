@@ -7,9 +7,8 @@ import { useState, type CSSProperties } from "react";
 
 import { getProductHref, getRelatedProducts, type Product } from "@/data/products";
 import { CompareToggleButton } from "@/components/CompareToggleButton";
+import { QuoteRequestLauncher } from "@/components/QuoteRequestLauncher";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
-import { getQuoteRequestHref } from "@/lib/quote";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
 const PRODUCT_DETAIL_IMAGE_WIDTH = 900;
@@ -178,9 +177,9 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 ))}
               </ul>
               <div className="product-detail-actions">
-                <Link className="button button-primary" href={getQuoteRequestHref(product.id)} onClick={() => startRouteLoader()}>
+                <QuoteRequestLauncher className="button button-primary" product={product}>
                   Get Quote
-                </Link>
+                </QuoteRequestLauncher>
                 <CompareToggleButton
                   productId={product.id}
                   mode="button"

@@ -4,10 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-  startTransition,
-  useDeferredValue,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type FocusEvent as ReactFocusEvent,
@@ -25,12 +22,10 @@ import {
   MapPin,
   MoonStar,
   Radar,
-  Search,
   ShieldCheck,
   Smartphone,
   SunMedium,
   Thermometer,
-  X,
 } from "lucide-react";
 
 import {
@@ -44,10 +39,10 @@ import {
 import { NavScrollIndicator } from "@/components/NavScrollIndicator";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { ThemeLogo } from "@/components/ThemeLogo";
+import { CommandSearch } from "@/components/CommandSearch";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { SSR_THEME_FALLBACK } from "@/lib/theme";
 import { startRouteLoader } from "@/lib/route-loader";
-import { getProductHref, productsList } from "@/data/products";
 import {
   companyMenuLinks,
   industriesMenuLinks,
@@ -145,12 +140,8 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   const [clickedMenu, setClickedMenu] = useState<MenuKey | null>(null);
   const [solutionsMenuIndex, setSolutionsMenuIndex] = useState(0);
   const [productsMenuIndex, setProductsMenuIndex] = useState(0);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchDraft, setSearchDraft] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
-  const searchRef = useRef<HTMLDivElement | null>(null);
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const accountRef = useRef<HTMLDivElement | null>(null);
   const menuButtonRefs = useRef<Record<MenuKey, HTMLButtonElement | null>>({
     solutions: null,
@@ -206,21 +197,11 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   }, [mobileNavOpen]);
 
   useEffect(() => {
-    if (searchOpen) {
-      searchInputRef.current?.focus();
-    }
-  }, [searchOpen]);
-
-  useEffect(() => {
     const onDocumentClick = (event: MouseEvent) => {
       const target = event.target as Node;
 
       if (navRef.current && !navRef.current.contains(target)) {
         closeMenus();
-      }
-
-      if (searchRef.current && !searchRef.current.contains(target)) {
-        setSearchOpen(false);
       }
 
       if (accountRef.current && !accountRef.current.contains(target)) {
@@ -232,7 +213,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
       if (event.key === "Escape") {
         closeMenus();
         setMobileNavOpen(false);
-        setSearchOpen(false);
         setAccountOpen(false);
       }
     };
@@ -270,54 +250,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
     themeMode === "system"
       ? `${currentThemeModeLabel} (${resolvedTheme})`
       : currentThemeModeLabel;
-  const currentSearchValue = searchOpen ? searchDraft : currentSearchQuery;
-  const deferredSearchDraft = useDeferredValue(searchDraft);
-  const normalizedLiveSearch = deferredSearchDraft.trim().toLowerCase();
-
-  const liveSearchResults = useMemo(() => {
-    if (normalizedLiveSearch.length < 2) {
-      return [];
-    }
-
-    const tokens = normalizedLiveSearch
-      .split(/\s+/)
-      .map((token) => token.trim())
-      .filter(Boolean);
-
-    return productsList
-      .map((product) => {
-        const haystack = [
-          product.title,
-          product.categoryLabel,
-          product.shortDescription,
-          ...product.specs,
-          ...product.features,
-          ...product.useCases,
-        ]
-          .join(" ")
-          .toLowerCase();
-
-        let score = 0;
-        for (const token of tokens) {
-          const index = haystack.indexOf(token);
-          if (index === -1) {
-            return null;
-          }
-          score += 100 - Math.min(index, 80);
-        }
-
-        const titleIndex = product.title.toLowerCase().indexOf(normalizedLiveSearch);
-        if (titleIndex >= 0) {
-          score += 180 - Math.min(titleIndex, 80);
-        }
-
-        return { product, score };
-      })
-      .filter((item): item is { product: (typeof productsList)[number]; score: number } => Boolean(item))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 6)
-      .map((item) => item.product);
-  }, [normalizedLiveSearch]);
 
   const focusMenuButton = (menuKey: MenuKey) => {
     menuButtonRefs.current[menuKey]?.focus();
@@ -647,31 +579,6 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
     }
   };
 
-  const submitSearch = () => {
-    if (!searchOpen) {
-      setSearchDraft(currentSearchQuery);
-      setSearchOpen(true);
-      return;
-    }
-
-    const query = searchDraft.trim();
-
-    if (!query) {
-      return;
-    }
-
-    startRouteLoader();
-    router.push(`/products?q=${encodeURIComponent(query)}`);
-    setSearchOpen(false);
-  };
-
-  const openSearchResult = (href: string) => {
-    closeMenus();
-    setSearchOpen(false);
-    startRouteLoader();
-    router.push(href);
-  };
-
   const handleThemeToggle = () => {
     toggleTheme();
   };
@@ -776,100 +683,15 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
 
           <div className="nav-zone nav-zone-right">
             <div className="nav-utilities" aria-label="Utility actions">
-              <div className={`nav-search${searchOpen ? " is-open" : ""}`} data-nav-search ref={searchRef}>
-                <button
-                  className="nav-utility nav-search-toggle"
-                  type="button"
-                  aria-label={searchOpen ? "Submit search" : "Open search"}
-                  aria-expanded={searchOpen ? "true" : "false"}
-                  aria-controls="nav-search-input"
-                  onClick={() => submitSearch()}
-                >
-                  <Search size={18} strokeWidth={1.9} />
-                </button>
-                <form
-                  className="nav-search-surface"
-                  role="search"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    submitSearch();
-                  }}
-                >
-                  <label className="sr-only" htmlFor="nav-search-input">
-                    {navigationUtilityLabels.searchPlaceholder}
-                  </label>
-                  <input
-                    className="nav-search-input"
-                    id="nav-search-input"
-                    name="q"
-                    type="search"
-                    placeholder={navigationUtilityLabels.searchPlaceholder}
-                    autoComplete="off"
-                    value={currentSearchValue}
-                    ref={searchInputRef}
-                    onChange={(event) => {
-                      const nextValue = event.target.value;
-                      startTransition(() => {
-                        setSearchDraft(nextValue);
-                      });
-                    }}
-                  />
-                  <button
-                    className="nav-search-clear"
-                    type="button"
-                    aria-label="Clear search"
-                    hidden={!currentSearchValue.trim()}
-                    onMouseDown={(event) => {
-                      event.preventDefault();
-                    }}
-                    onClick={() => {
-                      setSearchDraft("");
-                      searchInputRef.current?.focus();
-                    }}
-                  >
-                    <X size={16} strokeWidth={1.9} />
-                  </button>
-                </form>
-                {searchOpen && normalizedLiveSearch.length >= 2 ? (
-                  <div className="nav-search-results" aria-label="Live search results">
-                    {liveSearchResults.length ? (
-                      <>
-                        {liveSearchResults.map((product) => (
-                          <button
-                            key={`nav-search-${product.id}`}
-                            className="nav-search-result"
-                            type="button"
-                            onClick={() => openSearchResult(getProductHref(product.id))}
-                          >
-                            <Image
-                              className={`catalog-card-image ${product.imageClass}`}
-                              src={resolveCloudinaryAsset(product.imageSrc)}
-                              alt={product.imageAlt}
-                              width={52}
-                              height={40}
-                            />
-                            <span className="nav-search-result-copy">
-                              <span className="nav-search-result-title">{product.title}</span>
-                              <span className="nav-search-result-meta">{product.categoryLabel}</span>
-                            </span>
-                          </button>
-                        ))}
-                        <button
-                          className="nav-search-view-all"
-                          type="button"
-                          onClick={() => openSearchResult(`/products?q=${encodeURIComponent(deferredSearchDraft.trim())}`)}
-                        >
-                          View all results <span aria-hidden="true">&rarr;</span>
-                        </button>
-                      </>
-                    ) : (
-                      <p className="nav-search-empty">
-                        No product found for &quot;{deferredSearchDraft.trim()}&quot;.
-                      </p>
-                    )}
-                  </div>
-                ) : null}
-              </div>
+              <CommandSearch
+                currentQuery={currentSearchQuery}
+                placeholder={navigationUtilityLabels.searchPlaceholder}
+                onOpen={() => {
+                  closeMenus();
+                  setMobileNavOpen(false);
+                  setAccountOpen(false);
+                }}
+              />
               <Link className="nav-utility nav-utility-cart" href="/favorites" aria-label="Saved products">
                 <Heart size={18} strokeWidth={1.9} />
                 <span className="nav-utility-badge" aria-hidden="true" hidden={resolvedSavedCount === 0}>
