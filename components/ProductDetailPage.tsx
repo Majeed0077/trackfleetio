@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
 import { useState, type CSSProperties } from "react";
 
 import { getProductHref, getRelatedProducts, type Product } from "@/data/products";
 import { CompareToggleButton } from "@/components/CompareToggleButton";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
+import { getQuoteRequestHref } from "@/lib/quote";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
@@ -77,9 +77,7 @@ const getUseCaseSupportCopy = (useCase: string) => {
 };
 
 export function ProductDetailPage({ product }: { product: Product }) {
-  const router = useRouter();
   const hasHydrated = useStoreHydrated();
-  const startImmediateCheckout = useAppStore((state) => state.startImmediateCheckout);
   const toggleWishlist = useAppStore((state) => state.toggleWishlist);
   const wishlist = useAppStore((state) => state.wishlist);
   const [activeImage, setActiveImage] = useState(product.gallery[0]);
@@ -180,17 +178,9 @@ export function ProductDetailPage({ product }: { product: Product }) {
                 ))}
               </ul>
               <div className="product-detail-actions">
-                <button
-                  className="button button-outline"
-                  type="button"
-                  onClick={() => {
-                    startImmediateCheckout(product.id);
-                    startRouteLoader();
-                    router.push("/checkout");
-                  }}
-                >
-                  Start Order
-                </button>
+                <Link className="button button-primary" href={getQuoteRequestHref(product.id)} onClick={() => startRouteLoader()}>
+                  Get Quote
+                </Link>
                 <CompareToggleButton
                   productId={product.id}
                   mode="button"

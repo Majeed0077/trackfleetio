@@ -98,7 +98,7 @@ export function CartPage() {
                         router.push("/checkout");
                       }}
                     >
-                      Proceed to Checkout
+                      Continue to Quote
                     </button>
                   </div>
                 </div>

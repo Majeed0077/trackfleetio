@@ -28,7 +28,7 @@ export function CheckoutWorkflowForm() {
       : checkoutSelection?.mode === "buy-now" && checkoutSelection.items.length
         ? checkoutSelection
         : { mode: "cart" as const, items: [] };
-  const checkoutLabel = checkoutContext.mode === "buy-now" ? "Buy Now" : "Checkout";
+  const checkoutLabel = checkoutContext.mode === "buy-now" ? "Direct Quote" : "Quote Review";
   const summary = getFleetSummary(checkoutContext.items);
   const summaryRows = useFleetSummaryRows(checkoutContext.items);
   const [step, setStep] = useState<CheckoutStep>("access");
@@ -82,14 +82,14 @@ export function CheckoutWorkflowForm() {
               <p>
                 {orderId
                   ? `${statusMessage} Order: ${orderId}`
-                  : "Add hardware to your cart or choose Buy Now from a product page to start checkout."}
+                  : "Open a product and choose Request Quote to begin the guided quote workflow."}
               </p>
               <div className="products-hero-actions">
                 <Link className="button button-primary" href="/products">
                   Browse Hardware
                 </Link>
-                <Link className="button button-secondary" href="/cart">
-                  Go to Cart
+                <Link className="button button-secondary" href="/favorites">
+                  View Favorites
                 </Link>
               </div>
             </div>

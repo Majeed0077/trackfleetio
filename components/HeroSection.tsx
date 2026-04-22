@@ -53,6 +53,10 @@ export function HeroSection() {
   const resolvedHeroBackgroundImageSrc = resolveCloudinaryAsset(heroBackgroundImageSrc, {
     transforms: ["w_1800", "c_fill"],
   });
+  const primaryCtaLabel =
+    heroDraft.primaryCtaLabel.trim() === "Request Consultation"
+      ? "Get Quote"
+      : heroDraft.primaryCtaLabel;
 
   return (
     <>
@@ -77,8 +81,8 @@ export function HeroSection() {
               <p className="hero-text">{heroDraft.description}</p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href={heroContent.primaryCta.href}>
-                  {heroDraft.primaryCtaLabel}
+                <Link className="button button-primary" href="/quote-request">
+                  {primaryCtaLabel}
                 </Link>
                 <Link className="button button-secondary" href={heroContent.secondaryCta.href}>
                   {heroDraft.secondaryCtaLabel}

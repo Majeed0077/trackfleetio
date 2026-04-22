@@ -21,12 +21,12 @@ import {
   ChevronDown,
   Droplets,
   Factory,
+  Heart,
   MapPin,
   MoonStar,
   Radar,
   Search,
   ShieldCheck,
-  ShoppingCart,
   Smartphone,
   SunMedium,
   Thermometer,
@@ -97,7 +97,8 @@ const getCurrentSection = (pathname: string) => {
 
   if (
     pathname.startsWith("/products") ||
-    pathname.startsWith("/cart") ||
+    pathname.startsWith("/favorites") ||
+    pathname.startsWith("/quote-request") ||
     pathname.startsWith("/checkout")
   ) {
     return "products";
@@ -135,9 +136,7 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   const themeMode = useAppStore((state) => state.themeMode);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
   const systemTheme = useSystemTheme();
-  const cartCount = useAppStore((state) =>
-    state.cart.reduce((sum, item) => sum + item.quantity, 0),
-  );
+  const wishlist = useAppStore((state) => state.wishlist);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   // Hover only previews a menu while the pointer/focus stays on it.
@@ -261,7 +260,7 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
   const resolvedTheme = hasHydrated
     ? resolveThemeMode(themeMode, systemTheme)
     : SSR_THEME_FALLBACK;
-  const resolvedCartCount = hasHydrated ? cartCount : 0;
+  const resolvedSavedCount = hasHydrated ? wishlist.length : 0;
   const nextThemeMode = hasHydrated
     ? getNextThemeMode(themeMode, systemTheme)
     : "light";
@@ -347,6 +346,13 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
     setHoveredMenu(menuKey);
   };
 
+  const isDropdownOnlyMenu = (menuKey: MenuKey) => menuKey === "solutions";
+
+  const toggleMenuByClick = (menuKey: MenuKey) => {
+    setHoveredMenu(null);
+    setClickedMenu((currentValue) => (currentValue === menuKey ? null : menuKey));
+  };
+
   const openParentDirectory = (href: string) => {
     closeMenuNavigation();
     startRouteLoader();
@@ -386,7 +392,20 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
 
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        openParentDirectory(href);
+
+        if (!isDropdownOnlyMenu(menuKey)) {
+          openParentDirectory(href);
+          return;
+        }
+
+        const shouldOpenMenu = clickedMenu !== menuKey;
+        toggleMenuByClick(menuKey);
+
+        if (shouldOpenMenu) {
+          requestAnimationFrame(() => {
+            focusFirstMenuItem(menuKey);
+          });
+        }
       }
 
       if (event.key === "Escape") {
@@ -714,7 +733,11 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
                       aria-expanded={isOpen ? "true" : "false"}
                       aria-haspopup="true"
                       aria-controls={`nav-menu-${menuItem.key}`}
-                      onClick={() => openParentDirectory(menuItem.href)}
+                      onClick={() =>
+                        isDropdownOnlyMenu(menuItem.key)
+                          ? toggleMenuByClick(menuItem.key)
+                          : openParentDirectory(menuItem.href)
+                      }
                       onFocus={() => openMenuByFocus(menuItem.key)}
                       onKeyDown={handleMenuKeyDown(menuItem.key, menuItem.href)}
                       ref={(node) => {
@@ -847,10 +870,10 @@ export function Navbar({ initialAuthUser = null }: { initialAuthUser?: AuthUser 
                   </div>
                 ) : null}
               </div>
-              <Link className="nav-utility nav-utility-cart" href="/cart" aria-label="Cart">
-                <ShoppingCart size={18} strokeWidth={1.9} />
-                <span className="nav-utility-badge" aria-hidden="true" hidden={resolvedCartCount === 0}>
-                  {resolvedCartCount}
+              <Link className="nav-utility nav-utility-cart" href="/favorites" aria-label="Saved products">
+                <Heart size={18} strokeWidth={1.9} />
+                <span className="nav-utility-badge" aria-hidden="true" hidden={resolvedSavedCount === 0}>
+                  {resolvedSavedCount}
                 </span>
               </Link>
               <button

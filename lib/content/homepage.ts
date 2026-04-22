@@ -103,7 +103,7 @@ export const heroContent = {
   heading: ["Connected Fleet", "Solutions for", "B2B Operations"],
   description:
     "Track Fleetio helps operations, safety, and procurement teams plan the right mix of tracking, video telematics, and sensor hardware for real fleet workflows.",
-  primaryCta: { label: "Request Consultation", href: "/contact" },
+  primaryCta: { label: "Get Quote", href: "/quote-request" },
   secondaryCta: { label: "Explore Solutions", href: "/solutions" },
   trustLine:
     "Built for operations, safety, compliance, and procurement teams managing fleet rollouts.",

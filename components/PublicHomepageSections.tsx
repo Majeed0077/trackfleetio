@@ -102,7 +102,7 @@ export function PublicHeroSection() {
               <p className="hero-text">{heroContent.description}</p>
 
               <div className="hero-actions">
-                <Link className="button button-primary" href={heroContent.primaryCta.href}>
+                <Link className="button button-primary" href="/quote-request">
                   {heroContent.primaryCta.label}
                 </Link>
                 <Link className="button button-secondary" href={heroContent.secondaryCta.href}>

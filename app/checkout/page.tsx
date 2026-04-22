@@ -1,16 +1,5 @@
-import type { Metadata } from "next";
-
-import { CheckoutPage } from "@/components/CheckoutPage";
-import { createPageMetadata } from "@/lib/metadata";
-
-export function generateMetadata(): Metadata {
-  return createPageMetadata({
-    title: "Checkout | Track Fleetio",
-    description: "Complete your Track Fleetio hardware order and review your fleet commerce selection.",
-    path: "/checkout",
-  });
-}
+import { redirect } from "next/navigation";
 
 export default function CheckoutRoutePage() {
-  return <CheckoutPage />;
+  redirect("/quote-request");
 }

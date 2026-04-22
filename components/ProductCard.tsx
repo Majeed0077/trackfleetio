@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 import { getProductHref, type Product } from "@/data/products";
 import { CompareToggleButton } from "@/components/CompareToggleButton";
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
+import { getQuoteRequestHref } from "@/lib/quote";
 import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore, useStoreHydrated } from "@/store/store";
 
@@ -21,10 +21,7 @@ export function ProductCard({
   product: Product;
   prioritizeImage?: boolean;
 }) {
-  const router = useRouter();
   const hasHydrated = useStoreHydrated();
-  const quickAddToCart = useAppStore((state) => state.quickAddToCart);
-  const startImmediateCheckout = useAppStore((state) => state.startImmediateCheckout);
   const toggleWishlist = useAppStore((state) => state.toggleWishlist);
   const wishlist = useAppStore((state) => state.wishlist);
   const isSaved = hasHydrated && wishlist.includes(product.id);
@@ -58,15 +55,6 @@ export function ProductCard({
               navigateToCompare
             />
           </div>
-          <button
-            className="catalog-card-tool catalog-card-tool-quick-cart"
-            type="button"
-            aria-label="Quick add to cart"
-            title="Quick add to cart"
-            onClick={() => quickAddToCart(product.id)}
-          >
-            <ShoppingCart size={18} strokeWidth={1.9} />
-          </button>
         </div>
 
         <Link
@@ -99,18 +87,14 @@ export function ProductCard({
         ))}
       </ul>
       <div className="catalog-card-actions">
-        <button
+        <Link
           className="button button-primary catalog-card-buy-now"
-          type="button"
-          onClick={() => {
-            startImmediateCheckout(product.id);
-            startRouteLoader();
-            router.push("/checkout");
-          }}
-          aria-label={`Buy now ${product.title}`}
+          href={getQuoteRequestHref(product.id)}
+          onClick={() => startRouteLoader()}
+          aria-label={`Request a quote for ${product.title}`}
         >
-          Buy Now
-        </button>
+          Get Quote
+        </Link>
         <Link className="button button-secondary catalog-card-secondary-link" href={getProductHref(product.id)}>
           View Details
         </Link>

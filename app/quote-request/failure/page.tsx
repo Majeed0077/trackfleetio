@@ -1,0 +1,51 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+
+import { createPageMetadata } from "@/lib/metadata";
+
+export function generateMetadata(): Metadata {
+  return createPageMetadata({
+    title: "Quote Request Issue | Track Fleetio",
+    description: "Failure state for Track Fleetio quote request submissions.",
+    path: "/quote-request/failure",
+  });
+}
+
+export default async function QuoteRequestFailurePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reason?: string }>;
+}) {
+  const params = await searchParams;
+  const reason = params.reason || "Unable to submit your quote request.";
+
+  return (
+    <main className="site-main state-page" id="main-content">
+      <section className="products-hero commerce-hero">
+        <div className="container">
+          <div className="products-hero-shell">
+            <span className="products-badge">Quote request issue</span>
+            <h1>We could not submit your request</h1>
+            <p>Retry the quote form or contact the team directly if you need immediate pricing support.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="state-section">
+        <div className="container">
+          <article className="state-card">
+            <p>{reason}</p>
+            <div className="state-actions">
+              <Link className="button button-primary" href="/quote-request">
+                Retry quote request
+              </Link>
+              <Link className="button button-secondary" href="/contact">
+                Contact support
+              </Link>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  );
+}
