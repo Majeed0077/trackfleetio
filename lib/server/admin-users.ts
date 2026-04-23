@@ -88,6 +88,7 @@ const mapUserRow = (user: {
 
 export const getAdminRoleLabelOptions = (currentRoleLabel?: string) => {
   const labels = new Set<string>(adminUserRoleLabelPresets);
+  labels.delete("Super Admin");
 
   if (currentRoleLabel?.trim()) {
     labels.add(currentRoleLabel.trim());

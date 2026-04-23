@@ -1,23 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import type { Metadata } from "next";
+import { useSearchParams } from "next/navigation";
 
-import { createPageMetadata } from "@/lib/metadata";
-
-export function generateMetadata(): Metadata {
-  return createPageMetadata({
-    title: "Quote Request Received | Track Fleetio",
-    description: "Confirmation state for Track Fleetio quote requests.",
-    path: "/quote-request/success",
-  });
-}
-
-export default async function QuoteRequestSuccessPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ quote?: string }>;
-}) {
-  const params = await searchParams;
-  const quoteId = params.quote || "TFQ-NEW";
+export function QuoteRequestSuccessState() {
+  const searchParams = useSearchParams();
+  const quoteId = searchParams.get("quote") || "TFQ-NEW";
 
   return (
     <main className="site-main state-page" id="main-content">

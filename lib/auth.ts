@@ -2,7 +2,13 @@ import type { UserRole } from "@/lib/server/models/user";
 
 export const AUTH_COOKIE_NAME = "trackfleetio_session";
 const DEFAULT_AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
-const AUTH_SECRET = process.env.TRACKFLEETIO_AUTH_SECRET || "trackfleetio-dev-secret";
+const AUTH_SECRET = process.env.TRACKFLEETIO_AUTH_SECRET;
+
+if (!AUTH_SECRET) {
+  throw new Error(
+    "TRACKFLEETIO_AUTH_SECRET is required. Add TRACKFLEETIO_AUTH_SECRET=<strong-random-secret> to .env.local.",
+  );
+}
 
 export type SessionCookiePayload = {
   sid: string;

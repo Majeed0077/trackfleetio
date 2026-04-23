@@ -1,11 +1,29 @@
+import { emailPattern, hasOnlyAllowedKeys, isPlainObject, normalizeEmailAddress } from "@/lib/server/validation";
+
 export type NewsletterInput = {
   email?: string;
 };
 
 export const submitMockNewsletter = async (input: NewsletterInput) => {
-  const email = input.email?.trim() ?? "";
+  if (!isPlainObject(input) || !hasOnlyAllowedKeys(input, ["email"])) {
+    return {
+      ok: false as const,
+      status: 400,
+      message: "Unexpected newsletter fields were provided.",
+    };
+  }
 
-  if (!email) {
+  const email = normalizeEmailAddress(input.email);
+
+  if (!email || !emailPattern.test(email)) {
+    return {
+      ok: false as const,
+      status: 400,
+      message: "Enter a valid email address.",
+    };
+  }
+
+  if (email.length > 320) {
     return {
       ok: false as const,
       status: 400,

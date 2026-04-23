@@ -29,6 +29,19 @@ npm run build
 npm run lint
 ```
 
+## Environment Variables
+
+Create `.env.local` before running the app locally:
+
+```bash
+TRACKFLEETIO_AUTH_SECRET=replace-with-a-long-random-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+MONGO_DB_URL=mongodb+srv://username:password@cluster.mongodb.net/database
+CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+```
+
+`TRACKFLEETIO_AUTH_SECRET` is mandatory and should be a long random value used to sign session cookies.
+
 ## Notes
 
 - `src/` is intentionally not used. Next.js supports root-level `app/`, `components/`, `lib/`, `store/`, and `public/` without any issue.

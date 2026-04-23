@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { AppWindow, ArrowLeft, ArrowRight, Camera, LocateFixed, PackageSearch, Radar } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 
@@ -48,11 +49,12 @@ export function ProductCatalogPage({
 }: {
   initialQuery?: string;
 }) {
+  const searchParams = useSearchParams();
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const categoryRailRef = useRef<HTMLDivElement | null>(null);
 
-  const normalizedQuery = initialQuery.trim().toLowerCase();
+  const normalizedQuery = (searchParams.get("q") ?? initialQuery).trim().toLowerCase();
   const categoryCounts = useMemo(() => {
     const counts: Record<ProductCategory, number> = {
       tracking: 0,

@@ -1,158 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
-import { CmsEditableBoundary } from "@/components/CmsEditableBoundary";
+import { FooterEditorial } from "@/components/FooterEditorial";
+import { FooterLinkGroupsAccordion } from "@/components/FooterLinkGroupsAccordion";
 import { ThemeLogo } from "@/components/ThemeLogo";
 import {
   footerBranding,
-  footerEditorialContent,
   footerLegalLinks,
-  footerLinkGroups,
   footerSocialLinks,
 } from "@/lib/content/footer";
-import { useAppStore } from "@/store/store";
 
 function FooterStaticLink({ children }: { children: string }) {
   return <span className="footer-link footer-link-static">{children}</span>;
 }
 
 export function Footer() {
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
-  const footerDraft = useAppStore((state) => state.cmsDrafts.footerEditorial);
   const currentYear = String(new Date().getFullYear());
 
-  const toggleSection = (key: string) => {
-    setOpenSections((currentValue) => ({
-      ...currentValue,
-      [key]: !currentValue[key],
-    }));
-  };
-
   return (
-    <CmsEditableBoundary
-      sectionId="footer.editorial"
-      title="Footer Editorial"
-      description="Footer intro copy, contact email, and footer CTAs."
-      draftKey="footerEditorial"
-    >
     <footer id="footer" className="site-footer footer">
       <div className="container footer-container">
-        <section className="footer-editorial-intro" aria-label="Footer overview">
-          <div className="footer-editorial-copy">
-            <p className="footer-editorial-eyebrow">{footerDraft.eyebrow}</p>
-            <h2>{footerDraft.heading}</h2>
-            <p>{footerDraft.description}</p>
-          </div>
-
-          <div className="footer-editorial-actions">
-            <a className="footer-contact-link footer-editorial-contact" href={`mailto:${footerDraft.contactEmail}`}>
-              {footerDraft.contactEmail}
-            </a>
-            <div className="footer-editorial-buttons">
-              <Link className="button button-primary" href={footerEditorialContent.primaryCta.href}>
-                {footerDraft.primaryCtaLabel}
-              </Link>
-              <Link className="button button-secondary" href={footerEditorialContent.secondaryCta.href}>
-                {footerDraft.secondaryCtaLabel}
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <div className="footer-grid">
-          <section className={`footer-column footer-column-platform footer-column-products${openSections.products ? " is-open" : ""}`}>
-            <button
-              className="footer-title"
-              type="button"
-              aria-expanded={openSections.products ? "true" : "false"}
-              aria-controls="footer-panel-products"
-              onClick={() => toggleSection("products")}
-            >
-              {footerLinkGroups[0].title}
-            </button>
-            <div className="footer-links" id="footer-panel-products">
-              <ul className="footer-link-list">
-                {footerLinkGroups[0].links.map((link) => (
-                  <li key={link.label}>
-                    <Link className="footer-link" href={link.href}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section className={`footer-column footer-column-solutions${openSections.solutions ? " is-open" : ""}`}>
-            <button
-              className="footer-title"
-              type="button"
-              aria-expanded={openSections.solutions ? "true" : "false"}
-              aria-controls="footer-panel-solutions"
-              onClick={() => toggleSection("solutions")}
-            >
-              {footerLinkGroups[1].title}
-            </button>
-            <div className="footer-links" id="footer-panel-solutions">
-              <ul className="footer-link-list">
-                {footerLinkGroups[1].links.map((link) => (
-                  <li key={link.label}>
-                    <Link className="footer-link" href={link.href}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section className={`footer-column footer-column-industries${openSections.industries ? " is-open" : ""}`}>
-            <button
-              className="footer-title"
-              type="button"
-              aria-expanded={openSections.industries ? "true" : "false"}
-              aria-controls="footer-panel-industries"
-              onClick={() => toggleSection("industries")}
-            >
-              {footerLinkGroups[2].title}
-            </button>
-            <div className="footer-links" id="footer-panel-industries">
-              <ul className="footer-link-list">
-                {footerLinkGroups[2].links.map((link) => (
-                  <li key={link.label}>
-                    <Link className="footer-link" href={link.href}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section className={`footer-column footer-column-company${openSections.company ? " is-open" : ""}`}>
-            <button
-              className="footer-title"
-              type="button"
-              aria-expanded={openSections.company ? "true" : "false"}
-              aria-controls="footer-panel-company"
-              onClick={() => toggleSection("company")}
-            >
-              {footerLinkGroups[3].title}
-            </button>
-            <div className="footer-links" id="footer-panel-company">
-              <ul className="footer-link-list">
-                {footerLinkGroups[3].links.map((link) => (
-                  <li key={link.label}>
-                    <Link className="footer-link" href={link.href}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        </div>
+        <FooterEditorial />
+        <FooterLinkGroupsAccordion />
 
         <div className="footer-legal-row">
           <Link className="footer-brand" href="/" aria-label="Track Fleetio home">
@@ -192,6 +59,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-    </CmsEditableBoundary>
   );
 }

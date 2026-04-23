@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 function prefersReducedMotion() {
   if (typeof window === "undefined") {
@@ -21,12 +21,13 @@ function getScrollHeight() {
 }
 
 export function ScrollToggle() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isUpMode, setIsUpMode] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const tooltipRef = useRef<HTMLSpanElement | null>(null);
   const motionReducedRef = useRef(false);
-
+  const isVisibleRef = useRef(false);
+  const isUpModeRef = useRef(false);
   const iconSize = 18;
-  const threshold = useMemo(() => 360, []);
+  const threshold = 360;
 
   useEffect(() => {
     motionReducedRef.current = prefersReducedMotion();
@@ -40,25 +41,41 @@ export function ScrollToggle() {
 
     let rafId = 0;
 
+    const applyState = (show: boolean, isUpMode: boolean) => {
+      const button = buttonRef.current;
+
+      if (!button) {
+        return;
+      }
+
+      if (isVisibleRef.current !== show) {
+        isVisibleRef.current = show;
+        button.classList.toggle("is-visible", show);
+      }
+
+      if (isUpModeRef.current !== isUpMode) {
+        isUpModeRef.current = isUpMode;
+        button.dataset.mode = isUpMode ? "up" : "down";
+        button.setAttribute("aria-label", isUpMode ? "Scroll to top" : "Scroll to bottom");
+
+        if (tooltipRef.current) {
+          tooltipRef.current.textContent = isUpMode ? "Back to top" : "Explore more";
+        }
+      }
+    };
+
     const update = () => {
       const scrollY = window.scrollY || window.pageYOffset || 0;
       const show = scrollY > 200;
-      setIsVisible((currentValue) =>
-        currentValue === show ? currentValue : show,
-      );
 
       if (!show) {
-        setIsUpMode((currentValue) =>
-          currentValue === false ? currentValue : false,
-        );
+        applyState(false, false);
         return;
       }
 
       const viewportSwitchPoint = Math.max(threshold, window.innerHeight * 0.6);
       const nextIsUpMode = scrollY > viewportSwitchPoint;
-      setIsUpMode((currentValue) =>
-        currentValue === nextIsUpMode ? currentValue : nextIsUpMode,
-      );
+      applyState(true, nextIsUpMode);
     };
 
     const handleScroll = () => {
@@ -76,21 +93,19 @@ export function ScrollToggle() {
       window.removeEventListener("resize", handleScroll);
       mediaQuery?.removeEventListener?.("change", handleMotionChange);
     };
-  }, [threshold]);
-
-  const actionLabel = isUpMode ? "Scroll to top" : "Scroll to bottom";
-  const tooltipLabel = isUpMode ? "Back to top" : "Explore more";
+  }, []);
 
   return (
     <button
-      className={`scroll-toggle${isVisible ? " is-visible" : ""}`}
+      ref={buttonRef}
+      className="scroll-toggle"
       type="button"
-      aria-label={actionLabel}
-      data-mode={isUpMode ? "up" : "down"}
+      aria-label="Scroll to bottom"
+      data-mode="down"
       onClick={() => {
         const behavior = motionReducedRef.current ? "auto" : "smooth";
 
-        if (isUpMode) {
+        if (isUpModeRef.current) {
           window.scrollTo({ top: 0, behavior });
           return;
         }
@@ -102,8 +117,8 @@ export function ScrollToggle() {
         <ArrowDown className="scroll-toggle-icon-down" size={iconSize} strokeWidth={2.2} />
         <ArrowUp className="scroll-toggle-icon-up" size={iconSize} strokeWidth={2.2} />
       </span>
-      <span className="scroll-toggle-tooltip" role="tooltip">
-        {tooltipLabel}
+      <span ref={tooltipRef} className="scroll-toggle-tooltip" role="tooltip">
+        Explore more
       </span>
     </button>
   );

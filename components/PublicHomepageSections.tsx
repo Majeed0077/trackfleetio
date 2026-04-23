@@ -158,7 +158,7 @@ export function PublicHeroSection() {
 
 export function PublicClientsSection() {
   return (
-    <section className="content-section section-client" data-reveal>
+    <section className="content-section section-client" data-reveal data-defer-render>
       <div className="container">
         <div className="client-proof-band" data-reveal-group>
           <div className="client-proof-header" data-reveal-item>
@@ -186,7 +186,12 @@ export function PublicFeatureStorytellingSection() {
   const [videoCard, imageCard] = fieldUseCasesContent.cards;
 
   return (
-    <section id="story" className="content-section content-section-last section-story" data-reveal>
+    <section
+      id="story"
+      className="content-section content-section-last section-story"
+      data-reveal
+      data-defer-render
+    >
       <div className="container">
         <div className="section-heading">
           <p className="eyebrow">{fieldUseCasesContent.eyebrow}</p>
@@ -269,7 +274,7 @@ export function PublicFeatureStorytellingSection() {
 
 export function PublicFleetArchitectureSection() {
   return (
-    <section className="content-section section-architecture" data-reveal>
+    <section className="content-section section-architecture" data-reveal data-defer-render>
       <div className="container">
         <div className="section-heading section-heading-centered architecture-heading">
           <p className="eyebrow">{architectureContent.eyebrow}</p>
@@ -331,7 +336,7 @@ export function PublicHomeIndustriesSection() {
   const FeaturedIcon = industriesIconMap[featured.icon];
 
   return (
-    <section id="industries" className="content-section section-industries" data-reveal>
+    <section id="industries" className="content-section section-industries" data-reveal data-defer-render>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <p className="eyebrow">{homeIndustriesContent.eyebrow}</p>
@@ -448,7 +453,7 @@ export function PublicHomeIndustriesSection() {
 
 export function PublicHardwareSection() {
   return (
-    <section id="hardware" className="content-section" data-reveal>
+    <section id="hardware" className="content-section" data-reveal data-defer-render>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <p className="eyebrow">{hardwareEcosystemContent.eyebrow}</p>
@@ -501,7 +506,7 @@ export function PublicHardwareSection() {
 
 export function PublicTrustEvidenceSection() {
   return (
-    <section className={`content-section ${trustStyles.section}`} data-reveal>
+    <section className={`content-section ${trustStyles.section}`} data-reveal data-defer-render>
       <div className="container">
         <div className={trustStyles.topline} data-reveal-group>
           <div className={trustStyles.intro} data-reveal-item>
@@ -571,7 +576,7 @@ export function PublicTrustEvidenceSection() {
 
 export function PublicResultsSection() {
   return (
-    <section className={`content-section ${resultsStyles.section}`} data-reveal>
+    <section className={`content-section ${resultsStyles.section}`} data-reveal data-defer-render>
       <div className="container">
         <div className={resultsStyles.shell}>
           <div className={resultsStyles.intro}>
@@ -603,7 +608,7 @@ export function PublicResultsSection() {
 
 export function PublicHomeSupportSection() {
   return (
-    <section className="content-section section-home-support" data-reveal>
+    <section className="content-section section-home-support" data-reveal data-defer-render>
       <div className="container">
         <div className="section-heading section-heading-centered">
           <p className="eyebrow">{homepageSupportContent.eyebrow}</p>

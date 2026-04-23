@@ -10,6 +10,7 @@ import { connectToDatabase } from "@/lib/server/db";
 import { PasswordResetTokenModel } from "@/lib/server/models/password-reset-token";
 import { SessionModel } from "@/lib/server/models/session";
 import { UserModel, type UserDocument } from "@/lib/server/models/user";
+import { emailPattern, phonePattern } from "@/lib/server/validation";
 
 export type LoginInput = {
   email?: string;
@@ -43,9 +44,18 @@ export type RequestMetadata = {
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const THIRTY_DAYS_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
 const PASSWORD_RESET_TTL_MS = 1000 * 60 * 30;
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^[+()\-\d\s]{7,20}$/;
+const MIN_PASSWORD_LENGTH = 12;
+const COMMON_WEAK_PASSWORDS = new Set([
+  "password",
+  "password123",
+  "12345678",
+  "123456789",
+  "qwerty123",
+  "welcome123",
+  "admin1234",
+  "letmein123",
+  "trackfleetio123",
+]);
 
 const hashToken = (value: string) => createHash("sha256").update(value).digest("hex");
 
@@ -83,13 +93,28 @@ const createSession = async (
   };
 };
 
-const validatePassword = (password: string) => {
-  if (password.length < 8) {
-    return "Password must be at least 8 characters.";
+const validatePassword = (password: string, disallowedFragments: string[] = []) => {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return "Password must be at least 12 characters.";
   }
 
-  if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-    return "Password must include letters and numbers.";
+  if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+    return "Password must include uppercase, lowercase, number, and special character.";
+  }
+
+  const normalizedPassword = password.toLowerCase();
+
+  if (COMMON_WEAK_PASSWORDS.has(normalizedPassword)) {
+    return "Choose a less common password.";
+  }
+
+  const hasForbiddenFragment = disallowedFragments.some((fragment) => {
+    const normalizedFragment = fragment.trim().toLowerCase();
+    return normalizedFragment.length >= 4 && normalizedPassword.includes(normalizedFragment);
+  });
+
+  if (hasForbiddenFragment) {
+    return "Password cannot contain your email or company name.";
   }
 
   return null;
@@ -106,6 +131,14 @@ export const loginUser = async (input: LoginInput, metadata: RequestMetadata) =>
       ok: false as const,
       status: 400,
       message: "Email and password are required.",
+    };
+  }
+
+  if (email.length > 320) {
+    return {
+      ok: false as const,
+      status: 400,
+      message: "Enter a valid email address.",
     };
   }
 
@@ -167,7 +200,15 @@ export const signupUser = async (input: SignupInput, metadata: RequestMetadata) 
     };
   }
 
-  const passwordError = validatePassword(password);
+  if (email.length > 320) {
+    return {
+      ok: false as const,
+      status: 400,
+      message: "Enter a valid email address.",
+    };
+  }
+
+  const passwordError = validatePassword(password, [email, company, name]);
 
   if (passwordError) {
     return {
@@ -227,6 +268,14 @@ export const forgotPassword = async (input: ForgotPasswordInput) => {
   const email = input.email?.trim() ?? "";
 
   if (!email || !emailPattern.test(email)) {
+    return {
+      ok: false as const,
+      status: 400,
+      message: "Enter a valid email address.",
+    };
+  }
+
+  if (email.length > 320) {
     return {
       ok: false as const,
       status: 400,

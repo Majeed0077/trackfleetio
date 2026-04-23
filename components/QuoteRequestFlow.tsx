@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   Bus,
@@ -17,7 +17,7 @@ import { useMemo, useState } from "react";
 
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { useAppStore, type AuthUser } from "@/store/store";
-import type { Product } from "@/data/products";
+import { getProductById, type Product } from "@/data/products";
 
 type QuoteStep = 1 | 2 | 3;
 
@@ -64,6 +64,7 @@ export function QuoteRequestFlow({
   embedded?: boolean;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const showToast = useAppStore((state) => state.showToast);
   const [step, setStep] = useState<QuoteStep>(1);
   const [industry, setIndustry] = useState("");
@@ -78,6 +79,9 @@ export function QuoteRequestFlow({
     email: initialAuthUser?.email ?? "",
     company: initialAuthUser?.company ?? "",
   });
+  const selectedProductFromSearch = searchParams.get("product");
+  const resolvedSelectedProduct =
+    selectedProduct ?? (selectedProductFromSearch ? getProductById(selectedProductFromSearch) ?? null : null);
 
   const selectedIndustryLabel = useMemo(
     () => INDUSTRY_OPTIONS.find((item) => item.value === industry)?.label ?? "",
@@ -147,7 +151,7 @@ export function QuoteRequestFlow({
         },
         credentials: "same-origin",
         body: JSON.stringify({
-          productId: selectedProduct?.id ?? null,
+          productId: resolvedSelectedProduct?.id ?? null,
           industry,
           fleetSize,
           ...formValues,
@@ -188,13 +192,13 @@ export function QuoteRequestFlow({
                 </button>
               ) : null}
 
-              {selectedProduct ? (
+              {resolvedSelectedProduct ? (
                 <article className="quote-request-context-card">
                   <div className="quote-request-context-media">
                     <Image
-                      className={`catalog-card-image ${selectedProduct.imageClass}`}
-                      src={resolveCloudinaryAsset(selectedProduct.imageSrc)}
-                      alt={selectedProduct.imageAlt}
+                      className={`catalog-card-image ${resolvedSelectedProduct.imageClass}`}
+                      src={resolveCloudinaryAsset(resolvedSelectedProduct.imageSrc)}
+                      alt={resolvedSelectedProduct.imageAlt}
                       width={140}
                       height={108}
                       sizes="140px"
@@ -202,12 +206,12 @@ export function QuoteRequestFlow({
                   </div>
                   <div className="quote-request-context-copy">
                     <p className="quote-request-step-kicker">Selected hardware</p>
-                    <h2>{selectedProduct.title}</h2>
-                    <p>{selectedProduct.shortDescription}</p>
+                    <h2>{resolvedSelectedProduct.title}</h2>
+                    <p>{resolvedSelectedProduct.shortDescription}</p>
                     <div className="quote-request-context-tags" aria-label="Selected product details">
-                      <span>{selectedProduct.categoryLabel}</span>
-                      {selectedProduct.specs.slice(0, 2).map((spec) => (
-                        <span key={`${selectedProduct.id}-${spec}`}>{spec}</span>
+                      <span>{resolvedSelectedProduct.categoryLabel}</span>
+                      {resolvedSelectedProduct.specs.slice(0, 2).map((spec) => (
+                        <span key={`${resolvedSelectedProduct.id}-${spec}`}>{spec}</span>
                       ))}
                     </div>
                   </div>
@@ -359,7 +363,7 @@ export function QuoteRequestFlow({
                       </div>
                       <div className="quote-request-meta-card">
                         <span className="quote-request-meta-label">Product</span>
-                        <strong>{selectedProduct?.title ?? "General quote request"}</strong>
+                        <strong>{resolvedSelectedProduct?.title ?? "General quote request"}</strong>
                       </div>
                     </div>
 

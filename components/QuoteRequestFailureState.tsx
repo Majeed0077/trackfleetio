@@ -1,23 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import type { Metadata } from "next";
+import { useSearchParams } from "next/navigation";
 
-import { createPageMetadata } from "@/lib/metadata";
-
-export function generateMetadata(): Metadata {
-  return createPageMetadata({
-    title: "Quote Request Issue | Track Fleetio",
-    description: "Failure state for Track Fleetio quote request submissions.",
-    path: "/quote-request/failure",
-  });
-}
-
-export default async function QuoteRequestFailurePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ reason?: string }>;
-}) {
-  const params = await searchParams;
-  const reason = params.reason || "Unable to submit your quote request.";
+export function QuoteRequestFailureState() {
+  const searchParams = useSearchParams();
+  const reason = searchParams.get("reason") || "Unable to submit your quote request.";
 
   return (
     <main className="site-main state-page" id="main-content">

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 
 import { ProfileAvatar } from "@/components/ProfileAvatar";
+import { getBrowserCsrfToken } from "@/lib/csrf";
 import { getDefaultAvatarSrc, getResolvedAvatarSrc } from "@/lib/profile-avatar";
 import { useAppStore, type AuthUser } from "@/store/store";
 
@@ -93,6 +94,7 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
   const [pendingAvatarFile, setPendingAvatarFile] = useState<File | null>(null);
   const [removeAvatarOnSave, setRemoveAvatarOnSave] = useState(false);
   const [formState, setFormState] = useState(getFormValuesFromUser(user));
+  const [currentPassword, setCurrentPassword] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -102,6 +104,7 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
     setAvatarPreview(getAvatarSrc(user));
     setPendingAvatarFile(null);
     setRemoveAvatarOnSave(false);
+    setCurrentPassword("");
   }, [user]);
 
   useEffect(() => {
@@ -148,6 +151,7 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
     setRemoveAvatarOnSave(false);
     setSavedUser(nextUser);
     setFormState(getFormValuesFromUser(nextUser));
+    setCurrentPassword("");
     setAvatarPreview((currentValue) => {
       if (currentValue.startsWith("blob:")) {
         URL.revokeObjectURL(currentValue);
@@ -197,6 +201,9 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
       const response = await fetch("/api/account/profile-photo", {
         method: "DELETE",
         credentials: "same-origin",
+        headers: {
+          "x-csrf-token": getBrowserCsrfToken(),
+        },
       });
       const payload = (await response.json().catch(() => null)) as
         | { ok?: boolean; message?: string; user?: AuthUser }
@@ -220,6 +227,9 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
       method: "POST",
       body: formData,
       credentials: "same-origin",
+      headers: {
+        "x-csrf-token": getBrowserCsrfToken(),
+      },
     });
     const payload = (await response.json().catch(() => null)) as
       | { ok?: boolean; message?: string; user?: AuthUser }
@@ -242,12 +252,16 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          "x-csrf-token": getBrowserCsrfToken(),
         },
         credentials: "same-origin",
-        body: JSON.stringify(formState),
+        body: JSON.stringify({
+          ...formState,
+          currentPassword,
+        }),
       });
       const payload = (await response.json().catch(() => null)) as
-        | { ok?: boolean; message?: string; user?: AuthUser }
+        | { ok?: boolean; message?: string; pendingEmail?: string; user?: AuthUser }
         | null;
 
       if (!response.ok || !payload?.ok || !payload.user) {
@@ -259,7 +273,7 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
       latestUser = updatedUser;
       setAuthUser(updatedUser);
       resetToCurrentUser(updatedUser);
-      showToast("Profile updated");
+      showToast(payload?.message || "Profile updated");
     } catch (error) {
       if (latestUser) {
         setAuthUser(latestUser);
@@ -369,6 +383,18 @@ export function CustomerProfileForm({ user }: { user: AuthUser | null }) {
                   type="email"
                   value={formState.workEmail}
                   onChange={handleFieldChange("workEmail")}
+                  disabled={isSaving}
+                />
+              </label>
+              <label className="account-profile-field">
+                <span>Current password</span>
+                <input
+                  className="checkout-field account-profile-input"
+                  type="password"
+                  value={currentPassword}
+                  onChange={(event) => setCurrentPassword(event.target.value)}
+                  placeholder="Required only to change email"
+                  autoComplete="current-password"
                   disabled={isSaving}
                 />
               </label>

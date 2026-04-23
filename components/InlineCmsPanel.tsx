@@ -9,6 +9,7 @@ import {
   homepageMetrics,
   homepageSupportContent,
 } from "@/lib/content/homepage";
+import { getBrowserCsrfToken } from "@/lib/csrf";
 import { useAppStore } from "@/store/store";
 
 function CmsPanelField({
@@ -71,15 +72,17 @@ function CmsMediaField({
     setIsUploading(true);
     setError("");
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("resourceType", resourceType);
-      formData.append("folder", "trackfleetio/inline-cms");
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("resourceType", resourceType);
 
-      const response = await fetch("/api/media/upload", {
+        const response = await fetch("/api/media/upload", {
         method: "POST",
         body: formData,
+        headers: {
+          "x-csrf-token": getBrowserCsrfToken(),
+        },
       });
 
       const payload = (await response.json()) as { secureUrl?: string; error?: string };

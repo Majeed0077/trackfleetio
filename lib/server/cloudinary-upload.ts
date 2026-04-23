@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 
 type CloudinaryConfig = {
   cloudName: string;
@@ -48,24 +48,28 @@ export async function uploadToCloudinary({
   resourceType,
   folder,
   publicId,
+  overwrite,
 }: {
   file: File;
   resourceType: "image" | "video";
   folder: string;
   publicId?: string;
+  overwrite?: boolean;
 }) {
   const config = getCloudinaryConfig();
   const extension = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : "";
   const baseName = file.name.replace(/\.[^.]+$/, "");
   const timestamp = String(Math.floor(Date.now() / 1000));
+  const normalizedFolder = sanitizePublicIdSegment(folder).replace(/\/+/g, "/");
+  const shouldOverwrite = Boolean(overwrite);
   const normalizedPublicId = (
     publicId?.trim()
       ? sanitizePublicIdSegment(publicId)
-      : `${sanitizePublicIdSegment(folder)}/${sanitizePublicIdSegment(baseName)}`
+      : `${normalizedFolder}/${sanitizePublicIdSegment(baseName) || "asset"}-${randomUUID()}`
   ).replace(/\/+/g, "/");
   const signedParams = {
     invalidate: "true",
-    overwrite: "true",
+    overwrite: shouldOverwrite ? "true" : "false",
     public_id: normalizedPublicId,
     timestamp,
   };
@@ -77,7 +81,7 @@ export async function uploadToCloudinary({
   formData.append("api_key", config.apiKey);
   formData.append("timestamp", timestamp);
   formData.append("public_id", normalizedPublicId);
-  formData.append("overwrite", "true");
+  formData.append("overwrite", shouldOverwrite ? "true" : "false");
   formData.append("invalidate", "true");
   formData.append("signature", signature);
 

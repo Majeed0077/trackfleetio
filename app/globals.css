@@ -239,14 +239,6 @@
   --toast-bg: rgba(8, 17, 31, 0.92);
   --toast-border: rgba(247, 52, 20, 0.18);
   --toast-shadow: 0 20px 36px rgba(0, 0, 0, 0.24);
-  --route-loader-track: rgba(247, 52, 20, 0.14);
-  --route-loader-bar: linear-gradient(
-    90deg,
-    #f73414 0%,
-    var(--accent) 48%,
-    #f73414 100%
-  );
-  --route-loader-glow: 0 0 16px rgba(247, 52, 20, 0.34);
   --industries-card-bg: linear-gradient(180deg, #0b1623 0%, #0f1d31 100%);
   --industries-card-border: rgba(255, 255, 255, 0.06);
   --industries-card-shadow:
@@ -540,14 +532,6 @@
   --toast-bg: rgba(255, 255, 255, 0.96);
   --toast-border: rgba(110, 147, 191, 0.18);
   --toast-shadow: 0 20px 36px rgba(16, 35, 63, 0.12);
-  --route-loader-track: rgba(247, 52, 20, 0.12);
-  --route-loader-bar: linear-gradient(
-    90deg,
-    #f73414 0%,
-    var(--accent) 52%,
-    #f73414 100%
-  );
-  --route-loader-glow: 0 0 14px rgba(247, 52, 20, 0.22);
   --industries-card-bg: linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
   --industries-card-border: rgba(110, 147, 191, 0.16);
   --industries-card-shadow:
@@ -747,42 +731,6 @@ h6 {
   line-height: var(--type-h6-line);
   letter-spacing: var(--tracking-title);
   font-weight: var(--type-heading-weight);
-}
-
-.top-route-loader {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 2000;
-  height: 3px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.18s ease;
-}
-
-.top-route-loader::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--route-loader-track);
-  opacity: 0.72;
-}
-
-.top-route-loader.is-visible {
-  opacity: 1;
-}
-
-.top-route-loader.is-finishing {
-  transition-duration: 0.24s;
-}
-
-.top-route-loader-bar {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 100%;
-  transform-origin: left center;
-  background: var(--route-loader-bar);
-  box-shadow: var(--route-loader-glow);
-  will-change: transform;
 }
 
 body::before {
@@ -1048,6 +996,7 @@ input:disabled {
     background-color var(--transition-standard),
     border-color var(--transition-standard),
     box-shadow var(--transition-standard);
+  backface-visibility: hidden;
 }
 
 .nav {
@@ -1119,10 +1068,28 @@ input:disabled {
 }
 
 .theme-logo-image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.theme-logo-image-light {
+  opacity: 0;
+}
+
+.theme-logo-image-dark {
+  opacity: 1;
+}
+
+:root[data-theme="light"] .theme-logo-image-light {
+  opacity: 1;
+}
+
+:root[data-theme="light"] .theme-logo-image-dark {
+  opacity: 0;
 }
 
 .site-header .brand-logo {
@@ -12210,7 +12177,7 @@ body.quote-request-modal-open {
 /* Homepage motion system */
 [data-homepage-motion-root] {
   --homepage-reveal-distance: 12px;
-  --homepage-reveal-stagger-step: 48ms;
+  --homepage-reveal-stagger-step: 56ms;
 }
 
 [data-homepage-motion-root] .reveal-pending:not([data-motion-done]),
@@ -12220,11 +12187,15 @@ body.quote-request-modal-open {
   transition:
     opacity var(--transition-reveal),
     transform var(--transition-reveal);
+}
+
+[data-homepage-motion-root] .reveal-animating {
   will-change: opacity, transform;
 }
 
 [data-homepage-motion-root] .reveal-group-pending [data-reveal-item] {
   transition-delay: calc(
+    var(--reveal-group-offset, 0ms) +
     var(--reveal-index, 0) * var(--homepage-reveal-stagger-step)
   );
 }
@@ -12261,6 +12232,13 @@ body.quote-request-modal-open {
 [data-homepage-motion-root] .parallax-active[data-parallax="soft"] {
   transform: none;
   will-change: auto;
+}
+
+@supports (content-visibility: auto) {
+  [data-defer-render] {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+  }
 }
 
 [data-homepage-motion-root] .hero-copy[data-reveal-item] {
@@ -12300,7 +12278,7 @@ body.quote-request-modal-open {
 
   [data-homepage-motion-root] {
     --homepage-reveal-distance: 8px;
-    --homepage-reveal-stagger-step: 36ms;
+    --homepage-reveal-stagger-step: 40ms;
   }
 
   [data-homepage-motion-root] [data-parallax="soft"],
@@ -15019,6 +14997,7 @@ body.quote-request-modal-open {
   transition:
     opacity var(--transition-micro),
     transform var(--transition-micro);
+  contain: layout paint;
 }
 
 .scroll-toggle.is-visible {

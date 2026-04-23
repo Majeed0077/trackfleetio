@@ -4,7 +4,6 @@ import { ArrowLeftRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useCompareActions, useCompareIds, compareStoreConfig } from "@/lib/compare-store";
-import { startRouteLoader } from "@/lib/route-loader";
 
 type CompareToggleButtonProps = {
   productId: string;
@@ -58,7 +57,6 @@ export function CompareToggleButton({
         }
 
         if (navigateToCompare) {
-          startRouteLoader();
           router.push("/compare");
         }
       }}

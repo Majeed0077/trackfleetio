@@ -10,15 +10,39 @@ export function NavScrollIndicator() {
       return undefined;
     }
 
+    let rafId = 0;
+    let lastScrolledState: boolean | null = null;
+
     const syncScrolledState = () => {
-      header.classList.toggle("is-scrolled", window.scrollY > 12);
+      const nextScrolledState = window.scrollY > 12;
+
+      if (lastScrolledState === nextScrolledState) {
+        return;
+      }
+
+      lastScrolledState = nextScrolledState;
+      header.classList.toggle("is-scrolled", nextScrolledState);
+    };
+
+    const onScroll = () => {
+      if (rafId) {
+        return;
+      }
+
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        syncScrolledState();
+      });
     };
 
     syncScrolledState();
-    window.addEventListener("scroll", syncScrolledState, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", syncScrolledState);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener("scroll", onScroll);
       header.classList.remove("is-scrolled");
     };
   }, []);

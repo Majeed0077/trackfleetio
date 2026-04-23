@@ -7,13 +7,12 @@ import { useMemo, useState } from "react";
 import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { SocialAuthButtons } from "@/components/SocialAuthButtons";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 const getPasswordStrength = (password: string) => {
   let score = 0;
 
-  if (password.length >= 8) score += 35;
+  if (password.length >= 12) score += 35;
   if (/[A-Z]/.test(password)) score += 20;
   if (/[a-z]/.test(password)) score += 15;
   if (/\d/.test(password)) score += 15;
@@ -107,8 +106,8 @@ export function SignUpForm() {
             nextErrors.company = "Enter your company name.";
           }
 
-          if (formValues.password.length < 8) {
-            nextErrors.password = "Password must be at least 8 characters.";
+          if (formValues.password.length < 12) {
+            nextErrors.password = "Password must be at least 12 characters.";
           }
 
           setFieldErrors(nextErrors);
@@ -150,7 +149,6 @@ export function SignUpForm() {
             }
 
             setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
-            startRouteLoader();
             router.push("/");
           } catch {
             setStatusTone("error");
@@ -240,7 +238,7 @@ export function SignUpForm() {
             resetFeedback();
           }}
           onToggleVisibility={() => setShowPassword((currentValue) => !currentValue)}
-          hint="Use at least 8 characters with a mix of letters and numbers."
+          hint="Use at least 12 characters with uppercase, lowercase, number, and special character."
           strengthLabel={formValues.password ? passwordStrength.label : undefined}
           strengthValue={passwordStrength.value}
         />

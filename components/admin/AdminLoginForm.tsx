@@ -10,7 +10,6 @@ import {
   DEMO_ADMIN_PASSWORD,
   getSafeAdminRedirectPath,
 } from "@/lib/demo-auth";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string }) {
@@ -64,7 +63,6 @@ export function AdminLoginForm({ redirectPath = "" }: { redirectPath?: string })
               }
 
               setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
-              startRouteLoader();
               router.replace(getSafeAdminRedirectPath(redirectPath));
             } catch {
               setStatusMessage("Unable to reach the admin sign-in service.");

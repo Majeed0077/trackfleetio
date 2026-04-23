@@ -3,8 +3,6 @@
 import type { CSSProperties } from "react";
 
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
-import { SSR_THEME_FALLBACK } from "@/lib/theme";
-import { resolveThemeMode, useAppStore, useStoreHydrated, useSystemTheme } from "@/store/store";
 
 type ThemeLogoProps = {
   alt: string;
@@ -25,15 +23,6 @@ export function ThemeLogo({
   wrapperClassName,
   style,
 }: ThemeLogoProps) {
-  const hasHydrated = useStoreHydrated();
-  const themeMode = useAppStore((state) => state.themeMode);
-  const systemTheme = useSystemTheme();
-  const resolvedTheme = hasHydrated
-    ? resolveThemeMode(themeMode, systemTheme)
-    : SSR_THEME_FALLBACK;
-  const src = resolveCloudinaryAsset(
-    resolvedTheme === "dark" ? "/Dark.png" : "/Light.png",
-  );
   const normalizedStyle = {
     ...style,
     "--theme-logo-width": `${width}px`,
@@ -56,13 +45,25 @@ export function ThemeLogo({
     <span
       className={["theme-logo", wrapperClassName, className].filter(Boolean).join(" ")}
       style={normalizedStyle}
+      role="img"
+      aria-label={alt}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        key={src}
-        className="theme-logo-image"
-        src={src}
-        alt={alt}
+        className="theme-logo-image theme-logo-image-light"
+        src={resolveCloudinaryAsset("/Light.png")}
+        alt=""
+        aria-hidden="true"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding="async"
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="theme-logo-image theme-logo-image-dark"
+        src={resolveCloudinaryAsset("/Dark.png")}
+        alt=""
+        aria-hidden="true"
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
         decoding="async"

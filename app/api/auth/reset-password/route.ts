@@ -1,12 +1,6 @@
-import { ok, error } from "@/lib/server/api";
+import { getCsrfCookieConfig, getRequestMetadata } from "@/lib/server/request-security";
+import { error, ok } from "@/lib/server/api";
 import { resetPassword } from "@/lib/server/auth-service";
-
-const getRequestMetadata = (request: Request) => ({
-  userAgent: request.headers.get("user-agent"),
-  ipAddress:
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip"),
-});
 
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as
@@ -20,5 +14,7 @@ export async function POST(request: Request) {
 
   const response = ok({ ok: true, message: result.message, user: result.user });
   response.cookies.set(result.cookieConfig.name, result.token, result.cookieConfig);
+  const csrfCookie = getCsrfCookieConfig();
+  response.cookies.set(csrfCookie.name, csrfCookie.value, csrfCookie);
   return response;
 }

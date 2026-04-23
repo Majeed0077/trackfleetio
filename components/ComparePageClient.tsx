@@ -11,7 +11,6 @@ import { getProductHref, getRelatedProducts, products, type Product } from "@/da
 import { resolveCloudinaryAsset } from "@/lib/cloudinary-assets";
 import { clearRecentComparisons, recordRecentComparison, useRecentComparisons } from "@/lib/compare-history";
 import { compareStoreConfig, useCompareActions, useCompareIds } from "@/lib/compare-store";
-import { startRouteLoader } from "@/lib/route-loader";
 
 const PRODUCT_IMAGE_WIDTH = 420;
 const PRODUCT_IMAGE_HEIGHT = 320;
@@ -193,7 +192,6 @@ export function ComparePageClient() {
                 className="button button-outline"
                 type="button"
                 onClick={() => {
-                  startRouteLoader();
                   router.push("/products");
                 }}
               >

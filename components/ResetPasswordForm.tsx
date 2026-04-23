@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
 import { TrustFooter } from "@/components/TrustFooter";
-import { startRouteLoader } from "@/lib/route-loader";
 import { useAppStore } from "@/store/store";
 
 export function ResetPasswordForm({ token }: { token?: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setAuthUser = useAppStore((state) => state.setAuthUser);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,6 +20,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
   const [message, setMessage] = useState("");
   const [tone, setTone] = useState<"info" | "error">("info");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const resolvedToken = token || searchParams.get("token") || undefined;
 
   return (
     <AuthShell
@@ -49,15 +50,15 @@ export function ResetPasswordForm({ token }: { token?: string }) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          if (!token) {
+          if (!resolvedToken) {
             setTone("error");
             setMessage("Reset token is missing. Request a new reset link.");
             return;
           }
 
-          if (password.length < 8) {
+          if (password.length < 12) {
             setTone("error");
-            setMessage("Password must be at least 8 characters.");
+            setMessage("Password must be at least 12 characters.");
             return;
           }
 
@@ -76,7 +77,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
                 "Content-Type": "application/json",
               },
               credentials: "same-origin",
-              body: JSON.stringify({ token, password, confirmPassword }),
+              body: JSON.stringify({ token: resolvedToken, password, confirmPassword }),
             });
 
             const payload = (await response.json().catch(() => null)) as
@@ -92,7 +93,6 @@ export function ResetPasswordForm({ token }: { token?: string }) {
             setAuthUser(payload.user as Parameters<typeof setAuthUser>[0]);
             setTone("info");
             setMessage(payload.message || "Password reset successful.");
-            startRouteLoader();
             router.replace("/account/profile");
           } catch {
             setTone("error");

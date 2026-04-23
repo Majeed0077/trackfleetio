@@ -1,9 +1,16 @@
 import { error, ok } from "@/lib/server/api";
+import { verifyCsrfToken } from "@/lib/server/request-security";
 import { removeCurrentUserProfilePhoto, uploadCurrentUserProfilePhoto } from "@/lib/server/profile-service";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  const csrfResult = await verifyCsrfToken(request);
+
+  if (!csrfResult.ok) {
+    return error(csrfResult.message, csrfResult.status);
+  }
+
   const formData = await request.formData();
   const maybeFile = formData.get("file");
 
@@ -23,7 +30,13 @@ export async function POST(request: Request) {
   });
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  const csrfResult = await verifyCsrfToken(request);
+
+  if (!csrfResult.ok) {
+    return error(csrfResult.message, csrfResult.status);
+  }
+
   const result = await removeCurrentUserProfilePhoto();
 
   if (!result.ok) {

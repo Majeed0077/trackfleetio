@@ -1,10 +1,9 @@
 "use client";
 
-import { Suspense, useEffect, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 import { RegionSelectorModal } from "@/components/RegionSelectorModal";
-import { TopRouteLoader } from "@/components/TopRouteLoader";
 import {
   resolveThemeMode,
   useAppStore,
@@ -24,6 +23,7 @@ export function SiteProviders({
   const pathname = usePathname();
   const hasHydrated = useStoreHydrated();
   const themeMode = useAppStore((state) => state.themeMode);
+  const authResolved = useAppStore((state) => state.authResolved);
   const setAuthUser = useAppStore((state) => state.setAuthUser);
   const toastMessage = useAppStore((state) => state.toastMessage);
   const toastVisible = useAppStore((state) => state.toastVisible);
@@ -63,9 +63,10 @@ export function SiteProviders({
   useEffect(() => {
     let isMounted = true;
     let timeoutId: number | null = null;
+    let idleId: number | null = null;
 
     const syncSession = async () => {
-      if (!shouldSyncPublicSession) {
+      if (!shouldSyncPublicSession || authResolved || initialAuthUser) {
         return;
       }
 
@@ -85,24 +86,30 @@ export function SiteProviders({
       }
     };
 
-    timeoutId = window.setTimeout(() => {
-      void syncSession();
-    }, 0);
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(() => {
+        void syncSession();
+      }, { timeout: 1200 });
+    } else {
+      timeoutId = window.setTimeout(() => {
+        void syncSession();
+      }, 250);
+    }
 
     return () => {
       isMounted = false;
+      if (idleId !== null && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId);
       }
     };
-  }, [setAuthUser, shouldSyncPublicSession]);
+  }, [authResolved, initialAuthUser, setAuthUser, shouldSyncPublicSession]);
 
   return (
     <>
       {children}
-      <Suspense fallback={null}>
-        <TopRouteLoader />
-      </Suspense>
       <RegionSelectorModal />
       <div
         className={`cart-toast${toastVisible ? " is-visible" : ""}`}
