@@ -7006,7 +7006,7 @@ body.quote-request-modal-open {
 .quote-request-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 140;
+  z-index: 360;
   display: grid;
   padding: 20px;
   background: rgba(3, 10, 20, 0.72);
