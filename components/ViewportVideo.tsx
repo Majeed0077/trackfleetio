@@ -35,6 +35,10 @@ export function ViewportVideo({
     }
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const legacyReducedMotion = reducedMotion as MediaQueryList & {
+      addListener?: (listener: (this: MediaQueryList, ev: MediaQueryListEvent) => void) => void;
+      removeListener?: (listener: (this: MediaQueryList, ev: MediaQueryListEvent) => void) => void;
+    };
     let isVisible = false;
 
     const syncPlayback = () => {
@@ -78,10 +82,10 @@ export function ViewportVideo({
     video.addEventListener("loadeddata", handleCanPlay);
     video.addEventListener("canplay", handleCanPlay);
 
-    if ("addEventListener" in reducedMotion) {
+    if (typeof reducedMotion.addEventListener === "function") {
       reducedMotion.addEventListener("change", handleMotionPreferenceChange);
-    } else {
-      reducedMotion.addListener(handleMotionPreferenceChange);
+    } else if (typeof legacyReducedMotion.addListener === "function") {
+      legacyReducedMotion.addListener(handleMotionPreferenceChange);
     };
 
     const observer = new IntersectionObserver(playWhenVisible, {
@@ -95,10 +99,10 @@ export function ViewportVideo({
       observer.disconnect();
       video.removeEventListener("loadeddata", handleCanPlay);
       video.removeEventListener("canplay", handleCanPlay);
-      if ("removeEventListener" in reducedMotion) {
+      if (typeof reducedMotion.removeEventListener === "function") {
         reducedMotion.removeEventListener("change", handleMotionPreferenceChange);
-      } else {
-        reducedMotion.removeListener(handleMotionPreferenceChange);
+      } else if (typeof legacyReducedMotion.removeListener === "function") {
+        legacyReducedMotion.removeListener(handleMotionPreferenceChange);
       }
       video.pause();
     };
