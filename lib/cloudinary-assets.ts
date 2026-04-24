@@ -17,15 +17,18 @@ const cloudinaryAssetMap = new Map(
 
 const CLOUDINARY_HOST_PATTERN = /^https:\/\/res\.cloudinary\.com\//;
 const FALLBACK_ASSET_SRC = "/Products/3Products.png";
+const CLOUDINARY_VIDEO_UPLOAD_PATTERN = /\/video\/upload\//;
 
 function optimizeCloudinaryUrl(url: string, transforms: string[] = []) {
   if (!CLOUDINARY_HOST_PATTERN.test(url)) {
     return url;
   }
 
-  const normalizedUrl = url.includes("/upload/f_auto,q_auto/")
+  const isVideoAsset = CLOUDINARY_VIDEO_UPLOAD_PATTERN.test(url);
+  const defaultTransform = isVideoAsset ? "q_auto" : "f_auto,q_auto";
+  const normalizedUrl = url.includes(`/upload/${defaultTransform}/`)
     ? url
-    : url.replace("/upload/", "/upload/f_auto,q_auto/");
+    : url.replace("/upload/", `/upload/${defaultTransform}/`);
 
   if (!transforms.length) {
     return normalizedUrl;

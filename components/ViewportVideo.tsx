@@ -35,11 +35,26 @@ export function ViewportVideo({
     }
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let isVisible = false;
 
-    if (reducedMotion.matches) {
-      video.pause();
-      return;
-    }
+    const syncPlayback = () => {
+      if (reducedMotion.matches || !isVisible) {
+        video.pause();
+        return;
+      }
+
+      if (video.readyState === 0) {
+        video.load();
+      }
+
+      const playPromise = video.play();
+
+      if (playPromise) {
+        playPromise.catch(() => {
+          // Retry on media readiness events instead of failing permanently on a cold production load.
+        });
+      }
+    };
 
     const playWhenVisible = (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
@@ -48,28 +63,43 @@ export function ViewportVideo({
         return;
       }
 
-      if (entry.isIntersecting) {
-        const playPromise = video.play();
+      isVisible = entry.isIntersecting;
+      syncPlayback();
+    };
 
-        if (playPromise) {
-          playPromise.catch(() => {
-            // Autoplay can be blocked transiently; keeping the video muted avoids hard failures.
-          });
-        }
-      } else {
-        video.pause();
-      }
+    const handleCanPlay = () => {
+      syncPlayback();
+    };
+
+    const handleMotionPreferenceChange = () => {
+      syncPlayback();
+    };
+
+    video.addEventListener("loadeddata", handleCanPlay);
+    video.addEventListener("canplay", handleCanPlay);
+
+    if ("addEventListener" in reducedMotion) {
+      reducedMotion.addEventListener("change", handleMotionPreferenceChange);
+    } else {
+      reducedMotion.addListener(handleMotionPreferenceChange);
     };
 
     const observer = new IntersectionObserver(playWhenVisible, {
-      threshold: 0.4,
-      rootMargin: "0px 0px -10% 0px",
+      threshold: 0.25,
+      rootMargin: "0px 0px -5% 0px",
     });
 
     observer.observe(video);
 
     return () => {
       observer.disconnect();
+      video.removeEventListener("loadeddata", handleCanPlay);
+      video.removeEventListener("canplay", handleCanPlay);
+      if ("removeEventListener" in reducedMotion) {
+        reducedMotion.removeEventListener("change", handleMotionPreferenceChange);
+      } else {
+        reducedMotion.removeListener(handleMotionPreferenceChange);
+      }
       video.pause();
     };
   }, [resolvedSrc]);
@@ -82,10 +112,11 @@ export function ViewportVideo({
     <video
       ref={videoRef}
       className={className}
+      autoPlay
       muted
       loop
       playsInline
-      preload="none"
+      preload="metadata"
       poster={resolvedPoster}
       aria-label={ariaLabel}
     >
