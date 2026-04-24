@@ -100,13 +100,13 @@ export const homepageSectionRegistry = [
 ] as const;
 
 export const heroContent = {
-  heading: ["Connected Fleet", "Solutions for", "B2B Operations"],
+  heading: ["Enterprise Fleet", "Visibility Without", "Operational Guesswork"],
   description:
-    "Track Fleetio helps operations, safety, and procurement teams plan the right mix of tracking, video telematics, and sensor hardware for real fleet workflows.",
+    "Track Fleetio helps operations, safety, and procurement leaders standardize the right mix of tracking, video telematics, and sensor hardware across mixed fleets so teams can improve visibility, review incidents faster, and scale deployment with confidence.",
   primaryCta: { label: "Get Quote", href: "/quote-request" },
   secondaryCta: { label: "Explore Solutions", href: "/solutions" },
   trustLine:
-    "Built for operations, safety, compliance, and procurement teams managing fleet rollouts.",
+    "Designed for enterprise fleets managing vehicles, trailers, and mobile assets across complex operations.",
   image: {
     src: "/Products/Telematics hardware architecture.png",
     alt: "Telematics hardware architecture",
