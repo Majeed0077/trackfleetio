@@ -11,8 +11,8 @@ export function AuthHeader() {
               <ThemeLogo
                 className="brand-logo"
                 alt="Track Fleetio logo"
-                width={164}
-                height={40}
+                width={188}
+                height={46}
                 priority
               />
             </span>
