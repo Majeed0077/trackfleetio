@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
@@ -14,9 +13,7 @@ export default function SiteLayout({
 }) {
   return (
     <>
-      <Suspense fallback={null}>
-        <Navbar />
-      </Suspense>
+      <Navbar />
       <CmsChrome />
       {children}
       <ScrollToggle />

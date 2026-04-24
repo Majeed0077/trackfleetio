@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   useEffect,
   useRef,
@@ -116,8 +116,6 @@ export function NavbarInteractive({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentSearchQuery = searchParams.get("q") ?? "";
   const {
     authUser,
     authResolved,
@@ -738,7 +736,6 @@ export function NavbarInteractive({
           <div className="nav-zone nav-zone-right">
             <div className="nav-utilities" aria-label="Utility actions">
               <CommandSearch
-                currentQuery={currentSearchQuery}
                 placeholder={navigationUtilityLabels.searchPlaceholder}
                 onOpen={() => {
                   closeMenus();

@@ -9,22 +9,27 @@ const CommandSearchDialog = dynamic(() =>
 );
 
 export function CommandSearch({
-  currentQuery = "",
   placeholder,
   onOpen,
 }: {
-  currentQuery?: string;
   placeholder: string;
   onOpen?: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dialogKey, setDialogKey] = useState(0);
+  const [currentQuery, setCurrentQuery] = useState("");
+
+  const syncCurrentQuery = () => {
+    const nextQuery = new URLSearchParams(window.location.search).get("q") ?? "";
+    setCurrentQuery(nextQuery);
+  };
 
   useEffect(() => {
     const onWindowKeyDown = (event: globalThis.KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         onOpen?.();
+        syncCurrentQuery();
         setDialogKey((currentValue) => currentValue + 1);
         setIsOpen(true);
       }
@@ -43,6 +48,7 @@ export function CommandSearch({
 
   const openPalette = () => {
     onOpen?.();
+    syncCurrentQuery();
     setDialogKey((currentValue) => currentValue + 1);
     setIsOpen(true);
   };
