@@ -54,7 +54,6 @@ export function AuthShell({
                   alt={visualImageAlt}
                   width={760}
                   height={560}
-                  loading="eager"
                   sizes="(max-width: 991px) 100vw, 50vw"
                 />
                 <span className="auth-visual-chip auth-visual-chip-bottom">Trusted by operators</span>

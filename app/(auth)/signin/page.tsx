@@ -1,6 +1,5 @@
 import { SignInForm } from "@/components/SignInForm";
 import { createPageMetadata } from "@/lib/metadata";
-import { Suspense } from "react";
 
 export const metadata = createPageMetadata({
   title: "Sign In | Track Fleetio",
@@ -9,9 +8,5 @@ export const metadata = createPageMetadata({
 });
 
 export default function SignInPage() {
-  return (
-    <Suspense fallback={null}>
-      <SignInForm />
-    </Suspense>
-  );
+  return <SignInForm />;
 }

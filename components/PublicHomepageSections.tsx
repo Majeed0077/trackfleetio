@@ -253,15 +253,11 @@ export function PublicFeatureStorytellingSection() {
             </div>
             <div className="story-media story-media-alt story-media-shell">
               <div className="story-media-frame">
-                <Image
-                  className={`story-media-image story-media-image-fill ${imageCard.imageClass ?? ""}`}
-                  src={resolveCloudinaryAsset(imageCard.imageSrc ?? "/Products/logistics.png")}
-                  alt={imageCard.imageAlt ?? "Tracked refrigerated trailer parked in a logistics yard"}
-                  width={960}
-                  height={498}
-                  sizes="(max-width: 991px) 100vw, 50vw"
-                  loading="eager"
-                  fetchPriority="high"
+                <ViewportVideo
+                  className="story-media-video"
+                  src="/Videos/trailers.mp4"
+                  poster={imageCard.imageSrc ?? "/Products/logistics.png"}
+                  ariaLabel={imageCard.imageAlt ?? "Tracked refrigerated trailer parked in a logistics yard"}
                 />
               </div>
             </div>

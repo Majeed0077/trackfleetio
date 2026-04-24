@@ -7,11 +7,9 @@ import { RegionSelectorModal } from "@/components/RegionSelectorModal";
 import {
   resolveThemeMode,
   useAppStore,
-  useStoreHydrated,
   useSystemTheme,
   type AuthUser,
 } from "@/store/store";
-import { SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export function SiteProviders({
   children,
@@ -21,16 +19,13 @@ export function SiteProviders({
   initialAuthUser?: AuthUser | null;
 }) {
   const pathname = usePathname();
-  const hasHydrated = useStoreHydrated();
   const themeMode = useAppStore((state) => state.themeMode);
   const authResolved = useAppStore((state) => state.authResolved);
   const setAuthUser = useAppStore((state) => state.setAuthUser);
   const toastMessage = useAppStore((state) => state.toastMessage);
   const toastVisible = useAppStore((state) => state.toastVisible);
   const systemTheme = useSystemTheme();
-  const resolvedTheme = hasHydrated
-    ? resolveThemeMode(themeMode, systemTheme)
-    : SSR_THEME_FALLBACK;
+  const resolvedTheme = resolveThemeMode(themeMode, systemTheme);
   const isAdminRoute = pathname.startsWith("/admin");
   const isAccountRoute = pathname.startsWith("/account");
   const isAuthRoute =

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { ViewportVideo } from "@/components/ViewportVideo";
@@ -91,15 +90,11 @@ export function FeatureStorytellingSection() {
             </div>
             <div className="story-media story-media-alt story-media-shell">
               <div className="story-media-frame">
-                <Image
-                  className={`story-media-image story-media-image-fill ${imageCard.imageClass ?? ""}`}
-                  src={resolveCloudinaryAsset(storyImageSrc)}
-                  alt={storyImageAlt}
-                  width={960}
-                  height={498}
-                  sizes="(max-width: 991px) 100vw, 50vw"
-                  loading="eager"
-                  fetchPriority="high"
+                <ViewportVideo
+                  className="story-media-video"
+                  src="/Videos/trailers.mp4"
+                  poster={storyImageSrc}
+                  ariaLabel={storyImageAlt}
                 />
               </div>
             </div>

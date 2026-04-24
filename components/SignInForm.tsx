@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 import { AuthShell } from "@/components/AuthShell";
 import { PasswordField } from "@/components/PasswordField";
@@ -13,7 +13,6 @@ import { useAppStore } from "@/store/store";
 
 export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const setAuthUser = useAppStore((state) => state.setAuthUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +27,18 @@ export function SignInForm({ redirectPath = "" }: { redirectPath?: string }) {
     setStatusMessage("");
     setStatusTone("info");
   };
-  const resolvedRedirectPath = redirectPath || searchParams.get("next") || searchParams.get("redirect") || "";
+  const resolvedRedirectPath = useMemo(() => {
+    if (redirectPath) {
+      return redirectPath;
+    }
+
+    if (typeof window === "undefined") {
+      return "";
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    return params.get("next") || params.get("redirect") || "";
+  }, [redirectPath]);
 
   return (
     <AuthShell

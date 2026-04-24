@@ -6,10 +6,8 @@ import {
   getNextThemeMode,
   resolveThemeMode,
   useAppStore,
-  useStoreHydrated,
   useSystemTheme,
 } from "@/store/store";
-import { SSR_THEME_FALLBACK } from "@/lib/theme";
 
 const themeModeLabels = {
   system: "System",
@@ -18,16 +16,11 @@ const themeModeLabels = {
 } as const;
 
 export function NavbarThemeToggle() {
-  const hasHydrated = useStoreHydrated();
   const themeMode = useAppStore((state) => state.themeMode);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
   const systemTheme = useSystemTheme();
-  const resolvedTheme = hasHydrated
-    ? resolveThemeMode(themeMode, systemTheme)
-    : SSR_THEME_FALLBACK;
-  const nextThemeMode = hasHydrated
-    ? getNextThemeMode(themeMode, systemTheme)
-    : "light";
+  const resolvedTheme = resolveThemeMode(themeMode, systemTheme);
+  const nextThemeMode = getNextThemeMode(themeMode, systemTheme);
   const nextThemeModeLabel = themeModeLabels[nextThemeMode];
   const currentThemeModeLabel = themeModeLabels[themeMode];
   const currentThemeStateLabel =

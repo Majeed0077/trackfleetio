@@ -38,7 +38,7 @@ import {
   type NavigationColumn,
 } from "@/lib/content/navigation";
 import { solutionsList, type SolutionDetail } from "@/lib/solutions";
-import { SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
+import { readPersistedThemeMode, SITE_STORE_KEY, SSR_THEME_FALLBACK } from "@/lib/theme";
 
 export type AuthUser = {
   id: string;
@@ -598,6 +598,37 @@ export const getNextThemeMode = (
   return activeTheme === "dark" ? "light" : "dark";
 };
 
+const applyThemeToDocument = (themeMode: ThemeMode) => {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const resolvedTheme = resolveThemeMode(themeMode, getSystemTheme());
+  document.documentElement.dataset.themeMode = themeMode;
+  document.documentElement.dataset.theme = resolvedTheme;
+  document.documentElement.style.colorScheme = resolvedTheme;
+};
+
+const getInitialThemeMode = (): ThemeMode => {
+  if (typeof document !== "undefined") {
+    const domThemeMode = document.documentElement.dataset.themeMode;
+
+    if (domThemeMode === "light" || domThemeMode === "dark" || domThemeMode === "system") {
+      return domThemeMode;
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    try {
+      return readPersistedThemeMode(window.localStorage.getItem(SITE_STORE_KEY));
+    } catch {
+      return "system";
+    }
+  }
+
+  return "system";
+};
+
 const normalizeThemeMode = (themeMode: unknown, legacyTheme?: unknown): ThemeMode => {
   if (themeMode === "light" || themeMode === "dark" || themeMode === "system") {
     return themeMode;
@@ -765,7 +796,7 @@ const mergeCmsDrafts = (
 export const useAppStore = create<StoreState>()(
   persist(
     (set, get) => ({
-      themeMode: "system",
+      themeMode: getInitialThemeMode(),
       region: null,
       authUser: null,
       authResolved: false,
@@ -779,11 +810,17 @@ export const useAppStore = create<StoreState>()(
       toastMessage: "",
       toastVisible: false,
       toggleTheme: () => {
-        set((state) => ({
-          themeMode: getNextThemeMode(state.themeMode, getSystemTheme()),
-        }));
+        set((state) => {
+          const nextThemeMode = getNextThemeMode(state.themeMode, getSystemTheme());
+          applyThemeToDocument(nextThemeMode);
+
+          return {
+            themeMode: nextThemeMode,
+          };
+        });
       },
       setThemeMode: (themeMode) => {
+        applyThemeToDocument(themeMode);
         set({ themeMode });
       },
       setRegion: (region) => {
